@@ -8,25 +8,20 @@
     ".NETFramework,Version=v4.7.2": []
   },
   "packageFolders": {
-    "C:\\Users\\maver\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\Varraid\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\USERS\\MAVER\\DESKTOP\\INCORPREAL\\Incorpreal.csproj",
+      "projectUniqueName": "C:\\Users\\Varraid\\Documents\\GitHub\\VSU-Senior-Seminar\\Incorpreal\\Incorpreal.csproj",
       "projectName": "Incorpreal",
-      "projectPath": "C:\\USERS\\MAVER\\DESKTOP\\INCORPREAL\\Incorpreal.csproj",
-      "packagesPath": "C:\\Users\\maver\\.nuget\\packages\\",
-      "outputPath": "C:\\USERS\\MAVER\\DESKTOP\\INCORPREAL\\.mono\\temp\\obj\\",
+      "projectPath": "C:\\Users\\Varraid\\Documents\\GitHub\\VSU-Senior-Seminar\\Incorpreal\\Incorpreal.csproj",
+      "packagesPath": "C:\\Users\\Varraid\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Varraid\\Documents\\GitHub\\VSU-Senior-Seminar\\Incorpreal\\.mono\\temp\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
-      ],
       "configFilePaths": [
-        "C:\\Users\\maver\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\Varraid\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net472"
@@ -50,7 +45,7 @@
     "frameworks": {
       "net472": {
         "targetAlias": "net472",
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
