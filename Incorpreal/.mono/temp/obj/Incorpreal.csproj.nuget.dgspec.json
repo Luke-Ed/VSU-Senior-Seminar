@@ -1,0 +1,45 @@
+{
+  "format": 1,
+  "restore": {
+    "A:\\Programs\\cmder\\VSU-Senior-Seminar\\Incorpreal\\Incorpreal.csproj": {}
+  },
+  "projects": {
+    "A:\\Programs\\cmder\\VSU-Senior-Seminar\\Incorpreal\\Incorpreal.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "A:\\Programs\\cmder\\VSU-Senior-Seminar\\Incorpreal\\Incorpreal.csproj",
+        "projectName": "Incorpreal",
+        "projectPath": "A:\\Programs\\cmder\\VSU-Senior-Seminar\\Incorpreal\\Incorpreal.csproj",
+        "packagesPath": "C:\\Users\\elija\\.nuget\\packages\\",
+        "outputPath": "A:\\Programs\\cmder\\VSU-Senior-Seminar\\Incorpreal\\.mono\\temp\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\elija\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "targetAlias": "net472",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "targetAlias": "net472",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
