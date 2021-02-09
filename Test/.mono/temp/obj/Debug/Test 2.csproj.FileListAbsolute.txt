@@ -1,0 +1,8 @@
+/home/aeden/Downloads/Godot/Test2/.mono/temp/obj/Debug/Test 2.csprojAssemblyReference.cache
+/home/aeden/Downloads/Godot/Test2/.mono/temp/obj/Debug/Test 2.AssemblyInfoInputs.cache
+/home/aeden/Downloads/Godot/Test2/.mono/temp/obj/Debug/Test 2.AssemblyInfo.cs
+/home/aeden/Downloads/Godot/Test2/.mono/temp/obj/Debug/Test 2.csproj.CoreCompileInputs.cache
+/home/aeden/Downloads/Godot/Test2/.mono/temp/bin/Debug/Test 2.dll
+/home/aeden/Downloads/Godot/Test2/.mono/temp/bin/Debug/Test 2.pdb
+/home/aeden/Downloads/Godot/Test2/.mono/temp/obj/Debug/Test 2.dll
+/home/aeden/Downloads/Godot/Test2/.mono/temp/obj/Debug/Test 2.pdb
