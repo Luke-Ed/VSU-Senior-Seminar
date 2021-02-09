@@ -6,3 +6,11 @@ C:\Users\maver\Desktop\Incorpreal\.mono\temp\obj\Debug\Incorpreal.AssemblyInfo.c
 C:\Users\maver\Desktop\Incorpreal\.mono\temp\obj\Debug\Incorpreal.csproj.CoreCompileInputs.cache
 C:\Users\maver\Desktop\Incorpreal\.mono\temp\obj\Debug\Incorpreal.dll
 C:\Users\maver\Desktop\Incorpreal\.mono\temp\obj\Debug\Incorpreal.pdb
+A:\Programs\cmder\VSU-Senior-Seminar\Incorpreal\.mono\temp\obj\Debug\Incorpreal.dll
+A:\Programs\cmder\VSU-Senior-Seminar\Incorpreal\.mono\temp\obj\Debug\Incorpreal.pdb
+A:\Programs\cmder\VSU-Senior-Seminar\Incorpreal\.mono\temp\bin\Debug\Incorpreal.dll
+A:\Programs\cmder\VSU-Senior-Seminar\Incorpreal\.mono\temp\bin\Debug\Incorpreal.pdb
+A:\Programs\cmder\VSU-Senior-Seminar\Incorpreal\.mono\temp\obj\Debug\Incorpreal.csprojAssemblyReference.cache
+A:\Programs\cmder\VSU-Senior-Seminar\Incorpreal\.mono\temp\obj\Debug\Incorpreal.AssemblyInfoInputs.cache
+A:\Programs\cmder\VSU-Senior-Seminar\Incorpreal\.mono\temp\obj\Debug\Incorpreal.AssemblyInfo.cs
+A:\Programs\cmder\VSU-Senior-Seminar\Incorpreal\.mono\temp\obj\Debug\Incorpreal.csproj.CoreCompileInputs.cache
