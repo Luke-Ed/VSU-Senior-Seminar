@@ -16,4 +16,9 @@ public class Bat : KinematicBody2D
 
         MoveAndCollide(motion.Normalized() * moveSpeed * delta);
     }
+
+    public void Hit()
+    {
+        GetTree().ChangeScene("res://Battle.tscn");
+    }
 }

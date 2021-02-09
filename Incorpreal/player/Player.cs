@@ -14,6 +14,21 @@ public class Player : KinematicBody2D
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
-        MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+         MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+
+        var collision = MoveAndCollide(motion.Normalized() * delta);
+
+
+        if (collision != null)
+        {
+            if (collision.Collider.HasMethod("Hit"))
+            {
+                collision.Collider.Call("Hit");
+            }
+        }        
     }
+
+
+
+
 }

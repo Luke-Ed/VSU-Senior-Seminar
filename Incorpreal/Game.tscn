@@ -48,7 +48,7 @@ position = Vector2( 1.7803, -4.05698 )
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost Wall"]
-position = Vector2( 1.7818, -4.40642 )
+position = Vector2( -0.2182, -0.40642 )
 shape = SubResource( 2 )
 one_way_collision_margin = 0.0
 
