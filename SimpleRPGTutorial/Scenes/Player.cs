@@ -3,32 +3,38 @@ using System;
 
 public class Player : KinematicBody2D
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		
-	}
+ [Export] public int speed = 200;
 
- // Called every frame. 'delta' is the elapsed time since the previous frame.
- public override void _Process(float delta)
+ public Vector2 velocity;
+ 
+ // Get player input
+ public void GetInput()
  {
 	 Godot.Sprite child = this.GetNode<Godot.Sprite>("Sprite");
-		float AMOUNT = 5;
+		velocity = new Vector2();
 
-		if (Input.IsKeyPressed((int)KeyList.W)) {
-			this.Position += new Vector2(0, -AMOUNT);
+		if (Input.IsActionPressed("ui_right")) {
+			velocity.x += 1;
 		}
 
-		if (Input.IsKeyPressed((int)KeyList.S)) {
-			this.Position += new Vector2(0, AMOUNT);
+		if (Input.IsActionPressed("ui_left")) {
+			velocity.x -= 1;
 		}
 
-		if (Input.IsKeyPressed((int)KeyList.A)) {
-			this.Position += new Vector2(-AMOUNT,0);
+		if (Input.IsActionPressed("ui_down")) {
+			velocity.y += 1;
 		}
 
-		if (Input.IsKeyPressed((int)KeyList.D)) {
-			this.Position += new Vector2(AMOUNT,0);
+		if (Input.IsActionPressed("ui_up")) {
+			velocity.y -= 1;
 		}
+
+		velocity = velocity.Normalized() * speed;
+ }
+
+//Process movement and collsion
+ public override void _PhysicsProcess(float delta) {
+	 GetInput();
+	 velocity = MoveAndSlide(velocity);
  }
 }

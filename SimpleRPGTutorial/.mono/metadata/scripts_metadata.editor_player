@@ -1,1 +1,1 @@
-{"res://Scenes/Player.cs":{"modified_time":"1612903921","class":{"namespace":"","class_name":"Player","nested":false}}}
+{"res://Scenes/CollisionShape2D.cs":{"modified_time":"1612918416","class":{"namespace":"","class_name":"CollisionShape2D","nested":false}},"res://Scenes/Player.cs":{"modified_time":"1612919180","class":{"namespace":"","class_name":"Player","nested":false}}}
