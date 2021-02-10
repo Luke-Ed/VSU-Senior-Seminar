@@ -1,1 +1,0 @@
-Preparation for Godot "Hello World" test project, working only in my branch for now.
