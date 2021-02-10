@@ -1,0 +1,8 @@
+/home/aeden/git/VSU-Senior-Seminar/SimpleRPGTutorial/.mono/temp/bin/Debug/SimpleRPG.dll
+/home/aeden/git/VSU-Senior-Seminar/SimpleRPGTutorial/.mono/temp/bin/Debug/SimpleRPG.pdb
+/home/aeden/git/VSU-Senior-Seminar/SimpleRPGTutorial/.mono/temp/obj/Debug/SimpleRPG.csprojAssemblyReference.cache
+/home/aeden/git/VSU-Senior-Seminar/SimpleRPGTutorial/.mono/temp/obj/Debug/SimpleRPG.AssemblyInfoInputs.cache
+/home/aeden/git/VSU-Senior-Seminar/SimpleRPGTutorial/.mono/temp/obj/Debug/SimpleRPG.AssemblyInfo.cs
+/home/aeden/git/VSU-Senior-Seminar/SimpleRPGTutorial/.mono/temp/obj/Debug/SimpleRPG.csproj.CoreCompileInputs.cache
+/home/aeden/git/VSU-Senior-Seminar/SimpleRPGTutorial/.mono/temp/obj/Debug/SimpleRPG.dll
+/home/aeden/git/VSU-Senior-Seminar/SimpleRPGTutorial/.mono/temp/obj/Debug/SimpleRPG.pdb
