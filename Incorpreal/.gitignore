@@ -1,7 +1,13 @@
 # Import cache
 .import/
 
+
 # Binaries
 bin/
 build/
 lib/
+
+# Mono Specific 
+.mono/
+data_*/
+.vs/
