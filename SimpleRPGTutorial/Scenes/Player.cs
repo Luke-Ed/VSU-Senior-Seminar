@@ -3,7 +3,7 @@ using System;
 
 public class Player : KinematicBody2D
 {
- [Export] public int speed = 75;
+ [Export] public int speed = 70;
 
  public Vector2 velocity;
  
