@@ -8,7 +8,6 @@ build/
 lib/
 
 # Mono Specific 
-.mono/*
 .mono/
 data_*/
 .vs/
