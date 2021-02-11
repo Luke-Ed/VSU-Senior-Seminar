@@ -10,6 +10,7 @@ public class Player : KinematicBody2D {
     // numbers are expected to change as at a later date.
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
     public String CharacterClass;
+    public AnimationPlayer animate;
 
 
 
@@ -89,7 +90,7 @@ public class Player : KinematicBody2D {
         }
     }
 
-    public void takeDamage(int damage) {
+    public void TakeDamage(int damage) {
         Random random = new Random();
         int roll = random.Next(101);
         if (roll >= 100 - Intelligence) {
@@ -102,22 +103,57 @@ public class Player : KinematicBody2D {
     public override void _PhysicsProcess(float delta) {
         var motion = new Vector2();
         //Player will use WASD to move their character
+        
+        // Adding animation code from Elijah's branch.
+        animate = (AnimationPlayer) GetNode("AnimationPlayer");
+        
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
-         MoveAndCollide(motion.Normalized() * moveSpeed * delta);
-
-        var collision = MoveAndCollide(motion.Normalized() * delta);
-
-
+        /*
+        if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
+          ChangeState("walk");
+          MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+        }
+        else {
+          ChangeState("ready");
+        }
+        //ChangeState("ready");
+        */
+        var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
+        
+        
+        
         if (collision != null) {
             if (collision.Collider.HasMethod("Hit")) {
+                ChangeState("dead");
                 collision.Collider.Call("Hit");
             }
         }        
     }
-
-
+    
+    // Imported from Elijah's branch, and matched names, and styles
+    public void ChangeState(string newState) {
+      switch (newState) {
+        case "ready": {
+          animate.Play("Idle");
+          break;
+        }
+        case "dead": {
+          animate.Stop();
+          animate.Play("Die");
+          break;
+        }
+        case "walk": {
+          animate.Stop();
+          animate.Play("Walking");
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    }
 
 
 }
