@@ -7,12 +7,12 @@ public class Player : KinematicBody2D
 
     public int moveSpeed = 250;
     public CollisionShape2D hitbox;
-    public AnimationPlayer animate;
+    public AnimationPlayer animator;
 
     public override void _PhysicsProcess(float delta)
     {
         var motion = new Vector2();
-        animate = (AnimationPlayer)GetNode("AnimationPlayer");
+        animator = (AnimationPlayer)GetNode("AnimationPlayer");
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
@@ -20,17 +20,20 @@ public class Player : KinematicBody2D
 
         var collision = MoveAndCollide(motion.Normalized() * moveSpeed * delta);
         if (collision != null) {
-            animate.Play("Die");            
+
         }
     }
 
     public void change_state(string new_state) {
         switch (new_state) {
             case "ready":
-                animate.Play("Idle");
+                animator.Play("Idle");
+                break;
+            case "walking":
+                animator.Play("Walking");
                 break;
             case "dead":
-                animate.Play("Die");
+                animator.Play("Die");
                 break;
             default:
                 break;
