@@ -1,11 +1,12 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/wall.png" type="Texture" id=2]
-[ext_resource path="res://assets/ghostwall.png" type="Texture" id=3]
+[ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=3]
 [ext_resource path="res://bat/Bat.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/lowwall.png" type="Texture" id=5]
+[ext_resource path="res://Walls/Wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CSharpScript" id=1]
 resource_name = "Game"
@@ -32,15 +33,6 @@ public class Game : Node
 }
 "
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 32, 31 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 31.4453, 30.5435 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 33.8246, 33.3512 )
-
 [node name="Game" type="Node"]
 script = SubResource( 1 )
 
@@ -49,35 +41,9 @@ position = Vector2( 523.363, 357.056 )
 collision_layer = 3
 collision_mask = 0
 
-[node name="Wall" type="StaticBody2D" parent="."]
-position = Vector2( 535.127, 156.11 )
-collision_layer = 2
+[node name="Wall" parent="." instance=ExtResource( 5 )]
 
-[node name="Sprite" type="Sprite" parent="Wall"]
-
-[node name="wall" type="Sprite" parent="Wall/Sprite"]
-position = Vector2( 0, 1 )
-texture = ExtResource( 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-position = Vector2( -0.446198, 1.22806 )
-shape = SubResource( 2 )
-
-[node name="Ghost Wall" type="StaticBody2D" parent="."]
-position = Vector2( 284.523, 160.101 )
-collision_layer = 4
-collision_mask = 0
-
-[node name="Sprite" type="Sprite" parent="Ghost Wall"]
-
-[node name="ghostwall" type="Sprite" parent="Ghost Wall/Sprite"]
-position = Vector2( 1.7803, -1.05698 )
-texture = ExtResource( 3 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost Wall"]
-position = Vector2( -0.2182, -0.40642 )
-shape = SubResource( 3 )
-one_way_collision_margin = 0.0
+[node name="Ghost Wall" parent="." instance=ExtResource( 2 )]
 
 [node name="Bat" parent="." instance=ExtResource( 4 )]
 position = Vector2( 797.847, 355.924 )
@@ -85,19 +51,10 @@ z_index = 1
 collision_layer = 16
 collision_mask = 7
 
-[node name="Low Wall" type="StaticBody2D" parent="."]
-position = Vector2( 795.756, 156.017 )
-collision_layer = 8
-
-[node name="Sprite" type="Sprite" parent="Low Wall"]
-
-[node name="lowwall" type="Sprite" parent="Low Wall/Sprite"]
-position = Vector2( 3.53403, 0.503006 )
-texture = ExtResource( 5 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Low Wall"]
-position = Vector2( 3.5636, 0 )
-shape = SubResource( 4 )
+[node name="Low Wall" parent="." instance=ExtResource( 3 )]
 
 [node name="Bear" parent="." instance=ExtResource( 6 )]
 position = Vector2( 241.315, 359.239 )
+
+[node name="Bat" parent="Bear" instance=ExtResource( 7 )]
+position = Vector2( 373.496, -74.2365 )

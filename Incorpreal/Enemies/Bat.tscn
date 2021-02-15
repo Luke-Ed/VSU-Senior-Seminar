@@ -5,12 +5,14 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 18.3538
 
-[node name="Bat" type="KinematicBody2D"]
+[node name="Bat" type="KinematicBody2D" groups=[
+"Enemies",
+]]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -5 )
 shape = SubResource( 1 )
 
-[node name="bat" type="Sprite" parent="."]
+[node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 2, 2 )
 texture = ExtResource( 1 )
