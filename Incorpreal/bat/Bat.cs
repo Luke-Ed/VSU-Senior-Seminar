@@ -19,6 +19,7 @@ public class Bat : KinematicBody2D
 
     public void Hit()
     {
-        GetTree().ChangeScene("res://Battle.tscn");
+        Game map = new Game();
+        map.Call("startBattle");
     }
 }

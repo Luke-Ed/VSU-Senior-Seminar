@@ -1,0 +1,102 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Map.cs" type="Script" id=1]
+[ext_resource path="res://player/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://bat/Bat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/ghostwall.png" type="Texture" id=4]
+[ext_resource path="res://assets/wall.png" type="Texture" id=5]
+[ext_resource path="res://assets/lowwall.png" type="Texture" id=6]
+[ext_resource path="res://player/Player.cs" type="Script" id=7]
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 31.4453, 30.5435 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 32, 31 )
+
+[sub_resource type="CSharpScript" id=4]
+resource_name = "Bat"
+script/source = "using Godot;
+using System;
+
+public class Bat : KinematicBody2D
+{
+    // Declare member variables here. Examples:
+    // private int a = 2;
+    // private string b = \"text\";
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        
+    }
+
+//  // Called every frame. 'delta' is the elapsed time since the previous frame.
+//  public override void _Process(float delta)
+//  {
+//      
+//  }
+}
+"
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 33.8246, 33.3512 )
+
+[node name="Map" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="Ghost Wall" type="StaticBody2D" parent="."]
+position = Vector2( 104.93, 97.94 )
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite" type="Sprite" parent="Ghost Wall"]
+
+[node name="ghostwall" type="Sprite" parent="Ghost Wall/Sprite"]
+position = Vector2( 1.7803, -4.05698 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost Wall"]
+position = Vector2( -0.2182, -3.0761 )
+shape = SubResource( 3 )
+one_way_collision_margin = 0.0
+
+[node name="Player" type="KinematicBody2D" parent="." instance=ExtResource( 2 )]
+position = Vector2( 336.684, 253.386 )
+collision_mask = 0
+script = ExtResource( 7 )
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2( 337.127, 90.1103 )
+collision_layer = 2
+
+[node name="Sprite" type="Sprite" parent="Wall"]
+
+[node name="wall" type="Sprite" parent="Wall/Sprite"]
+position = Vector2( 0, 1 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+position = Vector2( 0.553802, 1.22806 )
+shape = SubResource( 2 )
+
+[node name="Bat" type="KinematicBody2D" parent="." instance=ExtResource( 3 )]
+position = Vector2( 621.847, 261.924 )
+z_index = 1
+collision_layer = 16
+collision_mask = 7
+script = SubResource( 4 )
+
+[node name="Low Wall" type="StaticBody2D" parent="."]
+position = Vector2( 630.756, 106.017 )
+collision_layer = 8
+
+[node name="Sprite" type="Sprite" parent="Low Wall"]
+
+[node name="lowwall" type="Sprite" parent="Low Wall/Sprite"]
+position = Vector2( 3.53403, 0.503006 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Low Wall"]
+position = Vector2( 3.5636, 0 )
+shape = SubResource( 5 )
