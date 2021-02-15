@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/wall.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://assets/lowwall.png" type="Texture" id=5]
 [ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game.cs" type="Script" id=7]
+[ext_resource path="res://sounds/test.wav" type="AudioStream" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 31 )
@@ -77,3 +78,7 @@ shape = SubResource( 3 )
 
 [node name="Bear" parent="." instance=ExtResource( 6 )]
 position = Vector2( 241.315, 359.239 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -10.0
