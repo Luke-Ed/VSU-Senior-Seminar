@@ -8,6 +8,7 @@ public class Player : KinematicBody2D {
 
     public int moveSpeed = 250;
     public PhysicsBody2D possessee = null;
+    public string resPath;
     public CollisionShape2D hitbox;
     public Sprite playerSpriteNode;
 
@@ -168,6 +169,8 @@ public class Player : KinematicBody2D {
             if (enemyFound && this.possessee == null) {
                 //Grab victim
                 possessee = (KinematicBody2D) nearby[closestEnemyIndex];
+                //Grab victim resource path for later
+                this.resPath = possessee.Filename;
                 //Grab victim sprite
                 Sprite victimSprite = (Sprite) possessee.GetNode("Sprite");
                 //Possession animation here (optional)
@@ -175,14 +178,13 @@ public class Player : KinematicBody2D {
                 victimSprite.GetParent().QueueFree(); //Make enemy disappear
                 this.GlobalPosition = enemyPos; //Place player in enemy's old position to complete the illusion
             } else if (possessee != null) { //Else if already possessing, undo it
-                GD.Print("Made it");
                 //Return player sprite to normal
                 playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png");
                 //Return player to original position
                 this.GlobalPosition = originalPlayerPos;
-                //Bring original enemy back, confused
-                //possessee.ChangeState("Confused"); //Doesn't exist currently
-                possessee.Position = enemyPos;
+                //Bring original enemy back
+                LevelScript temp = new LevelScript();
+                temp.SpawnEnemy(this.resPath, enemyPos, GetTree().CurrentScene);
                 possessee = null;
             }
     }
