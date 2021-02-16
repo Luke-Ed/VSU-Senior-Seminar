@@ -1,19 +1,22 @@
 using Godot;
 using System;
 
-public class Battle : Node {
+public class Battle : Node
+{
+    public Vector2 playerPosition;
 
-<<<<<<< HEAD
+
+    public Battle()
+    {
+
+    }
 
     //This is just for demo expamples to not get stuck on battle screen.
     public void _on_Button_pressed()
     {
+        Player player = (Player)GetNode("/Game/Player");
         GetTree().ChangeScene("res://Game.tscn");
-=======
-  //This is just for demo expamples to not get stuck on battle screen.
-    public void _on_Button_pressed() {
-        GetTree().ChangeScene("res://Level 1.tscn");
->>>>>>> 0353cc26f986ae63248b923360fbd638e7bc3555
+        player.GlobalPosition = player.playerPosition;
     }
 
 }
