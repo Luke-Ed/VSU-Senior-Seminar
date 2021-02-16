@@ -7,6 +7,7 @@ public class Player : KinematicBody2D {
     [Export]
 
     public int moveSpeed = 250;
+    public PhysicsBody2D possessee = null;
     public CollisionShape2D hitbox;
     public Sprite playerSpriteNode;
 
@@ -43,8 +44,6 @@ public class Player : KinematicBody2D {
         MaxHealth = 5 + Vitality;
         CurrentHealth = MaxHealth;
         Level = 1;
-
-
     }
 
     public Player() {
@@ -104,8 +103,6 @@ public class Player : KinematicBody2D {
         }
     }
 
-
-
     public override void _PhysicsProcess(float delta) {
         var motion = new Vector2();
         //Player will use WASD to move their character
@@ -134,59 +131,64 @@ public class Player : KinematicBody2D {
 
         // Adding animation code from Elijah's branch
         animate = (AnimationPlayer) GetNode("AnimationPlayer");
-        playerSpriteNode = (Sprite) GetNode("Sprite");
+        playerSpriteNode = (Sprite) GetNode("Sprite/player");
 
         //Possession listener
-        if (Input.IsActionPressed("possession")) { //If Alt is pressed
+        if (Input.IsActionJustPressed("possession")) { //If R is pressed
             Possess();
         }
     }
     
     public void Possess() {
-        //Check if anyone within range
+        //1. Check if anyone within range
         Area2D possessionArea = (Area2D) GetNode("Area2D");
         Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
-        GD.Print("count:", nearby.Count); //For debugging
-        if (nearby.Count > 1) { //The player counts as one
-
             float closestDistance = 1000;
             int closestEnemyIndex = 0;
             Boolean enemyFound = false;
 
             //2. Find closest enemy
-            for (int x = 0; x < nearby.Count; x++) {
+            for (int x = 0; x < nearby.Count; x++) { //Iterate them
                 PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; //Grab one
-                if (currentEnemy.Name != "Player" && currentEnemy.GetGroups().Contains("Enemies")) { //Prevent possessing yourself OR an inanimate object
+                if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
                     float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
                     if (currentDistance < closestDistance) { //Check if closer than current closest
                         closestEnemyIndex = x;
                         closestDistance = currentDistance;
                         enemyFound = true;
-                        //GD.Print("Closest now: ", ((PhysicsBody2D)nearby[x]).Name); //For debugging
                     }
                 }
             }  
 
-            //3. Possess if enemy found
-            if (enemyFound) {
-                //Change state to possession state
-                ChangeState("possession");
+            //3. Save original locations for switching back later
+            Vector2 originalPlayerPos = this.GlobalPosition;
+            Vector2 enemyPos = ((PhysicsBody2D)nearby[closestEnemyIndex]).GlobalPosition;
+
+            //4. If suitable enemy found & player not already possessing someone, possess that enemy
+            if (enemyFound && this.possessee == null) {
                 //Grab victim
-                KinematicBody2D victim = (KinematicBody2D) nearby[closestEnemyIndex];
+                possessee = (KinematicBody2D) nearby[closestEnemyIndex];
                 //Grab victim sprite
-                Sprite victimSprite = (Sprite) victim.GetNode("Sprite");
-                //Set player sprite to that of victim
-                if (victimSprite != null && victim != null && playerSpriteNode != null) { //Prevent NullPointers
-                    GD.Print("Inside");
-                    GetNode(Sprite).Texture = victimSprite.Texture; //Stopped here
-//                    playerSpriteNode.Texture = victimSprite.Texture;    
-                }
+                Sprite victimSprite = (Sprite) possessee.GetNode("Sprite");
+                //Possession animation here (optional)
+                playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
+                victimSprite.GetParent().QueueFree(); //Make enemy disappear
+                this.GlobalPosition = enemyPos; //Place player in enemy's old position to complete the illusion
+            } else if (possessee != null) { //Else if already possessing, undo it
+                GD.Print("Made it");
+                //Return player sprite to normal
+                playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png");
+                //Return player to original position
+                this.GlobalPosition = originalPlayerPos;
+                //Bring original enemy back, confused
+                //possessee.ChangeState("Confused"); //Doesn't exist currently
+                possessee.Position = enemyPos;
+                possessee = null;
             }
-        }
     }
 
     // Imported from Elijah's branch, and matched names, and styles
-    public void ChangeState(string newState) {
+ public void ChangeState(string newState) {
       switch (newState) {
         case "ready": {
           animate.Play("Idle");
@@ -200,12 +202,9 @@ public class Player : KinematicBody2D {
           animate.Play("Walking");
           break;
         }
-        case "possession": {
-            break;
-        }
         default: {
-            break;
+          break;
         }
-        }
-    }
+      }
+ }
 }
