@@ -107,20 +107,16 @@ public class Player : KinematicBody2D {
     public override void _PhysicsProcess(float delta) {
         var motion = new Vector2();
         //Player will use WASD to move their character
-        
+
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
-        /*
         if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
-          ChangeState("walk");
-          MoveAndCollide(motion.Normalized() * moveSpeed * delta);
-        }
-        else {
+          ChangeState("walking");
+        } else {
           ChangeState("ready");
         }
-        //ChangeState("ready");
-        */
+        
         var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
         
         if (collision != null) {
@@ -139,8 +135,28 @@ public class Player : KinematicBody2D {
             Possess();
         }
     }
-    
-    public void Possess() {
+
+    // Imported from Elijah's branch, and matched names, and styles
+ public void ChangeState(string newState) {
+      switch (newState) {
+        case "ready": {
+            ((AnimationPlayer)GetNode("AnimationPlayer")).Play("Idle"); //Had to do it this way
+          break;
+        }
+        case "dead": {
+            ((AnimationPlayer)GetNode("AnimationPlayer")).Play("Dying");
+          break;
+        }
+        case "walking": {
+            ((AnimationPlayer)GetNode("AnimationPlayer")).Play("Walking");
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+ }
+     public void Possess() {
         //1. Check if anyone within range
         Area2D possessionArea = (Area2D) GetNode("Area2D");
         Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
@@ -188,25 +204,4 @@ public class Player : KinematicBody2D {
                 possessee = null;
             }
     }
-
-    // Imported from Elijah's branch, and matched names, and styles
- public void ChangeState(string newState) {
-      switch (newState) {
-        case "ready": {
-          animate.Play("Idle");
-          break;
-        }
-        case "dead": {
-          animate.Play("Die");
-          break;
-        }
-        case "walk": {
-          animate.Play("Walking");
-          break;
-        }
-        default: {
-          break;
-        }
-      }
- }
 }
