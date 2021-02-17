@@ -14,9 +14,7 @@ public class Battle : Node
     //This is just for demo expamples to not get stuck on battle screen.
     public void _on_Button_pressed()
     {
-        Player player = (Player)GetNode("/Game/Player");
         GetTree().ChangeScene("res://Game.tscn");
-        player.GlobalPosition = player.playerPosition;
     }
 
 }

@@ -9,12 +9,4 @@ public class Map : Node2D
         
     }
 
-    public void _on_Game_tree_entered()
-    {
-    }
-
-    public void _on_Game_tree_exited()
-    {
-    }
-
 }

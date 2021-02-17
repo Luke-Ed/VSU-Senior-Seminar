@@ -11,7 +11,6 @@ public class Player : KinematicBody2D
     //numbers are expected to change as at a later date.
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
     public String CharacterClass;
-    public Vector2 playerPosition;
 
 
     //Can create two different types of players one with melee stats and the other with ranged.
@@ -48,6 +47,7 @@ public class Player : KinematicBody2D
     {
 
     }
+
 
     //When character levels up choose a stat to increase;
     public void LevelUp(String Stat)
@@ -116,7 +116,15 @@ public class Player : KinematicBody2D
         }
     }
 
-
+    public override void _Ready()
+    {
+        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        if (gp.playerLocation != null) {
+            Vector2 v = gp.playerLocation;
+            v.y = (v.y) - 100;
+            GlobalPosition = gp.playerLocation;
+        }
+    }
 
     public override void _PhysicsProcess(float delta)
     {
@@ -134,8 +142,8 @@ public class Player : KinematicBody2D
         {
             if (collision.Collider.HasMethod("Hit"))
             {
-                this.playerPosition = this.GlobalPosition;
-
+                GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                gp.playerLocation = GlobalPosition;
                 collision.Collider.Call("Hit");
             }
         }        
