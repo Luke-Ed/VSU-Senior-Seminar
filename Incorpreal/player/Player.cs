@@ -9,6 +9,7 @@ public class Player : KinematicBody2D {
     public int moveSpeed = 250;
     public PhysicsBody2D possessee = null;
     public string resPath;
+    public LevelScript levelScript = new LevelScript();
     public CollisionShape2D hitbox;
     public Sprite playerSpriteNode;
 
@@ -177,30 +178,27 @@ public class Player : KinematicBody2D {
                 }
             }  
 
-            //3. Save original locations for switching back later
-            Vector2 originalPlayerPos = this.GlobalPosition;
-            Vector2 enemyPos = ((PhysicsBody2D)nearby[closestEnemyIndex]).GlobalPosition;
-
-            //4. If suitable enemy found & player not already possessing someone, possess that enemy
+            //3. If suitable enemy found & player not already possessing someone, possess that enemy
             if (enemyFound && this.possessee == null) {
-                //Grab victim
-                possessee = (KinematicBody2D) nearby[closestEnemyIndex];
-                //Grab victim resource path for later
-                this.resPath = possessee.Filename;
-                //Grab victim sprite
-                Sprite victimSprite = (Sprite) possessee.GetNode("Sprite");
+                possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
+                this.resPath = possessee.Filename; //Grab victim resource path for later
+                Sprite victimSprite = (Sprite) possessee.GetNode("Sprite"); //Grab victim sprite
+                this.SetCollisionMaskBit(2, true); //Make GhostWalls impenetrable while possessing
+                if (resPath.Contains("Bat")) {
+                    this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
+                    this.SetCollisionMaskBit(1, true); //But requires doing this to still collide with Walls, because we turned off player layer mask to fly over LowWalls.
+                }
                 //Possession animation here (optional)
                 playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
                 victimSprite.GetParent().QueueFree(); //Make enemy disappear
-                this.GlobalPosition = enemyPos; //Place player in enemy's old position to complete the illusion
             } else if (possessee != null) { //Else if already possessing, undo it
-                //Return player sprite to normal
-                playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png");
-                //Return player to original position
-                this.GlobalPosition = originalPlayerPos;
-                //Bring original enemy back
-                LevelScript temp = new LevelScript();
-                temp.SpawnEnemy(this.resPath, enemyPos, GetTree().CurrentScene);
+                playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
+                this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
+                if (resPath.Contains("Bat")) {
+                    this.SetCollisionLayerBit(0, true); //Turn player collision layer back on
+                    this.SetCollisionMaskBit(1, false);
+                }
+                this.levelScript.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
                 possessee = null;
             }
     }
