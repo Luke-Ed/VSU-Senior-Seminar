@@ -3,7 +3,6 @@ using System;
 
 public class Battle : Node
 {
-    public Vector2 playerPosition;
 
 
     public Battle()

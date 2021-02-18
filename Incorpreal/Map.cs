@@ -8,5 +8,4 @@ public class Map : Node2D
     {
         
     }
-
 }

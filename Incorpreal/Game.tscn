@@ -16,3 +16,5 @@ position = Vector2( 104.896, 97.94 )
 script = ExtResource( 4 )
 
 [editable path="Map"]
+
+[editable path="Map/Bat"]

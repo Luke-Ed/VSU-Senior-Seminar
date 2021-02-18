@@ -17,8 +17,12 @@ public class Bat : KinematicBody2D
         MoveAndCollide(motion.Normalized() * moveSpeed * delta);
     }
 
+
     public void Hit()
     {
+        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        gp.enemyPath = GetPath();
         GetTree().ChangeScene("res://Battle.tscn");
     }
+
 }

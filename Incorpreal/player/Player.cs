@@ -118,11 +118,12 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
+        ResourceLoader.Load("res://Game.tscn");
         GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
-        if (gp.playerLocation != null) {
-            Vector2 v = gp.playerLocation;
-            v.y = (v.y) - 100;
+        if (gp.playerLocation != null && gp.enemyPath != null)
+        {
             GlobalPosition = gp.playerLocation;
+            GetParent().GetNode(gp.enemyPath).QueueFree();
         }
     }
 
