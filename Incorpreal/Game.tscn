@@ -15,6 +15,16 @@ position = Vector2( 104.896, 97.94 )
 [node name="Bat" parent="Map" index="3"]
 script = ExtResource( 4 )
 
+[node name="HealthLabel" type="Label" parent="Map"]
+margin_left = 5.6569
+margin_top = 1.41422
+margin_right = 100.657
+margin_bottom = 38.4142
+text = "Health Goes Here"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [editable path="Map"]
 
 [editable path="Map/Bat"]
