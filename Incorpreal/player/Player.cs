@@ -4,7 +4,11 @@ using System;
 public class Player : KinematicBody2D {
 	[Export]
 
+<<<<<<< HEAD
 	public int moveSpeed = 125;
+=======
+	public int moveSpeed = 250;
+>>>>>>> a94664dd71043a8f9958c9feaa8f3ac6b704422e
 	public CollisionShape2D hitbox;
 
 	// For all the methods pertaining to stats, nothing is set in stone
