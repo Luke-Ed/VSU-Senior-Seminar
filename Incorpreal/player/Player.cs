@@ -8,7 +8,6 @@ public class Player : KinematicBody2D
     public int moveSpeed = 125;
     public CollisionShape2D hitbox;
     public AnimationPlayer animate;
-    public CollisionShape2D hitbox;
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
