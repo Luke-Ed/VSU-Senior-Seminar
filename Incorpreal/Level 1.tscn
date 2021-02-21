@@ -1,0 +1,106 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/wall.png" type="Texture" id=2]
+[ext_resource path="res://assets/ghostwall.png" type="Texture" id=3]
+[ext_resource path="res://bat/Bat.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/lowwall.png" type="Texture" id=5]
+[ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Game.cs" type="Script" id=7]
+[ext_resource path="res://sounds/test.wav" type="AudioStream" id=8]
+
+[sub_resource type="CSharpScript" id=1]
+resource_name = "Game"
+script/source = "using Godot;
+using System;
+
+public class Game : Node
+{
+	// Declare member variables here. Examples:
+	// private int a = 2;
+	// private string b = \"text\";
+
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		
+	}
+
+//  // Called every frame. 'delta' is the elapsed time since the previous frame.
+//  public override void _Process(float delta)
+//  {
+//      
+//  }
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 32, 31 )
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="RectangleShape2D" id=3]
+
+[node name="Game" type="Node"]
+script = ExtResource( 7 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 523.363, 357.056 )
+collision_layer = 3
+collision_mask = 0
+
+[node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2( 535.127, 156.11 )
+collision_layer = 2
+
+[node name="Sprite" type="Sprite" parent="Wall"]
+
+[node name="wall" type="Sprite" parent="Wall/Sprite"]
+position = Vector2( 0, 1 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+position = Vector2( -0.446198, 1.22806 )
+shape = SubResource( 1 )
+
+[node name="Ghost Wall" type="StaticBody2D" parent="."]
+position = Vector2( 284.523, 160.101 )
+collision_layer = 4
+collision_mask = 0
+
+[node name="Sprite" type="Sprite" parent="Ghost Wall"]
+
+[node name="ghostwall" type="Sprite" parent="Ghost Wall/Sprite"]
+position = Vector2( 1.7803, -1.05698 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost Wall"]
+position = Vector2( -0.2182, -0.40642 )
+shape = SubResource( 2 )
+one_way_collision_margin = 0.0
+
+[node name="Bat" parent="." instance=ExtResource( 4 )]
+position = Vector2( 797.847, 355.924 )
+z_index = 1
+collision_layer = 16
+collision_mask = 7
+
+[node name="Low Wall" type="StaticBody2D" parent="."]
+position = Vector2( 795.756, 156.017 )
+collision_layer = 8
+
+[node name="Sprite" type="Sprite" parent="Low Wall"]
+
+[node name="lowwall" type="Sprite" parent="Low Wall/Sprite"]
+position = Vector2( 3.53403, 0.503006 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Low Wall"]
+position = Vector2( 3.5636, 0 )
+shape = SubResource( 3 )
+
+[node name="Bear" parent="." instance=ExtResource( 6 )]
+position = Vector2( 241.315, 359.239 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -10.0
