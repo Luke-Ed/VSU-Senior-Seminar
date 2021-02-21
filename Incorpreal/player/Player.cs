@@ -6,6 +6,8 @@ public class Player : KinematicBody2D
     [Export]
 
     public int moveSpeed = 250;
+    public CollisionShape2D hitbox;
+    public AnimationPlayer animate;
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
@@ -72,6 +74,17 @@ public class Player : KinematicBody2D
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
+        /*
+		    if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
+		       ChangeState("walk");
+		       MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+		    }
+		    else {
+		       ChangeState("ready");
+	      }
+  	    //ChangeState("ready");
+		    */
+
          MoveAndCollide(motion.Normalized() * moveSpeed * delta);
 
         var collision = MoveAndCollide(motion.Normalized() * delta);
@@ -83,10 +96,32 @@ public class Player : KinematicBody2D
             {
                 GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
                 gp.playerLocation = GlobalPosition;
+                ChangeState("dead");
                 collision.Collider.Call("Hit");
             }
         }        
     }
-
-
+	
+	// Imported from Elijah's branch, and matched names, and styles
+	public void ChangeState(string newState) {
+	  switch (newState) {
+		case "ready": {
+		  animate.Play("Idle");
+		  break;
+		}
+		case "dead": {
+		  animate.Stop();
+		  animate.Play("Die");
+		  break;
+		}
+		case "walk": {
+		  animate.Stop();
+		  animate.Play("Walking");
+		  break;
+		}
+		default: {
+		  break;
+		}
+	  }
+	}
 }
