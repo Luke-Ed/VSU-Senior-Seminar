@@ -9,15 +9,15 @@ script = ExtResource( 2 )
 [node name="Sprite" type="Sprite" parent="."]
 
 [node name="combat placeholder" type="Sprite" parent="Sprite"]
-position = Vector2( 516.895, 296.855 )
-scale = Vector2( 2.15447, 1.75978 )
+position = Vector2( 314.624, 170.997 )
+scale = Vector2( 1.31864, 1.04264 )
 texture = ExtResource( 1 )
 
 [node name="Button" type="Button" parent="."]
-margin_left = 581.91
-margin_top = 358.753
-margin_right = 870.91
-margin_bottom = 489.753
+margin_left = 330.194
+margin_top = 193.939
+margin_right = 619.194
+margin_bottom = 324.939
 text = "Go Back"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -34,10 +34,10 @@ __meta__ = {
 }
 
 [node name="Button2" type="Button" parent="."]
-margin_left = 102.969
-margin_top = 357.811
-margin_right = 389.969
-margin_bottom = 485.811
+margin_left = 28.0536
+margin_top = 191.499
+margin_right = 315.054
+margin_bottom = 319.499
 text = "Take 5 Damage"
 __meta__ = {
 "_edit_use_anchors_": false
