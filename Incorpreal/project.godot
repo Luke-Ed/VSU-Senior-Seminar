@@ -19,7 +19,20 @@ config/name="Incorpreal"
 run/main_scene="res://Game.tscn"
 config/icon="res://icon.png"
 
+
 [autoload]
+
+[display]
+
+window/size/width=640
+window/size/height=360
+window/size/test_width=1280
+window/size/test_height=720
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[gdnative]
+
 
 GlobalPlayer="*res://GlobalPlayer.cs"
 GlobalData="*res://GlobalData.tscn"
@@ -87,4 +100,5 @@ removeEnemy={
 
 [rendering]
 
+quality/2d/use_pixel_snap=true
 environment/default_environment="res://default_env.tres"

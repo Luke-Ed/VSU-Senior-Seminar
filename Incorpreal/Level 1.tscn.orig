@@ -9,6 +9,8 @@
 [ext_resource path="res://Game.cs" type="Script" id=7]
 [ext_resource path="res://sounds/test.wav" type="AudioStream" id=8]
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 [sub_resource type="CSharpScript" id=1]
 resource_name = "Game"
 script/source = "using Godot;
@@ -32,9 +34,16 @@ public class Game : Node
 //      
 //  }
 }
+"
 
+[sub_resource type="RectangleShape2D" id=2]
+=======
 [sub_resource type="RectangleShape2D" id=1]
+>>>>>>> a94664dd71043a8f9958c9feaa8f3ac6b704422e
 extents = Vector2( 32, 31 )
+=======
+[sub_resource type="RectangleShape2D" id=1]
+>>>>>>> e563d02f3920b26623a34fd946d9c2190512e436
 
 [sub_resource type="RectangleShape2D" id=2]
 
