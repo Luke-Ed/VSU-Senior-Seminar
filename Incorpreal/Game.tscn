@@ -101,7 +101,7 @@ margin_left = 339.0
 margin_top = 242.0
 margin_right = 379.0
 margin_bottom = 241.96
-rect_scale = Vector2( -35.7122, 1.#QNAN )
+rect_scale = Vector2( -35.7122, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
