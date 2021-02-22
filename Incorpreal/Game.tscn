@@ -13,16 +13,16 @@
 extents = Vector2( 33, 33 )
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 35, 34 )
+extents = Vector2( 33.125, 32.75 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 32, 31 )
 
 [sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 29, 30 )
+extents = Vector2( 31.919, 32.0566 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 37, 32 )
+extents = Vector2( 31.8679, 32 )
 
 [node name="Game" type="Node"]
 script = ExtResource( 7 )
@@ -40,7 +40,7 @@ position = Vector2( 110, 68 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Ghost Wall"]
-position = Vector2( 111, 69 )
+position = Vector2( 110.037, 68.0034 )
 shape = SubResource( 1 )
 
 [node name="Wall" type="StaticBody2D" parent="Map"]
@@ -70,7 +70,7 @@ position = Vector2( 426, 153 )
 shape = SubResource( 3 )
 
 [node name="Low Wall" type="StaticBody2D" parent="Map"]
-position = Vector2( 37, 33 )
+position = Vector2( 34, 36 )
 
 [node name="Sprite" type="Sprite" parent="Map/Low Wall"]
 
@@ -79,7 +79,7 @@ position = Vector2( 447, 45 )
 texture = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Low Wall"]
-position = Vector2( 447, 46 )
+position = Vector2( 447, 45 )
 shape = SubResource( 4 )
 
 [node name="Player" type="KinematicBody2D" parent="Map"]
@@ -92,7 +92,7 @@ position = Vector2( 267, 197 )
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Player"]
-position = Vector2( 267, 198 )
+position = Vector2( 267, 196.941 )
 shape = SubResource( 5 )
 
 [node name="HealthLabel" type="Label" parent="."]
