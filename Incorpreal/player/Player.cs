@@ -70,7 +70,7 @@ public class Player : KinematicBody2D {
     {
         var motion = new Vector2();
         //Player will use WASD to move their character
-        animate = (AnimationPlayer) GetNode("AnimationPlayer");
+        //animate = (AnimationPlayer) GetNode("AnimationPlayer");
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
@@ -96,13 +96,14 @@ public class Player : KinematicBody2D {
             {
                 GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
                 gp.playerLocation = GlobalPosition;
-                ChangeState("dead");
+                //ChangeState("dead");
                 collision.Collider.Call("Hit");
             }
         }        
     }
 	
 	// Imported from Elijah's branch, and matched names, and styles
+    /*
 	public void ChangeState(string newState) {
 	  switch (newState) {
 		case "ready": {
@@ -124,4 +125,5 @@ public class Player : KinematicBody2D {
 		}
 	  }
 	}
+    */
 }
