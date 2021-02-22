@@ -16,8 +16,13 @@ _global_script_class_icons={
 [application]
 
 config/name="Incorpreal"
-run/main_scene="res://levels/Level 1.tscn"
+run/main_scene="res://Game.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+GlobalPlayer="*res://GlobalPlayer.cs"
+GlobalData="*res://GlobalData.tscn"
 
 [display]
 
@@ -30,7 +35,8 @@ window/stretch/aspect="keep"
 
 [gdnative]
 
-singletons=[  ]
+GlobalPlayer="*res://GlobalPlayer.cs"
+GlobalData="*res://GlobalData.tscn"
 
 [input]
 
@@ -74,14 +80,14 @@ move_downTEMP={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"unicode":0,"echo":false,"script":null)
  ]
 }
-possession={
-"deadzone": 0.01,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"unicode":0,"echo":false,"script":null)
+test={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"unicode":0,"echo":false,"script":null)
  ]
 }
-pause={
+removeEnemy={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":80,"unicode":0,"echo":false,"script":null)
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777220,"unicode":0,"echo":false,"script":null)
  ]
 }
 
@@ -92,10 +98,6 @@ pause={
 2d_physics/layer_3="Ghost Wall"
 2d_physics/layer_4="Low Wall"
 2d_physics/layer_5="Bat"
-
-[logging]
-
-file_logging/enable_file_logging=true
 
 [rendering]
 
