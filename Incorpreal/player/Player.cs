@@ -170,6 +170,7 @@ public class Player : KinematicBody2D {
                     this.SetCollisionMaskBit(1, true); //But requires doing this to still collide with Walls, because we turned off player layer mask to fly over LowWalls.
                 }
                 //Possession animation here (optional)
+                this.playerSpriteNode = (Sprite) GetNode("Sprite");
                 playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
                 victimSprite.GetParent().QueueFree(); //Make enemy disappear
             } else if (possessee != null) { //Else if already possessing, undo it
