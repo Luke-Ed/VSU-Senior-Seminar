@@ -51,8 +51,9 @@ public class Player : KinematicBody2D {
 
     public override void _Ready()
     {
-        ResourceLoader.Load("res://Game.tscn");
         GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        //Eventually a main menu will already have a character made for the player
+        //This is for demonstration purposes
         if (gp.playerCharacter == null)
         {
             gp.createPlayer();
@@ -101,8 +102,8 @@ public class Player : KinematicBody2D {
             }
         }        
     }
-	
-	// Imported from Elijah's branch, and matched names, and styles
+
+    // Imported from Elijah's branch, and matched names, and styles
     /*
 	public void ChangeState(string newState) {
 	  switch (newState) {
