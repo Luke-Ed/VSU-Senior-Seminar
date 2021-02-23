@@ -154,7 +154,6 @@ public class Player : KinematicBody2D {
                         closestEnemyIndex = x;
                         closestDistance = currentDistance;
                         enemyFound = true;
-                        GD.Print("Found: ", currentEnemy);
                     }
                 }
             }  
@@ -167,18 +166,18 @@ public class Player : KinematicBody2D {
                 this.SetCollisionMaskBit(2, true); //Make GhostWalls impenetrable while possessing
                 if (resPath.Contains("Bat")) {
                     this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
-                    this.SetCollisionMaskBit(1, true); //But requires doing this to still collide with Walls, because we turned off player layer mask to fly over LowWalls.
+                    this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
                 }
                 //Possession animation here (optional)
-                this.playerSpriteNode = (Sprite) GetNode("Sprite");
+                this.playerSpriteNode = (Sprite) GetNode("Sprite/player");
                 playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
                 victimSprite.GetParent().QueueFree(); //Make enemy disappear
             } else if (possessee != null) { //Else if already possessing, undo it
                 playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
                 this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
-                if (resPath.Contains("Bat")) {
-                    this.SetCollisionLayerBit(0, true); //Turn player collision layer back on
-                    this.SetCollisionMaskBit(1, false);
+                if (resPath.Contains("Bat")) { //Return from Bat mode
+                    this.SetCollisionLayerBit(0, true);
+                    this.SetCollisionMaskBit(3, true);
                 }
                 this.map.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
                 possessee = null;
