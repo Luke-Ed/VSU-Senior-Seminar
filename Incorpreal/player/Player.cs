@@ -5,8 +5,13 @@ public class Player : KinematicBody2D {
     [Export]
 
     public int moveSpeed = 125;
+    public PhysicsBody2D possessee = null;
+    public string resPath;
+    public Map map = new Map();
     public CollisionShape2D hitbox;
+    public Sprite playerSpriteNode;
     public AnimationPlayer animate;
+
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
@@ -99,7 +104,12 @@ public class Player : KinematicBody2D {
                 //ChangeState("dead");
                 collision.Collider.Call("Hit");
             }
-        }        
+        } 
+
+        //Possession listener
+        if (Input.IsActionJustPressed("possession")) { //If R is pressed
+            Possess();
+        }       
     }
 	
 	// Imported from Elijah's branch, and matched names, and styles
@@ -126,4 +136,51 @@ public class Player : KinematicBody2D {
 	  }
 	}
     */
+
+     public void Possess() {
+        //1. Check if anyone within range
+        Area2D possessionArea = (Area2D)GetNode("Area2D");
+        Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
+            float closestDistance = 1000;
+            int closestEnemyIndex = 0;
+            Boolean enemyFound = false;
+
+            //2. Find closest enemy
+            for (int x = 0; x < nearby.Count; x++) { //Iterate them
+                PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; //Grab one
+                if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
+                    float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
+                    if (currentDistance < closestDistance) { //Check if closer than current closest
+                        closestEnemyIndex = x;
+                        closestDistance = currentDistance;
+                        enemyFound = true;
+                        GD.Print("Found: ", currentEnemy);
+                    }
+                }
+            }  
+            
+            //3. If suitable enemy found & player not already possessing someone, possess that enemy
+            if (enemyFound && this.possessee == null) {
+                possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
+                this.resPath = possessee.Filename; //Grab victim resource path for later
+                Sprite victimSprite = (Sprite) possessee.GetNode("Sprite"); //Grab victim sprite
+                this.SetCollisionMaskBit(2, true); //Make GhostWalls impenetrable while possessing
+                if (resPath.Contains("Bat")) {
+                    this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
+                    this.SetCollisionMaskBit(1, true); //But requires doing this to still collide with Walls, because we turned off player layer mask to fly over LowWalls.
+                }
+                //Possession animation here (optional)
+                playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
+                victimSprite.GetParent().QueueFree(); //Make enemy disappear
+            } else if (possessee != null) { //Else if already possessing, undo it
+                playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
+                this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
+                if (resPath.Contains("Bat")) {
+                    this.SetCollisionLayerBit(0, true); //Turn player collision layer back on
+                    this.SetCollisionMaskBit(1, false);
+                }
+                this.map.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
+                possessee = null;
+            }
+    }
 }

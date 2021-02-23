@@ -5,7 +5,9 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 30.2662
 
-[node name="Skeleton" type="KinematicBody2D"]
+[node name="Skeleton" type="KinematicBody2D" groups=[
+"Enemies",
+]]
 
 [node name="skeleton" type="Sprite" parent="."]
 texture = ExtResource( 1 )
