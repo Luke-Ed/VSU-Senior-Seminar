@@ -840,7 +840,7 @@ resource_name = "SlatesTileMap"
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 9/z_index = 0
-10/name = "Cave_Entrance_Holes"
+10/name = "Cave_Entrances"
 10/texture = ExtResource( 1 )
 10/tex_offset = Vector2( 0, 0 )
 10/modulate = Color( 1, 1, 1, 1 )
