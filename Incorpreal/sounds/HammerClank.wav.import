@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/HammerClank.wav-6326d454289dd6c7c5007eb7ef1a859c.sample"
+
+[deps]
+
+source_file="res://sounds/HammerClank.wav"
+dest_files=[ "res://.import/HammerClank.wav-6326d454289dd6c7c5007eb7ef1a859c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

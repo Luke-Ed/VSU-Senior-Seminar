@@ -9,9 +9,14 @@ public class Battle : Node
     {
 
     }
-
+    public AudioStreamPlayer audioStreamPlayer = new AudioStreamPlayer();
+    AudioStream HammerAttack = (AudioStream)GD.Load("res://sounds/HammerClank.wav");
+    AudioStream BattleStart = (AudioStream)GD.Load("res://sounds/scaletest.wav");
     public override void _Ready()
     {
+        this.AddChild(audioStreamPlayer);
+        audioStreamPlayer.Stream = BattleStart;
+        audioStreamPlayer.Play();
         GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
         var healthLabel = GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);
@@ -25,6 +30,8 @@ public class Battle : Node
 
     public void _on_TakeDamageButton_pressed()
     {
+        audioStreamPlayer.Stream = HammerAttack;
+        audioStreamPlayer.Play();
         GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
         gp.takeDamage(5);
         var healthLabel = GetNode<Label>("HealthLabel") as Label;
