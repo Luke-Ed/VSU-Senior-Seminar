@@ -3,6 +3,12 @@ using System;
 
 public class Game : Node
 {
+
+    public Game()
+    {
+    }
+
+
 	// Declare member variables here. Examples:
 	// private int a = 2;
 	public AudioStreamPlayer audioStreamPlayer = new AudioStreamPlayer();

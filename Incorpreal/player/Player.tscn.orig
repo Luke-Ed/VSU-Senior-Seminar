@@ -7,23 +7,57 @@
 extents = Vector2( 31.0796, 33.0225 )
 
 [sub_resource type="Animation" id=2]
+<<<<<<< HEAD
 resource_name = "Dying"
-length = 0.5
+=======
+resource_name = "Walking"
+length = 0.3
+loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, -2 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Die"
+>>>>>>> main
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite/player:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, -1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, -90.0 ]
 }
 
-[sub_resource type="Animation" id=3]
-length = 2.0
+[sub_resource type="Animation" id=4]
+resource_name = "Idle"
+length = 0.5
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite/player:offset")
@@ -32,12 +66,13 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
-"transitions": PoolRealArray( 1, 1, 1.23114 ),
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -0.5 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 0, -1 ), Vector2( 0, 0 ) ]
 }
 
+<<<<<<< HEAD
 [sub_resource type="Animation" id=4]
 length = 0.3
 loop = true
@@ -57,22 +92,25 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 80, 80 )
 
+=======
+>>>>>>> main
 [node name="Player" type="KinematicBody2D"]
-position = Vector2( 0, -1 )
-collision_mask = 2147483659
+rotation = -1.5708
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+offset = Vector2( 0, -0.278376 )
 
 [node name="player" type="Sprite" parent="Sprite"]
-position = Vector2( 0, -0.25 )
 texture = ExtResource( 1 )
+offset = Vector2( 0, -1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Idle"
+<<<<<<< HEAD
+autoplay = "Dying"
 anims/Dying = SubResource( 2 )
 anims/Idle = SubResource( 3 )
 anims/Walking = SubResource( 4 )
@@ -81,9 +119,14 @@ anims/Walking = SubResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 5 )
+=======
+anims/Die = SubResource( 2 )
+anims/Idle = SubResource( 3 )
+anims/Walking = SubResource( 4 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
+>>>>>>> main
