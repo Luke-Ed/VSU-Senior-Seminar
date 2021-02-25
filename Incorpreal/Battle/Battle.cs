@@ -13,6 +13,10 @@ public class Battle : Node
     public override void _Ready()
     {
         GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
+        Console.WriteLine("Queue Starts Here:");
+        tq.combatants = tq.getCombatants();
+        tq.printQueue();
         var healthLabel = GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);
     }

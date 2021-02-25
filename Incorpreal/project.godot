@@ -23,6 +23,8 @@ config/icon="res://icon.png"
 
 GlobalPlayer="*res://GlobalPlayer.cs"
 GlobalData="*res://GlobalData.tscn"
+TurnQueue="*res://TurnQueue.cs"
+Tq="*res://TQ.tscn"
 
 [display]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/wall.png" type="Texture" id=1]
 [ext_resource path="res://assets/ghostwall.png" type="Texture" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://assets/bat.png" type="Texture" id=6]
 [ext_resource path="res://Game.cs" type="Script" id=7]
 [ext_resource path="res://player/Player.cs" type="Script" id=8]
-[ext_resource path="res://TurnQueue.cs" type="Script" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 33, 33 )
@@ -107,12 +106,3 @@ text = "Health Goes Here"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="TurnQueue" type="Node" parent="."]
-script = ExtResource( 9 )
-
-[node name="Test1" type="Node2D" parent="TurnQueue"]
-visible = false
-
-[node name="Test2" type="Node2D" parent="TurnQueue"]
-visible = false

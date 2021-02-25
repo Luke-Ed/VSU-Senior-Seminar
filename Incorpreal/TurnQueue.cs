@@ -4,11 +4,10 @@ using System;
 public class TurnQueue : Node
 {
     Node currentTurn;
-    Godot.Collections.Array combatants;
+    public Godot.Collections.Array combatants;
     public override void _Ready()
     {
-        combatants = getCombatants();
-        printQueue();
+
     }
 
 
@@ -25,5 +24,16 @@ public class TurnQueue : Node
             s += GetChild(i).Name + " ";
         }
         Console.WriteLine(s);
+    }
+
+    public void removeChildren()
+    {
+
+        for (int i = 0; i < GetChildCount(); i++)
+        {
+            Node n = this.GetChild(i);
+            RemoveChild(n);
+            n.QueueFree();
+        }
     }
 }

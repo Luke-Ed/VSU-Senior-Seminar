@@ -22,6 +22,8 @@ public class Bat : KinematicBody2D
     {
         GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
         gp.enemyPath = GetPath();
+        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
+        tq.GetChild(1).Name = "Bat";
         GetTree().ChangeScene("res://Battle.tscn");
     }
 

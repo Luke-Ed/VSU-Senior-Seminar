@@ -8,6 +8,8 @@ public class GlobalPlayer : Node
     public Player playerCharacter;
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
     public String CharacterClass;
+    public Node PC;
+    public Node Enemy;
 
     public void updateHealthLabel(Label l)
     {
