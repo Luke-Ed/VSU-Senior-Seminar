@@ -14,8 +14,7 @@ resource_name = "Game"
 script/source = ""
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 31 )
-
+extents = Vector2 ( 32, 31 )
 [sub_resource type="RectangleShape2D" id=2]
 
 [sub_resource type="RectangleShape2D" id=3]
