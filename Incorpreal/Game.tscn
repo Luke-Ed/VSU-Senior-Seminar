@@ -63,11 +63,26 @@ script = ExtResource( 4 )
 [node name="Sprite" type="Sprite" parent="Map/Bat"]
 
 [node name="bat" type="Sprite" parent="Map/Bat/Sprite"]
-position = Vector2( 425, 154 )
+position = Vector2( 387.919, 126.454 )
 texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Bat"]
-position = Vector2( 426, 153 )
+position = Vector2( 388.919, 125.454 )
+shape = SubResource( 3 )
+
+[node name="Bat2" type="KinematicBody2D" parent="Map"]
+position = Vector2( 93, 67 )
+collision_layer = 16
+script = ExtResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="Map/Bat2"]
+
+[node name="bat" type="Sprite" parent="Map/Bat2/Sprite"]
+position = Vector2( 18.1661, 122.216 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Bat2"]
+position = Vector2( 15.9877, 122.275 )
 shape = SubResource( 3 )
 
 [node name="Low Wall" type="StaticBody2D" parent="Map"]

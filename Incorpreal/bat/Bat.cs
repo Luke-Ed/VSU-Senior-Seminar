@@ -6,6 +6,8 @@ public class Bat : KinematicBody2D
     [Export]
 
     public int moveSpeed = 250;
+    public int attack = 2;
+    public int health = 30;
 
     public override void _PhysicsProcess(float delta)
     {
@@ -21,9 +23,12 @@ public class Bat : KinematicBody2D
     public void Hit()
     {
         GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
-        gp.enemyPath = GetPath();
+        NodePath np = GetPath();
+        gp.nodePaths.Add(np);
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
-        tq.GetChild(1).Name = "Bat";
+        var newNode = Duplicate();
+        tq.AddChild(newNode);
+        newNode.QueueFree();
         GetTree().ChangeScene("res://Battle.tscn");
     }
 

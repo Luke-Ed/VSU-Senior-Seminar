@@ -58,10 +58,13 @@ public class Player : KinematicBody2D {
         {
             gp.createPlayer();
         }
-        if (gp.playerLocation != null && gp.enemyPath != null)
+        if (gp.playerLocation != null && gp.nodePaths.Count > 0)
         {
             GlobalPosition = gp.playerLocation;
-            GetParent().GetNode(gp.enemyPath).QueueFree();
+            for (int i = 0; i < gp.nodePaths.Count; i++)
+            {
+                GetParent().GetNode(gp.nodePaths[i]).QueueFree();
+            }
         }
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);

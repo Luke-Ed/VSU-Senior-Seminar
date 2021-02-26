@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class GlobalPlayer : Node
 {
@@ -10,6 +11,7 @@ public class GlobalPlayer : Node
     public String CharacterClass;
     public Node PC;
     public Node Enemy;
+    public List<NodePath> nodePaths;
 
     public void updateHealthLabel(Label l)
     {
@@ -35,6 +37,7 @@ public class GlobalPlayer : Node
         MaxHealth = playerCharacter.MaxHealth;
         CurrentHealth = playerCharacter.CurrentHealth;
         Level = playerCharacter.Level;
+        nodePaths = new List<NodePath>();
     }
 
     public void takeDamage(int damage)
