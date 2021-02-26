@@ -7,6 +7,7 @@ public class Player : KinematicBody2D {
     public int moveSpeed = 125;
     public CollisionShape2D hitbox;
     public AnimationPlayer animate;
+    public GlobalPlayer gp;
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
@@ -51,7 +52,7 @@ public class Player : KinematicBody2D {
 
     public override void _Ready()
     {
-        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        gp = (GlobalPlayer)GetNode("/root/GlobalData");
         //Eventually a main menu will already have a character made for the player
         //This is for demonstration purposes
         if (gp.playerCharacter == null)
@@ -68,6 +69,11 @@ public class Player : KinematicBody2D {
         }
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);
+    }
+
+    public int playTurn()
+    {
+        return gp.AttackEnemy();
     }
 
     public override void _PhysicsProcess(float delta)
@@ -98,7 +104,7 @@ public class Player : KinematicBody2D {
         {
             if (collision.Collider.HasMethod("Hit"))
             {
-                GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                gp = (GlobalPlayer)GetNode("/root/GlobalData");
                 gp.playerLocation = GlobalPosition;
                 //ChangeState("dead");
                 collision.Collider.Call("Hit");

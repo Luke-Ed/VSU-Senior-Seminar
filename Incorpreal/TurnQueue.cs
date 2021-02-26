@@ -5,6 +5,11 @@ public class TurnQueue : Node
 {
     Node currentTurn;
     public Godot.Collections.Array combatants;
+    public int enemyMaxHP;
+    public int enemyCurrentHP;
+    public int enemyAttack;
+    public string enemyName;
+    public Node EnemyNode;
     public override void _Ready()
     {
 
@@ -34,6 +39,19 @@ public class TurnQueue : Node
             Node n = this.GetChild(i);
             RemoveChild(n);
             n.QueueFree();
+        }
+    }
+
+    public void setStats()
+    {
+        Node enemy = (Node)combatants[1];
+        EnemyNode = enemy;
+        if (enemy.Get("health") != null && enemy.Get("currentHealth") != null)
+        {
+            enemyMaxHP = (int)enemy.Get("health");
+            enemyCurrentHP = (int)enemy.Get("currentHealth");
+            enemyName = (string)enemy.Get("name");
+            enemyAttack = (int)enemy.Get("attack");
         }
     }
 }

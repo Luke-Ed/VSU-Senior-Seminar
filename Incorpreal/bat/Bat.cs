@@ -8,6 +8,9 @@ public class Bat : KinematicBody2D
     public int moveSpeed = 250;
     public int attack = 2;
     public int health = 30;
+    public int currentHealth = 30;
+    public string name = "bat";
+    public GlobalPlayer gp;
 
     public override void _PhysicsProcess(float delta)
     {
@@ -19,10 +22,19 @@ public class Bat : KinematicBody2D
         MoveAndCollide(motion.Normalized() * moveSpeed * delta);
     }
 
+    public override void _Ready()
+    {
+        gp = (GlobalPlayer)GetNode("/root/GlobalData");
+    }
+
+    public void playTurn()
+    {
+        gp.takeDamage(attack);
+    }
+
 
     public void Hit()
     {
-        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
         NodePath np = GetPath();
         gp.nodePaths.Add(np);
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
