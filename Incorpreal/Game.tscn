@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Walls/Wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/bat.png" type="Texture" id=6]
 [ext_resource path="res://Game.cs" type="Script" id=7]
+[ext_resource path="res://Pause.cs" type="Script" id=8]
 [ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=9]
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=10]
 
@@ -19,7 +20,6 @@ script = ExtResource( 7 )
 [node name="Map" type="Node2D" parent="."]
 
 [node name="HealthLabel" type="Label" parent="."]
-visible = false
 anchor_bottom = 0.039
 margin_left = 339.0
 margin_top = 242.0
@@ -63,3 +63,23 @@ position = Vector2( 314.127, 103.11 )
 
 [node name="Low Wall" parent="." instance=ExtResource( 1 )]
 position = Vector2( 504.335, 114.625 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+pause_mode = 2
+layer = 128
+
+[node name="Pause" type="Control" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseBackground" type="ColorRect" parent="CanvasLayer/Pause"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.231373, 0.121569, 0.109804, 0.780392 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
