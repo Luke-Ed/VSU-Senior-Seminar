@@ -104,14 +104,17 @@ public class Player : KinematicBody2D {
                 //ChangeState("dead");
                 collision.Collider.Call("Hit");
             }
-        } 
+        }      
+    }
 
-        //Possession listener
+    //Possession listener
+    public override void _Input(InputEvent @event)
+    {
         if (Input.IsActionJustPressed("possession")) { //If R is pressed
             Possess();
-        }       
+        }
     }
-	
+
 	// Imported from Elijah's branch, and matched names, and styles
     /*
 	public void ChangeState(string newState) {
