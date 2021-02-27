@@ -114,7 +114,6 @@ public class Player : KinematicBody2D {
 	  switch (newState) {
 		case "Idle": {
 		  animate.Play("Idle");
-          GD.Print("Idle");
 		  break;
 		}
 		case "Dead": {
@@ -123,7 +122,6 @@ public class Player : KinematicBody2D {
 		}
 		case "Walking": {
 		  animate.Play("Walking");
-          GD.Print("Walking");
 		  break;
 		}
 		default: {
