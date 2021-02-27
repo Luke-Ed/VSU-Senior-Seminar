@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
@@ -11,11 +11,16 @@
 [ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=9]
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://assets/pauseghost.png" type="Texture" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 31 )
 
 [sub_resource type="DynamicFont" id=2]
+size = 51
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=3]
 size = 51
 font_data = ExtResource( 11 )
 
@@ -93,9 +98,35 @@ __meta__ = {
 
 [node name="PauseLabel" type="Label" parent="PauseMenu/Pause"]
 margin_left = 231.896
-margin_top = 155.033
+margin_top = 73.033
 margin_right = 400.896
-margin_bottom = 211.033
+margin_bottom = 129.033
 custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 0.101961, 0.0980392, 0.0980392, 0.992157 )
+custom_colors/font_color = Color( 1, 1, 1, 0.670588 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "PAUSED"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitLabel" type="Label" parent="PauseMenu/Pause"]
+margin_left = 265.387
+margin_top = 177.132
+margin_right = 367.387
+margin_bottom = 233.132
+mouse_filter = 0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "QUIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="PauseMenu/Pause"]
+position = Vector2( 138.553, 245.084 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 12 )
+[connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
+[connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]

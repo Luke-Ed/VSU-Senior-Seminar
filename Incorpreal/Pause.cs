@@ -3,9 +3,9 @@ using System;
 
 public class Pause : Control
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    public Label PauseLabel;
+    public Label QuitLabel;
+    public Boolean quitEntered = false;
 
     //Pause listener
     public override void _Input(InputEvent @event) {
@@ -23,7 +23,24 @@ public class Pause : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
+        PauseLabel = (Label)GetNode("PauseLabel"); //Grab pause label
+        QuitLabel = (Label)GetNode("QuitLabel"); //Grab quit label
+    }
+
+    public void _on_QuitLabel_mouse_entered() {
+        QuitLabel.AddColorOverride("font_color", Colors.DarkRed);
+        quitEntered = true;
+    }
+
+    public void _on_QuitLabel_mouse_exited() {
+        QuitLabel.AddColorOverride("font_color", Colors.DarkGray);
+        quitEntered = false;
+    }
+
+    public void _on_QuitLabel_gui_input(InputEvent @event) {
+        if (quitEntered && @event is InputEventMouseButton) {
+            GetTree().Quit();
+        }
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

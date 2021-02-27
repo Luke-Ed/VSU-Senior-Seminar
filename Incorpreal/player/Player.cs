@@ -69,31 +69,26 @@ public class Player : KinematicBody2D {
         }
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);
+        animate = (AnimationPlayer)GetNode("AnimationPlayer");
+        playerSpriteNode = (Sprite)GetNode("Sprite/player");
     }
 
     public override void _PhysicsProcess(float delta)
     {
         var motion = new Vector2();
         //Player will use WASD to move their character
-        //animate = (AnimationPlayer) GetNode("AnimationPlayer");
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
-        /*
-		    if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
-		       ChangeState("walk");
-		       MoveAndCollide(motion.Normalized() * moveSpeed * delta);
-		    }
-		    else {
-		       ChangeState("ready");
-	      }
-  	    //ChangeState("ready");
-		    */
+        if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
+            ChangeState("Walking");
+        } else {
+            ChangeState("Idle");
+        }
 
-         MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+        MoveAndCollide(motion.Normalized() * moveSpeed * delta);
 
         var collision = MoveAndCollide(motion.Normalized() * delta);
-
 
         if (collision != null)
         {
@@ -101,7 +96,6 @@ public class Player : KinematicBody2D {
             {
                 GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
                 gp.playerLocation = GlobalPosition;
-                //ChangeState("dead");
                 collision.Collider.Call("Hit");
             }
         }      
@@ -116,21 +110,20 @@ public class Player : KinematicBody2D {
     }
 
 	// Imported from Elijah's branch, and matched names, and styles
-    /*
 	public void ChangeState(string newState) {
 	  switch (newState) {
-		case "ready": {
+		case "Idle": {
 		  animate.Play("Idle");
+          GD.Print("Idle");
 		  break;
 		}
-		case "dead": {
-		  animate.Stop();
+		case "Dead": {
 		  animate.Play("Die");
-		  break;
+          break;
 		}
-		case "walk": {
-		  animate.Stop();
+		case "Walking": {
 		  animate.Play("Walking");
+          GD.Print("Walking");
 		  break;
 		}
 		default: {
@@ -138,7 +131,6 @@ public class Player : KinematicBody2D {
 		}
 	  }
 	}
-    */
 
      public void Possess() {
         //1. Check if anyone within range
@@ -172,7 +164,6 @@ public class Player : KinematicBody2D {
                     this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
                 }
                 //Possession animation here (optional)
-                this.playerSpriteNode = (Sprite) GetNode("Sprite/player");
                 playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
                 victimSprite.GetParent().QueueFree(); //Make enemy disappear
             } else if (possessee != null) { //Else if already possessing, undo it
