@@ -11,8 +11,6 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 
-extents = Vector2 ( 32, 31 )
-
 [sub_resource type="RectangleShape2D" id=2]
 
 [node name="Game" type="Node"]
