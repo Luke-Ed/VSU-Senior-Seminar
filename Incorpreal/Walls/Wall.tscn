@@ -10,6 +10,7 @@ extents = Vector2( 32, 31 )
 ]]
 position = Vector2( 535.127, 156.11 )
 collision_layer = 2
+collision_mask = 2147483665
 
 [node name="Sprite" type="Sprite" parent="."]
 
