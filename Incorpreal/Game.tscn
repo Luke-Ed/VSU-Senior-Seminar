@@ -1,8 +1,4 @@
-
 [gd_scene load_steps=14 format=2]
-
-[gd_scene load_steps=17 format=2]
-
 
 [ext_resource path="res://assets/wall.png" type="Texture" id=1]
 [ext_resource path="res://assets/ghostwall.png" type="Texture" id=2]
@@ -11,15 +7,7 @@
 [ext_resource path="res://assets/lowwall.png" type="Texture" id=5]
 [ext_resource path="res://assets/bat.png" type="Texture" id=6]
 [ext_resource path="res://Game.cs" type="Script" id=7]
-
 [ext_resource path="res://player/Player.cs" type="Script" id=8]
-
-[ext_resource path="res://Pause.cs" type="Script" id=8]
-[ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=9]
-[ext_resource path="res://player/Player.tscn" type="PackedScene" id=10]
-[ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=11]
-[ext_resource path="res://assets/pauseghost.png" type="Texture" id=12]
-
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 33, 33 )
@@ -30,31 +18,16 @@ extents = Vector2( 33.125, 32.75 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 32, 31 )
 
-
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 31.919, 32.0566 )
 
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 31.8679, 32 )
 
-[sub_resource type="DynamicFont" id=2]
-size = 51
-font_data = ExtResource( 11 )
-
-[sub_resource type="DynamicFont" id=3]
-size = 51
-font_data = ExtResource( 11 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 51
-font_data = ExtResource( 11 )
-
-
 [node name="Game" type="Node"]
 script = ExtResource( 7 )
 
 [node name="Map" type="Node2D" parent="."]
-position = Vector2( -1.12246, 0 )
 
 [node name="Ghost Wall" type="StaticBody2D" parent="Map"]
 collision_layer = 4
@@ -104,7 +77,6 @@ script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Map/Bat2"]
 
-
 [node name="bat" type="Sprite" parent="Map/Bat2/Sprite"]
 position = Vector2( 18.1661, 122.216 )
 texture = ExtResource( 6 )
@@ -149,80 +121,3 @@ text = "Health Goes Here"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Low Wall" parent="." instance=ExtResource( 1 )]
-position = Vector2( 504.335, 114.625 )
-
-[node name="PauseMenu" type="CanvasLayer" parent="."]
-pause_mode = 2
-layer = 128
-
-[node name="Pause" type="Control" parent="PauseMenu"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PauseBackground" type="ColorRect" parent="PauseMenu/Pause"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.231373, 0.121569, 0.109804, 0.780392 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PauseLabel" type="Label" parent="PauseMenu/Pause"]
-margin_left = 231.896
-margin_top = 73.033
-margin_right = 400.896
-margin_bottom = 129.033
-custom_fonts/font = SubResource( 2 )
-custom_colors/font_color = Color( 1, 1, 1, 0.670588 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "PAUSED"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="QuitLabel" type="Label" parent="PauseMenu/Pause"]
-margin_left = 265.387
-margin_top = 177.132
-margin_right = 367.387
-margin_bottom = 233.132
-mouse_filter = 0
-custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "QUIT"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Sprite" type="Sprite" parent="PauseMenu/Pause"]
-position = Vector2( 138.553, 245.084 )
-scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 12 )
-
-[node name="RestartLabel" type="Label" parent="PauseMenu/Pause"]
-margin_left = 165.0
-margin_top = 124.0
-margin_right = 478.0
-margin_bottom = 180.0
-mouse_filter = 0
-custom_fonts/font = SubResource( 4 )
-custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "RESTART LEVEL"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-[connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
-[connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
-[connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]
-[connection signal="gui_input" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_gui_input"]
-[connection signal="mouse_entered" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_entered"]
-[connection signal="mouse_exited" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_exited"]
-
