@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class GlobalPlayer : Node
 {
@@ -8,10 +9,15 @@ public class GlobalPlayer : Node
     public Player playerCharacter;
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
     public String CharacterClass;
+    public Node PC;
+    public Node Enemy;
+    public List<NodePath> nodePaths;
+    public Label hplabel;
 
     public void updateHealthLabel(Label l)
     {
-        String text = "Health: " + CurrentHealth + "/" + MaxHealth;
+        hplabel = l;
+        String text = "Your Health: " + CurrentHealth + "/" + MaxHealth;
         if (l != null)
         {
             l.Text = text;
@@ -33,12 +39,17 @@ public class GlobalPlayer : Node
         MaxHealth = playerCharacter.MaxHealth;
         CurrentHealth = playerCharacter.CurrentHealth;
         Level = playerCharacter.Level;
+        nodePaths = new List<NodePath>();
     }
 
     public void takeDamage(int damage)
     {
         Random random = new Random();
         int roll = random.Next(101);
+        if (roll >= 100 - Intelligence)
+        {
+            CurrentHealth -= damage;
+        }
         if ((CurrentHealth - damage) <= 0)
         {
             CurrentHealth = 0;
@@ -47,12 +58,6 @@ public class GlobalPlayer : Node
         {
             CurrentHealth -= damage;
         }
-        /* Removing random chance to miss for purpose of demo presentation
-        if (roll >= 100 - gp.Intelligence)
-        {
-            gp.CurrentHealth -= damage;
-        }
-        */
     }
 
     //Returns the amount of damage done if you are able to hit

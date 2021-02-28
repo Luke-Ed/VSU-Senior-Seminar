@@ -6,9 +6,7 @@
 radius = 19.5795
 height = 1.0732
 
-[node name="Snake" type="KinematicBody2D" groups=[
-"Enemies",
-]]
+[node name="Snake" type="KinematicBody2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 1, 18 )
