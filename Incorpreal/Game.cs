@@ -20,6 +20,7 @@ public class Game : Node
 		AudioStream Background = (AudioStream)GD.Load("res://sounds/test.wav");
 		audioStreamPlayer.Stream = Background;
 		audioStreamPlayer.Play();
+		audioStreamPlayer.PauseMode = Node.PauseModeEnum.Process; //This line keeps music playing during pause
 	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
