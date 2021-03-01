@@ -13,6 +13,7 @@ public class GlobalPlayer : Node
     public Node Enemy;
     public List<NodePath> nodePaths;
     public Label hplabel;
+    public string lastScene;
 
     public void updateHealthLabel(Label l)
     {
@@ -42,27 +43,30 @@ public class GlobalPlayer : Node
         nodePaths = new List<NodePath>();
     }
 
-    public void takeDamage(int damage)
+    public Boolean takeDamage(int damage)
     {
         Random random = new Random();
         int roll = random.Next(101);
         if (roll >= 100 - Intelligence)
         {
-            CurrentHealth -= damage;
-        }
-        if ((CurrentHealth - damage) <= 0)
-        {
-            CurrentHealth = 0;
+            return false;
         }
         else
         {
+            if ((CurrentHealth - damage) <= 0)
+            {
+                CurrentHealth = 0;
+                return true;
+            }
             CurrentHealth -= damage;
+            return true;
         }
     }
 
     //Returns the amount of damage done if you are able to hit
-    public int AttackEnemy()
+    public Boolean AttackEnemy()
     {
+        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
         Random random = new Random();
         int roll = random.Next(101);
         //Checking to make sure the ghost can hit the enemy based on intelligence
@@ -71,13 +75,16 @@ public class GlobalPlayer : Node
             //Checking for critical hit based on luck
             if (roll >= 100 - Luck)
             {
-                return AttackDamage * 2;
+                tq.enemyCurrentHP -= AttackDamage * 2;
+                return true;
             }
-            return AttackDamage;
+            tq.enemyCurrentHP -= AttackDamage;
+            return true;
         }
         else
         {
-            return 0;
+            tq.enemyCurrentHP -= 0;
+            return false;
         }
     }
 

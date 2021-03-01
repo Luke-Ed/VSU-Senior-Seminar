@@ -6,10 +6,10 @@ public class Bat : KinematicBody2D
     [Export]
 
     public int moveSpeed = 250;
-    public int attack = 2;
-    public int health = 30;
-    public int currentHealth = 30;
-    public string name = "bat";
+    public int attack;
+    public int health;
+    public int currentHealth;
+    public string enemyName;
     public GlobalPlayer gp;
 
     public override void _PhysicsProcess(float delta)
@@ -24,12 +24,28 @@ public class Bat : KinematicBody2D
 
     public override void _Ready()
     {
+        var filePath = "res://Enemies/enemies.txt";
+        File newFile = new File();
+        newFile.Open(filePath, File.ModeFlags.Read);
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        while (!newFile.EofReached())
+        {
+            String s = newFile.GetLine();
+            if (Name.Contains(s)){
+                enemyName = s;
+                attack = int.Parse(newFile.GetLine());
+                health = int.Parse(newFile.GetLine());
+                currentHealth = health;
+            }
+        }
+        Console.WriteLine("Enemy Name" + enemyName);
+        Console.WriteLine("Health" + health);
+        Console.WriteLine("Attack" + attack);
     }
 
-    public void playTurn()
+    public Boolean playTurn()
     {
-        gp.takeDamage(attack);
+        return gp.takeDamage(attack);
     }
 
 
@@ -38,9 +54,8 @@ public class Bat : KinematicBody2D
         NodePath np = GetPath();
         gp.nodePaths.Add(np);
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
-        var newNode = Duplicate();
-        tq.AddChild(newNode);
-        newNode.QueueFree();
+        tq.GetChild(1).Name = enemyName;
+        tq.GetChild(1).Call("_Ready");
         GetTree().ChangeScene("res://Battle.tscn");
     }
 

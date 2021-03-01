@@ -10,6 +10,8 @@ public class Battle : Node
     public GlobalPlayer gp;
     public int currentFighterPos;
     public Label playerHP;
+    public Node player;
+    public Node enemy;
 
     public Battle()
     {
@@ -22,11 +24,13 @@ public class Battle : Node
         tq = (TurnQueue)GetNode("/root/Tq");
         tq.combatants = tq.getCombatants();
         tq.setStats();
+        player = (Node)tq.combatants[0] as KinematicBody2D;
+        enemy = (Node)tq.combatants[1] as KinematicBody2D;
         currentFighterPos = 0;
         playerHP = GetNode<Label>("HealthLabel") as Label;
         enemyHP = GetNode<Label>("EnemyHealth") as Label;
         txtbox = GetNode<TextEdit>("TextEdit") as TextEdit;
-        txtbox.Text = "You have encountered a(n): " + tq.enemyName;
+        txtbox.Text = "You have encountered a(n): " + tq.enemyName + "\n";
         btn = GetNode<Button>("Button2") as Button;
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
@@ -35,7 +39,7 @@ public class Battle : Node
     //This is just for demo expamples to not get stuck on battle screen.
     public void _on_Button_pressed()
     {
-       GetTree().ChangeScene("res://Game.tscn");
+       GetTree().ChangeScene(gp.lastScene);
     }
 
     public void _on_TakeDamageButton_pressed()
@@ -59,48 +63,45 @@ public class Battle : Node
     {
         if (currentFighterPos == 0)
         {
-            int damage = gp.AttackEnemy();
-            if (damage == gp.AttackDamage)
+            Boolean didHit = (bool)player.Call("playTurn");
+            if (didHit)
             {
-                txtbox.Text = "You hit the " + tq.enemyName;
-            }
-            else if (damage == 0)
-            {
-                txtbox.Text = "You missed the " + tq.enemyName;
+                txtbox.Text += "You hit the " + tq.enemyName + "\n";
             }
             else
             {
-                txtbox.Text = "You hit the " + tq.enemyName + " For massive Damage!";
+                txtbox.Text += "You missed the " + tq.enemyName + "\n";
             }
-            tq.enemyCurrentHP -= damage;
             updateEnemyHealth();
             btn.Text = "Continue";
         }
         else
         {
-            int oldDamage = gp.CurrentHealth;
-            gp.takeDamage(tq.enemyAttack);
-            gp.updateHealthLabel(playerHP);
-            if (gp.CurrentHealth < oldDamage)
+            Boolean didHit = (bool)enemy.Call("playTurn");
+            if (didHit)
             {
-                txtbox.Text = "You got hit by the " + tq.enemyName;
+                txtbox.Text += "You got hit by the " + tq.enemyName + "\n";
             }
             else
             {
-                txtbox.Text = "The attack passed through you";
+                txtbox.Text += "The attack passed through you" + "\n";
             }
+            gp.updateHealthLabel(playerHP);
             btn.Text = "Attack";
         }
         changeCurrentFighter();
         if (gp.CurrentHealth <= 0 || tq.enemyCurrentHP <= 0)
         {
-            GetTree().ChangeScene("res://Game.tscn");
+            if (gp.CurrentHealth <= 0)
+            {
+                txtbox.Text += "You have lost the fight";
+            }
+            else
+            {
+                txtbox.Text += "You have won the fight";
+            }
+            btn.Visible = false;
         }
-    }
-
-    public void changeButtonTxt(String s)
-    {
-        btn.Text = s;
     }
 
     public void changeCurrentFighter()
