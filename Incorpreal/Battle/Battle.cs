@@ -4,14 +4,14 @@ using System;
 public class Battle : Node
 {
     public Label enemyHP;
-    public TextEdit txtbox;
-    public Button btn;
     public TurnQueue tq;
     public GlobalPlayer gp;
     public int currentFighterPos;
     public Label playerHP;
     public Node player;
     public Node enemy;
+    public RichTextLabel rtl;
+    public Boolean fightOver = false;
 
     public Battle()
     {
@@ -29,9 +29,8 @@ public class Battle : Node
         currentFighterPos = 0;
         playerHP = GetNode<Label>("HealthLabel") as Label;
         enemyHP = GetNode<Label>("EnemyHealth") as Label;
-        txtbox = GetNode<TextEdit>("TextEdit") as TextEdit;
-        txtbox.Text = "You have encountered a(n): " + tq.enemyName + "\n";
-        btn = GetNode<Button>("Button2") as Button;
+        rtl = GetNode<RichTextLabel>("RichTextLabel") as RichTextLabel;
+        rtl.Text = "You have encountered a(n): " + tq.enemyName + "\n";
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
     }
@@ -39,7 +38,7 @@ public class Battle : Node
     //This is just for demo expamples to not get stuck on battle screen.
     public void _on_Button_pressed()
     {
-       GetTree().ChangeScene(gp.lastScene);
+        GetTree().ChangeScene(gp.lastScene);
     }
 
     public void _on_TakeDamageButton_pressed()
@@ -59,53 +58,67 @@ public class Battle : Node
         }
     }
 
-    public void _on_Button2_pressed()
+    public void fight()
     {
-        if (currentFighterPos == 0)
+        if (!fightOver)
         {
-            Boolean didHit = (bool)player.Call("playTurn");
-            if (didHit)
+            if (currentFighterPos == 0)
             {
-                txtbox.Text += "You hit the " + tq.enemyName + "\n";
+                Boolean didHit = (bool)player.Call("playTurn");
+                if (didHit)
+                {
+                    rtl.Text += "You hit the " + tq.enemyName + "\n";
+                }
+                else
+                {
+                    rtl.Text += "You missed the " + tq.enemyName + "\n";
+                }
+                updateEnemyHealth();
             }
             else
             {
-                txtbox.Text += "You missed the " + tq.enemyName + "\n";
+                Boolean didHit = (bool)enemy.Call("playTurn");
+                if (didHit)
+                {
+                    rtl.Text += "You got hit by the " + tq.enemyName + "\n";
+                }
+                else
+                {
+                    rtl.Text += "The attack passed through you" + "\n";
+                }
+                gp.updateHealthLabel(playerHP);
             }
-            updateEnemyHealth();
-            btn.Text = "Continue";
+            changeCurrentFighter();
+            if (gp.CurrentHealth <= 0 || tq.enemyCurrentHP <= 0)
+            {
+                if (gp.CurrentHealth <= 0)
+                {
+                    rtl.Text += "You have lost the fight";
+                }
+                else
+                {
+                    rtl.Text += "You have won the fight";
+                }
+                fightOver = true;
+            }
         }
         else
         {
-            Boolean didHit = (bool)enemy.Call("playTurn");
-            if (didHit)
-            {
-                txtbox.Text += "You got hit by the " + tq.enemyName + "\n";
-            }
-            else
-            {
-                txtbox.Text += "The attack passed through you" + "\n";
-            }
-            gp.updateHealthLabel(playerHP);
-            btn.Text = "Attack";
-        }
-        changeCurrentFighter();
-        if (gp.CurrentHealth <= 0 || tq.enemyCurrentHP <= 0)
-        {
-            if (gp.CurrentHealth <= 0)
-            {
-                txtbox.Text += "You have lost the fight";
-            }
-            else
-            {
-                txtbox.Text += "You have won the fight";
-            }
-            btn.Visible = false;
+            GetTree().ChangeScene(gp.lastScene);
         }
     }
 
     public void changeCurrentFighter()
     {
-        currentFighterPos = (currentFighterPos + 1) % tq.combatants.Count; 
+        currentFighterPos = (currentFighterPos + 1) % tq.combatants.Count;
+    }
+
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("Continue"))
+        {
+            fight();
+        }
     }
 }

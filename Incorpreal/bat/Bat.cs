@@ -5,7 +5,7 @@ public class Bat : KinematicBody2D
 {
     [Export]
 
-    public int moveSpeed = 250;
+    public int moveSpeed = 50;
     public int attack;
     public int health;
     public int currentHealth;
@@ -38,9 +38,6 @@ public class Bat : KinematicBody2D
                 currentHealth = health;
             }
         }
-        Console.WriteLine("Enemy Name" + enemyName);
-        Console.WriteLine("Health" + health);
-        Console.WriteLine("Attack" + attack);
     }
 
     public Boolean playTurn()

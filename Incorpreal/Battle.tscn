@@ -16,9 +16,9 @@ __meta__ = {
 }
 
 [node name="HealthLabel" type="Label" parent="."]
-margin_left = 16.4863
+margin_left = 82.5575
 margin_top = 51.5352
-margin_right = 221.486
+margin_right = 287.557
 margin_bottom = 125.535
 text = "Health Goes Here"
 __meta__ = {
@@ -35,25 +35,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button2" type="Button" parent="."]
-anchor_right = 0.209
-anchor_bottom = 0.067
-margin_left = 270.0
-margin_top = 212.0
-margin_right = 357.24
-margin_bottom = 299.88
-text = "Attack"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TextEdit" type="TextEdit" parent="."]
-margin_left = 26.0
-margin_top = 78.0
-margin_right = 609.0
-margin_bottom = 194.0
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 33.0
+margin_top = 95.0
+margin_right = 619.0
+margin_bottom = 280.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
