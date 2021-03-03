@@ -98,6 +98,11 @@ public class Battle : Node
                 else
                 {
                     rtl.Text += "You have won the fight";
+                    gp.Experience += 10;
+                    if(gp.Experience >= gp.ExperienceToNextLevel)
+                    {
+                        GetTree().ChangeScene("res://LevelUp.tscn");
+                    }
                 }
                 fightOver = true;
             }

@@ -7,7 +7,7 @@ public class GlobalPlayer : Node
     public Vector2 playerLocation;
     public NodePath enemyPath;
     public Player playerCharacter;
-    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
+    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat;
     public String CharacterClass;
     public Node PC;
     public Node Enemy;
@@ -40,7 +40,9 @@ public class GlobalPlayer : Node
         MaxHealth = playerCharacter.MaxHealth;
         CurrentHealth = playerCharacter.CurrentHealth;
         Level = playerCharacter.Level;
+        ExperienceToNextLevel = playerCharacter.ExperienceToNextLevel;
         nodePaths = new List<NodePath>();
+        baseStat = 5;
     }
 
     public Boolean takeDamage(int damage)
@@ -89,41 +91,40 @@ public class GlobalPlayer : Node
     }
 
     //When character levels up choose a stat to increase;
-    public void LevelUp(String Stat)
+    public void LevelUp(int Stat)
     {
         Level++;
-        if (Stat == "Strength")
+        baseStat += 5;
+        if (Stat == 0)
         {
             Strength++;
-            if (CharacterClass == "Melee")
-            {
-                AttackDamage = 5 + Strength;
-            }
         }
-        else if (Stat == "Dexterity")
+        else if (Stat == 1)
         {
             Dexterity++;
-            if (CharacterClass == "Ranged")
-            {
-                AttackDamage = 5 + Dexterity;
-            }
         }
-        else if (Stat == "Vitality")
+        else if (Stat == 2)
         {
             Vitality++;
-            MaxHealth = 5 + Vitality;
         }
-        else if (Stat == "Intelligence")
+        else if (Stat == 3)
         {
             Intelligence++;
         }
-        else if (Stat == "Luck")
+        else if (Stat == 4)
         {
             Luck++;
         }
+        if (CharacterClass == "Ranged")
+        {
+            AttackDamage += baseStat + Dexterity;
+        }
+        else
+        {
+            AttackDamage += baseStat + Strength;
+        }
+        MaxHealth += baseStat + Vitality;
         CurrentHealth = MaxHealth;
+        ExperienceToNextLevel += 10;
     }
-
-
-
 }
