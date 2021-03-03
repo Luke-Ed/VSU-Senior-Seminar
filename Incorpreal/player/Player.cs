@@ -78,9 +78,14 @@ public class Player : KinematicBody2D {
         //playerSpriteNode = (Sprite)GetNode("Sprite/player");
     }
 
-    public Boolean playTurn()
+    public Boolean attackEnemy()
     {
         return gp.AttackEnemy();
+    }
+
+    public void castSpell()
+    {
+        gp.castSpell();
     }
 
     public override void _PhysicsProcess(float delta)

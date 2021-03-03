@@ -16,31 +16,114 @@ __meta__ = {
 }
 
 [node name="HealthLabel" type="Label" parent="."]
-margin_left = 82.5575
-margin_top = 51.5352
-margin_right = 287.557
-margin_bottom = 125.535
+margin_left = 12.7106
+margin_top = 5.28523
+margin_right = 217.71
+margin_bottom = 79.285
 text = "Health Goes Here"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="EnemyHealth" type="Label" parent="."]
-margin_left = 487.0
-margin_top = 49.0
-margin_right = 611.0
-margin_bottom = 63.0
+margin_left = 485.112
+margin_top = 8.41328
+margin_right = 609.112
+margin_bottom = 22.4133
 text = "Enemy Health Here"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-margin_left = 33.0
-margin_top = 95.0
-margin_right = 619.0
-margin_bottom = 280.0
+margin_left = 13.898
+margin_top = 77.1123
+margin_right = 599.898
+margin_bottom = 268.113
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Attackbtn" type="Button" parent="."]
+visible = false
+margin_left = 115.025
+margin_top = 286.903
+margin_right = 242.025
+margin_bottom = 348.903
+text = "Attack"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spellbtn" type="Button" parent="."]
+visible = false
+margin_left = 267.316
+margin_top = 286.847
+margin_right = 416.316
+margin_bottom = 348.847
+text = "Ghostly Chill (Cost: 5)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Defendbtn" type="Button" parent="."]
+visible = false
+margin_left = 441.587
+margin_top = 286.903
+margin_right = 589.587
+margin_bottom = 347.903
+text = "Defend"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+
+[node name="DeathScreen" type="ColorRect" parent="."]
+visible = false
+margin_right = 639.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="DeathScreen"]
+margin_left = 20.0
+margin_top = 8.49489
+margin_right = 616.765
+margin_bottom = 163.495
+custom_colors/font_color = Color( 1, 0.00392157, 0.00392157, 1 )
+text = "YOU HAVE DIED"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Resetbtn" type="Button" parent="DeathScreen"]
+margin_left = 59.9797
+margin_top = 112.291
+margin_right = 248.98
+margin_bottom = 196.291
+text = "Reset"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quitbtn" type="Button" parent="DeathScreen"]
+margin_left = 403.551
+margin_top = 113.745
+margin_right = 594.551
+margin_bottom = 191.745
+text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Attackbtn" to="." method="_on_Attackbtn_pressed"]
+[connection signal="pressed" from="Spellbtn" to="." method="_on_Spellbtn_pressed"]
+[connection signal="pressed" from="Defendbtn" to="." method="_on_Defendbtn_pressed"]
+[connection signal="pressed" from="DeathScreen/Resetbtn" to="." method="_on_Resetbtn_pressed"]
+[connection signal="pressed" from="DeathScreen/Quitbtn" to="." method="_on_Quitbtn_pressed"]

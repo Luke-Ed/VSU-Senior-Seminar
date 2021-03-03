@@ -7,18 +7,20 @@ public class GlobalPlayer : Node
     public Vector2 playerLocation;
     public NodePath enemyPath;
     public Player playerCharacter;
-    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat;
+    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
     public String CharacterClass;
     public Node PC;
     public Node Enemy;
     public List<NodePath> nodePaths;
     public Label hplabel;
     public string lastScene;
+    public Boolean isDefending = false;
 
     public void updateHealthLabel(Label l)
     {
         hplabel = l;
         String text = "Your Health: " + CurrentHealth + "/" + MaxHealth;
+        text += "\n Spirit Points: " + currentPoints + "/" + spiritPoints;
         if (l != null)
         {
             l.Text = text;
@@ -38,10 +40,12 @@ public class GlobalPlayer : Node
         AttackDamage = playerCharacter.AttackDamage;
         Experience = playerCharacter.Experience;
         MaxHealth = playerCharacter.MaxHealth;
-        CurrentHealth = playerCharacter.CurrentHealth;
+        CurrentHealth = MaxHealth;
         Level = playerCharacter.Level;
         ExperienceToNextLevel = playerCharacter.ExperienceToNextLevel;
         nodePaths = new List<NodePath>();
+        spiritPoints = 5 + Intelligence;
+        currentPoints = spiritPoints;
         baseStat = 5;
     }
 
@@ -90,6 +94,14 @@ public class GlobalPlayer : Node
         }
     }
 
+    public void castSpell ()
+    {
+        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
+        currentPoints -= 5;
+        updateHealthLabel(hplabel);
+        tq.enemyCurrentHP -= Intelligence + 5;
+    }
+
     //When character levels up choose a stat to increase;
     public void LevelUp(int Stat)
     {
@@ -123,8 +135,10 @@ public class GlobalPlayer : Node
         {
             AttackDamage += baseStat + Strength;
         }
-        MaxHealth += baseStat + Vitality;
+        MaxHealth = baseStat + Vitality;
         CurrentHealth = MaxHealth;
+        spiritPoints = baseStat + Intelligence;
+        currentPoints = spiritPoints;
         ExperienceToNextLevel += 10;
     }
 }

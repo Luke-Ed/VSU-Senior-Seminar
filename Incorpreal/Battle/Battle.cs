@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading;
 
 public class Battle : Node
 {
@@ -12,6 +13,9 @@ public class Battle : Node
     public Node enemy;
     public RichTextLabel rtl;
     public Boolean fightOver = false;
+    public Button attackbtn, spellbtn, defendbtn;
+    public Boolean playerActed = true;
+    public Godot.Timer timer;
 
     public Battle()
     {
@@ -31,6 +35,10 @@ public class Battle : Node
         enemyHP = GetNode<Label>("EnemyHealth") as Label;
         rtl = GetNode<RichTextLabel>("RichTextLabel") as RichTextLabel;
         rtl.Text = "You have encountered a(n): " + tq.enemyName + "\n";
+        attackbtn = GetNode<Button>("Attackbtn") as Button;
+        spellbtn = GetNode<Button>("Spellbtn") as Button;
+        defendbtn = GetNode<Button>("Defendbtn") as Button;
+        timer = GetNode<Godot.Timer>("Timer") as Godot.Timer;
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
     }
@@ -64,16 +72,11 @@ public class Battle : Node
         {
             if (currentFighterPos == 0)
             {
-                Boolean didHit = (bool)player.Call("playTurn");
-                if (didHit)
-                {
-                    rtl.Text += "You hit the " + tq.enemyName + "\n";
-                }
-                else
-                {
-                    rtl.Text += "You missed the " + tq.enemyName + "\n";
-                }
-                updateEnemyHealth();
+                gp.isDefending = false;
+                playerActed = false;
+                displayPlayerOptions();
+                rtl.Text += "Choose an action \n";
+                timer.Start();
             }
             else
             {
@@ -94,6 +97,8 @@ public class Battle : Node
                 if (gp.CurrentHealth <= 0)
                 {
                     rtl.Text += "You have lost the fight";
+                    playerActed = false;
+                    GetNode<ColorRect>("DeathScreen").Visible = true;
                 }
                 else
                 {
@@ -113,17 +118,89 @@ public class Battle : Node
         }
     }
 
+    private void displayPlayerOptions()
+    {
+        attackbtn.Visible = !attackbtn.Visible;
+        spellbtn.Visible = !spellbtn.Visible;
+        defendbtn.Visible = !defendbtn.Visible;
+    }
+
     public void changeCurrentFighter()
     {
         currentFighterPos = (currentFighterPos + 1) % tq.combatants.Count;
     }
 
-
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("Continue"))
+        if (playerActed)
         {
-            fight();
+            if (@event.IsActionPressed("Continue"))
+            {
+                fight();
+            }
         }
+    }
+
+    public void _on_Attackbtn_pressed()
+    {
+        float timeLeft = timer.TimeLeft;
+        if (timeLeft > 0)
+        {
+            Boolean didHit = (bool)player.Call("attackEnemy");
+            if (didHit)
+            {
+                rtl.Text += "You hit the " + tq.enemyName + "\n";
+            }
+            else
+            {
+                rtl.Text += "You missed the " + tq.enemyName + "\n";
+            }
+        }
+        playerActed = true;
+        updateEnemyHealth();
+        displayPlayerOptions();
+    }
+
+    public void _on_Spellbtn_pressed()
+    {
+        if (gp.currentPoints >= 5)
+        {
+            float timeLeft = timer.TimeLeft;
+            if (timeLeft > 0)
+            {
+                player.Call("castSpell");
+                rtl.Text += "You cast a spell at the " + tq.enemyName + "\n";
+            }
+            playerActed = true;
+            updateEnemyHealth();
+            displayPlayerOptions();
+        }
+    }
+
+    public void _on_Defendbtn_pressed()
+    {
+        float timeLeft = timer.TimeLeft;
+        if (timeLeft > 0)
+        {
+            gp.isDefending = true;
+            rtl.Text += "You enter a defending stance"+ "\n";
+        }
+        playerActed = true;
+        updateEnemyHealth();
+        displayPlayerOptions();
+    }
+
+    public void _on_Resetbtn_pressed()
+    {
+        gp.playerCharacter = null;
+        gp.playerLocation = new Vector2(324, 179);
+        gp.nodePaths.Clear();
+        gp.createPlayer();
+        GetTree().ChangeScene(gp.lastScene);
+    }
+
+    public void _on_Quitbtn_pressed()
+    {
+        GetTree().Quit();
     }
 }

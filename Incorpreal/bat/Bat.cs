@@ -42,7 +42,14 @@ public class Bat : KinematicBody2D
 
     public Boolean playTurn()
     {
-        return gp.takeDamage(attack);
+        if (!gp.isDefending)
+        {
+            return gp.takeDamage(attack);
+        }
+        else
+        {
+            return gp.takeDamage(attack / 2);
+        }
     }
 
 
