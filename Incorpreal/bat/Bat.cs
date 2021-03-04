@@ -5,21 +5,31 @@ public class Bat : KinematicBody2D
 {
     [Export]
 
-    public int moveSpeed = 50;
+    public int moveSpeed = 150;
     public int attack;
     public int health;
     public int currentHealth;
     public string enemyName;
     public GlobalPlayer gp;
+    public Vector2 velocity;
+    public PhysicsBody2D player;
 
     public override void _PhysicsProcess(float delta)
     {
-        var motion = new Vector2();
-        //Generally bats will not be controlled by the player but for sake of demonstration before enemy AI is added they will be controlled by the arrow keys. 
-        motion.x = Input.GetActionStrength("move_rightTEMP") - Input.GetActionStrength("move_leftTEMP");
-        motion.y = Input.GetActionStrength("move_downTEMP") - Input.GetActionStrength("move_upTEMP");
-
-        MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+       velocity = Vector2.Zero;
+        if (player != null)
+        {
+            velocity = player.GlobalPosition - this.GlobalPosition;
+            if (velocity.x >= velocity.y)
+            {
+                velocity.y = 0;
+            }
+            else
+            {
+                velocity.x = 0;
+            }
+        }
+        MoveAndSlide(velocity.Normalized() * moveSpeed);
     }
 
     public override void _Ready()
@@ -61,6 +71,22 @@ public class Bat : KinematicBody2D
         tq.GetChild(1).Name = enemyName;
         tq.GetChild(1).Call("_Ready");
         GetTree().ChangeScene("res://Battle.tscn");
+    }
+
+    public void _on_Area2D_body_entered(Node body)
+    {
+        if (body.Name == "Player")
+        {
+            player = (PhysicsBody2D)body;
+        }
+    }
+
+    public void _on_Area2D_body_exited(Node body)
+    {
+        if (body.Name == "Player")
+        {
+            player = null;
+        }
     }
 
 }

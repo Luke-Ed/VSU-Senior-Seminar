@@ -146,6 +146,7 @@ public class Battle : Node
         float timeLeft = timer.TimeLeft;
         if (timeLeft > 0)
         {
+            Console.WriteLine("time left " + timeLeft);
             Boolean didHit = (bool)player.Call("attackEnemy");
             if (didHit)
             {
@@ -155,6 +156,10 @@ public class Battle : Node
             {
                 rtl.Text += "You missed the " + tq.enemyName + "\n";
             }
+        }
+        else
+        {
+            rtl.Text += "You heitated too long and the " + tq.enemyName + " attacks!";
         }
         playerActed = true;
         updateEnemyHealth();
@@ -175,6 +180,10 @@ public class Battle : Node
             updateEnemyHealth();
             displayPlayerOptions();
         }
+        else
+        {
+            rtl.Text += "You heitated too long and the " + tq.enemyName + " attacks!";
+        }
     }
 
     public void _on_Defendbtn_pressed()
@@ -183,7 +192,11 @@ public class Battle : Node
         if (timeLeft > 0)
         {
             gp.isDefending = true;
-            rtl.Text += "You enter a defending stance"+ "\n";
+            rtl.Text += "You enter a defending stance" + "\n";
+        }
+        else
+        {
+            rtl.Text += "You heitated too long and the " + tq.enemyName + " attacks!";
         }
         playerActed = true;
         updateEnemyHealth();
