@@ -81,6 +81,11 @@ public class Player : KinematicBody2D {
 
         if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
             ChangeState("Walking");
+            if (motion.x > 0) { //If walking right
+                playerSpriteNode.FlipH = false; //Character faces right
+            } else if (motion.x < 0) { //If walking left
+                playerSpriteNode.FlipH = true; //Character faces left
+            }
         } else {
             ChangeState("Idle");
         }
