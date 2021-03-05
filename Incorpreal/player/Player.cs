@@ -74,7 +74,8 @@ public class Player : KinematicBody2D {
         }
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);
-	    //animate = (AnimationPlayer)GetNode("AnimationPlayer");
+      
+        //animate = (AnimationPlayer)GetNode("AnimationPlayer");
         //playerSpriteNode = (Sprite)GetNode("Sprite/player");
     }
 
