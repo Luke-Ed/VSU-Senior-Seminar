@@ -1,6 +1,8 @@
 using Godot;
 using System;
 
+//Code inspired by GameDevelopmentCenter on YouTube
+
 public class Interactables : TileMap
 {
     //Establish loot area
@@ -9,7 +11,9 @@ public class Interactables : TileMap
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        //Code inspired by GameDevelopmentCenter on YouTube
+        //Establish Signal Connection with CanvasLayer elements
+        CanvasLayer test_looting = (CanvasLayer)GetNode("../Interaction_Console");
+
         //Vector2 to represent 'Closed' chest texture
         Vector2 closed_chest_silver = new Vector2(0, 0);
         Vector2 closed_chest_gold = new Vector2(2, 0);
@@ -26,11 +30,18 @@ public class Interactables : TileMap
                 AddChild(loot_area_instance);
             }
         }
-    }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+        //Get all nodes under the "LootAreas" Group
+        //GetTree gets the SceneTree object that the node is in
+        //GetNodesInGroup retrieves all nodes from a SceneTree that have the supplied group tag
+        Godot.Collections.Array signal_radius = GetTree().GetNodesInGroup("LootAreas");
+
+        //Connect the appropriate signals to each "LootArea"
+        //Signals are "body_entered" and "body_exited"
+        foreach (Area2D area in signal_radius)
+        {
+            area.Connect("body_entered", test_looting, "OnLootAreaEntered");
+            area.Connect("body_exited", test_looting, "OnLootAreaExited");
+        }
+    }
 }
