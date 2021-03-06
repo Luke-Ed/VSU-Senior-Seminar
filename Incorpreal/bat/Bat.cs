@@ -20,9 +20,12 @@ public class Bat : KinematicBody2D
 
     public void Hit()
     {
-        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
-        gp.enemyPath = GetPath();
-        GetTree().ChangeScene("res://Battle.tscn");
+        Sprite playerSprite = (Sprite)GetNode("../Player/Sprite/player"); //Grab player sprite
+        if (playerSprite.Texture.ResourcePath.Equals("res://assets/player.png")) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
+            GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+            gp.enemyPath = GetPath();
+            GetTree().ChangeScene("res://Battle.tscn");
+        }
     }
 
 }

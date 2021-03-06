@@ -110,8 +110,7 @@ public class Player : KinematicBody2D {
                 GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
                 gp.playerLocation = GlobalPosition;
                 collision.Collider.Call("Hit");
-            }
-            if (!movementPossible()) {
+            } else if (!movementPossible()) {
                 stuck = true;
                 teleport();
             }
