@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
     [Export]
@@ -11,14 +12,17 @@ public class Player : KinematicBody2D {
     public CollisionShape2D hitbox;
     public Sprite playerSpriteNode;
     public AnimationPlayer animate;
+    public Area2D possessionArea;
+
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
 
     //Can create two different types of players one with melee stats and the other with ranged.
     //Will be able choose class at the start of the game at a main menu once implemented.
-        public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
+    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
     public String CharacterClass;
+    
     public Player(String Class)
     {
         
@@ -70,6 +74,8 @@ public class Player : KinematicBody2D {
         gp.updateHealthLabel(healthLabel);
         animate = (AnimationPlayer)GetNode("AnimationPlayer");
         playerSpriteNode = (Sprite)GetNode("Sprite/player");
+        hitbox = (CollisionShape2D)GetNode("CollisionShape2D");
+        possessionArea = (Area2D)GetNode("Area2D");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -136,7 +142,6 @@ public class Player : KinematicBody2D {
 
      public void Possess() {
         //1. Check if anyone within range
-        Area2D possessionArea = (Area2D)GetNode("Area2D");
         Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
             float closestDistance = 1000;
             int closestEnemyIndex = 0;
@@ -175,8 +180,25 @@ public class Player : KinematicBody2D {
                     this.SetCollisionLayerBit(0, true);
                     this.SetCollisionMaskBit(3, true);
                 }
-                this.map.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
+                this.map.SpawnEnemy(this.resPath, findOpenPosition(this.GlobalPosition), GetTree().CurrentScene); //Bring original enemy back
                 possessee = null;
             }
+    }
+
+    /* This method finds the closest position to the player in which he could fit. Used to prevent getting stuck in walls w/ possession
+        Vector2 currentPos - The current position of the caller. Accessible using this.GlobalPosition
+        Vector2 newPos - The 
+    */
+    public Vector2 findOpenPosition(Vector2 currentPos) {
+        Vector2 newPos;
+        Godot.Collections.Array bodies = possessionArea.GetOverlappingBodies(); //Grab list of intersecting bodies
+        Godot.Collections.Array areas = possessionArea.GetOverlappingAreas(); //Grab list of intersecting Area2Ds
+        if (bodies.Count == 0 && areas.Count == 0) { //If nothing is present in possessionArea...
+            newPos = this.GlobalPosition; //Return current position
+        } else { //If area not empty
+            
+            newPos = possessionArea.; //Return nearest empty area
+        }
+        return newPos;
     }
 }
