@@ -18,7 +18,7 @@ public class Player : KinematicBody2D {
 
     //Can create two different types of players one with melee stats and the other with ranged.
     //Will be able choose class at the start of the game at a main menu once implemented.
-        public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
+    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
     public String CharacterClass;
     public Player(String Class)
     {
@@ -46,6 +46,7 @@ public class Player : KinematicBody2D {
         MaxHealth = 5 + Vitality;
         CurrentHealth = MaxHealth;
         Level = 1;
+        ExperienceToNextLevel = 10;
     }
 
     public Player()
@@ -73,13 +74,19 @@ public class Player : KinematicBody2D {
         }
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);
-	animate = (AnimationPlayer)GetNode("AnimationPlayer");
-        playerSpriteNode = (Sprite)GetNode("Sprite/player");
+      
+        //animate = (AnimationPlayer)GetNode("AnimationPlayer");
+        //playerSpriteNode = (Sprite)GetNode("Sprite/player");
     }
 
-    public int playTurn()
+    public Boolean attackEnemy()
     {
         return gp.AttackEnemy();
+    }
+
+    public void castSpell()
+    {
+        gp.castSpell();
     }
 
     public override void _PhysicsProcess(float delta)
@@ -88,13 +95,13 @@ public class Player : KinematicBody2D {
         //Player will use WASD to move their character
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-	
+	/*
 	if (!motion.x.Equals(0) || !motion.y.Equals(0)) { //For Player animations
             ChangeState("Walking");
         } else {
             ChangeState("Idle");
         }
-
+    */
         MoveAndCollide(motion.Normalized() * moveSpeed * delta);
 
         var collision = MoveAndCollide(motion.Normalized() * delta);
@@ -104,6 +111,7 @@ public class Player : KinematicBody2D {
             if (collision.Collider.HasMethod("Hit"))
             {
                 gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                gp.lastScene = GetTree().CurrentScene.Filename;
                 gp.playerLocation = GlobalPosition;
                 collision.Collider.Call("Hit");
             }

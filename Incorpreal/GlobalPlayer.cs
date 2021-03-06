@@ -7,17 +7,20 @@ public class GlobalPlayer : Node
     public Vector2 playerLocation;
     public NodePath enemyPath;
     public Player playerCharacter;
-    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
+    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
     public String CharacterClass;
     public Node PC;
     public Node Enemy;
     public List<NodePath> nodePaths;
     public Label hplabel;
+    public string lastScene;
+    public Boolean isDefending = false;
 
     public void updateHealthLabel(Label l)
     {
         hplabel = l;
         String text = "Your Health: " + CurrentHealth + "/" + MaxHealth;
+        text += "\n Spirit Points: " + currentPoints + "/" + spiritPoints;
         if (l != null)
         {
             l.Text = text;
@@ -37,32 +40,39 @@ public class GlobalPlayer : Node
         AttackDamage = playerCharacter.AttackDamage;
         Experience = playerCharacter.Experience;
         MaxHealth = playerCharacter.MaxHealth;
-        CurrentHealth = playerCharacter.CurrentHealth;
+        CurrentHealth = MaxHealth;
         Level = playerCharacter.Level;
+        ExperienceToNextLevel = playerCharacter.ExperienceToNextLevel;
         nodePaths = new List<NodePath>();
+        spiritPoints = 5 + Intelligence;
+        currentPoints = spiritPoints;
+        baseStat = 5;
     }
 
-    public void takeDamage(int damage)
+    public Boolean takeDamage(int damage)
     {
         Random random = new Random();
         int roll = random.Next(101);
         if (roll >= 100 - Intelligence)
         {
-            CurrentHealth -= damage;
-        }
-        if ((CurrentHealth - damage) <= 0)
-        {
-            CurrentHealth = 0;
+            return false;
         }
         else
         {
+            if ((CurrentHealth - damage) <= 0)
+            {
+                CurrentHealth = 0;
+                return true;
+            }
             CurrentHealth -= damage;
+            return true;
         }
     }
 
     //Returns the amount of damage done if you are able to hit
-    public int AttackEnemy()
+    public Boolean AttackEnemy()
     {
+        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
         Random random = new Random();
         int roll = random.Next(101);
         //Checking to make sure the ghost can hit the enemy based on intelligence
@@ -71,52 +81,64 @@ public class GlobalPlayer : Node
             //Checking for critical hit based on luck
             if (roll >= 100 - Luck)
             {
-                return AttackDamage * 2;
+                tq.enemyCurrentHP -= AttackDamage * 2;
+                return true;
             }
-            return AttackDamage;
+            tq.enemyCurrentHP -= AttackDamage;
+            return true;
         }
         else
         {
-            return 0;
+            tq.enemyCurrentHP -= 0;
+            return false;
         }
+    }
+
+    public void castSpell ()
+    {
+        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
+        currentPoints -= 5;
+        updateHealthLabel(hplabel);
+        tq.enemyCurrentHP -= Intelligence + 5;
     }
 
     //When character levels up choose a stat to increase;
-    public void LevelUp(String Stat)
+    public void LevelUp(int Stat)
     {
         Level++;
-        if (Stat == "Strength")
+        baseStat += 5;
+        if (Stat == 0)
         {
             Strength++;
-            if (CharacterClass == "Melee")
-            {
-                AttackDamage = 5 + Strength;
-            }
         }
-        else if (Stat == "Dexterity")
+        else if (Stat == 1)
         {
             Dexterity++;
-            if (CharacterClass == "Ranged")
-            {
-                AttackDamage = 5 + Dexterity;
-            }
         }
-        else if (Stat == "Vitality")
+        else if (Stat == 2)
         {
             Vitality++;
-            MaxHealth = 5 + Vitality;
         }
-        else if (Stat == "Intelligence")
+        else if (Stat == 3)
         {
             Intelligence++;
         }
-        else if (Stat == "Luck")
+        else if (Stat == 4)
         {
             Luck++;
         }
+        if (CharacterClass == "Ranged")
+        {
+            AttackDamage += baseStat + Dexterity;
+        }
+        else
+        {
+            AttackDamage += baseStat + Strength;
+        }
+        MaxHealth = baseStat + Vitality;
         CurrentHealth = MaxHealth;
+        spiritPoints = baseStat + Intelligence;
+        currentPoints = spiritPoints;
+        ExperienceToNextLevel += 10;
     }
-
-
-
 }
