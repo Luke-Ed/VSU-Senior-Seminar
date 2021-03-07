@@ -6,22 +6,23 @@ public class Player : KinematicBody2D {
     [Export]
 
     public int moveSpeed = 125;
-    public PhysicsBody2D possessee = null;
-    public string resPath;
+    public PhysicsBody2D possessee = null;	
+    public string resPath;	
     public Map map = new Map();
     public Area2D hitbox;
     public Sprite playerSpriteNode;
     public AnimationPlayer animate;
     public Area2D possessionArea;
     public Boolean stuck;
-
+    public GlobalPlayer gp;
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
 
     //Can create two different types of players one with melee stats and the other with ranged.
     //Will be able choose class at the start of the game at a main menu once implemented.
-    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage;
+    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
+
     public String CharacterClass;
     
     public Player(String Class)
@@ -50,6 +51,7 @@ public class Player : KinematicBody2D {
         MaxHealth = 5 + Vitality;
         CurrentHealth = MaxHealth;
         Level = 1;
+        ExperienceToNextLevel = 10;
     }
 
     public Player()
@@ -60,16 +62,20 @@ public class Player : KinematicBody2D {
 
     public override void _Ready()
     {
-        ResourceLoader.Load("res://Game.tscn");
-        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        //Eventually a main menu will already have a character made for the player
+        //This is for demonstration purposes
         if (gp.playerCharacter == null)
         {
             gp.createPlayer();
         }
-        if (gp.playerLocation != null && gp.enemyPath != null)
+        if (gp.playerLocation != null && gp.nodePaths.Count > 0)
         {
             GlobalPosition = gp.playerLocation;
-            GetParent().GetNode(gp.enemyPath).QueueFree();
+            for (int i = 0; i < gp.nodePaths.Count; i++)
+            {
+                GetParent().GetNode(gp.nodePaths[i]).QueueFree();
+            }
         }
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);
@@ -78,6 +84,16 @@ public class Player : KinematicBody2D {
         hitbox = (Area2D)GetNode("findEmptyPosArea2D");
         possessionArea = (Area2D)GetNode("Area2D");
         stuck = false;
+    }
+
+    public Boolean attackEnemy()
+    {
+        return gp.AttackEnemy();
+    }
+
+    public void castSpell()
+    {
+        gp.castSpell();
     }
 
     public override void _PhysicsProcess(float delta)
@@ -98,25 +114,24 @@ public class Player : KinematicBody2D {
         } else {
             ChangeState("Idle");
         }
-
-        MoveAndCollide(motion.Normalized() * moveSpeed * delta);
-
+        
         var collision = MoveAndCollide(motion.Normalized() * delta);
 
         if (collision != null)
         {
             if (collision.Collider.HasMethod("Hit"))
             {
-                GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                gp.lastScene = GetTree().CurrentScene.Filename;
                 gp.playerLocation = GlobalPosition;
                 collision.Collider.Call("Hit");
             } else if (!movementPossible()) {
                 stuck = true;
                 teleport();
             }
-        }      
+        }        
     }
-
+	
     //Possession listener
     public override void _Input(InputEvent @event)
     {
@@ -124,27 +139,27 @@ public class Player : KinematicBody2D {
             Possess();
         }
     }
-
-	// Imported from Elijah's branch, and matched names, and styles
-	public void ChangeState(string newState) {
-	  switch (newState) {
-		case "Idle": {
-		  animate.Play("Idle");
-		  break;
-		}
-		case "Dead": {
-		  animate.Play("Die");
-          break;
-		}
-		case "Walking": {
-		  animate.Play("Walking");
-		  break;
-		}
-		default: {
-		  break;
-		}
+	
+    public void ChangeState(string newState)
+    {
+        switch (newState) {
+	      case "Idle": {
+		      animate.Play("Idle");
+		      break;
+	      }
+	      case "Dead": {
+	        animate.Play("Die");
+	        break;
+	      }
+	      case "Walking": {
+          animate.Play("Walking");
+	        break;
+	      }
+	      default: {
+	        break;
+	      }
 	  }
-	}
+}
 
     public void Possess() {
         //1. Check if anyone within range
