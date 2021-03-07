@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/wall.png" type="Texture" id=2]
@@ -9,9 +9,45 @@
 [ext_resource path="res://Game.cs" type="Script" id=7]
 [ext_resource path="res://sounds/test.wav" type="AudioStream" id=8]
 
-[sub_resource type="RectangleShape2D" id=1]
+<<<<<<< HEAD
+<<<<<<< HEAD
+[sub_resource type="CSharpScript" id=1]
+resource_name = "Game"
+script/source = "using Godot;
+using System;
+
+public class Game : Node
+{
+	// Declare member variables here. Examples:
+	// private int a = 2;
+	// private string b = \"text\";
+
+	// Called when the node enters the scene tree for the first time.
+	public override void _Ready()
+	{
+		
+	}
+
+//  // Called every frame. 'delta' is the elapsed time since the previous frame.
+//  public override void _Process(float delta)
+//  {
+//      
+//  }
+}
+"
 
 [sub_resource type="RectangleShape2D" id=2]
+=======
+[sub_resource type="RectangleShape2D" id=1]
+>>>>>>> a94664dd71043a8f9958c9feaa8f3ac6b704422e
+extents = Vector2( 32, 31 )
+=======
+[sub_resource type="RectangleShape2D" id=1]
+>>>>>>> e563d02f3920b26623a34fd946d9c2190512e436
+
+[sub_resource type="RectangleShape2D" id=2]
+
+[sub_resource type="RectangleShape2D" id=3]
 
 [node name="Game" type="Node"]
 script = ExtResource( 7 )
@@ -33,6 +69,7 @@ texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
 position = Vector2( -0.446198, 1.22806 )
+shape = SubResource( 1 )
 
 [node name="Ghost Wall" type="StaticBody2D" parent="."]
 position = Vector2( 284.523, 160.101 )
@@ -47,7 +84,7 @@ texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ghost Wall"]
 position = Vector2( -0.2182, -0.40642 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 one_way_collision_margin = 0.0
 
 [node name="Bat" parent="." instance=ExtResource( 4 )]
@@ -68,7 +105,7 @@ texture = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Low Wall"]
 position = Vector2( 3.5636, 0 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Bear" parent="." instance=ExtResource( 6 )]
 position = Vector2( 241.315, 359.239 )

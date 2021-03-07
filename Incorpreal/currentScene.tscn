@@ -19,15 +19,23 @@ script = ExtResource( 5 )
 
 [node name="Map" parent="." instance=ExtResource( 8 )]
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Ghost Wall" index="2"]
+position = Vector2( -0.2182, -3.0761 )
+shape = SubResource( 1 )
+one_way_collision_margin = 0.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Wall" index="2"]
+position = Vector2( 0.553802, 1.22806 )
+shape = SubResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Low Wall" index="2"]
+position = Vector2( 3.5636, 0 )
+shape = SubResource( 3 )
+
 [node name="Ghost Wall" type="StaticBody2D" parent="Map"]
 position = Vector2( 104.896, 97.94 )
 collision_layer = 4
 collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Ghost Wall"]
-position = Vector2( -0.2182, -3.0761 )
-shape = SubResource( 1 )
-one_way_collision_margin = 0.0
 
 [node name="Player" type="KinematicBody2D" parent="Map"]
 position = Vector2( 496.998, 200.727 )
@@ -37,10 +45,6 @@ script = ExtResource( 7 )
 [node name="Wall" type="StaticBody2D" parent="Map"]
 position = Vector2( 337.127, 90.1103 )
 collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Wall"]
-position = Vector2( 0.553802, 1.22806 )
-shape = SubResource( 2 )
 
 [node name="Bat" type="KinematicBody2D" parent="Map"]
 position = Vector2( 560.776, 227.161 )
@@ -52,9 +56,5 @@ script = ExtResource( 4 )
 [node name="Low Wall" type="StaticBody2D" parent="Map"]
 position = Vector2( 630.756, 106.017 )
 collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Low Wall"]
-position = Vector2( 3.5636, 0 )
-shape = SubResource( 3 )
 
 [editable path="Map"]

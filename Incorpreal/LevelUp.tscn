@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://LevelUp.cs" type="Script" id=1]
+
+[node name="Node" type="Node"]
+script = ExtResource( 1 )
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 4.23785
+margin_top = 5.29732
+margin_right = 639.238
+margin_bottom = 95.2973
+text = "You leveled up!
+Pick which stat you would like to increase."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="OptionButton" parent="."]
+margin_left = 10.5946
+margin_top = 50.8542
+margin_right = 113.595
+margin_bottom = 70.8542
+text = "Strength"
+items = [ "Strength", null, false, 0, null, "Dexterity", null, false, 1, null, "Vitality", null, false, 2, null, "Intelligence", null, false, 3, null, "Luck", null, false, 4, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="."]
+margin_left = 130.314
+margin_top = 41.3191
+margin_right = 210.314
+margin_bottom = 83.3191
+text = "Level Up!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
