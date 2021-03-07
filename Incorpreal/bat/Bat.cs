@@ -65,12 +65,15 @@ public class Bat : KinematicBody2D
 
     public void Hit()
     {
-        NodePath np = GetPath();
-        gp.nodePaths.Add(np);
-        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
-        tq.GetChild(1).Name = enemyName;
-        tq.GetChild(1).Call("_Ready");
-        GetTree().ChangeScene("res://Battle.tscn");
+        Sprite playerSprite = (Sprite)GetNode("../Player/Sprite/player"); //Grab player sprite
+        if (playerSprite.Texture.ResourcePath.Equals("res://assets/player.png")) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
+            NodePath np = GetPath();
+            gp.nodePaths.Add(np);
+            TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
+            tq.GetChild(1).Name = enemyName;
+            tq.GetChild(1).Call("_Ready");
+            GetTree().ChangeScene("res://Battle.tscn");
+        }
     }
 
     public void _on_Area2D_body_entered(Node body)

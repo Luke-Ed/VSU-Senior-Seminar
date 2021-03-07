@@ -4,7 +4,7 @@
 [ext_resource path="res://player/Player.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 31.0796, 33.0225 )
+extents = Vector2( 32, 32 )
 
 [sub_resource type="Animation" id=2]	
 resource_name = "Dying"	
@@ -63,6 +63,11 @@ collision_mask = 2147483659
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="findEmptyPosArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="findEmptyPosArea2D"]
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
