@@ -19,18 +19,18 @@ extents = Vector2( 33.125, 32.75 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 32, 31 )
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 91.815, 74.6025 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 31.919, 32.0566 )
 
-[sub_resource type="Curve2D" id=5]
+[sub_resource type="Curve2D" id=6]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 227.004, 282.389, 0, 0, 0, 0, 124.236, 282.389, 0, 0, 0, 0, -16.6721, 283.449, 0, 0, 0, 0, -114.143, 280.27, 0, 0, 0, 0, -162.878, 281.33, 0, 0, 0, 0, -169.235, 342.779, 0, 0, 0, 0, 232.302, 339.6, 0, 0, 0, 0, 227.004, 283.449 )
 }
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 83.9726, 70.7614 )
 
 [node name="Game" type="Node"]
@@ -68,11 +68,12 @@ position = Vector2( 292, 69 )
 shape = SubResource( 2 )
 
 [node name="Bear" type="KinematicBody2D" parent="Map"]
-position = Vector2( 93, 67 )
+position = Vector2( 98.9932, 35.5355 )
 collision_layer = 16
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Map/Bear"]
+position = Vector2( -4.49493, 0 )
 
 [node name="bear" type="Sprite" parent="Map/Bear/Sprite"]
 position = Vector2( 15.6818, 119.065 )
@@ -89,7 +90,7 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Bear/Area2D"]
 position = Vector2( 20.0226, 124.14 )
-shape = SubResource( 7 )
+shape = SubResource( 4 )
 
 [node name="Player" parent="Map" instance=ExtResource( 3 )]
 position = Vector2( 324.854, 179.058 )
@@ -109,7 +110,7 @@ texture = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Low Wall"]
 position = Vector2( 447, 45 )
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 
 [node name="HealthLabel" type="Label" parent="Map"]
 margin_left = 323.288
@@ -123,11 +124,11 @@ __meta__ = {
 
 [node name="Path2D" type="Path2D" parent="Map"]
 position = Vector2( 245.795, -3.17834 )
-curve = SubResource( 5 )
+curve = SubResource( 6 )
 script = ExtResource( 9 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Map/Path2D"]
-position = Vector2( 256.37, 249.018 )
+position = Vector2( 227.004, 282.389 )
 rotation = 3.14159
 rotate = false
 
@@ -152,7 +153,7 @@ shape = SubResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Path2D/PathFollow2D/Bat/Area2D"]
 position = Vector2( -65.1873, -115.217 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 [connection signal="body_entered" from="Map/Bear/Area2D" to="Map/Bear" method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Map/Bear/Area2D" to="Map/Bear" method="_on_Area2D_body_exited"]
 [connection signal="body_entered" from="Map/Path2D/PathFollow2D/Bat/Area2D" to="Map/Path2D/PathFollow2D/Bat" method="_on_Area2D_body_entered"]

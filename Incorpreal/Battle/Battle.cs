@@ -43,12 +43,6 @@ public class Battle : Node
         updateEnemyHealth();
     }
 
-    //This is just for demo expamples to not get stuck on battle screen.
-    public void _on_Button_pressed()
-    {
-        GetTree().ChangeScene(gp.lastScene);
-    }
-
     public void _on_TakeDamageButton_pressed()
     {
         GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
@@ -146,7 +140,6 @@ public class Battle : Node
         float timeLeft = timer.TimeLeft;
         if (timeLeft > 0)
         {
-            Console.WriteLine("time left " + timeLeft);
             Boolean didHit = (bool)player.Call("attackEnemy");
             if (didHit)
             {
