@@ -7,7 +7,8 @@ public class Interaction : CanvasLayer
     //Will likely be replaced by an Enum as code grows more complex
     String action_state = "off";
 
-    //
+    //The loot_area to be disabled after interaction
+    Area2D loot_area;
 
     //Variables to hold current tile texture and location
     Vector2 tile;
