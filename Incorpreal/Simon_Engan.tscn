@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+[ext_resource path="res://Simon.cs" type="Script" id=2]
+
+[node name="SimonGame" type="Node"]
+script = ExtResource( 2 )
+
+[node name="Button1" type="Button" parent="."]
+margin_left = 100.673
+margin_top = 109.572
+margin_right = 186.673
+margin_bottom = 179.572
+text = "1"
+icon = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="."]
+margin_left = 381.637
+margin_top = 120.103
+margin_right = 467.637
+margin_bottom = 190.103
+text = "2"
+icon = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button3" type="Button" parent="."]
+margin_left = 101.022
+margin_top = 235.717
+margin_right = 187.022
+margin_bottom = 305.717
+text = "3"
+icon = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button4" type="Button" parent="."]
+margin_left = 382.759
+margin_top = 234.595
+margin_right = 468.759
+margin_bottom = 304.595
+text = "4"
+icon = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Order" type="Label" parent="."]
+margin_left = 228.982
+margin_top = 37.0412
+margin_right = 336.982
+margin_bottom = 79.0412
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+[connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="Button3" to="." method="_on_Button3_pressed"]
+[connection signal="pressed" from="Button4" to="." method="_on_Button4_pressed"]
