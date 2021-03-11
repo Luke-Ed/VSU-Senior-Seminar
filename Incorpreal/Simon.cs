@@ -10,23 +10,49 @@ public class Simon : Node
     public int count = 0;
     public List<Button> buttons = new List<Button>();
     public List<int> userAnswer = new List<int>();
+    public ColorRect battlePage;
+    public ColorRect simonPage;
+
+
+
+    public Simon()
+    {
+
+    }
+
     public override void _Ready()
     {
-        var random = new Random();
-        orderLabel = GetNode<Label>("Order");
-        timer = GetNode<Timer>("Timer");
+        battlePage = GetParent().GetNode<ColorRect>("BattlePage");
+        simonPage = GetNode<ColorRect>("HideButtons");
+        orderLabel = simonPage.GetChild(4) as Label;
+        timer = GetNode<Timer>("Timer") as Timer;
         timer.Connect("timeout", this, "onTimeout");
         timer.WaitTime = 3;
+    }
+
+    public void startMinigame()
+    {
+        restartCode();
+        battlePage.Visible = false;
+        simonPage.Visible = true;
+        timer.Start();
+    }
+
+    public void restartCode()
+    {
+        combination.Clear();
+        userAnswer.Clear();
+        buttons.Clear();
+        count = 0;
+        var random = new Random();
         for (int i = 0; i < 4; i++)
         {
-            string tempButtonName = "Button" + (i + 1).ToString();
-            Button tempButton = GetNode<Button>(tempButtonName);
+            Button tempButton = simonPage.GetChild(i) as Button;
             buttons.Add(tempButton);
             tempButton.Disabled = true;
-           int temp = random.Next(1, 5);
-            combination.Add(temp);   
+            int temp = random.Next(1, 5);
+            combination.Add(temp);
         }
-        timer.Start();
     }
 
     public void onTimeout()
@@ -56,6 +82,7 @@ public class Simon : Node
 
     public void checkAnswer()
     {
+        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
         Boolean isCorrect = true;
         for (int i = 0; i < 4; i++)
         {
@@ -66,12 +93,14 @@ public class Simon : Node
         }
         if (isCorrect)
         {
-            orderLabel.Text = "Correct!";
+            gp.didBlock = true;
         }
         else
         {
-            orderLabel.Text = "Incorrect!";
+            gp.didBlock = false;
         }
+        battlePage.Visible = true;
+        simonPage.Visible = false;
         timer.Stop();
     }
 

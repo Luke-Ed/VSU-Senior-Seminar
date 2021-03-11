@@ -48,7 +48,14 @@ public class Bat : KinematicBody2D
         }
         else
         {
-            return gp.takeDamage(attack / 2);
+            if (gp.didBlock)
+            {
+                return gp.takeDamage(0);
+            }
+            else
+            {
+                return gp.takeDamage(attack / 2);
+            }
         }
     }
 

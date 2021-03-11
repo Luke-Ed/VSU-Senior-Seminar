@@ -6,7 +6,15 @@
 [node name="SimonGame" type="Node"]
 script = ExtResource( 2 )
 
-[node name="Button1" type="Button" parent="."]
+[node name="HideButtons" type="ColorRect" parent="."]
+margin_right = 635.0
+margin_bottom = 360.0
+color = Color( 0, 0, 0, 0.0117647 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button1" type="Button" parent="HideButtons"]
 margin_left = 100.673
 margin_top = 109.572
 margin_right = 186.673
@@ -17,7 +25,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button2" type="Button" parent="."]
+[node name="Button2" type="Button" parent="HideButtons"]
 margin_left = 381.637
 margin_top = 120.103
 margin_right = 467.637
@@ -28,7 +36,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button3" type="Button" parent="."]
+[node name="Button3" type="Button" parent="HideButtons"]
 margin_left = 101.022
 margin_top = 235.717
 margin_right = 187.022
@@ -39,7 +47,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button4" type="Button" parent="."]
+[node name="Button4" type="Button" parent="HideButtons"]
 margin_left = 382.759
 margin_top = 234.595
 margin_right = 468.759
@@ -50,7 +58,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Order" type="Label" parent="."]
+[node name="Order" type="Label" parent="HideButtons"]
 margin_left = 228.982
 margin_top = 37.0412
 margin_right = 336.982
@@ -60,7 +68,7 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="."]
-[connection signal="pressed" from="Button1" to="." method="_on_Button1_pressed"]
-[connection signal="pressed" from="Button2" to="." method="_on_Button2_pressed"]
-[connection signal="pressed" from="Button3" to="." method="_on_Button3_pressed"]
-[connection signal="pressed" from="Button4" to="." method="_on_Button4_pressed"]
+[connection signal="pressed" from="HideButtons/Button1" to="." method="_on_Button1_pressed"]
+[connection signal="pressed" from="HideButtons/Button2" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="HideButtons/Button3" to="." method="_on_Button3_pressed"]
+[connection signal="pressed" from="HideButtons/Button4" to="." method="_on_Button4_pressed"]
