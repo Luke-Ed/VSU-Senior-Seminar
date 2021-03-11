@@ -67,7 +67,7 @@ public class Player : KinematicBody2D {
             GlobalPosition = gp.playerLocation;
             GetParent().GetNode(gp.enemyPath).QueueFree();
         }
-        var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
+        var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label; //This line is giving us the "HealthLabel not found" error
         gp.updateHealthLabel(healthLabel);
     }
 
