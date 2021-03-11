@@ -8,18 +8,20 @@ public class Interaction : CanvasLayer
     String action_state = "off";
 
     //The loot_area to be disabled after interaction
-    Area2D loot_area;
+    //Area2D loot_area_import;
 
     //Variables to hold current tile texture and location
     Vector2 tile;
     Vector2 tile_region;
-    Vector2 flip_tile = new Vector2(2,0);
+    Vector2 open_chest = new Vector2(2,0);
     Godot.Collections.Array<Vector2> usedTiles = new Godot.Collections.Array<Vector2>();
 
+    //Empty constructor for use in other scripts
     public Interaction() {
 
     }
 
+    //
     public override void _Process(float delta) {
         if(Input.IsActionJustPressed("interact")) {
             //Respond based on the action_state
@@ -43,19 +45,26 @@ public class Interaction : CanvasLayer
         }
     }
 
+    //Please just ignore, it's just a setter
     public void setUsedTiles(Godot.Collections.Array<Vector2> tiles) {
         usedTiles = tiles;
     }
+
+    /*
+    public void setDisabledLootArea(Area2D openedChest) {
+        loot_area_import = openedChest;
+    }
+    */
     
-    //When the player enters a loot area, print "Looting"
+    //When the player enters a loot_area, print "Looting"
     public void OnLootAreaEntered(Area2D area) {
         action_state = "on";
-        tile = (Vector2)usedTiles[0];
-        tile_region = (Vector2)usedTiles[1] + flip_tile;
+        tile = (Vector2)usedTiles[0]; //Pass the current tile ingame to the process method
+        tile_region = (Vector2)usedTiles[1] + open_chest; //Pass the Vector2 and change the texture to the "open chest" texture
         GD.Print("Looting");
     }
 
-    //When the player leaves a loot area, print "Leaving"
+    //When the player leaves a loot_area, print "Leaving"
     public void OnLootAreaExited(Area2D area) {
         action_state = "off";
         GD.Print("Leaving");
