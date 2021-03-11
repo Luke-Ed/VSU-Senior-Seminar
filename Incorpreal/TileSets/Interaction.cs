@@ -10,7 +10,7 @@ public class Interaction : CanvasLayer
     String action_state = "off";
 
     //The loot_area to be disabled after interaction
-    //Area2D loot_area_import;
+    //Area2D loot_area_import = ;
 
     //Variables to hold current tile texture and location
     Vector2 tile;
