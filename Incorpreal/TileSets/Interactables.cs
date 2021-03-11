@@ -56,6 +56,7 @@ public class Interactables : TileMap
             //Connect(String signal, Node signal_handler, String method_name)
         }
 
+        //Poor boy, all on his lonesome. Need to pass attributes here in C# cause GDScript doesn't. IDFK man.
         inter.setUsedTiles(usedTileAndTextures);
     }
 }

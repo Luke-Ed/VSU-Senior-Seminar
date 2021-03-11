@@ -21,7 +21,6 @@ public class Interaction : CanvasLayer
 
     }
 
-    //
     public override void _Process(float delta) {
         if(Input.IsActionJustPressed("interact")) {
             //Respond based on the action_state
