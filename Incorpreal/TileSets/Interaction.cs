@@ -62,12 +62,8 @@ namespace Incorpreal.TileSets {
     }
 
     //Please just ignore, it's just a setter
-    public void AddUsedTiles(Vector2 used_tile) {
-      usedTiles.Add(used_tile);
-    }
-
-    public void AddUsedTextures(Vector2 used_texture) {
-      usedTextures.Add(used_texture);
+    public void setUsedTiles(Godot.Collections.Array<Vector2> used_tile) {
+        usedTiles = (used_tile);
     }
 
     public void SetDisabledLootArea(Area2D openedChest) {
