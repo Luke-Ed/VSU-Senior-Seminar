@@ -30,9 +30,7 @@ public class Bat : KinematicBody2D
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 31.7732, 32.3348 )
 
-[node name="Bat" type="KinematicBody2D" groups=[
-"Enemies",
-]]
+[node name="Bat" type="KinematicBody2D"]
 position = Vector2( 145.216, 312.705 )
 script = SubResource( 1 )
 
