@@ -47,8 +47,8 @@ public class Interaction : CanvasLayer
     }
 
     //Please just ignore, it's just a setter
-    public void setUsedTiles(Vector2 used_tile) {
-        usedTiles.add(used_tile);
+    public void setUsedTiles(Godot.Collections.Array<Vector2> used_tile) {
+        usedTiles = (used_tile);
     }
     //Side note: maybe instead of getting the whole array, I can add each tile used to an array and work through each
     //That should aid the issue of multiplicity. (It only works for one chest on the map. I'm still working on it.)
