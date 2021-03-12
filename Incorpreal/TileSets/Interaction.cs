@@ -50,9 +50,6 @@ public class Interaction : CanvasLayer
     public void setUsedTiles(Godot.Collections.Array<Vector2> used_tile) {
         usedTiles = (used_tile);
     }
-    //Side note: maybe instead of getting the whole array, I can add each tile used to an array and work through each
-    //That should aid the issue of multiplicity. (It only works for one chest on the map. I'm still working on it.)
-    //I spent four days trying not to lose my mind with this GDScript tutorial and converting it to C#
 
     /*
     public void setDisabledLootArea(Area2D openedChest) {
