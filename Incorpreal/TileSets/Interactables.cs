@@ -19,7 +19,7 @@ public class Interactables : TileMap
         CanvasLayer output_console = (CanvasLayer)GetNode("../Interaction_Console");
         Interaction inter = GetNode("../Interaction_Console") as Interaction; //This miracle line of code says "load node A as a script"
 
-        //Vector2 to represent 'Closed' chest texture
+        //Vector2 to represent 'Closed' chest textures
         Vector2 closed_chest_silver = new Vector2(0, 0);
         Vector2 closed_chest_gold = new Vector2(2, 0);
 
