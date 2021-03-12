@@ -15,6 +15,6 @@ public class Target : StaticBody2D
 
     public void Hit()
     {
-        QueueFree();
+        Visible = false;
     }
 }

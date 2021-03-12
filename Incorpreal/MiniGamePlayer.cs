@@ -6,13 +6,15 @@ public class MiniGamePlayer : KinematicBody2D
     Node HitTargetNode;
     Timer timer;
     Boolean onCooldown = false;
+    ColorRect targetPage;
 
     public override void _Ready()
     {
         HitTargetNode = GetParent();
-        timer = HitTargetNode.GetNode<Timer>("Timer");
+        timer = HitTargetNode.GetNode<Timer>("ShotCooldown");
         timer.WaitTime = 1;
         timer.Connect("timeout", this, "onTimeout");
+        targetPage = (ColorRect)GetParent();
     }
 
     public override void _PhysicsProcess(float delta)
@@ -36,7 +38,7 @@ public class MiniGamePlayer : KinematicBody2D
     {
         if (@event.IsActionPressed("shoot"))
         {
-            if (!onCooldown)
+            if (!onCooldown && targetPage.Visible == true)
             {
                 PackedScene projectile = (PackedScene)ResourceLoader.Load("res://Bullet.tscn");
                 var bullet = projectile.Instance();

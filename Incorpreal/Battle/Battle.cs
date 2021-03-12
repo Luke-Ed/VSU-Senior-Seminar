@@ -18,6 +18,8 @@ public class Battle : Node
     public ColorRect battlePage;
     public ColorRect SimonPage;
     public Simon s;
+    public Godot.Timer timer;
+    public HitTheTarget_Engan HitTheTarget;
 
     public Battle()
     {
@@ -27,6 +29,7 @@ public class Battle : Node
     public override void _Ready()
     {
         s = (Simon)GetNode("SimonGame");
+        HitTheTarget = (HitTheTarget_Engan)GetNode("HitTheTarget_Engan");
         battlePage = GetNode<ColorRect>("BattlePage");
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
         tq = (TurnQueue)GetNode("/root/Tq");
@@ -42,6 +45,9 @@ public class Battle : Node
         attackbtn = battlePage.GetNode<Button>("Attackbtn") as Button;
         spellbtn = battlePage.GetNode<Button>("Spellbtn") as Button;
         defendbtn = battlePage.GetNode<Button>("Defendbtn") as Button;
+        timer = battlePage.GetNode<Godot.Timer>("Timer") as Godot.Timer;
+        timer.WaitTime = 20;
+        timer.Connect("timeout", this, "onTimeout");
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
     }
@@ -66,6 +72,7 @@ public class Battle : Node
                 playerActed = false;
                 displayPlayerOptions();
                 rtl.Text += "Choose an action \n";
+                timer.Start();
             }
             else
             {
@@ -136,6 +143,7 @@ public class Battle : Node
 
     public void _on_Attackbtn_pressed()
     {
+        timer.Stop();
         Boolean didHit = (bool)player.Call("attackEnemy");
         if (didHit)
         {
@@ -152,24 +160,34 @@ public class Battle : Node
 
     public void _on_Spellbtn_pressed()
     {
+        timer.Stop();
         if (gp.currentPoints >= 5)
         {
                 player.Call("castSpell");
                 rtl.Text += "You cast a spell at the " + tq.enemyName + "\n";
         }
             playerActed = true;
+            HitTheTarget.minigameStart();
             updateEnemyHealth();
             displayPlayerOptions();
     }
 
     public void _on_Defendbtn_pressed()
     {
+        timer.Stop();
         gp.isDefending = true;
         rtl.Text += "You enter a defending stance" + "\n";
         playerActed = true;
         s.startMinigame();
         updateEnemyHealth();
         displayPlayerOptions();
+    }
+
+    public void onTimeout()
+    {
+        displayPlayerOptions();
+        rtl.Text += "You spent too long and the " + tq.enemyName + " attacks!\n";
+        playerActed = true;
     }
 
     public void _on_Resetbtn_pressed()
