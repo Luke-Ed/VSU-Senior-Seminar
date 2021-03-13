@@ -1,8 +1,7 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://bat/Bat.cs" type="Script" id=4]
 [ext_resource path="res://Walls/Wall.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/bat.png" type="Texture" id=6]
@@ -49,13 +48,10 @@ __meta__ = {
 position = Vector2( 111.118, 207.95 )
 
 [node name="Player" parent="." instance=ExtResource( 10 )]
-position = Vector2( 112.392, 296.556 )
+position = Vector2( 285.921, 213.796 )
 
 [node name="Ghost Wall" parent="." instance=ExtResource( 2 )]
 position = Vector2( 122.523, 109.101 )
-
-[node name="Bat2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 435.756, 217.633 )
 
 [node name="Bat" type="KinematicBody2D" parent="."]
 position = Vector2( 93, 67 )
@@ -84,7 +80,6 @@ pause_mode = 2
 layer = 128
 
 [node name="Pause" type="Control" parent="PauseMenu"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 8 )

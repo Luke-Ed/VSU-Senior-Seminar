@@ -215,7 +215,8 @@ public class Player : KinematicBody2D {
         return movementPossible;
     }
 
-    //This method allows the player to teleport if they get stuck in a wall or between impassible objects, by clicking where you want to go
+    //This method allows the player to teleport if they get stuck in a wall or between impassible objects,
+    //by clicking where you want to go
     public void teleport() {
         if (Input.IsActionJustReleased("left_click")) {
             Vector2 mousePos = GetViewport().GetMousePosition();
