@@ -4,3 +4,15 @@ Bat
 Bear
 5
 60
+Goblin
+10
+40
+Skeleton
+20
+10
+Snake
+4
+10
+Wolf
+8
+20

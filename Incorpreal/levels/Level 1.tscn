@@ -13,7 +13,6 @@ script = ExtResource( 7 )
 
 [node name="Player" parent="." instance=ExtResource( 4 )]
 position = Vector2( 523.363, 357.056 )
-rotation = 0.0
 collision_layer = 3
 collision_mask = 0
 
