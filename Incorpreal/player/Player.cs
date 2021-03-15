@@ -78,11 +78,11 @@ public class Player : KinematicBody2D {
         }
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
         gp.updateHealthLabel(healthLabel);
-        animate = (AnimationPlayer)GetNode("AnimationPlayer");
-        playerSpriteNode = (Sprite)GetNode("Sprite/player");
-        hitbox = (Area2D)GetNode("findEmptyPosArea2D");
-        possessionArea = (Area2D)GetNode("Area2D");
-        stuck = false;
+            animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
+            playerSpriteNode = (Sprite)GetNode("Sprite/player");
+            hitbox = (Area2D)GetNode("findEmptyPosArea2D");
+            possessionArea = (Area2D)GetNode("Area2D");
+            stuck = false;
     }
 
     public Boolean attackEnemy()
@@ -102,9 +102,11 @@ public class Player : KinematicBody2D {
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
+        MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+
         if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
             stuck = false;
-            ChangeState("Walking");
+           ChangeState("Walking");
             if (motion.x > 0) { //If walking right
                 playerSpriteNode.FlipH = false; //Character faces right
             } else if (motion.x < 0) { //If walking left
@@ -113,8 +115,9 @@ public class Player : KinematicBody2D {
         } else {
             ChangeState("Idle");
         }
+
         
-        var collision = MoveAndCollide(motion.Normalized() * delta);
+        var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
 
         if (collision != null)
         {
@@ -193,6 +196,7 @@ public class Player : KinematicBody2D {
             //Possession animation here (optional)
             playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
+            gp.isPossesing = true;
         } else if (possessee != null) { //Else if already possessing, undo it
             playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
             this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
@@ -202,6 +206,7 @@ public class Player : KinematicBody2D {
             }
             this.map.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
             possessee = null;
+            gp.isPossesing = false;
         }
     } 
 

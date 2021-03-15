@@ -8,6 +8,7 @@
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 736, 1176 )
 z_index = 1
+script = null
 
 [node name="BaseLayer" type="TileMap" parent="."]
 tile_set = ExtResource( 1 )

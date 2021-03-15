@@ -17,6 +17,7 @@ public class GlobalPlayer : Node
     public Boolean isDefending = false;
     public Boolean didBlock = false;
     public Boolean perfectSpell = false;
+    public Boolean isPossesing = false;
 
     public void updateHealthLabel(Label l)
     {
