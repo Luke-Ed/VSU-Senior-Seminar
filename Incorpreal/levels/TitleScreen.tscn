@@ -61,3 +61,7 @@ custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
 text = "QUIT
 "
 align = 1
+[connection signal="mouse_entered" from="Menu/StartLabel" to="." method="_on_StartLabel_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/StartLabel" to="." method="_on_StartLabel_mouse_exited"]
+[connection signal="mouse_entered" from="Menu/QuitLabel" to="." method="_on_QuitLabel_mouse_entered"]
+[connection signal="mouse_exited" from="Menu/QuitLabel" to="." method="_on_QuitLabel_mouse_exited"]
