@@ -15,6 +15,8 @@ public class GlobalPlayer : Node
     public Label hplabel;
     public string lastScene;
     public Boolean isDefending = false;
+    public Boolean didBlock = false;
+    public Boolean perfectSpell = false;
 
     public void updateHealthLabel(Label l)
     {
