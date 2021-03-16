@@ -11,25 +11,15 @@ public class Bat : KinematicBody2D
     public int currentHealth;
     public string enemyName;
     public GlobalPlayer gp;
-    public Vector2 velocity;
-    public PhysicsBody2D player;
+    public KinematicBody2D player;
 
     public override void _PhysicsProcess(float delta)
     {
-       velocity = Vector2.Zero;
         if (player != null)
         {
-            velocity = player.GlobalPosition - this.GlobalPosition;
-            if (velocity.x >= velocity.y)
-            {
-                velocity.y = 0;
-            }
-            else
-            {
-                velocity.x = 0;
-            }
+            Vector2 velocity = GlobalPosition.DirectionTo(player.GlobalPosition);
+            MoveAndCollide(velocity * moveSpeed * delta);
         }
-        MoveAndSlide(velocity.Normalized() * moveSpeed);
     }
 
     public override void _Ready()
@@ -58,15 +48,21 @@ public class Bat : KinematicBody2D
         }
         else
         {
-            return gp.takeDamage(attack / 2);
+            if (gp.didBlock)
+            {
+                return gp.takeDamage(0);
+            }
+            else
+            {
+                return gp.takeDamage(attack / 2);
+            }
         }
     }
 
 
     public void Hit()
-    {
-        Sprite playerSprite = (Sprite)GetNode("../Player/Sprite/player"); //Grab player sprite
-        if (playerSprite.Texture.ResourcePath.Equals("res://assets/player.png")) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
+    { 
+        if (!gp.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
             NodePath np = GetPath();
             gp.nodePaths.Add(np);
             TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
@@ -80,7 +76,7 @@ public class Bat : KinematicBody2D
     {
         if (body.Name == "Player")
         {
-            player = (PhysicsBody2D)body;
+            player = (KinematicBody2D)body;
         }
     }
 

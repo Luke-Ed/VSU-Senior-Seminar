@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Ghost Sound ooo.wav-972aec97c5661fbcc6d06c35c7a5b033.sample"
+
+[deps]
+
+source_file="res://sounds/Ghost Sound ooo.wav"
+dest_files=[ "res://.import/Ghost Sound ooo.wav-972aec97c5661fbcc6d06c35c7a5b033.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

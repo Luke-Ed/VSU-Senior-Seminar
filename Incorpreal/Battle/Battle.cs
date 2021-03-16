@@ -15,7 +15,11 @@ public class Battle : Node
     public Boolean fightOver = false;
     public Button attackbtn, spellbtn, defendbtn;
     public Boolean playerActed = true;
+    public ColorRect battlePage;
+    public ColorRect SimonPage;
+    public Simon s;
     public Godot.Timer timer;
+    public HitTheTarget_Engan HitTheTarget;
 
     public Battle()
     {
@@ -24,6 +28,9 @@ public class Battle : Node
 
     public override void _Ready()
     {
+        s = (Simon)GetNode("SimonGame");
+        HitTheTarget = (HitTheTarget_Engan)GetNode("HitTheTarget_Engan");
+        battlePage = GetNode<ColorRect>("BattlePage");
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
         tq = (TurnQueue)GetNode("/root/Tq");
         tq.combatants = tq.getCombatants();
@@ -31,30 +38,18 @@ public class Battle : Node
         player = (Node)tq.combatants[0] as KinematicBody2D;
         enemy = (Node)tq.combatants[1] as KinematicBody2D;
         currentFighterPos = 0;
-        playerHP = GetNode<Label>("HealthLabel") as Label;
-        enemyHP = GetNode<Label>("EnemyHealth") as Label;
-        rtl = GetNode<RichTextLabel>("RichTextLabel") as RichTextLabel;
+        playerHP = battlePage.GetNode<Label>("HealthLabel") as Label;
+        enemyHP = battlePage.GetNode<Label>("EnemyHealth") as Label;
+        rtl = battlePage.GetNode<RichTextLabel>("RichTextLabel") as RichTextLabel;
         rtl.Text = "You have encountered a(n): " + tq.enemyName + "\n";
-        attackbtn = GetNode<Button>("Attackbtn") as Button;
-        spellbtn = GetNode<Button>("Spellbtn") as Button;
-        defendbtn = GetNode<Button>("Defendbtn") as Button;
-        timer = GetNode<Godot.Timer>("Timer") as Godot.Timer;
+        attackbtn = battlePage.GetNode<Button>("Attackbtn") as Button;
+        spellbtn = battlePage.GetNode<Button>("Spellbtn") as Button;
+        defendbtn = battlePage.GetNode<Button>("Defendbtn") as Button;
+        timer = battlePage.GetNode<Godot.Timer>("Timer") as Godot.Timer;
+        timer.WaitTime = 20;
+        timer.Connect("timeout", this, "onTimeout");
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
-    }
-
-    //This is just for demo expamples to not get stuck on battle screen.
-    public void _on_Button_pressed()
-    {
-        GetTree().ChangeScene(gp.lastScene);
-    }
-
-    public void _on_TakeDamageButton_pressed()
-    {
-        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
-        gp.takeDamage(5);
-        var healthLabel = GetNode<Label>("HealthLabel") as Label;
-        gp.updateHealthLabel(healthLabel);
     }
 
     public void updateEnemyHealth()
@@ -73,6 +68,7 @@ public class Battle : Node
             if (currentFighterPos == 0)
             {
                 gp.isDefending = false;
+                gp.didBlock = false;
                 playerActed = false;
                 displayPlayerOptions();
                 rtl.Text += "Choose an action \n";
@@ -84,6 +80,10 @@ public class Battle : Node
                 if (didHit)
                 {
                     rtl.Text += "You got hit by the " + tq.enemyName + "\n";
+                    if (gp.didBlock)
+                    {
+                        rtl.Text += "but you blocked perfectly!" + "\n";
+                    }
                 }
                 else
                 {
@@ -132,7 +132,7 @@ public class Battle : Node
 
     public override void _Input(InputEvent @event)
     {
-        if (playerActed)
+        if (playerActed && battlePage.Visible)
         {
             if (@event.IsActionPressed("Continue"))
             {
@@ -143,23 +143,15 @@ public class Battle : Node
 
     public void _on_Attackbtn_pressed()
     {
-        float timeLeft = timer.TimeLeft;
-        if (timeLeft > 0)
+        timer.Stop();
+        Boolean didHit = (bool)player.Call("attackEnemy");
+        if (didHit)
         {
-            Console.WriteLine("time left " + timeLeft);
-            Boolean didHit = (bool)player.Call("attackEnemy");
-            if (didHit)
-            {
-                rtl.Text += "You hit the " + tq.enemyName + "\n";
-            }
-            else
-            {
-                rtl.Text += "You missed the " + tq.enemyName + "\n";
-            }
+            rtl.Text += "You hit the " + tq.enemyName + "\n";
         }
         else
         {
-            rtl.Text += "You heitated too long and the " + tq.enemyName + " attacks!";
+            rtl.Text += "You missed the " + tq.enemyName + "\n";
         }
         playerActed = true;
         updateEnemyHealth();
@@ -168,39 +160,34 @@ public class Battle : Node
 
     public void _on_Spellbtn_pressed()
     {
+        timer.Stop();
         if (gp.currentPoints >= 5)
         {
-            float timeLeft = timer.TimeLeft;
-            if (timeLeft > 0)
-            {
                 player.Call("castSpell");
                 rtl.Text += "You cast a spell at the " + tq.enemyName + "\n";
-            }
+        }
             playerActed = true;
+            HitTheTarget.minigameStart();
             updateEnemyHealth();
             displayPlayerOptions();
-        }
-        else
-        {
-            rtl.Text += "You heitated too long and the " + tq.enemyName + " attacks!";
-        }
     }
 
     public void _on_Defendbtn_pressed()
     {
-        float timeLeft = timer.TimeLeft;
-        if (timeLeft > 0)
-        {
-            gp.isDefending = true;
-            rtl.Text += "You enter a defending stance" + "\n";
-        }
-        else
-        {
-            rtl.Text += "You heitated too long and the " + tq.enemyName + " attacks!";
-        }
+        timer.Stop();
+        gp.isDefending = true;
+        rtl.Text += "You enter a defending stance" + "\n";
         playerActed = true;
+        s.startMinigame();
         updateEnemyHealth();
         displayPlayerOptions();
+    }
+
+    public void onTimeout()
+    {
+        displayPlayerOptions();
+        rtl.Text += "You spent too long and the " + tq.enemyName + " attacks!\n";
+        playerActed = true;
     }
 
     public void _on_Resetbtn_pressed()
