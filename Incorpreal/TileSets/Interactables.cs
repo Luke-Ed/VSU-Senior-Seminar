@@ -51,8 +51,8 @@ public class Interactables : TileMap
         //Signals are "body_entered" and "body_exited"
         foreach (Area2D area in signal_emitters)
         {
-            area.Connect("body_entered", output_console, "OnLootAreaEntered");
-            area.Connect("body_exited", output_console, "OnLootAreaExited");
+            area.Connect("body_entered", inter, "OnLootAreaEntered");
+            area.Connect("body_exited", inter, "OnLootAreaExited");
             //Connect(String signal, Node signal_handler, String method_name)
         }
 
