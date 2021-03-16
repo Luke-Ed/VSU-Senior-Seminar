@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Player : KinematicBody2D {
     [Export]
 
-    public int moveSpeed = 125;
+    public int moveSpeed = 100;
     public PhysicsBody2D possessee = null;	
     public string resPath;	
     public Map map = new Map();
@@ -57,7 +57,6 @@ public class Player : KinematicBody2D {
     {
 
     }
-
 
     public override void _Ready()
     {
