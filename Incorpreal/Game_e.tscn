@@ -151,3 +151,5 @@ __meta__ = {
 [connection signal="gui_input" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_exited"]
+
+[editable path="Player"]
