@@ -164,6 +164,7 @@ shape = SubResource( 5 )
 offset = Vector2( 0, -0.667321 )
 
 [node name="player" type="Sprite" parent="Map/Player/Sprite"]
+position = Vector2( 1.05945, -1.05948 )
 texture = ExtResource( 10 )
 offset = Vector2( 0, -0.317424 )
 

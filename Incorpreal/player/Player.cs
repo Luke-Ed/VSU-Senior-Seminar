@@ -97,39 +97,50 @@ public class Player : KinematicBody2D {
 
     public override void _PhysicsProcess(float delta)
     {
-        var motion = new Vector2();
-        //Player will use WASD to move their character
-        motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-        motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-
-        MoveAndCollide(motion.Normalized() * moveSpeed * delta);
-
-        if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
-            stuck = false;
-           ChangeState("Walking");
-            if (motion.x > 0) { //If walking right
-                playerSpriteNode.FlipH = false; //Character faces right
-            } else if (motion.x < 0) { //If walking left
-                playerSpriteNode.FlipH = true; //Character faces left
-            }
-        } else {
-            ChangeState("Idle");
-        }
-
-        
-        var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
-
-        if (collision != null)
+        if (Visible)
         {
-            if (collision.Collider.HasMethod("Hit"))
+            var motion = new Vector2();
+            //Player will use WASD to move their character
+            motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+            motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+
+            MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+
+            if (!motion.x.Equals(0) || !motion.y.Equals(0))
             {
-                gp = (GlobalPlayer)GetNode("/root/GlobalData");
-                gp.lastScene = GetTree().CurrentScene.Filename;
-                gp.playerLocation = GlobalPosition;
-                collision.Collider.Call("Hit");
-            } else if (!movementPossible()) {
-                stuck = true;
-                teleport();
+                stuck = false;
+                ChangeState("Walking");
+                if (motion.x > 0)
+                { //If walking right
+                    playerSpriteNode.FlipH = false; //Character faces right
+                }
+                else if (motion.x < 0)
+                { //If walking left
+                    playerSpriteNode.FlipH = true; //Character faces left
+                }
+            }
+            else
+            {
+                ChangeState("Idle");
+            }
+
+
+            var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
+
+            if (collision != null)
+            {
+                if (collision.Collider.HasMethod("Hit"))
+                {
+                    gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                    gp.lastScene = GetTree().CurrentScene.Filename;
+                    gp.playerLocation = GlobalPosition;
+                    collision.Collider.Call("Hit");
+                }
+                else if (!movementPossible())
+                {
+                    stuck = true;
+                    teleport();
+                }
             }
         }        
     }
