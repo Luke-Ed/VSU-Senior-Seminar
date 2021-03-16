@@ -139,7 +139,7 @@ public class Player : KinematicBody2D {
         }
     }
 	
-    public void ChangeState(string newState)
+    public void ChangeState(String newState)
     {
         switch (newState) {
 	      case "Idle": {
