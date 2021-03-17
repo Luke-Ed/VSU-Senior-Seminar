@@ -76,8 +76,6 @@ public class Player : KinematicBody2D {
                 GetParent().GetNode(gp.nodePaths[i]).QueueFree();
             }
         }
-        var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
-        gp.updateHealthLabel(healthLabel);
             animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
             playerSpriteNode = (Sprite)GetNode("Sprite/player");
             hitbox = (Area2D)GetNode("findEmptyPosArea2D");
@@ -215,7 +213,7 @@ public class Player : KinematicBody2D {
                 this.SetCollisionLayerBit(0, true);
                 this.SetCollisionMaskBit(3, true);
             }
-            this.map.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
+            //this.map.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
             possessee = null;
             gp.isPossesing = false;
         }

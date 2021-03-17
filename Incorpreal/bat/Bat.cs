@@ -76,7 +76,7 @@ public class Bat : KinematicBody2D
     {
         if (body.Name == "Player")
         {
-            player = (KinematicBody2D)body;
+            //player = (KinematicBody2D)body;
         }
     }
 

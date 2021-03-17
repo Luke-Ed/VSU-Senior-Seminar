@@ -12,5 +12,5 @@ height = 1.0732
 position = Vector2( 1, 18 )
 shape = SubResource( 1 )
 
-[node name="snake" type="Sprite" parent="."]
+[node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )

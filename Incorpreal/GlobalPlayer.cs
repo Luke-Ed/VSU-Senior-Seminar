@@ -21,7 +21,6 @@ public class GlobalPlayer : Node
 
     public void updateHealthLabel(Label l)
     {
-        hplabel = l;
         String text = "Your Health: " + CurrentHealth + "/" + MaxHealth;
         text += "\n Spirit Points: " + currentPoints + "/" + spiritPoints;
         if (l != null)

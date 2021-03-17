@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://assets/wall.png" type="Texture" id=1]
 [ext_resource path="res://assets/ghostwall.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://assets/bear.png" type="Texture" id=8]
 [ext_resource path="res://Path2D.cs" type="Script" id=9]
 [ext_resource path="res://assets/player.png" type="Texture" id=10]
+[ext_resource path="res://Map.cs" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 33, 33 )
@@ -95,6 +96,7 @@ __meta__ = {
 }
 
 [node name="Map" type="Node2D" parent="."]
+script = ExtResource( 11 )
 
 [node name="Ghost Wall" type="StaticBody2D" parent="Map"]
 collision_layer = 4
@@ -122,16 +124,15 @@ texture = ExtResource( 1 )
 position = Vector2( 292, 69 )
 shape = SubResource( 2 )
 
-[node name="Bear" type="KinematicBody2D" parent="Map"]
-position = Vector2( 98.9932, 35.5355 )
+[node name="Bear" type="KinematicBody2D" parent="Map" groups=[
+"Enemies",
+]]
+position = Vector2( 80.0944, 53.1744 )
 collision_layer = 16
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Map/Bear"]
-position = Vector2( -4.49493, 0 )
-
-[node name="bear" type="Sprite" parent="Map/Bear/Sprite"]
-position = Vector2( 15.6818, 119.065 )
+position = Vector2( 15.6995, 119.772 )
 texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Bear"]
@@ -220,17 +221,16 @@ position = Vector2( 227.004, 282.389 )
 rotation = 3.14159
 rotate = false
 
-[node name="Bat" type="KinematicBody2D" parent="Map/Path2D/PathFollow2D"]
+[node name="Bat" type="KinematicBody2D" parent="Map/Path2D/PathFollow2D" groups=[
+"Enemies",
+]]
 position = Vector2( 91.9406, 67 )
 collision_layer = 16
 script = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="Map/Path2D/PathFollow2D/Bat"]
-
-[node name="bat" type="Sprite" parent="Map/Path2D/PathFollow2D/Bat/Sprite"]
-position = Vector2( -68.8881, -114.567 )
-rotation = -3.15032
-scale = Vector2( 1.01655, 0.966892 )
+position = Vector2( -67.7134, -118.226 )
+rotation = -3.14159
 texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Map/Path2D/PathFollow2D/Bat"]

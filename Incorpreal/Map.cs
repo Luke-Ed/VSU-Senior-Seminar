@@ -3,10 +3,13 @@ using System;
 
 public class Map : Node2D
 {
-    public Vector2 playerPostion;
+    
     public override void _Ready()
     {
-        
+        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        var healthLabel = GetNode<Label>("HealthLabel") as Label;
+        gp.hplabel = healthLabel;
+        gp.updateHealthLabel(gp.hplabel);
     }
     
     /* This method spawns an enemy into the given scene at the given position
