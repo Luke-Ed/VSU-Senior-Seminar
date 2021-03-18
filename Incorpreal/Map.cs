@@ -17,10 +17,11 @@ public class Map : Node2D
         position - A Vector2 to serve as spawn location. Can be accessed like this: Vector2 originalPlayerPos = this.GlobalPosition;
         currentScene - The scene which SpawnEnemy() was called from. Can be accessed like this: GetTree().CurrentScene
     */
-    public void SpawnEnemy(string resPath, Vector2 position, Node currentScene) {
+    public void SpawnEnemy(string resPath, Vector2 position, Node currentScene, String oldName) {
         PackedScene enemyScene = (PackedScene) ResourceLoader.Load(resPath); //Load resource
         KinematicBody2D enemy = (KinematicBody2D)enemyScene.Instance(); //Instantiate
         currentScene.AddChild(enemy); //Add to scene
+        enemy.Name = oldName;
         enemy.GlobalPosition = position; //Set to original position
     }
 }

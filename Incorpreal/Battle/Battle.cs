@@ -194,7 +194,7 @@ public class Battle : Node
     {
         gp.playerCharacter = null;
         gp.playerLocation = new Vector2(324, 179);
-        gp.nodePaths.Clear();
+        gp.enemyFought.Clear();
         gp.createPlayer();
         GetTree().ChangeScene(gp.lastScene);
     }

@@ -41,8 +41,11 @@ public class MiniGamePlayer : KinematicBody2D
             if (!onCooldown && targetPage.Visible == true)
             {
                 PackedScene projectile = (PackedScene)ResourceLoader.Load("res://Bullet.tscn");
-                var bullet = projectile.Instance();
-                AddChildBelowNode(GetParent().GetParent(), bullet);
+                KinematicBody2D bullet = (KinematicBody2D)projectile.Instance();
+                Vector2 bulletPosition = this.Position;
+                bulletPosition.x += 15;
+                bullet.Position = bulletPosition;
+                GetTree().CurrentScene.AddChild(bullet);
                 onCooldown = true;
                 timer.Start();
             }
