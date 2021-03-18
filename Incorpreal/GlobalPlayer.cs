@@ -11,7 +11,7 @@ public class GlobalPlayer : Node
     public String CharacterClass;
     public Node PC;
     public Node Enemy;
-    public List<NodePath> nodePaths;
+    public List<String> enemyFought;
     public Label hplabel;
     public string lastScene;
     public Boolean isDefending = false;
@@ -21,7 +21,6 @@ public class GlobalPlayer : Node
 
     public void updateHealthLabel(Label l)
     {
-        hplabel = l;
         String text = "Your Health: " + CurrentHealth + "/" + MaxHealth;
         text += "\n Spirit Points: " + currentPoints + "/" + spiritPoints;
         if (l != null)
@@ -46,7 +45,7 @@ public class GlobalPlayer : Node
         CurrentHealth = MaxHealth;
         Level = playerCharacter.Level;
         ExperienceToNextLevel = playerCharacter.ExperienceToNextLevel;
-        nodePaths = new List<NodePath>();
+        enemyFought = new List<String>();
         spiritPoints = 5 + Intelligence;
         currentPoints = spiritPoints;
         baseStat = 5;

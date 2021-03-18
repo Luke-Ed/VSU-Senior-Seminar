@@ -63,8 +63,7 @@ public class Bat : KinematicBody2D
     public void Hit()
     { 
         if (!gp.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
-            NodePath np = GetPath();
-            gp.nodePaths.Add(np);
+            gp.enemyFought.Add(this.Name);
             TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
             tq.GetChild(1).Name = enemyName;
             tq.GetChild(1).Call("_Ready");
@@ -76,7 +75,7 @@ public class Bat : KinematicBody2D
     {
         if (body.Name == "Player")
         {
-            player = (KinematicBody2D)body;
+            //player = (KinematicBody2D)body;
         }
     }
 
