@@ -1,0 +1,28 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=3]
+[ext_resource path="res://player/Player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Walls/Wall.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=6]
+[ext_resource path="res://bat/Bat.cs" type="Script" id=8]
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+position = Vector2( 523.363, 357.056 )
+collision_layer = 3
+collision_mask = 0
+
+[node name="Wall" parent="." instance=ExtResource( 5 )]
+
+[node name="Ghost Wall" parent="." instance=ExtResource( 2 )]
+position = Vector2( 284.92, 192.246 )
+
+[node name="Low Wall" parent="." instance=ExtResource( 3 )]
+
+[node name="Bear" parent="." instance=ExtResource( 1 )]
+position = Vector2( 241.315, 359.239 )
+
+[node name="Bat" parent="." instance=ExtResource( 6 )]
+position = Vector2( 812.811, 322.003 )
+script = ExtResource( 8 )
