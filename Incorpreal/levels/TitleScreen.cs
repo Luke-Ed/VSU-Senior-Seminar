@@ -7,9 +7,6 @@ public class TitleScreen : Control
     public Label QuitLabel;
     public Boolean StartEntered = false;
     public Boolean QuitEntered = false;
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -37,9 +34,4 @@ public class TitleScreen : Control
         QuitLabel.AddColorOverride("font_color", Colors.DarkGray);
         QuitEntered = false;
     }
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
 }
