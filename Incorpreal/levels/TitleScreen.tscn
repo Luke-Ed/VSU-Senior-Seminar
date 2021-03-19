@@ -1,0 +1,64 @@
+[gd_scene load_steps=7 format=2]
+
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://assets/mrsmonster.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 75
+font_data = SubResource( 1 )
+
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://assets/mrsmonster.ttf"
+
+[sub_resource type="DynamicFont" id=4]
+size = 51
+font_data = SubResource( 3 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://assets/mrsmonster.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 51
+font_data = SubResource( 5 )
+
+[node name="TitleScreen" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Menu" type="VBoxContainer" parent="."]
+margin_left = 60.0
+margin_top = 40.0
+margin_right = 580.0
+margin_bottom = 320.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Logo" type="Label" parent="Menu"]
+margin_right = 520.0
+margin_bottom = 81.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 0.678431, 0, 0, 1 )
+text = "INCORPOREAL"
+align = 1
+
+[node name="StartLabel" type="Label" parent="Menu"]
+margin_top = 85.0
+margin_right = 520.0
+margin_bottom = 141.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+text = "Start"
+align = 1
+
+[node name="QuitLabel" type="Label" parent="Menu"]
+margin_top = 145.0
+margin_right = 520.0
+margin_bottom = 201.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+text = "QUIT"
+align = 1
