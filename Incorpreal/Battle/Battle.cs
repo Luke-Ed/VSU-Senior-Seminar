@@ -122,6 +122,14 @@ public class Battle : Node
     {
         attackbtn.Visible = !attackbtn.Visible;
         spellbtn.Visible = !spellbtn.Visible;
+        if (gp.currentPoints < 5)
+        {
+            spellbtn.Disabled = true;
+        }
+        else
+        {
+            spellbtn.Disabled = false;
+        }
         defendbtn.Visible = !defendbtn.Visible;
     }
 
@@ -161,15 +169,12 @@ public class Battle : Node
     public void _on_Spellbtn_pressed()
     {
         timer.Stop();
-        if (gp.currentPoints >= 5)
-        {
-                player.Call("castSpell");
-                rtl.Text += "You cast a spell at the " + tq.enemyName + "\n";
-        }
-            playerActed = true;
-            HitTheTarget.minigameStart();
-            updateEnemyHealth();
-            displayPlayerOptions();
+        player.Call("castSpell");
+        rtl.Text += "You cast a spell at the " + tq.enemyName + "\n";
+        playerActed = true;
+        HitTheTarget.minigameStart();
+        updateEnemyHealth();
+        displayPlayerOptions();
     }
 
     public void _on_Defendbtn_pressed()
