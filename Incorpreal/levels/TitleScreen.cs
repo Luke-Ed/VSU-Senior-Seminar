@@ -34,4 +34,16 @@ public class TitleScreen : Control
         QuitLabel.AddColorOverride("font_color", Colors.DarkGray);
         QuitEntered = false;
     }
+
+    public void _on_QuitLabel_gui_input(InputEvent @event) {
+        if (QuitEntered && @event is InputEventMouseButton) {
+            GetTree().Quit();
+        }
+    }
+
+    public void _on_StartLabel_gui_input(InputEvent @event) {
+        if (StartEntered && @event is InputEventMouseButton) {
+            GetTree().ChangeScene(); //Need to remake level1 first
+        }
+    }
 }
