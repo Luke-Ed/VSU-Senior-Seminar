@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://levels/TitleScreen.cs" type="Script" id=1]
+[ext_resource path="res://assets/TitleScreenPic.png" type="Texture" id=2]
 
 [sub_resource type="DynamicFontData" id=1]
 font_path = "res://assets/mrsmonster.ttf"
@@ -31,6 +32,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 319.989, 180.008 )
+scale = Vector2( 0.333375, 0.333358 )
+texture = ExtResource( 2 )
+
 [node name="Logo" type="Label" parent="."]
 margin_left = 60.0
 margin_top = 40.0
@@ -40,6 +46,9 @@ custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0.678431, 0, 0, 1 )
 text = "INCORPOREAL"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StartLabel" type="Label" parent="."]
 anchor_left = 0.5
