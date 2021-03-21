@@ -13,6 +13,7 @@ public class HitTheTarget_Engan : Node
     public RichTextLabel rbl;
     public Timer timer;
     public Boolean minigamePlaying = false;
+    public Vector2 startingPos;
 
 
     public override void _Ready()
@@ -31,21 +32,20 @@ public class HitTheTarget_Engan : Node
         timer = targetPage.GetNode<Timer>("GameTImer");
         timer.Connect("timeout", this, "onTimeout");
         timer.WaitTime = 10;
+        startingPos = player.Position;
     }
 
     public void minigameStart()
     {
         targetPage.Visible = true;
         battlePage.Visible = false;
-        if (numberOfTargets == 0)
+        foreach (StaticBody2D target in targets)
         {
-            foreach (StaticBody2D target in targets)
-            {
-                target.Visible = true;
-            }
+            target.Visible = true;
         }
         numberOfTargets = 4;
         minigamePlaying = true;
+        player.Position = startingPos;
         timer.Start();
     }
 
