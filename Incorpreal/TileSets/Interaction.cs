@@ -17,6 +17,7 @@ public class Interaction : CanvasLayer
     Vector2 tile_region;
     Vector2 open_chest = new Vector2(2,0);
     Godot.Collections.Array<Vector2> usedTiles = new Godot.Collections.Array<Vector2>();
+    Godot.Collections.Array<Vector2> usedTextures = new Godot.Collections.Array<Vector2>();
 
     //Empty constructor for use in other scripts
     public Interaction() {
@@ -47,8 +48,12 @@ public class Interaction : CanvasLayer
     }
 
     //Please just ignore, it's just a setter
-    public void setUsedTiles(Godot.Collections.Array<Vector2> used_tile) {
-        usedTiles = (used_tile);
+    public void addUsedTiles(Vector2 used_tile) {
+        usedTiles.Add(used_tile);
+    }
+
+    public void addUsedTextures(Vector2 used_texture) {
+        usedTextures.Add(used_texture);
     }
 
     /*
@@ -61,7 +66,7 @@ public class Interaction : CanvasLayer
     public void OnLootAreaEntered(Area2D area) {
         action_state = "on";
         tile = (Vector2)usedTiles[0]; //Pass the current tile ingame to the process method
-        tile_region = (Vector2)usedTiles[1] + open_chest; //Pass the Vector2 and change the texture to the "open chest" texture
+        tile_region = (Vector2)usedTextures[0] + open_chest; //Pass the Vector2 and change the texture to the "open chest" texture
         GD.Print("Looting");
     }
 

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://RPGWorlds-Cave.tres" type="TileSet" id=1]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="BaseLayer" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 32, 32 )
+cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
+format = 1
