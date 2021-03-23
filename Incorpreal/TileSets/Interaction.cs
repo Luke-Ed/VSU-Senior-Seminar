@@ -9,17 +9,14 @@ public class Interaction : CanvasLayer
     //Will likely be replaced by an Enum as code grows more complex
     String action_state = "off";
 
-    //The loot_area to be disabled after interaction
-    //Area2D loot_area_import;
+    //The loot_areas to be disabled after the chest opens
     Godot.Collections.Array<Area2D> loot_areas = new Godot.Collections.Array<Area2D>();
     
-    /*
-    Chests are loaded from left to right, top to bottom. 
-    Chests in the upper left corner are loaded before lower right.
-    I should be able to work backward from an integer count of how many chests
-    are on the map if I am extremely careful
-    int chest_count = 0;
-    */
+    
+    // Chests are loaded from left to right, top to bottom. 
+    // Chests in the upper left corner are loaded before lower right.
+    // Tracking passed textures works out better than number of chests!
+    int chest_texture = 0;
 
     //Variables to hold current tile texture and location
     Vector2 tile;
@@ -47,6 +44,13 @@ public class Interaction : CanvasLayer
                     TileMap changeMap = (TileMap)GetNode("../Interactables");
                     changeMap.SetCell((int)tile[0], (int)tile[1], 22, false, false, false, tile_region);
                     //SetCell(int x, int y, int tile, boolean flip_x, boolean flip_y, boolean transpose, Vector2 autotileCoordinates)
+
+                    CollisionShape2D disable_chest = (CollisionShape2D)(GetNode(((String)(loot_areas[chest_texture].GetPath() + "/CollisionShape2D"))));
+                    disable_chest.Disabled = true;
+                    //Disable the collision box for this chest
+
+                    chest_texture++;
+                    //Switch to next chest
                     break;
 
                 default:
@@ -73,8 +77,8 @@ public class Interaction : CanvasLayer
     //When the player enters a loot_area, print "Looting"
     public void OnLootAreaEntered(Area2D area) {
         action_state = "on";
-        tile = (Vector2)usedTiles[0]; //Pass the current tile ingame to the process method
-        tile_region = (Vector2)usedTextures[0] + open_chest; //Pass the Vector2 and change the texture to the "open chest" texture
+        tile = (Vector2)usedTiles[chest_texture]; //Pass the current tile ingame to the process method
+        tile_region = (Vector2)usedTextures[chest_texture] + open_chest; //Pass the Vector2 and change the texture to the "open chest" texture
         GD.Print("Looting");
     }
 
