@@ -109,23 +109,23 @@ public class GlobalPlayer : Node
     {
         Level++;
         baseStat += 5;
-        if (Stat == 0)
+        if (Stat == 1)
         {
             Strength++;
         }
-        else if (Stat == 1)
+        else if (Stat == 2)
         {
             Dexterity++;
         }
-        else if (Stat == 2)
+        else if (Stat == 3)
         {
             Vitality++;
         }
-        else if (Stat == 3)
+        else if (Stat == 4)
         {
             Intelligence++;
         }
-        else if (Stat == 4)
+        else if (Stat == 5)
         {
             Luck++;
         }
