@@ -36,7 +36,7 @@ cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( 655377, 22, 0 )
+tile_data = PoolIntArray( 655377, 22, 0, 983065, 22, 1 )
 script = ExtResource( 3 )
 
 [node name="TopLayer" type="TileMap" parent="."]
