@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
     [Export]
-
     public int moveSpeed = 100;
     public PhysicsBody2D possessee = null;	
     public string resPath;	
@@ -47,6 +46,7 @@ public class Player : KinematicBody2D {
             Luck = 5;
             AttackDamage = 5 + Dexterity;
         }
+
         Experience = 0;
         MaxHealth = 5 + Vitality;
         CurrentHealth = MaxHealth;
@@ -78,8 +78,6 @@ public class Player : KinematicBody2D {
             }
         }
         
-        var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label; //This line is giving us the "HealthLabel not found" error
-        gp.updateHealthLabel(healthLabel);
         animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
         playerSpriteNode = (Sprite)GetNode("Sprite/player");
         hitbox = (Area2D)GetNode("findEmptyPosArea2D");
@@ -155,7 +153,7 @@ public class Player : KinematicBody2D {
         }
     }
 	
-    public void ChangeState(String newState)
+    public void ChangeState(string newState)
     {
         switch (newState) {
 	      case "Idle": {
@@ -185,7 +183,7 @@ public class Player : KinematicBody2D {
 
         //2. Find closest enemy
         for (int x = 0; x < nearby.Count; x++) { //Iterate them
-            PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; //Grab one
+            PhysicsBody2D currentEnemy = (PhysicsBody2D)nearby[x]; //Grab one
             if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
                 float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
                 if (currentDistance < closestDistance) { //Check if closer than current closest
