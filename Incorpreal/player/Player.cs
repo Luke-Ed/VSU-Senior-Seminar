@@ -77,16 +77,14 @@ public class Player : KinematicBody2D {
                 GetParent().FindNode(gp.enemyFought[i]).QueueFree();
             }
         }
-<<<<<<< HEAD
+        
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label; //This line is giving us the "HealthLabel not found" error
         gp.updateHealthLabel(healthLabel);
-=======
->>>>>>> e2527bcb972f392718bf6499cd65a4170be18890
-            animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
-            playerSpriteNode = (Sprite)GetNode("Sprite/player");
-            hitbox = (Area2D)GetNode("findEmptyPosArea2D");
-            possessionArea = (Area2D)GetNode("Area2D");
-            stuck = false;
+        animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
+        playerSpriteNode = (Sprite)GetNode("Sprite/player");
+        hitbox = (Area2D)GetNode("findEmptyPosArea2D");
+        possessionArea = (Area2D)GetNode("Area2D");
+        stuck = false;
     }
 
     public Boolean attackEnemy()
