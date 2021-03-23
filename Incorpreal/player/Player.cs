@@ -188,8 +188,8 @@ public class Player : KinematicBody2D {
         }
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label; //This line is giving us the "HealthLabel not found" error
         _globalPlayer.updateHealthLabel(healthLabel);
-    }
-  } 
+      }
+    } 
   }
     //This method returns a Boolean denoting if player movement is possible in any direction
   public Boolean MovementPossible() {
