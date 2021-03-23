@@ -10,7 +10,16 @@ public class Interaction : CanvasLayer
     String action_state = "off";
 
     //The loot_area to be disabled after interaction
-    //Area2D loot_area_import = ;
+    //Area2D loot_area_import;
+    Godot.Collections.Array<Area2D> loot_areas = new Godot.Collections.Array<Area2D>();
+    
+    /*
+    Chests are loaded from left to right, top to bottom. 
+    Chests in the upper left corner are loaded before lower right.
+    I should be able to work backward from an integer count of how many chests
+    are on the map if I am extremely careful
+    int chest_count = 0;
+    */
 
     //Variables to hold current tile texture and location
     Vector2 tile;
@@ -56,11 +65,10 @@ public class Interaction : CanvasLayer
         usedTextures.Add(used_texture);
     }
 
-    /*
     public void setDisabledLootArea(Area2D openedChest) {
-        loot_area_import = openedChest;
+        //loot_area_import = openedChest;
+        loot_areas.Add(openedChest);
     }
-    */
     
     //When the player enters a loot_area, print "Looting"
     public void OnLootAreaEntered(Area2D area) {
