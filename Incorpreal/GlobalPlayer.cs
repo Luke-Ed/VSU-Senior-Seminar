@@ -90,19 +90,19 @@ public class GlobalPlayer : Node {
     _baseStat += 5;
 
     switch (stat) {
-      case 0:
+      case 1:
         PlayerCharacter.Strength++;
         break;
-      case 1:
+      case 2:
         PlayerCharacter.Dexterity++;
         break;
-      case 2:
+      case 3:
         PlayerCharacter.Vitality++;
         break;
-      case 3:
+      case 4:
         PlayerCharacter.Intelligence++;
         break;
-      case 4:
+      case 5:
         PlayerCharacter.Luck++;
         break;
     }
