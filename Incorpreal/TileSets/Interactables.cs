@@ -3,6 +3,14 @@ using System;
 
 //Code inspired by GameDevelopmentCenter on YouTube
 
+/*
+Chests are loaded from left to right, top to bottom. 
+Chests in the upper left corner are loaded before lower right.
+I should be able to work backward from an integer count of 
+how many chests are on the map if I am extremely careful
+int chest_count = 0;
+*/
+
 public class Interactables : TileMap
 {
     //Load the Area2D scene that represents lootable areas
@@ -17,7 +25,7 @@ public class Interactables : TileMap
 
         //Vector2 to represent 'Closed' chest textures
         Vector2 closed_chest_silver = new Vector2(0, 0);
-        Vector2 closed_chest_gold = new Vector2(2, 0);
+        Vector2 closed_chest_gold = new Vector2(1, 0);
 
         //Return an array of all cells (array of objects) with the given tile id
         Godot.Collections.Array used_chest_tiles = GetUsedCellsById(22);
@@ -50,6 +58,8 @@ public class Interactables : TileMap
             area.Connect("body_entered", inter, "OnLootAreaEntered");
             area.Connect("body_exited", inter, "OnLootAreaExited");
             //Connect(String signal, Node signal_handler, String method_name)
+
+            inter.setDisabledLootArea(area);
         }
     }
 }
