@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Simon : Node
 {
-    public Label orderLabel;
     public Timer timer;
     public List<int> combination = new List<int>();
     public int count = 0;
@@ -17,17 +16,22 @@ public class Simon : Node
 
     public Simon()
     {
-
+    
     }
 
     public override void _Ready()
     {
         battlePage = GetParent().GetNode<ColorRect>("BattlePage");
         simonPage = GetNode<ColorRect>("HideButtons");
-        orderLabel = simonPage.GetChild(4) as Label;
         timer = GetNode<Timer>("Timer") as Timer;
         timer.Connect("timeout", this, "onTimeout");
-        timer.WaitTime = 3;
+        timer.WaitTime = 1;
+        for (int i = 0; i < 4; i++)
+        {
+            Button tempButton = simonPage.GetChild(i) as Button;
+            buttons.Add(tempButton);
+            tempButton.Disabled = true;
+        }
     }
 
     public void startMinigame()
@@ -42,24 +46,31 @@ public class Simon : Node
     {
         combination.Clear();
         userAnswer.Clear();
-        buttons.Clear();
         count = 0;
         var random = new Random();
         for (int i = 0; i < 4; i++)
         {
-            Button tempButton = simonPage.GetChild(i) as Button;
-            buttons.Add(tempButton);
-            tempButton.Disabled = true;
             int temp = random.Next(1, 5);
+            if (i != 0)
+            {
+                while (temp == combination[i - 1])
+                {
+                    temp = random.Next(1, 5);
+                }
+            }
             combination.Add(temp);
+            buttons[i].Disabled = true;
         }
     }
 
     public void onTimeout()
     {
-        orderLabel.Text = "";
         if (count <= 3)
         {
+            foreach (Button b in buttons)
+            {
+                b.Disabled = true;
+            }
             showColor();
         }
         else
@@ -74,8 +85,7 @@ public class Simon : Node
     public void showColor()
     {
         int number = combination[count];
-        string orderShown = (count + 1).ToString() + ". " + number.ToString();
-        orderLabel.Text = orderShown;
+        buttons[number - 1].Disabled = false;
         count++;
         timer.Start();
     }

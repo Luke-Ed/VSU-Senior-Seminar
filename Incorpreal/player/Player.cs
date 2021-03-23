@@ -15,6 +15,7 @@ public class Player : KinematicBody2D {
     public Area2D possessionArea;
     public Boolean stuck;
     public GlobalPlayer gp;
+    public String PossesseeName;
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
@@ -67,16 +68,20 @@ public class Player : KinematicBody2D {
         {
             gp.createPlayer();
         }
-        if (gp.playerLocation != null && gp.nodePaths.Count > 0)
+        if (gp.playerLocation != null && gp.enemyFought.Count > 0)
         {
             GlobalPosition = gp.playerLocation;
-            for (int i = 0; i < gp.nodePaths.Count; i++)
+            for (int i = 0; i < gp.enemyFought.Count; i++)
             {
-                GetParent().GetNode(gp.nodePaths[i]).QueueFree();
+                Console.WriteLine(gp.enemyFought[i]);
+                GetParent().FindNode(gp.enemyFought[i]).QueueFree();
             }
         }
+<<<<<<< HEAD
         var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label; //This line is giving us the "HealthLabel not found" error
         gp.updateHealthLabel(healthLabel);
+=======
+>>>>>>> e2527bcb972f392718bf6499cd65a4170be18890
             animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
             playerSpriteNode = (Sprite)GetNode("Sprite/player");
             hitbox = (Area2D)GetNode("findEmptyPosArea2D");
@@ -205,6 +210,7 @@ public class Player : KinematicBody2D {
             }
             //Possession animation here (optional)
             playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
+            PossesseeName = victimSprite.GetParent().Name;
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
             gp.isPossesing = true;
         } else if (possessee != null) { //Else if already possessing, undo it
@@ -214,7 +220,9 @@ public class Player : KinematicBody2D {
                 this.SetCollisionLayerBit(0, true);
                 this.SetCollisionMaskBit(3, true);
             }
-            this.map.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
+            Vector2 newLocation = this.GlobalPosition;
+            newLocation.x += 70;
+            this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
             possessee = null;
             gp.isPossesing = false;
         }
