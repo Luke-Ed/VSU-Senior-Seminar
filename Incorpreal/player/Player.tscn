@@ -93,3 +93,15 @@ current = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+
+[node name="HealthLabel" type="Label" parent="Camera2D/CanvasLayer"]
+margin_left = 188.451
+margin_top = -175.104
+margin_right = 265.451
+margin_bottom = -161.104
+text = "TEST"
+__meta__ = {
+"_edit_use_anchors_": false
+}

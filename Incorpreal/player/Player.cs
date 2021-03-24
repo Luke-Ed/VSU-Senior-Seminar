@@ -83,6 +83,9 @@ public class Player : KinematicBody2D {
             hitbox = (Area2D)GetNode("findEmptyPosArea2D");
             possessionArea = (Area2D)GetNode("Area2D");
             stuck = false;
+            Label hpLabel = (Label)GetNode("Camera2D").GetNode("CanvasLayer").GetNode("HealthLabel");
+            gp.hplabel = hpLabel;
+            gp.updateHealthLabel(gp.hplabel);
     }
 
     public Boolean attackEnemy()

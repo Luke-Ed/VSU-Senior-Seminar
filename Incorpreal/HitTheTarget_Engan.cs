@@ -49,14 +49,6 @@ public class HitTheTarget_Engan : Node
         timer.Start();
     }
 
-    public void showTargets()
-    {
-        foreach(StaticBody2D target in targets)
-        {
-            target.Visible = true;
-        }
-    }
-
     public void onTimeout()
     {
         minigamePlaying = false;
