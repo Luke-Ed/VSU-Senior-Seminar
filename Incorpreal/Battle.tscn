@@ -36,10 +36,11 @@ __meta__ = {
 }
 
 [node name="RichTextLabel" type="RichTextLabel" parent="BattlePage"]
-margin_left = 13.898
+margin_left = 16.4207
 margin_top = 77.1123
-margin_right = 599.898
+margin_right = 602.421
 margin_bottom = 268.113
+scroll_following = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
