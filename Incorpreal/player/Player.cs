@@ -241,4 +241,34 @@ public class Player : KinematicBody2D {
             stuck = false;
         }
     }
+
+    //Still under construction
+    public Godot.Collections.Dictionary<string, object> Save() {
+        return new Godot.Collections.Dictionary<string, object>() {
+            { "moveSpeed", moveSpeed},
+            { "possessee", possessee},
+            { "resPath", resPath},
+            { "map", map},
+            { "playerSpriteNode", playerSpriteNode},
+            { "stuck", stuck},
+            { "gp", gp},
+            { "PossesseeName", PossesseeName},
+            { "ExperienceToNextLevel", ExperienceToNextLevel},
+            { "AttackDamage", AttackDamage},
+            { "Level", Level},
+            { "CurrentHealth", CurrentHealth},
+            { "MaxHealth", MaxHealth},
+            { "Experience", Experience},
+            { "Luck", Luck },
+            { "Intelligence", Intelligence },
+            { "Vitality", Vitality },
+            { "Dexterity", Dexterity },
+            { "Strength", Strength },
+            { "CharacterClass", CharacterClass },    
+            { "Filename", this.Filename },
+            { "Parent", GetParent().GetPath() },
+            { "PosX", Position.x }, // Vector2 is not supported by JSON
+            { "PosY", Position.y },
+        };
+    }
 }
