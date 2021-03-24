@@ -131,6 +131,12 @@ visible = false
 
 [node name="HitTheTarget" parent="HitTheTarget_Engan" index="0"]
 visible = false
+
+[node name="Targets" parent="HitTheTarget_Engan/HitTheTarget" index="0"]
+position = Vector2( 304.23, 174.814 )
+
+[node name="Player" parent="HitTheTarget_Engan/HitTheTarget" index="1"]
+position = Vector2( 303.041, 174.814 )
 [connection signal="pressed" from="BattlePage/Attackbtn" to="." method="_on_Attackbtn_pressed"]
 [connection signal="pressed" from="BattlePage/Spellbtn" to="." method="_on_Spellbtn_pressed"]
 [connection signal="pressed" from="BattlePage/Defendbtn" to="." method="_on_Defendbtn_pressed"]

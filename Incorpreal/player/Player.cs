@@ -15,6 +15,7 @@ public class Player : KinematicBody2D {
     public Area2D possessionArea;
     public Boolean stuck;
     public GlobalPlayer gp;
+    public String PossesseeName;
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
@@ -68,21 +69,20 @@ public class Player : KinematicBody2D {
         {
             gp.createPlayer();
         }
-        if (gp.playerLocation != null && gp.nodePaths.Count > 0)
+        if (gp.playerLocation != null && gp.enemyFought.Count > 0)
         {
             GlobalPosition = gp.playerLocation;
-            for (int i = 0; i < gp.nodePaths.Count; i++)
+            for (int i = 0; i < gp.enemyFought.Count; i++)
             {
-                GetParent().GetNode(gp.nodePaths[i]).QueueFree();
+                Console.WriteLine(gp.enemyFought[i]);
+                GetParent().FindNode(gp.enemyFought[i]).QueueFree();
             }
         }
-        var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label;
-        gp.updateHealthLabel(healthLabel);
-        animate = (AnimationPlayer)GetNode("AnimationPlayer");
-        playerSpriteNode = (Sprite)GetNode("Sprite/player");
-        hitbox = (Area2D)GetNode("findEmptyPosArea2D");
-        possessionArea = (Area2D)GetNode("Area2D");
-        stuck = false;
+            animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
+            playerSpriteNode = (Sprite)GetNode("Sprite/player");
+            hitbox = (Area2D)GetNode("findEmptyPosArea2D");
+            possessionArea = (Area2D)GetNode("Area2D");
+            stuck = false;
     }
 
     public Boolean attackEnemy()
@@ -97,36 +97,50 @@ public class Player : KinematicBody2D {
 
     public override void _PhysicsProcess(float delta)
     {
-        var motion = new Vector2();
-        //Player will use WASD to move their character
-        motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-        motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-
-        if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
-            stuck = false;
-            ChangeState("Walking");
-            if (motion.x > 0) { //If walking right
-                playerSpriteNode.FlipH = false; //Character faces right
-            } else if (motion.x < 0) { //If walking left
-                playerSpriteNode.FlipH = true; //Character faces left
-            }
-        } else {
-            ChangeState("Idle");
-        }
-        
-        var collision = MoveAndCollide(motion.Normalized() * delta);
-
-        if (collision != null)
+        if (Visible)
         {
-            if (collision.Collider.HasMethod("Hit"))
+            var motion = new Vector2();
+            //Player will use WASD to move their character
+            motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+            motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+
+            MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+
+            if (!motion.x.Equals(0) || !motion.y.Equals(0))
             {
-                gp = (GlobalPlayer)GetNode("/root/GlobalData");
-                gp.lastScene = GetTree().CurrentScene.Filename;
-                gp.playerLocation = GlobalPosition;
-                collision.Collider.Call("Hit");
-            } else if (!movementPossible()) {
-                stuck = true;
-                teleport();
+                stuck = false;
+                ChangeState("Walking");
+                if (motion.x > 0)
+                { //If walking right
+                    playerSpriteNode.FlipH = false; //Character faces right
+                }
+                else if (motion.x < 0)
+                { //If walking left
+                    playerSpriteNode.FlipH = true; //Character faces left
+                }
+            }
+            else
+            {
+                ChangeState("Idle");
+            }
+
+
+            var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
+
+            if (collision != null)
+            {
+                if (collision.Collider.HasMethod("Hit"))
+                {
+                    gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                    gp.lastScene = GetTree().CurrentScene.Filename;
+                    gp.playerLocation = GlobalPosition;
+                    collision.Collider.Call("Hit");
+                }
+                else if (!movementPossible())
+                {
+                    stuck = true;
+                    teleport();
+                }
             }
         }        
     }
@@ -192,7 +206,9 @@ public class Player : KinematicBody2D {
             }
             //Possession animation here (optional)
             playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
+            PossesseeName = victimSprite.GetParent().Name;
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
+            gp.isPossesing = true;
         } else if (possessee != null) { //Else if already possessing, undo it
             playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
             this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
@@ -200,8 +216,11 @@ public class Player : KinematicBody2D {
                 this.SetCollisionLayerBit(0, true);
                 this.SetCollisionMaskBit(3, true);
             }
-            this.map.SpawnEnemy(this.resPath, this.GlobalPosition, GetTree().CurrentScene); //Bring original enemy back
+            Vector2 newLocation = this.GlobalPosition;
+            newLocation.x += 70;
+            this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
             possessee = null;
+            gp.isPossesing = false;
         }
     } 
 

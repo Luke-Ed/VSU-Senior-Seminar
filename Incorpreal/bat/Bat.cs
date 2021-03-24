@@ -61,11 +61,9 @@ public class Bat : KinematicBody2D
 
 
     public void Hit()
-    {
-        Sprite playerSprite = (Sprite)GetNode("../Player/Sprite/player"); //Grab player sprite
-        if (playerSprite.Texture.ResourcePath.Equals("res://assets/player.png")) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
-            NodePath np = GetPath();
-            gp.nodePaths.Add(np);
+    { 
+        if (!gp.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
+            gp.enemyFought.Add(this.Name);
             TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
             tq.GetChild(1).Name = enemyName;
             tq.GetChild(1).Call("_Ready");
@@ -77,7 +75,7 @@ public class Bat : KinematicBody2D
     {
         if (body.Name == "Player")
         {
-            player = (KinematicBody2D)body;
+            //player = (KinematicBody2D)body;
         }
     }
 

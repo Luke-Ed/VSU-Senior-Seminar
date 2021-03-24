@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://assets/pauseghost.png" type="Texture" id=12]
+[ext_resource path="res://Map.cs" type="Script" id=13]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 31 )
@@ -32,15 +33,12 @@ font_data = ExtResource( 11 )
 script = ExtResource( 7 )
 
 [node name="Map" type="Node2D" parent="."]
-position = Vector2( -1.12246, 0 )
+position = Vector2( 253.878, 239 )
+script = ExtResource( 13 )
 
-[node name="HealthLabel" type="Label" parent="."]
-anchor_bottom = 0.039
-margin_left = 339.0
-margin_top = 242.0
-margin_right = 379.0
-margin_bottom = 241.96
-rect_scale = Vector2( -35.7122, 1 )
+[node name="HealthLabel" type="Label" parent="Map"]
+margin_right = 86.0
+margin_bottom = 26.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -55,23 +53,26 @@ position = Vector2( 112.392, 296.556 )
 position = Vector2( 122.523, 109.101 )
 
 [node name="Bat2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 435.756, 217.633 )
+position = Vector2( 436.756, 218.633 )
 
-[node name="Bat" type="KinematicBody2D" parent="."]
+[node name="Sprite" parent="Bat2" index="1"]
+position = Vector2( 2, 1 )
+
+[node name="Bat" type="KinematicBody2D" parent="." groups=[
+"Enemies",
+]]
 position = Vector2( 93, 67 )
 script = ExtResource( 4 )
-
-[node name="Sprite" type="Sprite" parent="Bat"]
-
-[node name="bat" type="Sprite" parent="Bat/Sprite"]
-position = Vector2( 425, 154 )
-texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bat" groups=[
 "Enemies",
 ]]
-position = Vector2( 426, 152.159 )
+position = Vector2( 446, 157.159 )
 shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Bat"]
+position = Vector2( 447, 157 )
+texture = ExtResource( 6 )
 
 [node name="Wall" parent="." instance=ExtResource( 5 )]
 position = Vector2( 314.127, 103.11 )
@@ -151,3 +152,9 @@ __meta__ = {
 [connection signal="gui_input" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_exited"]
+
+[editable path="Bear"]
+
+[editable path="Player"]
+
+[editable path="Bat2"]
