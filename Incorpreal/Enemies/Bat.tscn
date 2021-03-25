@@ -2,6 +2,7 @@
 
 [ext_resource path="res://assets/bat.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Bat.cs" type="Script" id=2]
+[ext_resource path="res://bat/bat_Sprite.cs" type="Script" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 18.3538
@@ -16,5 +17,8 @@ position = Vector2( 0, -5 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 2, 2 )
+
+[node name="bat_Sprite" type="Sprite" parent="Sprite"]
+position = Vector2( 0.591766, -2.04419 )
 texture = ExtResource( 1 )
+script = ExtResource( 2 )

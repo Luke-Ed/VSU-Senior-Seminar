@@ -57,8 +57,9 @@ namespace Incorpreal.bat {
 
 
     public void Hit() { 
-      if (!_globalPlayer.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
-        _globalPlayer.enemiesFought.Add(this.Name);
+      if (!_globalPlayer.isPossesing) { 
+        //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
+        _globalPlayer.enemiesFought.Add(Name);
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
         tq.GetChild(1).Name = tq.EnemyName;
         tq.GetChild(1).Call("_Ready");

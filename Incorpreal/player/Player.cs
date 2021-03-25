@@ -2,9 +2,10 @@ using Godot;
 using System;
 
 public class Player : KinematicBody2D {
-  [Export] public int moveSpeed = 125;
+  [Export]
+  public int moveSpeed = 125;
   private PhysicsBody2D _possessedEnemy;	
-  public string resPath;	
+  public string resPath;
   public Map map = new Map();
   public Area2D hitbox;
   public Sprite playerSpriteNode;
@@ -34,7 +35,7 @@ public class Player : KinematicBody2D {
   public int Level { get; set; }
   public int AttackDamage { get; set; }
   public int ExperienceToNextLevel { get; set; }
-  public String CharacterPlayerClass { get; }
+  public String CharacterPlayerClass { get; set; }
     
   public Player(String playerClass) {
     CharacterPlayerClass = playerClass;
