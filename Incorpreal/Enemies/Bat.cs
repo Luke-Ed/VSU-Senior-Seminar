@@ -1,33 +1,30 @@
 using System;
 using Godot;
-using Incorpreal.Enemies;
 
-namespace Incorpreal.bat {
+namespace Incorpreal.Enemies {
   public class Bat : AbstractEnemy {
     
-    public GlobalPlayer _globalPlayer;
-    public KinematicBody2D player;
-
-    public Bat(int moveSpeed = 150, int attack = 2, int health = 30, string enemyName = "Bat") : 
-      base(moveSpeed, attack, health, enemyName) {
+    private GlobalPlayer _globalPlayer;
+    private KinematicBody2D _player;
+    
+    public Bat() : 
+      base(150, 2, 30, "Bat") {
     }
 
     public override void _PhysicsProcess(float delta) {
-      if (player != null) {
-        Vector2 velocity = GlobalPosition.DirectionTo(player.GlobalPosition);
+      if (_player != null) {
+        Vector2 velocity = GlobalPosition.DirectionTo(_player.GlobalPosition);
         MoveAndCollide(velocity * MoveSpeed * delta);
       }
     }
 
     public override void _Ready() {
+      _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
       /*
       var filePath = "res://Enemies/enemies.txt";
       File newFile = new File();
       newFile.Open(filePath, File.ModeFlags.Read);
-      gp = (GlobalPlayer)GetNode("/root/GlobalData");
-      while (!newFile.EofReached())
       {
-        String s = newFile.GetLine();
         if (Name.Contains(s)){
           enemyName = s;
           attack = int.Parse(newFile.GetLine());
@@ -101,7 +98,7 @@ namespace Incorpreal.bat {
 
     public void _on_Area2D_body_exited(Node body) {
       if (body.Name == "Player") {
-        player = null;
+        _player = null;
       }
     }
 
