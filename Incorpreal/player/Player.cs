@@ -220,7 +220,7 @@ public class Player : KinematicBody2D {
                 this.SetCollisionMaskBit(3, true);
             }
             Vector2 newLocation = this.GlobalPosition;
-            newLocation.x += 70;
+            newLocation.x += 80;
             this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
             possessee = null;
             gp.isPossesing = false;

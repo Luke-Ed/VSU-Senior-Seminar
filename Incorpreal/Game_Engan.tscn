@@ -19,7 +19,7 @@ extents = Vector2( 33.125, 32.75 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 33, 33 )
 
-[sub_resource type="Curve2D" id=9]
+[sub_resource type="Curve2D" id=4]
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 227.004, 282.389, 0, 0, 0, 0, 124.236, 282.389, 0, 0, 0, 0, -16.6721, 283.449, 0, 0, 0, 0, -114.143, 280.27, 0, 0, 0, 0, -162.878, 281.33, 0, 0, 0, 0, -169.235, 342.779, 0, 0, 0, 0, 232.302, 339.6, 0, 0, 0, 0, 227.004, 283.449 )
 }
@@ -35,6 +35,9 @@ script = ExtResource( 11 )
 
 [node name="Player" parent="Map" instance=ExtResource( 3 )]
 position = Vector2( 318.657, 179.594 )
+
+[node name="Camera2D" parent="Map/Player" index="5"]
+position = Vector2( -1.12244, 1.12247 )
 
 [node name="HealthLabel" parent="Map/Player/Camera2D/CanvasLayer" index="0"]
 margin_left = 502.74
@@ -87,7 +90,7 @@ shape = SubResource( 3 )
 
 [node name="Path2D" type="Path2D" parent="Map"]
 position = Vector2( 245.795, -3.17834 )
-curve = SubResource( 9 )
+curve = SubResource( 4 )
 script = ExtResource( 9 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Map/Path2D"]

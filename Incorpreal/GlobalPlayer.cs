@@ -18,6 +18,7 @@ public class GlobalPlayer : Node
     public Boolean didBlock = false;
     public Boolean perfectSpell = false;
     public Boolean isPossesing = false;
+    public String status;
 
     public void updateHealthLabel(Label l)
     {
