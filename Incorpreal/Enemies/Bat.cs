@@ -39,20 +39,46 @@ namespace Incorpreal.bat {
     }
 
     public Boolean playTurn() {
+      TurnQueue turnQueue = (TurnQueue)GetNode("/root/Tq");
+      Boolean didHit;
       if (!_globalPlayer.isDefending) {
-        return _globalPlayer.takeDamage(Attack);
+        didHit = _globalPlayer.takeDamage(Attack);
       }
-      else
-      {
-        if (_globalPlayer.didBlock)
-        {
-          return _globalPlayer.takeDamage(0);
+      else{
+        if (_globalPlayer.didBlock){
+          didHit = _globalPlayer.takeDamage(0);
         }
-        else
-        {
-          return _globalPlayer.takeDamage(Attack / 2);
+        else{
+          didHit = _globalPlayer.takeDamage(Attack / 2);
         }
       }
+      if (didHit){
+        switch (EnemyType){
+          case ("Bat"):
+            if (turnQueue.EnemyCurrentHp + Attack <= turnQueue.EnemyMaxHp){
+              turnQueue.EnemyCurrentHp += Attack;
+            }
+            break;
+          case ("Bear"):
+            _globalPlayer.Status = "Bleeding";
+            break;
+          case ("Goblin"):
+            //Need something for goblin
+            break;
+          case ("Skeleton"):
+            //Need something for skeleton
+            break;
+          case ("Snake"):
+            //Need something for snake
+            break;
+          case ("Wolf"):
+            //Need something for wolf
+            break;
+          default:
+            break;
+          }
+        }
+        return didHit;
     }
 
 
