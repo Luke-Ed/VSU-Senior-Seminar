@@ -34,12 +34,12 @@ namespace Incorpreal.Battle {
       _enemyHp = _battlePage.GetNode<Label>("EnemyHealth");
       _battleSequenceRtl = _battlePage.GetNode<RichTextLabel>("RichTextLabel");
       _battleSequenceRtl.Text = "You have encountered a(n): " + _turnQueue.enemyName + "\n";
-      _attackBtn = _battlePage.GetNode<Button>("Attackbtn");
-      _spellBtn = _battlePage.GetNode<Button>("Spellbtn");
+      _attackBtn = _battlePage.GetNode<Button>("AttackBtn");
+      _spellBtn = _battlePage.GetNode<Button>("SpellBtn");
       _defendBtn = _battlePage.GetNode<Button>("DefendBtn");
       _battleTimer = _battlePage.GetNode<Timer>("Timer");
       _battleTimer.WaitTime = 20;
-      _battleTimer.Connect("timeout", this, "onTimeout");
+      _battleTimer.Connect("timeout", this, "OnTimeout");
       _globalPlayer.updateHealthLabel(_playerHp);
       UpdateEnemyHealth();
     }
@@ -102,6 +102,8 @@ namespace Incorpreal.Battle {
     }
 
     private void StartPlayerTurn() {
+      // This code is ran anytime a player's turn is started.
+      // This resets any actions to their default values, displays the players turn options, comments in the chat, and starts the turn timer.
       _globalPlayer.isDefending = false;
       _globalPlayer.didBlock = false;
       _playerActed = false;
@@ -111,18 +113,16 @@ namespace Incorpreal.Battle {
     }
 
     private void DisplayPlayerOptions() {
+      // Show relevant buttons to the player
       _attackBtn.Visible = !_attackBtn.Visible;
       _spellBtn.Visible = !_spellBtn.Visible;
-      if (_globalPlayer.currentPoints < 5) {
-        _spellBtn.Disabled = true;
-      }
-      else {
-        _spellBtn.Disabled = false;
-      }
       _defendBtn.Visible = !_defendBtn.Visible;
+      // If the player doesn't have enough magic points, disable the spell's button.
+      _spellBtn.Disabled = _globalPlayer.currentPoints < 5;
     }
 
     private void ChangeActiveFighter() {
+      // Switch which fighter is currently active (able to perform an action).
       _activeFighter = (_activeFighter + 1) % _turnQueue.combatants.Count;
     }
 
@@ -134,7 +134,7 @@ namespace Incorpreal.Battle {
       }
     }
 
-    public void _on_Attackbtn_pressed() {
+    public void _on_AttackBtn_Pressed() {
       _battleTimer.Stop();
       Boolean didHit = (bool)_player.Call("attackEnemy");
       if (didHit) {
@@ -148,7 +148,7 @@ namespace Incorpreal.Battle {
       DisplayPlayerOptions();
     }
 
-    public void _on_Spellbtn_pressed() {
+    public void _on_SpellBtn_Pressed() {
       _battleTimer.Stop();
       _player.Call("castSpell");
       _battleSequenceRtl.Text += "You cast a spell at the " + _turnQueue.enemyName + "\n";
@@ -168,7 +168,7 @@ namespace Incorpreal.Battle {
       DisplayPlayerOptions();
     }
 
-    public void onTimeout() {
+    public void OnTimeout() {
       DisplayPlayerOptions();
       _battleSequenceRtl.Text += "You spent too long and the " + _turnQueue.enemyName + " attacks!\n";
       _playerActed = true;
