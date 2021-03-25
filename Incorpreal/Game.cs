@@ -21,6 +21,7 @@ public class Game : Node
 		AudioStream Background = (AudioStream)GD.Load(Path);
 		audioStreamPlayer.Stream = Background;
 		audioStreamPlayer.Play();
+		audioStreamPlayer.VolumeDb = (-6);
 		audioStreamPlayer.PauseMode = Node.PauseModeEnum.Process; //This line keeps music playing during pause
 	}
 

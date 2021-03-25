@@ -36,7 +36,7 @@ script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 
-[node name="bat" type="Sprite" parent="Sprite"]
+[node name="bat_Sprite" type="Sprite" parent="Sprite"]
 position = Vector2( 0.591766, -2.0442 )
 texture = ExtResource( 1 )
 

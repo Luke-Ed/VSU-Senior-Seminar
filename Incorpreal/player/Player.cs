@@ -12,6 +12,7 @@ public class Player : KinematicBody2D {
     public Area2D hitbox;
     public Sprite playerSpriteNode;
     public AnimationPlayer animate;
+    public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
     public Area2D possessionArea;
     public Boolean stuck;
     public GlobalPlayer gp;
@@ -62,6 +63,11 @@ public class Player : KinematicBody2D {
 
     public override void _Ready()
     {
+        this.AddChild(footsteps);
+        const string Path = "res://sounds/footsteps.wav";
+        AudioStream footstep = (AudioStream)GD.Load(Path);
+        footsteps.Stream = footstep;
+        footsteps.VolumeDb = (0);
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
         //Eventually a main menu will already have a character made for the player
         //This is for demonstration purposes
@@ -108,6 +114,10 @@ public class Player : KinematicBody2D {
 
             if (!motion.x.Equals(0) || !motion.y.Equals(0))
             {
+                if (footsteps.Playing == false)
+                {
+                    footsteps.Play();
+                }
                 stuck = false;
                 ChangeState("Walking");
                 if (motion.x > 0)
@@ -121,6 +131,7 @@ public class Player : KinematicBody2D {
             }
             else
             {
+                footsteps.Stop();
                 ChangeState("Idle");
             }
 
