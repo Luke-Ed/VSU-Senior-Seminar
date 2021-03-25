@@ -2,10 +2,9 @@ using Godot;
 using System;
 
 public class Player : KinematicBody2D {
-  [Export]
-  public int moveSpeed = 125;
+  [Export] public int moveSpeed = 125;
   private PhysicsBody2D _possessedEnemy;	
-  public string resPath;
+  public string resPath;	
   public Map map = new Map();
   public Area2D hitbox;
   public Sprite playerSpriteNode;
@@ -191,11 +190,49 @@ public class Player : KinematicBody2D {
           closestDistance = currentDistance;
           enemyFound = true;
         }
-        var healthLabel = GetParent().GetNode<Label>("HealthLabel") as Label; //This line is giving us the "HealthLabel not found" error
-        _globalPlayer.updateHealthLabel(healthLabel);
       }
+    }  
+            
+    //3. If suitable enemy found & player not already possessing someone, possess that enemy
+    if (enemyFound && _possessedEnemy == null) {
+      _possessedEnemy = (KinematicBody2D) nearby[closestEnemyIndex]; 
+      //Grab victim
+      resPath = _possessedEnemy.Filename; 
+      //Grab victim resource path for later
+      Sprite victimSprite = (Sprite) _possessedEnemy.GetNode("Sprite"); 
+      //Grab victim sprite
+      SetCollisionMaskBit(2, true); 
+      //Make GhostWalls impenetrable while possessing
+      if (resPath.Contains("Bat")) {
+        SetCollisionLayerBit(0, false); 
+        //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
+        SetCollisionMaskBit(3, false); //Turn off LowWall collisions
+      }
+      //Possession animation here (optional)
+      playerSpriteNode.Texture = victimSprite.Texture; 
+      //Copy victim's texture
+      _possessedEnemyId = victimSprite.GetParent().Name;
+      victimSprite.GetParent().QueueFree(); //Make enemy disappear
+      _globalPlayer.isPossesing = true;
     } 
-  }
+    else if (_possessedEnemy != null) { 
+      //Else if already possessing, undo it
+      playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png");
+      //Return player sprite to normal
+      SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
+      if (resPath.Contains("Bat")) { //Return from Bat mode
+        SetCollisionLayerBit(0, true);
+        SetCollisionMaskBit(3, true);
+      }
+      Vector2 newLocation = GlobalPosition;
+      newLocation.x += 70;
+      map.SpawnEnemy(resPath, newLocation, GetTree().CurrentScene, _possessedEnemyId); 
+      //Bring original enemy back
+      _possessedEnemy = null;
+      _globalPlayer.isPossesing = false;
+    }
+  } 
+
     //This method returns a Boolean denoting if player movement is possible in any direction
   public Boolean MovementPossible() {
     Boolean movementPossible = true;
