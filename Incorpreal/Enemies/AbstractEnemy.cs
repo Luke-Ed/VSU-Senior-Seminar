@@ -6,14 +6,14 @@ namespace Incorpreal.Enemies {
     protected int Attack { get; }
     protected int Health { get; }
     protected int CurrentHealth { get; }
-    protected string EnemyName { get; }
+    protected string EnemyType { get; }
 
-    protected AbstractEnemy(int moveSpeed, int attack, int health, string enemyName) {
+    protected AbstractEnemy(int moveSpeed, int attack, int health, string enemyType) {
       MoveSpeed = moveSpeed;
       Attack = attack;
       Health = health;
       CurrentHealth = Health;
-      EnemyName = enemyName;
+      EnemyType = enemyType;
     }
 
     public override void _Ready() {

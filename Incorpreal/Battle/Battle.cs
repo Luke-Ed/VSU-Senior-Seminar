@@ -26,14 +26,14 @@ namespace Incorpreal.Battle {
       _battlePage = GetNode<ColorRect>("BattlePage");
       _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
       _turnQueue = (TurnQueue)GetNode("/root/Tq");
-      _turnQueue.combatants = _turnQueue.getCombatants();
-      _turnQueue.setStats();
-      _player = (Node)_turnQueue.combatants[0] as KinematicBody2D;
-      _enemy = (Node)_turnQueue.combatants[1] as KinematicBody2D;
+      _turnQueue.Combatants = _turnQueue.GetCombatants();
+      _turnQueue.SetStats();
+      _player = (Node)_turnQueue.Combatants[0] as KinematicBody2D;
+      _enemy = (Node)_turnQueue.Combatants[1] as KinematicBody2D;
       _playerHp = _battlePage.GetNode<Label>("HealthLabel");
       _enemyHp = _battlePage.GetNode<Label>("EnemyHealth");
       _battleSequenceRtl = _battlePage.GetNode<RichTextLabel>("RichTextLabel");
-      _battleSequenceRtl.Text = "You have encountered a(n): " + _turnQueue.enemyName + "\n";
+      _battleSequenceRtl.Text = "You have encountered a(n): " + _turnQueue.EnemyName + "\n";
       _attackBtn = _battlePage.GetNode<Button>("AttackBtn");
       _spellBtn = _battlePage.GetNode<Button>("SpellBtn");
       _defendBtn = _battlePage.GetNode<Button>("DefendBtn");
@@ -45,7 +45,7 @@ namespace Incorpreal.Battle {
     }
 
     private void UpdateEnemyHealth() {
-      String text = "Enemy Health: " + _turnQueue.enemyCurrentHP + "/" + _turnQueue.enemyMaxHP;
+      String text = "Enemy Health: " + _turnQueue.EnemyCurrentHp + "/" + _turnQueue.EnemyMaxHp;
       if (_enemyHp != null) {
         _enemyHp.Text = text;
       }
@@ -61,9 +61,9 @@ namespace Incorpreal.Battle {
             break;
           default:
             // If the current fighter is the enemy.
-            Boolean didHit = (bool)_enemy.Call("playTurn");
+            Boolean didHit = (bool)_enemy.Call("PlayTurn");
             if (didHit) {
-              _battleSequenceRtl.Text += "You got hit by the " + _turnQueue.enemyName + "\n";
+              _battleSequenceRtl.Text += "You got hit by the " + _turnQueue.EnemyName + "\n";
               if (_globalPlayer.didBlock) {
                 _battleSequenceRtl.Text += "but you blocked perfectly!" + "\n";
               }
@@ -86,7 +86,7 @@ namespace Incorpreal.Battle {
           GetNode<ColorRect>("DeathScreen").Visible = true;
           _fightOver = true;
         }
-        if (_turnQueue.enemyCurrentHP <= 0) {
+        if (_turnQueue.EnemyCurrentHp <= 0) {
           // If the enemy's helth is low, inform the player that they won.
           _battleSequenceRtl.Text += "You have won the fight";
           _globalPlayer.Experience += 10;
@@ -123,7 +123,7 @@ namespace Incorpreal.Battle {
 
     private void ChangeActiveFighter() {
       // Switch which fighter is currently active (able to perform an action).
-      _activeFighter = (_activeFighter + 1) % _turnQueue.combatants.Count;
+      _activeFighter = (_activeFighter + 1) % _turnQueue.Combatants.Count;
     }
 
     public override void _Input(InputEvent @event) {
@@ -138,10 +138,10 @@ namespace Incorpreal.Battle {
       _battleTimer.Stop();
       Boolean didHit = (bool)_player.Call("attackEnemy");
       if (didHit) {
-        _battleSequenceRtl.Text += "You hit the " + _turnQueue.enemyName + "\n";
+        _battleSequenceRtl.Text += "You hit the " + _turnQueue.EnemyName + "\n";
       }
       else {
-        _battleSequenceRtl.Text += "You missed the " + _turnQueue.enemyName + "\n";
+        _battleSequenceRtl.Text += "You missed the " + _turnQueue.EnemyName + "\n";
       }
       _playerActed = true;
       UpdateEnemyHealth();
@@ -151,7 +151,7 @@ namespace Incorpreal.Battle {
     public void _on_SpellBtn_Pressed() {
       _battleTimer.Stop();
       _player.Call("castSpell");
-      _battleSequenceRtl.Text += "You cast a spell at the " + _turnQueue.enemyName + "\n";
+      _battleSequenceRtl.Text += "You cast a spell at the " + _turnQueue.EnemyName + "\n";
       _playerActed = true;
       _hitTheTarget.minigameStart();
       UpdateEnemyHealth();
@@ -170,7 +170,7 @@ namespace Incorpreal.Battle {
 
     public void OnTimeout() {
       DisplayPlayerOptions();
-      _battleSequenceRtl.Text += "You spent too long and the " + _turnQueue.enemyName + " attacks!\n";
+      _battleSequenceRtl.Text += "You spent too long and the " + _turnQueue.EnemyName + " attacks!\n";
       _playerActed = true;
     }
 
