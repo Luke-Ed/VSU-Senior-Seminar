@@ -6,91 +6,91 @@ namespace Incorpreal.Battle {
     private Label _enemyHp;
     private TurnQueue _turnQueue;
     private GlobalPlayer _globalPlayer;
-    private int _currentFighterPos;
+    private int _activeFighter;
     private Label _playerHp;
     private Node _player;
-    public Node enemy;
-    public RichTextLabel rtl;
-    public Boolean fightOver = false;
-    private Button attackbtn, spellbtn, _defendBtn;
-    public Boolean playerActed = true;
-    public ColorRect battlePage;
+    private Node _enemy;
+    private RichTextLabel _battleSequenceRtl;
+    private Boolean _fightOver;
+    private Button _attackBtn, _spellBtn, _defendBtn;
+    private Boolean _playerActed = true;
+    private ColorRect _battlePage;
     public ColorRect SimonPage;
-    public Simon s;
-    public Godot.Timer timer;
-    public HitTheTarget_Engan HitTheTarget;
+    private Simon _simon;
+    private Timer _battleTimer;
+    private HitTheTarget_Engan _hitTheTarget;
 
     public override void _Ready() {
-      s = (Simon)GetNode("SimonGame");
-      HitTheTarget = (HitTheTarget_Engan)GetNode("HitTheTarget_Engan");
-      battlePage = GetNode<ColorRect>("BattlePage");
+      _simon = (Simon)GetNode("SimonGame");
+      _hitTheTarget = (HitTheTarget_Engan)GetNode("HitTheTarget_Engan");
+      _battlePage = GetNode<ColorRect>("BattlePage");
       _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
       _turnQueue = (TurnQueue)GetNode("/root/Tq");
       _turnQueue.combatants = _turnQueue.getCombatants();
       _turnQueue.setStats();
       _player = (Node)_turnQueue.combatants[0] as KinematicBody2D;
-      enemy = (Node)_turnQueue.combatants[1] as KinematicBody2D;
-      _currentFighterPos = 0;
-      _playerHp = battlePage.GetNode<Label>("HealthLabel") as Label;
-      _enemyHp = battlePage.GetNode<Label>("EnemyHealth") as Label;
-      rtl = battlePage.GetNode<RichTextLabel>("RichTextLabel") as RichTextLabel;
-      rtl.Text = "You have encountered a(n): " + _turnQueue.enemyName + "\n";
-      attackbtn = battlePage.GetNode<Button>("Attackbtn") as Button;
-      spellbtn = battlePage.GetNode<Button>("Spellbtn") as Button;
-      _defendBtn = battlePage.GetNode<Button>("DefendBtn") as Button;
-      timer = battlePage.GetNode<Godot.Timer>("Timer") as Godot.Timer;
-      timer.WaitTime = 20;
-      timer.Connect("timeout", this, "onTimeout");
+      _enemy = (Node)_turnQueue.combatants[1] as KinematicBody2D;
+      _playerHp = _battlePage.GetNode<Label>("HealthLabel");
+      _enemyHp = _battlePage.GetNode<Label>("EnemyHealth");
+      _battleSequenceRtl = _battlePage.GetNode<RichTextLabel>("RichTextLabel");
+      _battleSequenceRtl.Text = "You have encountered a(n): " + _turnQueue.enemyName + "\n";
+      _attackBtn = _battlePage.GetNode<Button>("Attackbtn");
+      _spellBtn = _battlePage.GetNode<Button>("Spellbtn");
+      _defendBtn = _battlePage.GetNode<Button>("DefendBtn");
+      _battleTimer = _battlePage.GetNode<Timer>("Timer");
+      _battleTimer.WaitTime = 20;
+      _battleTimer.Connect("timeout", this, "onTimeout");
       _globalPlayer.updateHealthLabel(_playerHp);
       UpdateEnemyHealth();
     }
 
-    public void UpdateEnemyHealth() {
+    private void UpdateEnemyHealth() {
       String text = "Enemy Health: " + _turnQueue.enemyCurrentHP + "/" + _turnQueue.enemyMaxHP;
       if (_enemyHp != null) {
         _enemyHp.Text = text;
       }
     }
 
-    public void fight() {
-      if (!fightOver) {
-        if (_currentFighterPos == 0) {
-          _globalPlayer.isDefending = false;
-          _globalPlayer.didBlock = false;
-          playerActed = false;
-          displayPlayerOptions();
-          rtl.Text += "Choose an action \n";
-          timer.Start();
-        }
-        else {
-          Boolean didHit = (bool)enemy.Call("playTurn");
-          if (didHit) {
-            rtl.Text += "You got hit by the " + _turnQueue.enemyName + "\n";
-            if (_globalPlayer.didBlock) {
-              rtl.Text += "but you blocked perfectly!" + "\n";
+    public void Fight() {
+      if (!_fightOver) {
+        // If the fight is not over, proceed through the following sequence.
+        switch (_activeFighter) {
+          case 0: 
+            // If the player ius the currently selected fighter, start their turn.
+            StartPlayerTurn();
+            break;
+          default:
+            // If the current fighter is the enemy.
+            Boolean didHit = (bool)_enemy.Call("playTurn");
+            if (didHit) {
+              _battleSequenceRtl.Text += "You got hit by the " + _turnQueue.enemyName + "\n";
+              if (_globalPlayer.didBlock) {
+                _battleSequenceRtl.Text += "but you blocked perfectly!" + "\n";
+              }
             }
-          }
-          else {
-            rtl.Text += "The attack passed through you" + "\n";
-          }
-          _globalPlayer.updateHealthLabel(_playerHp);
+            else {
+              _battleSequenceRtl.Text += "The attack passed through you" + "\n";
+            }
+            _globalPlayer.updateHealthLabel(_playerHp);
+            break;
         }
-        changeCurrentFighter();
+        
+        ChangeActiveFighter();
         if (_globalPlayer.CurrentHealth <= 0 || _turnQueue.enemyCurrentHP <= 0) {
           if (_globalPlayer.CurrentHealth <= 0) {
-            rtl.Text += "You have lost the fight";
-            playerActed = false;
+            _battleSequenceRtl.Text += "You have lost the fight";
+            _playerActed = false;
             GetNode<ColorRect>("DeathScreen").Visible = true;
           }
           else {
-            rtl.Text += "You have won the fight";
+            _battleSequenceRtl.Text += "You have won the fight";
             _globalPlayer.Experience += 10;
             if(_globalPlayer.Experience >= _globalPlayer.ExperienceToNextLevel)
             {
               GetTree().ChangeScene("res://LevelUp.tscn");
             }
           }
-          fightOver = true;
+          _fightOver = true;
         }
       }
       else
@@ -99,68 +99,77 @@ namespace Incorpreal.Battle {
       }
     }
 
-    private void displayPlayerOptions() {
-      attackbtn.Visible = !attackbtn.Visible;
-      spellbtn.Visible = !spellbtn.Visible;
+    private void StartPlayerTurn() {
+      _globalPlayer.isDefending = false;
+      _globalPlayer.didBlock = false;
+      _playerActed = false;
+      DisplayPlayerOptions();
+      _battleSequenceRtl.Text += "Choose an action \n";
+      _battleTimer.Start();
+    }
+
+    private void DisplayPlayerOptions() {
+      _attackBtn.Visible = !_attackBtn.Visible;
+      _spellBtn.Visible = !_spellBtn.Visible;
       if (_globalPlayer.currentPoints < 5) {
-        spellbtn.Disabled = true;
+        _spellBtn.Disabled = true;
       }
       else {
-        spellbtn.Disabled = false;
+        _spellBtn.Disabled = false;
       }
       _defendBtn.Visible = !_defendBtn.Visible;
     }
 
-    public void changeCurrentFighter() {
-      _currentFighterPos = (_currentFighterPos + 1) % _turnQueue.combatants.Count;
+    private void ChangeActiveFighter() {
+      _activeFighter = (_activeFighter + 1) % _turnQueue.combatants.Count;
     }
 
     public override void _Input(InputEvent @event) {
-      if (playerActed && battlePage.Visible) {
+      if (_playerActed && _battlePage.Visible) {
         if (@event.IsActionPressed("Continue")) {
-          fight();
+          Fight();
         }
       }
     }
 
     public void _on_Attackbtn_pressed() {
-      timer.Stop();
+      _battleTimer.Stop();
       Boolean didHit = (bool)_player.Call("attackEnemy");
       if (didHit) {
-        rtl.Text += "You hit the " + _turnQueue.enemyName + "\n";
+        _battleSequenceRtl.Text += "You hit the " + _turnQueue.enemyName + "\n";
       }
       else {
-        rtl.Text += "You missed the " + _turnQueue.enemyName + "\n";
+        _battleSequenceRtl.Text += "You missed the " + _turnQueue.enemyName + "\n";
       }
-      playerActed = true;
+      _playerActed = true;
       UpdateEnemyHealth();
-      displayPlayerOptions();
+      DisplayPlayerOptions();
     }
 
     public void _on_Spellbtn_pressed() {
-      timer.Stop();
+      _battleTimer.Stop();
       _player.Call("castSpell");
-      rtl.Text += "You cast a spell at the " + _turnQueue.enemyName + "\n";
-      playerActed = true;
-      HitTheTarget.minigameStart();
+      _battleSequenceRtl.Text += "You cast a spell at the " + _turnQueue.enemyName + "\n";
+      _playerActed = true;
+      _hitTheTarget.minigameStart();
       UpdateEnemyHealth();
-      displayPlayerOptions();
+      DisplayPlayerOptions();
     }
 
     public void _on_DefendBtn_Pressed() {
-      timer.Stop();
+      _battleTimer.Stop();
       _globalPlayer.isDefending = true;
-      rtl.Text += "You enter a defending stance" + "\n";
-      playerActed = true;
-      s.startMinigame();
+      _battleSequenceRtl.Text += "You enter a defending stance" + "\n";
+      _playerActed = true;
+      _simon.startMinigame();
       UpdateEnemyHealth();
-      displayPlayerOptions();
+      DisplayPlayerOptions();
     }
 
     public void onTimeout() {
-      displayPlayerOptions();
-      rtl.Text += "You spent too long and the " + _turnQueue.enemyName + " attacks!\n";
-      playerActed = true;
+      DisplayPlayerOptions();
+      _battleSequenceRtl.Text += "You spent too long and the " + _turnQueue.enemyName + " attacks!\n";
+      _playerActed = true;
     }
 
     public void _on_Resetbtn_pressed() {
