@@ -2,9 +2,10 @@ using Godot;
 using System;
 
 public class Player : KinematicBody2D {
-  [Export] public int moveSpeed = 125;
+  [Export]
+  public int moveSpeed = 125;
   private PhysicsBody2D _possessedEnemy;	
-  public string resPath;	
+  public string resPath;
   public Map map = new Map();
   public Area2D hitbox;
   public Sprite playerSpriteNode;
