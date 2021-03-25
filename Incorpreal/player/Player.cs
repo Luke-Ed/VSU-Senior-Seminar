@@ -14,6 +14,7 @@ public class Player : KinematicBody2D {
   public Boolean stuck;
   private GlobalPlayer _globalPlayer;
   private string _possessedEnemyId;
+  public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
 
   //For all the methods pertaining to stats, nothing is set in stone
   //numbers are expected to change as at a later date.
@@ -94,19 +95,22 @@ public class Player : KinematicBody2D {
     _globalPlayer.castSpell();
   }
 
-  public override void _PhysicsProcess(float delta) {
-    if (Visible) {
+  public override void _PhysicsProcess(float delta){
+    if (Visible){
       var motion = new Vector2();
+      //Player will use WASD to move their character
       motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
       motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-      //Player will use WASD to move their character
 
       MoveAndCollide(motion.Normalized() * moveSpeed * delta);
 
-      if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
+      if (!motion.x.Equals(0) || !motion.y.Equals(0)){
+        if (footsteps.Playing == false){
+          footsteps.Play();
+        }
         stuck = false;
         ChangeState("Walking");
-        if (motion.x > 0) { 
+        if (motion.x > 0){ 
           //If walking right
           playerSpriteNode.FlipH = false; 
           //Character faces right
@@ -118,6 +122,7 @@ public class Player : KinematicBody2D {
         }
       }
       else {
+        footsteps.Stop();
         ChangeState("Idle");
       }
       
