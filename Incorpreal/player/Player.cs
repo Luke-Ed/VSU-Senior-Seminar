@@ -147,26 +147,22 @@ public class Player : KinematicBody2D {
         }
     }
 	
-    public void ChangeState(string newState)
-    {
-        switch (newState) {
-	      case "Idle": {
-		      animate.Play("Idle");
-		      break;
-	      }
-	      case "Dead": {
-	        animate.Play("Die");
-	        break;
-	      }
-	      case "Walking": {
-          animate.Play("Walking");
-	        break;
-	      }
-	      default: {
-	        break;
-	      }
-	  }
-}
+  private void ChangeState(string newState) {
+    switch (newState) {
+      case "Idle": {
+        animate.Play("Idle");
+        break;
+      }
+      case "Dead": {
+        animate.Play("Die");
+        break;
+      }
+      case "Walking": {
+        animate.Play("Walking");
+        break;
+      }
+    }
+  }
 
     public void Possess() {
         //1. Check if anyone within range
