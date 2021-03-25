@@ -175,8 +175,8 @@ namespace Incorpreal.Battle {
     }
 
     public void _on_Resetbtn_pressed() {
-      _globalPlayer.playerCharacter = null;
-      _globalPlayer.playerLocation = new Vector2(324, 179);
+      _globalPlayer.PlayerCharacter = null;
+      _globalPlayer.PlayerLocation = new Vector2(324, 179);
       _globalPlayer.enemyFought.Clear();
       _globalPlayer.createPlayer();
       GetTree().ChangeScene(_globalPlayer.lastScene);
