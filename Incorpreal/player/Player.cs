@@ -22,7 +22,13 @@ public class Player : KinematicBody2D {
 
     //Can create two different types of players one with melee stats and the other with ranged.
     //Will be able choose class at the start of the game at a main menu once implemented.
-    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
+    public int Strength { get; set; }
+    public int Dexterity { get; set; }
+    public int Vitality { get; set; }
+    public int Intelligence { get; set; }
+    public int Luck { get; set; }
+
+    public int Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
     public String CharacterClass;
     
     public Player(String Class)
@@ -65,13 +71,13 @@ public class Player : KinematicBody2D {
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
         //Eventually a main menu will already have a character made for the player
         //This is for demonstration purposes
-        if (gp.playerCharacter == null)
+        if (gp.PlayerCharacter == null)
         {
             gp.createPlayer();
         }
-        if (gp.playerLocation != null && gp.enemyFought.Count > 0)
+        if (gp.PlayerLocation != null && gp.enemyFought.Count > 0)
         {
-            GlobalPosition = gp.playerLocation;
+            GlobalPosition = gp.PlayerLocation;
             for (int i = 0; i < gp.enemyFought.Count; i++)
             {
                 Console.WriteLine(gp.enemyFought[i]);
@@ -133,7 +139,7 @@ public class Player : KinematicBody2D {
                 {
                     gp = (GlobalPlayer)GetNode("/root/GlobalData");
                     gp.lastScene = GetTree().CurrentScene.Filename;
-                    gp.playerLocation = GlobalPosition;
+                    gp.PlayerLocation = GlobalPosition;
                     collision.Collider.Call("Hit");
                 }
                 else if (!movementPossible())

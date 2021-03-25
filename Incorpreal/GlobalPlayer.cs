@@ -6,7 +6,7 @@ public class GlobalPlayer : Node {
     public Vector2 PlayerLocation;
     public NodePath enemyPath;
     public Player PlayerCharacter;
-    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
+    public int Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
     public String CharacterClass;
     public Node PC;
     public Node Enemy;
@@ -29,10 +29,6 @@ public class GlobalPlayer : Node {
     public void createPlayer() {
         Player temp = new Player("Melee");
         PlayerCharacter = temp;
-        Strength = PlayerCharacter.Strength;
-        Dexterity = PlayerCharacter.Dexterity;
-        Vitality = PlayerCharacter.Vitality;
-        Intelligence = PlayerCharacter.Intelligence;
         Luck = PlayerCharacter.Luck;
         CharacterClass = PlayerCharacter.CharacterClass;
         AttackDamage = PlayerCharacter.AttackDamage;
@@ -42,7 +38,7 @@ public class GlobalPlayer : Node {
         Level = PlayerCharacter.Level;
         ExperienceToNextLevel = PlayerCharacter.ExperienceToNextLevel;
         enemyFought = new List<String>();
-        spiritPoints = 5 + Intelligence;
+        spiritPoints = 5 + PlayerCharacter.Intelligence;
         currentPoints = spiritPoints;
         baseStat = 5;
     }
@@ -51,7 +47,7 @@ public class GlobalPlayer : Node {
     {
         Random random = new Random();
         int roll = random.Next(101);
-        if (roll >= 100 - Intelligence) {
+        if (roll >= 100 - PlayerCharacter.Intelligence) {
             return false;
         }
         else {
@@ -72,7 +68,7 @@ public class GlobalPlayer : Node {
         Random random = new Random();
         int roll = random.Next(101);
         //Checking to make sure the ghost can hit the enemy based on intelligence
-        if (roll >= 20 - Intelligence) {
+        if (roll >= 20 - PlayerCharacter.Intelligence) {
             //Checking for critical hit based on luck
             if (roll >= 100 - Luck) {
                 tq.EnemyCurrentHp -= AttackDamage * 2;
@@ -91,7 +87,7 @@ public class GlobalPlayer : Node {
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
         currentPoints -= 5;
         updateHealthLabel(hplabel);
-        tq.EnemyCurrentHp -= Intelligence + 5;
+        tq.EnemyCurrentHp -= PlayerCharacter.Intelligence + 5;
     }
 
   //When character levels up choose a stat to increase;
@@ -101,16 +97,16 @@ public class GlobalPlayer : Node {
 
     switch (stat) {
       case 0:
-        Strength++;
+        PlayerCharacter.Strength++;
         break;
       case 1:
-        Dexterity++;
+        PlayerCharacter.Dexterity++;
         break;
       case 2:
-        Vitality++;
+        PlayerCharacter.Vitality++;
         break;
       case 3:
-        Intelligence++;
+        PlayerCharacter.Intelligence++;
         break;
       case 4:
         Luck++;
@@ -118,14 +114,14 @@ public class GlobalPlayer : Node {
     }
 
     if (CharacterClass == "Ranged") {
-      AttackDamage += baseStat + Dexterity;
+      AttackDamage += baseStat + PlayerCharacter.Dexterity;
     }
     else {
-      AttackDamage += baseStat + Strength;
+      AttackDamage += baseStat + PlayerCharacter.Strength;
     }
-    MaxHealth = baseStat + Vitality;
+    MaxHealth = baseStat + PlayerCharacter.Vitality;
     CurrentHealth = MaxHealth;
-    spiritPoints = baseStat + Intelligence;
+    spiritPoints = baseStat + PlayerCharacter.Intelligence;
     currentPoints = spiritPoints;
     ExperienceToNextLevel += 10;
     }
