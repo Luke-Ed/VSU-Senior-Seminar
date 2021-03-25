@@ -79,7 +79,7 @@ namespace Incorpreal.Battle {
         // Switch the currently active fighter, to allow both fighters to have turns.
         
         // Check the player and enemy's health. If either of them are at or below 0 then process them appropriately. 
-        if (_globalPlayer.CurrentHealth <= 0) {
+        if (_globalPlayer.PlayerCharacter.CurrentHealth <= 0) {
           // If the player's health is low, display the death screen, and after informing them the fight is over.
           _battleSequenceRtl.Text += "You have lost the fight";
           _playerActed = false;
@@ -89,8 +89,8 @@ namespace Incorpreal.Battle {
         if (_turnQueue.EnemyCurrentHp <= 0) {
           // If the enemy's helth is low, inform the player that they won.
           _battleSequenceRtl.Text += "You have won the fight";
-          _globalPlayer.Experience += 10;
-          if(_globalPlayer.Experience >= _globalPlayer.ExperienceToNextLevel) {
+          _globalPlayer.PlayerCharacter.Experience += 10;
+          if(_globalPlayer.PlayerCharacter.Experience >= _globalPlayer.ExperienceToNextLevel) {
               GetTree().ChangeScene("res://LevelUp.tscn");
           }
           _fightOver = true;

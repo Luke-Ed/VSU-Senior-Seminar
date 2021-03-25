@@ -3,63 +3,58 @@ using System;
 using System.Collections.Generic;
 
 public class GlobalPlayer : Node {
-    public Vector2 PlayerLocation;
-    public NodePath enemyPath;
+  public Vector2 PlayerLocation;
+  public NodePath enemyPath;
     public Player PlayerCharacter;
-    public int Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
-    public String CharacterClass;
-    public Node PC;
-    public Node Enemy;
-    public List<String> enemyFought;
-    public Label hplabel;
-    public string lastScene;
-    public Boolean isDefending = false;
-    public Boolean didBlock = false;
-    public Boolean perfectSpell = false;
-    public Boolean isPossesing = false;
+  public int Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
+  public String CharacterClass;
+  public Node PC;
+  public Node Enemy;
+  public List<String> enemyFought;
+  public Label hplabel;
+  public string lastScene;
+  public Boolean isDefending = false;
+  public Boolean didBlock = false;
+  public Boolean perfectSpell = false;
+  public Boolean isPossesing = false;
 
-    public void updateHealthLabel(Label l) {
-        String text = "Your Health: " + CurrentHealth + "/" + MaxHealth;
-        text += "\n Spirit Points: " + currentPoints + "/" + spiritPoints;
-        if (l != null) {
-            l.Text = text;
-        }
+  public void updateHealthLabel(Label l) {
+    String text = "Your Health: " + PlayerCharacter.CurrentHealth + "/" + PlayerCharacter.MaxHealth;
+    text += "\n Spirit Points: " + currentPoints + "/" + spiritPoints;
+    if (l != null) {
+      l.Text = text;
     }
+  }
 
-    public void createPlayer() {
-        Player temp = new Player("Melee");
-        PlayerCharacter = temp;
-        Luck = PlayerCharacter.Luck;
-        CharacterClass = PlayerCharacter.CharacterClass;
-        AttackDamage = PlayerCharacter.AttackDamage;
-        Experience = PlayerCharacter.Experience;
-        MaxHealth = PlayerCharacter.MaxHealth;
-        CurrentHealth = MaxHealth;
-        Level = PlayerCharacter.Level;
-        ExperienceToNextLevel = PlayerCharacter.ExperienceToNextLevel;
-        enemyFought = new List<String>();
-        spiritPoints = 5 + PlayerCharacter.Intelligence;
-        currentPoints = spiritPoints;
-        baseStat = 5;
-    }
+  public void createPlayer() {
+    Player temp = new Player("Melee");
+    PlayerCharacter = temp;
+    CharacterClass = PlayerCharacter.CharacterClass;
+    AttackDamage = PlayerCharacter.AttackDamage;
+    PlayerCharacter.CurrentHealth = PlayerCharacter.MaxHealth;
+    Level = PlayerCharacter.Level;
+    ExperienceToNextLevel = PlayerCharacter.ExperienceToNextLevel;
+    enemyFought = new List<String>();
+    spiritPoints = 5 + PlayerCharacter.Intelligence;
+    currentPoints = spiritPoints;
+    baseStat = 5;
+  }
 
-    public Boolean takeDamage(int damage)
-    {
-        Random random = new Random();
-        int roll = random.Next(101);
-        if (roll >= 100 - PlayerCharacter.Intelligence) {
-            return false;
-        }
-        else {
-            if ((CurrentHealth - damage) <= 0)
-            {
-                CurrentHealth = 0;
-                return true;
-            }
-            CurrentHealth -= damage;
-            return true;
-        }
+    public Boolean takeDamage(int damage) {
+      Random random = new Random();
+      int roll = random.Next(101);
+      if (roll >= 100 - PlayerCharacter.Intelligence) {
+        return false;
+      }
+      else {
+        if ((PlayerCharacter.CurrentHealth - damage) <= 0) {
+        PlayerCharacter.CurrentHealth = 0;
+        return true;
+      }
+      PlayerCharacter.CurrentHealth -= damage;
+      return true;
     }
+}
 
     //Returns the amount of damage done if you are able to hit
     public Boolean AttackEnemy()
@@ -70,7 +65,7 @@ public class GlobalPlayer : Node {
         //Checking to make sure the ghost can hit the enemy based on intelligence
         if (roll >= 20 - PlayerCharacter.Intelligence) {
             //Checking for critical hit based on luck
-            if (roll >= 100 - Luck) {
+            if (roll >= 100 - PlayerCharacter.Luck) {
                 tq.EnemyCurrentHp -= AttackDamage * 2;
                 return true;
             }
@@ -109,7 +104,7 @@ public class GlobalPlayer : Node {
         PlayerCharacter.Intelligence++;
         break;
       case 4:
-        Luck++;
+        PlayerCharacter.Luck++;
         break;
     }
 
@@ -119,8 +114,8 @@ public class GlobalPlayer : Node {
     else {
       AttackDamage += baseStat + PlayerCharacter.Strength;
     }
-    MaxHealth = baseStat + PlayerCharacter.Vitality;
-    CurrentHealth = MaxHealth;
+    PlayerCharacter.MaxHealth = baseStat + PlayerCharacter.Vitality;
+    PlayerCharacter.CurrentHealth = PlayerCharacter.MaxHealth;
     spiritPoints = baseStat + PlayerCharacter.Intelligence;
     currentPoints = spiritPoints;
     ExperienceToNextLevel += 10;

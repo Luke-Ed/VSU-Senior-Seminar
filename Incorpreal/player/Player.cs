@@ -27,8 +27,12 @@ public class Player : KinematicBody2D {
     public int Vitality { get; set; }
     public int Intelligence { get; set; }
     public int Luck { get; set; }
+    public int Experience { get; set; }
+    public int MaxHealth { get; set; }
+    public int CurrentHealth { get; set; }
+    
 
-    public int Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
+    public int Level, AttackDamage, ExperienceToNextLevel;
     public String CharacterClass;
     
     public Player(String Class)
