@@ -7,9 +7,9 @@ namespace Incorpreal.bat {
     
     public GlobalPlayer gp;
     public KinematicBody2D player;
-
-    public Bat(int moveSpeed = 150, int attack = 2, int health = 30, string enemyName = "Bat") : 
-      base(moveSpeed, attack, health, enemyName) {
+    
+    public Bat() : 
+      base(150, 2, 30, "Bat") {
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -20,11 +20,12 @@ namespace Incorpreal.bat {
     }
 
     public override void _Ready() {
+      gp = (GlobalPlayer)GetNode("/root/GlobalData");
       /*
       var filePath = "res://Enemies/enemies.txt";
       File newFile = new File();
       newFile.Open(filePath, File.ModeFlags.Read);
-      gp = (GlobalPlayer)GetNode("/root/GlobalData");
+      
       while (!newFile.EofReached())
       {
         String s = newFile.GetLine();
@@ -58,7 +59,7 @@ namespace Incorpreal.bat {
 
     public void Hit() { 
       if (!gp.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
-        gp.enemyFought.Add(this.Name);
+        gp.enemyFought.Add(Name);
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
         tq.GetChild(1).Name = EnemyName;
         tq.GetChild(1).Call("_Ready");
