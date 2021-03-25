@@ -2,9 +2,10 @@ using Godot;
 using System;
 
 public class Player : KinematicBody2D {
-  [Export] public int moveSpeed = 125;
+  [Export]
+  public int moveSpeed = 125;
   private PhysicsBody2D _possessedEnemy;	
-  public string resPath;	
+  public string resPath;
   public Map map = new Map();
   public Area2D hitbox;
   public Sprite playerSpriteNode;
@@ -33,7 +34,7 @@ public class Player : KinematicBody2D {
   public int Level { get; set; }
   public int AttackDamage { get; set; }
   public int ExperienceToNextLevel { get; set; }
-  public String CharacterPlayerClass { get; }
+  public String CharacterPlayerClass { get; set; }
     
   public Player(String playerClass) {
     CharacterPlayerClass = playerClass;
@@ -58,6 +59,10 @@ public class Player : KinematicBody2D {
     CurrentHealth = MaxHealth;
     Level = 1;
     ExperienceToNextLevel = 10;
+  }
+
+  public Player() {
+    
   }
 
   public override void _Ready() {
@@ -91,10 +96,9 @@ public class Player : KinematicBody2D {
 
   public override void _PhysicsProcess(float delta) {
     if (Visible) {
-      var motion = new Vector2 {
-        x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
-        y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up")
-      };
+      var motion = new Vector2();
+      motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+      motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
       //Player will use WASD to move their character
 
       MoveAndCollide(motion.Normalized() * moveSpeed * delta);
@@ -132,7 +136,7 @@ public class Player : KinematicBody2D {
       }
     }        
   }
-	
+  
     //Possession listener
   public override void _Input(InputEvent @event) {
     if (Input.IsActionJustPressed("possession")) { 
@@ -140,7 +144,7 @@ public class Player : KinematicBody2D {
       Possess();
     }
   }
-	
+  
   private void ChangeState(string newState) {
     switch (newState) {
       case "Idle": {
@@ -155,6 +159,8 @@ public class Player : KinematicBody2D {
         animate.Play("Walking");
         break;
       }
+      default: 
+        break;
     }
   }
 

@@ -136,7 +136,7 @@ namespace Incorpreal.Battle {
 
     public void _on_AttackBtn_Pressed() {
       _battleTimer.Stop();
-      Boolean didHit = (bool)_player.Call("attackEnemy");
+      Boolean didHit = (bool)_player.Call("AttackEnemy");
       if (didHit) {
         _battleSequenceRtl.Text += "You hit the " + _turnQueue.EnemyName + "\n";
       }
@@ -150,7 +150,7 @@ namespace Incorpreal.Battle {
 
     public void _on_SpellBtn_Pressed() {
       _battleTimer.Stop();
-      _player.Call("castSpell");
+      _player.Call("CastSpell");
       _battleSequenceRtl.Text += "You cast a spell at the " + _turnQueue.EnemyName + "\n";
       _playerActed = true;
       _hitTheTarget.minigameStart();
