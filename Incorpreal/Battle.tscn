@@ -44,7 +44,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Attackbtn" type="Button" parent="BattlePage"]
+[node name="AttackBtn" type="Button" parent="BattlePage"]
 visible = false
 margin_left = 115.025
 margin_top = 286.903
@@ -55,7 +55,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Spellbtn" type="Button" parent="BattlePage"]
+[node name="SpellBtn" type="Button" parent="BattlePage"]
 visible = false
 margin_left = 267.316
 margin_top = 286.847
@@ -66,7 +66,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Defendbtn" type="Button" parent="BattlePage"]
+[node name="DefendBtn" type="Button" parent="BattlePage"]
 visible = false
 margin_left = 441.587
 margin_top = 286.903
@@ -137,9 +137,9 @@ position = Vector2( 304.23, 174.814 )
 
 [node name="Player" parent="HitTheTarget_Engan/HitTheTarget" index="1"]
 position = Vector2( 303.041, 174.814 )
-[connection signal="pressed" from="BattlePage/Attackbtn" to="." method="_on_Attackbtn_pressed"]
-[connection signal="pressed" from="BattlePage/Spellbtn" to="." method="_on_Spellbtn_pressed"]
-[connection signal="pressed" from="BattlePage/Defendbtn" to="." method="_on_Defendbtn_pressed"]
+[connection signal="pressed" from="BattlePage/AttackBtn" to="." method="_on_AttackBtn_Pressed"]
+[connection signal="pressed" from="BattlePage/SpellBtn" to="." method="_on_SpellBtn_Pressed"]
+[connection signal="pressed" from="BattlePage/DefendBtn" to="." method="_on_DefendBtn_Pressed"]
 [connection signal="pressed" from="DeathScreen/Resetbtn" to="." method="_on_Resetbtn_pressed"]
 [connection signal="pressed" from="DeathScreen/Quitbtn" to="." method="_on_Quitbtn_pressed"]
 
