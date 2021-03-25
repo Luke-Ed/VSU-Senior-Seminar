@@ -1,38 +1,44 @@
 using System;
 using Godot;
+using Incorpreal.Enemies;
 
-namespace Incorpreal.Enemies {
+namespace Incorpreal.bat {
   public class Bat : AbstractEnemy {
-    public float time=0;
     
-    private GlobalPlayer _globalPlayer;
-    private KinematicBody2D _player;
-    public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
-    
-    public Bat() : 
-      base(150, 2, 30, "Bat") {
+    public GlobalPlayer _globalPlayer;
+    public KinematicBody2D player;
+
+    public Bat(int moveSpeed = 150, int attack = 2, int health = 30, string enemyName = "Bat") : 
+      base(moveSpeed, attack, health, enemyName) {
     }
 
     public override void _PhysicsProcess(float delta) {
-      if (_player != null) {
-        Vector2 velocity = GlobalPosition.DirectionTo(_player.GlobalPosition);
+      if (player != null) {
+        Vector2 velocity = GlobalPosition.DirectionTo(player.GlobalPosition);
         MoveAndCollide(velocity * MoveSpeed * delta);
       }
     }
 
     public override void _Ready() {
-      _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
-      this.AddChild(footsteps);
-        const string Path = "res://sounds/BatSound.wav";
-        AudioStream footstep = (AudioStream)GD.Load(Path);
-        footsteps.Stream = footstep;
-        footsteps.Autoplay = true;
-        footsteps.MaxDistance = 300;
-        footsteps.Attenuation = 3;
-        footsteps.VolumeDb = (1)
+      /*
+      var filePath = "res://Enemies/enemies.txt";
+      File newFile = new File();
+      newFile.Open(filePath, File.ModeFlags.Read);
+      gp = (GlobalPlayer)GetNode("/root/GlobalData");
+      while (!newFile.EofReached())
+      {
+        String s = newFile.GetLine();
+        if (Name.Contains(s)){
+          enemyName = s;
+          attack = int.Parse(newFile.GetLine());
+          health = int.Parse(newFile.GetLine());
+          currentHealth = health;
+        }
+      }
+      */
     }
 
-    public Boolean PlayTurn() {
+    public Boolean playTurn() {
       if (!_globalPlayer.isDefending) {
         return _globalPlayer.takeDamage(Attack);
       }
@@ -51,11 +57,10 @@ namespace Incorpreal.Enemies {
 
 
     public void Hit() { 
-      if (!_globalPlayer.isPossesing) { 
-        //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
-        _globalPlayer.enemiesFought.Add(Name);
+      if (!_globalPlayer.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
+        _globalPlayer.enemiesFought.Add(this.Name);
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
-        tq.GetChild(1).Name = EnemyType;
+        tq.GetChild(1).Name = tq.EnemyName;
         tq.GetChild(1).Call("_Ready");
         GetTree().ChangeScene("res://Battle.tscn");
       }
@@ -69,16 +74,7 @@ namespace Incorpreal.Enemies {
 
     public void _on_Area2D_body_exited(Node body) {
       if (body.Name == "Player") {
-        _player = null;
-      }
-    }
-    public override void _Process(float delta){
-      time += delta;
-      if (footsteps.Playing == false) {
-        if (time > 5) {
-          time = 0;
-          footsteps.Play();
-          }
+        player = null;
       }
     }
 
