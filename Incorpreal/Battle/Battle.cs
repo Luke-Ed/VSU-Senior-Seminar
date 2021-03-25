@@ -97,6 +97,7 @@ namespace Incorpreal.Battle {
         }
       }
       else {
+        _globalPlayer.Status = null;
         GetTree().ChangeScene(_globalPlayer.lastScene);
       }
     }
@@ -107,6 +108,16 @@ namespace Incorpreal.Battle {
       _globalPlayer.isDefending = false;
       _globalPlayer.didBlock = false;
       _playerActed = false;
+      if (_globalPlayer.Status != null){
+        _battleSequenceRtl.Text += "You are " + _globalPlayer.Status + "\n";
+        switch (_globalPlayer.Status){
+          case ("Bleeding"):
+            _globalPlayer.PlayerCharacter.CurrentHealth -= 2;
+            break;
+          default:
+            break;
+          }
+      }
       DisplayPlayerOptions();
       _battleSequenceRtl.Text += "Choose an action \n";
       _battleTimer.Start();

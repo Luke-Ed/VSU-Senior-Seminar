@@ -19,7 +19,7 @@ public class GlobalPlayer : Node {
   public Boolean didBlock = false;
   public Boolean perfectSpell = false;
   public Boolean isPossesing = false;
-
+  public String Status {get; set;}
   public void updateHealthLabel(Label l) {
     String text = "Your Health: " + PlayerCharacter.CurrentHealth + "/" + PlayerCharacter.MaxHealth;
     text += "\n Spirit Points: " + CurrentPoints + "/" + _spiritPoints;
