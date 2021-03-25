@@ -67,7 +67,7 @@ public class Player : KinematicBody2D {
     if (gp.PlayerCharacter == null) {
       gp.createPlayer();
     }
-    if (gp.PlayerLocation != null && gp.enemiesFought.Count > 0) {
+    if (gp.enemiesFought.Count > 0) {
       GlobalPosition = gp.PlayerLocation;
       for (int i = 0; i < gp.enemiesFought.Count; i++) {
         Console.WriteLine(gp.enemiesFought[i]);
