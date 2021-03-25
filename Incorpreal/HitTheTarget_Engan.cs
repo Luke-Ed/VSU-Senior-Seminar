@@ -73,7 +73,7 @@ public class HitTheTarget_Engan : Node
             {
                 GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
                 rbl.Text += "You cast the spell perfectly and absorb some of the energy back!\n";
-                gp.currentPoints += 2;
+                gp.CurrentPoints += 2;
                 gp.perfectSpell = true;
                 targetPage.Visible = false;
                 battlePage.Visible = true;

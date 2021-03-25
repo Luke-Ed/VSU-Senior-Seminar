@@ -90,7 +90,7 @@ namespace Incorpreal.Battle {
           // If the enemy's helth is low, inform the player that they won.
           _battleSequenceRtl.Text += "You have won the fight";
           _globalPlayer.PlayerCharacter.Experience += 10;
-          if(_globalPlayer.PlayerCharacter.Experience >= _globalPlayer.ExperienceToNextLevel) {
+          if(_globalPlayer.PlayerCharacter.Experience >= _globalPlayer.PlayerCharacter.ExperienceToNextLevel) {
               GetTree().ChangeScene("res://LevelUp.tscn");
           }
           _fightOver = true;
@@ -118,7 +118,7 @@ namespace Incorpreal.Battle {
       _spellBtn.Visible = !_spellBtn.Visible;
       _defendBtn.Visible = !_defendBtn.Visible;
       // If the player doesn't have enough magic points, disable the spell's button.
-      _spellBtn.Disabled = _globalPlayer.currentPoints < 5;
+      _spellBtn.Disabled = _globalPlayer.CurrentPoints < 5;
     }
 
     private void ChangeActiveFighter() {
@@ -177,7 +177,7 @@ namespace Incorpreal.Battle {
     public void _on_Resetbtn_pressed() {
       _globalPlayer.PlayerCharacter = null;
       _globalPlayer.PlayerLocation = new Vector2(324, 179);
-      _globalPlayer.enemyFought.Clear();
+      _globalPlayer.enemiesFought.Clear();
       _globalPlayer.createPlayer();
       GetTree().ChangeScene(_globalPlayer.lastScene);
     }

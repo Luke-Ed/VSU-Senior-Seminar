@@ -5,12 +5,14 @@ using System.Collections.Generic;
 public class GlobalPlayer : Node {
   public Vector2 PlayerLocation;
   public NodePath enemyPath;
-    public Player PlayerCharacter;
-  public int Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
+  public Player PlayerCharacter;
+  private int _baseStat, _spiritPoints;
+  public int CurrentPoints;
+  // Note / Todo: Move Spirit points into player.cs, since all other values are stored there.
   public String CharacterClass;
   public Node PC;
   public Node Enemy;
-  public List<String> enemyFought;
+  public List<String> enemiesFought;
   public Label hplabel;
   public string lastScene;
   public Boolean isDefending = false;
@@ -20,7 +22,7 @@ public class GlobalPlayer : Node {
 
   public void updateHealthLabel(Label l) {
     String text = "Your Health: " + PlayerCharacter.CurrentHealth + "/" + PlayerCharacter.MaxHealth;
-    text += "\n Spirit Points: " + currentPoints + "/" + spiritPoints;
+    text += "\n Spirit Points: " + CurrentPoints + "/" + _spiritPoints;
     if (l != null) {
       l.Text = text;
     }
@@ -29,15 +31,12 @@ public class GlobalPlayer : Node {
   public void createPlayer() {
     Player temp = new Player("Melee");
     PlayerCharacter = temp;
-    CharacterClass = PlayerCharacter.CharacterClass;
-    AttackDamage = PlayerCharacter.AttackDamage;
+    CharacterClass = PlayerCharacter.CharacterPlayerClass;
     PlayerCharacter.CurrentHealth = PlayerCharacter.MaxHealth;
-    Level = PlayerCharacter.Level;
-    ExperienceToNextLevel = PlayerCharacter.ExperienceToNextLevel;
-    enemyFought = new List<String>();
-    spiritPoints = 5 + PlayerCharacter.Intelligence;
-    currentPoints = spiritPoints;
-    baseStat = 5;
+    enemiesFought = new List<String>();
+    _spiritPoints = 5 + PlayerCharacter.Intelligence;
+    CurrentPoints = _spiritPoints;
+    _baseStat = 5;
   }
 
     public Boolean takeDamage(int damage) {
@@ -66,10 +65,10 @@ public class GlobalPlayer : Node {
         if (roll >= 20 - PlayerCharacter.Intelligence) {
             //Checking for critical hit based on luck
             if (roll >= 100 - PlayerCharacter.Luck) {
-                tq.EnemyCurrentHp -= AttackDamage * 2;
+                tq.EnemyCurrentHp -= PlayerCharacter.AttackDamage * 2;
                 return true;
             }
-            tq.EnemyCurrentHp -= AttackDamage;
+            tq.EnemyCurrentHp -= PlayerCharacter.AttackDamage;
             return true;
         }
         else {
@@ -80,15 +79,15 @@ public class GlobalPlayer : Node {
 
     public void castSpell () {
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
-        currentPoints -= 5;
+        CurrentPoints -= 5;
         updateHealthLabel(hplabel);
         tq.EnemyCurrentHp -= PlayerCharacter.Intelligence + 5;
     }
 
   //When character levels up choose a stat to increase;
   public void LevelUp(int stat) {
-    Level++;
-    baseStat += 5;
+    PlayerCharacter.Level++;
+    _baseStat += 5;
 
     switch (stat) {
       case 0:
@@ -109,15 +108,15 @@ public class GlobalPlayer : Node {
     }
 
     if (CharacterClass == "Ranged") {
-      AttackDamage += baseStat + PlayerCharacter.Dexterity;
+      PlayerCharacter.AttackDamage += _baseStat + PlayerCharacter.Dexterity;
     }
     else {
-      AttackDamage += baseStat + PlayerCharacter.Strength;
+      PlayerCharacter.AttackDamage += _baseStat + PlayerCharacter.Strength;
     }
-    PlayerCharacter.MaxHealth = baseStat + PlayerCharacter.Vitality;
+    PlayerCharacter.MaxHealth = _baseStat + PlayerCharacter.Vitality;
     PlayerCharacter.CurrentHealth = PlayerCharacter.MaxHealth;
-    spiritPoints = baseStat + PlayerCharacter.Intelligence;
-    currentPoints = spiritPoints;
-    ExperienceToNextLevel += 10;
+    _spiritPoints = _baseStat + PlayerCharacter.Intelligence;
+    CurrentPoints = _spiritPoints;
+    PlayerCharacter.ExperienceToNextLevel += 10;
     }
 }

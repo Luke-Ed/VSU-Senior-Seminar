@@ -1,109 +1,93 @@
 using Godot;
 using System;
-using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
-    [Export]
+  [Export] public int moveSpeed = 125;
+  public PhysicsBody2D possessee;	
+  public string resPath;	
+  public Map map = new Map();
+  public Area2D hitbox;
+  public Sprite playerSpriteNode;
+  public AnimationPlayer animate;
+  public Area2D possessionArea;
+  public Boolean stuck;
+  public GlobalPlayer gp;
+  public String PossesseeName;
 
-    public int moveSpeed = 125;
-    public PhysicsBody2D possessee = null;	
-    public string resPath;	
-    public Map map = new Map();
-    public Area2D hitbox;
-    public Sprite playerSpriteNode;
-    public AnimationPlayer animate;
-    public Area2D possessionArea;
-    public Boolean stuck;
-    public GlobalPlayer gp;
-    public String PossesseeName;
+  //For all the methods pertaining to stats, nothing is set in stone
+  //numbers are expected to change as at a later date.
 
-    //For all the methods pertaining to stats, nothing is set in stone
-    //numbers are expected to change as at a later date.
-
-    //Can create two different types of players one with melee stats and the other with ranged.
-    //Will be able choose class at the start of the game at a main menu once implemented.
-    public int Strength { get; set; }
-    public int Dexterity { get; set; }
-    public int Vitality { get; set; }
-    public int Intelligence { get; set; }
-    public int Luck { get; set; }
-    public int Experience { get; set; }
-    public int MaxHealth { get; set; }
-    public int CurrentHealth { get; set; }
+  //Can create two different types of players one with melee stats and the other with ranged.
+  //Will be able choose class at the start of the game at a main menu once implemented.
     
-
-    public int Level, AttackDamage, ExperienceToNextLevel;
-    public String CharacterClass;
+  // L: I moved stats into properties, which allows them to be safely updated from other classes, and makes working 
+  // with them in other classes a little easier.
+  public int Strength { get; set; }
+  public int Dexterity { get; set; }
+  public int Vitality { get; set; }
+  public int Intelligence { get; set; }
+  public int Luck { get; set; }
+  public int Experience { get; set; }
+  public int MaxHealth { get; set; }
+  public int CurrentHealth { get; set; }
+  public int Level { get; set; }
+  public int AttackDamage { get; set; }
+  public int ExperienceToNextLevel { get; set; }
+  public String CharacterPlayerClass { get; }
     
-    public Player(String Class)
-    {
-        
-        CharacterClass = Class;
-        if (Class == "Melee")
-        {
-            Strength = 10;
-            Dexterity = 5;
-            Vitality = 10;
-            Intelligence = 5;
-            Luck = 5;
-            AttackDamage = 5 + Strength;
-        }
-        else if (Class == "Ranged")
-        {
-            Strength = 5;
-            Dexterity = 10;
-            Vitality = 5;
-            Intelligence = 10;
-            Luck = 5;
-            AttackDamage = 5 + Dexterity;
-        }
-        Experience = 0;
-        MaxHealth = 5 + Vitality;
-        CurrentHealth = MaxHealth;
-        Level = 1;
-        ExperienceToNextLevel = 10;
+  public Player(String playerClass) {
+    CharacterPlayerClass = playerClass;
+    if (playerClass == "Melee") {
+      Strength = 10;
+      Dexterity = 5;
+      Vitality = 10;
+      Intelligence = 5;
+      Luck = 5;
+      AttackDamage = 5 + Strength;
     }
-
-    public Player()
-    {
-
+    else if (playerClass == "Ranged") {
+      Strength = 5;
+      Dexterity = 10;
+      Vitality = 5;
+      Intelligence = 10;
+      Luck = 5;
+      AttackDamage = 5 + Dexterity;
     }
+    Experience = 0;
+    MaxHealth = 5 + Vitality;
+    CurrentHealth = MaxHealth;
+    Level = 1;
+    ExperienceToNextLevel = 10;
+  }
 
-
-    public override void _Ready()
-    {
-        gp = (GlobalPlayer)GetNode("/root/GlobalData");
-        //Eventually a main menu will already have a character made for the player
-        //This is for demonstration purposes
-        if (gp.PlayerCharacter == null)
-        {
-            gp.createPlayer();
-        }
-        if (gp.PlayerLocation != null && gp.enemyFought.Count > 0)
-        {
-            GlobalPosition = gp.PlayerLocation;
-            for (int i = 0; i < gp.enemyFought.Count; i++)
-            {
-                Console.WriteLine(gp.enemyFought[i]);
-                GetParent().FindNode(gp.enemyFought[i]).QueueFree();
-            }
-        }
-            animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
-            playerSpriteNode = (Sprite)GetNode("Sprite/player");
-            hitbox = (Area2D)GetNode("findEmptyPosArea2D");
-            possessionArea = (Area2D)GetNode("Area2D");
-            stuck = false;
+  public override void _Ready() {
+    gp = (GlobalPlayer)GetNode("/root/GlobalData");
+    //Eventually a main menu will already have a character made for the player
+    //This is for demonstration purposes
+    if (gp.PlayerCharacter == null) {
+      gp.createPlayer();
     }
-
-    public Boolean attackEnemy()
-    {
-        return gp.AttackEnemy();
+    if (gp.PlayerLocation != null && gp.enemiesFought.Count > 0) {
+      GlobalPosition = gp.PlayerLocation;
+      for (int i = 0; i < gp.enemiesFought.Count; i++) {
+        Console.WriteLine(gp.enemiesFought[i]);
+        GetParent().FindNode(gp.enemiesFought[i]).QueueFree();
+      }
     }
+    animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
+    playerSpriteNode = (Sprite)GetNode("Sprite/player");
+    hitbox = (Area2D)GetNode("findEmptyPosArea2D");
+    possessionArea = (Area2D)GetNode("Area2D");
+    stuck = false;
+  }
 
-    public void castSpell()
-    {
-        gp.castSpell();
-    }
+  public Boolean AttackEnemy() {
+    return gp.AttackEnemy();
+  }
+
+  public void CastSpell() {
+    gp.castSpell();
+  }
 
     public override void _PhysicsProcess(float delta)
     {
