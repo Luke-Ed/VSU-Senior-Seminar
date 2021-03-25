@@ -1,26 +1,25 @@
 using System;
 using Godot;
-using Incorpreal.Enemies;
 
-namespace Incorpreal.bat {
+namespace Incorpreal.Enemies {
   public class Bat : AbstractEnemy {
     
-    public GlobalPlayer gp;
-    public KinematicBody2D player;
+    private GlobalPlayer _globalPlayer;
+    private KinematicBody2D _player;
     
     public Bat() : 
       base(150, 2, 30, "Bat") {
     }
 
     public override void _PhysicsProcess(float delta) {
-      if (player != null) {
-        Vector2 velocity = GlobalPosition.DirectionTo(player.GlobalPosition);
+      if (_player != null) {
+        Vector2 velocity = GlobalPosition.DirectionTo(_player.GlobalPosition);
         MoveAndCollide(velocity * MoveSpeed * delta);
       }
     }
 
     public override void _Ready() {
-      gp = (GlobalPlayer)GetNode("/root/GlobalData");
+      _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
       /*
       var filePath = "res://Enemies/enemies.txt";
       File newFile = new File();
@@ -39,27 +38,28 @@ namespace Incorpreal.bat {
       */
     }
 
-    public Boolean playTurn() {
-      if (!gp.isDefending) {
-        return gp.takeDamage(Attack);
+    public Boolean PlayTurn() {
+      if (!_globalPlayer.isDefending) {
+        return _globalPlayer.takeDamage(Attack);
       }
       else
       {
-        if (gp.didBlock)
+        if (_globalPlayer.didBlock)
         {
-          return gp.takeDamage(0);
+          return _globalPlayer.takeDamage(0);
         }
         else
         {
-          return gp.takeDamage(Attack / 2);
+          return _globalPlayer.takeDamage(Attack / 2);
         }
       }
     }
 
 
     public void Hit() { 
-      if (!gp.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
-        gp.enemyFought.Add(Name);
+      if (!_globalPlayer.isPossesing) { 
+        //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
+        _globalPlayer.enemyFought.Add(Name);
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
         tq.GetChild(1).Name = EnemyName;
         tq.GetChild(1).Call("_Ready");
@@ -75,7 +75,7 @@ namespace Incorpreal.bat {
 
     public void _on_Area2D_body_exited(Node body) {
       if (body.Name == "Player") {
-        player = null;
+        _player = null;
       }
     }
 

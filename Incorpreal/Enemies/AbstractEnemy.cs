@@ -7,8 +7,6 @@ namespace Incorpreal.Enemies {
     protected int Health { get; }
     protected int CurrentHealth { get; }
     protected string EnemyName { get; }
-    private GlobalPlayer _globalPlayer;
-    private KinematicBody2D _player;
 
     protected AbstractEnemy(int moveSpeed, int attack, int health, string enemyName) {
       MoveSpeed = moveSpeed;
