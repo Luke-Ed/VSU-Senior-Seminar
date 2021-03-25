@@ -3,7 +3,7 @@ using System;
 
 public class Player : KinematicBody2D {
   [Export] public int moveSpeed = 125;
-  public PhysicsBody2D possessee;	
+  private PhysicsBody2D _possessedEnemy;	
   public string resPath;	
   public Map map = new Map();
   public Area2D hitbox;
@@ -11,8 +11,8 @@ public class Player : KinematicBody2D {
   public AnimationPlayer animate;
   public Area2D possessionArea;
   public Boolean stuck;
-  public GlobalPlayer gp;
-  public String PossesseeName;
+  private GlobalPlayer _globalPlayer;
+  private string _possessedEnemyId;
 
   //For all the methods pertaining to stats, nothing is set in stone
   //numbers are expected to change as at a later date.
@@ -61,17 +61,17 @@ public class Player : KinematicBody2D {
   }
 
   public override void _Ready() {
-    gp = (GlobalPlayer)GetNode("/root/GlobalData");
+    _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
     //Eventually a main menu will already have a character made for the player
     //This is for demonstration purposes
-    if (gp.PlayerCharacter == null) {
-      gp.createPlayer();
+    if (_globalPlayer.PlayerCharacter == null) {
+      _globalPlayer.createPlayer();
     }
-    if (gp.enemiesFought.Count > 0) {
-      GlobalPosition = gp.PlayerLocation;
-      for (int i = 0; i < gp.enemiesFought.Count; i++) {
-        Console.WriteLine(gp.enemiesFought[i]);
-        GetParent().FindNode(gp.enemiesFought[i]).QueueFree();
+    if (_globalPlayer.enemiesFought.Count > 0) {
+      GlobalPosition = _globalPlayer.PlayerLocation;
+      for (int i = 0; i < _globalPlayer.enemiesFought.Count; i++) {
+        Console.WriteLine(_globalPlayer.enemiesFought[i]);
+        GetParent().FindNode(_globalPlayer.enemiesFought[i]).QueueFree();
       }
     }
     animate = GetNode<AnimationPlayer>("AnimationPlayer");
@@ -82,11 +82,11 @@ public class Player : KinematicBody2D {
   }
 
   public Boolean AttackEnemy() {
-    return gp.AttackEnemy();
+    return _globalPlayer.AttackEnemy();
   }
 
   public void CastSpell() {
-    gp.castSpell();
+    _globalPlayer.castSpell();
   }
 
   public override void _PhysicsProcess(float delta) {
@@ -120,26 +120,26 @@ public class Player : KinematicBody2D {
       var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
       if (collision != null) {
         if (collision.Collider.HasMethod("Hit")) {
-          gp = (GlobalPlayer)GetNode("/root/GlobalData");
-          gp.lastScene = GetTree().CurrentScene.Filename;
-          gp.PlayerLocation = GlobalPosition;
+          _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
+          _globalPlayer.lastScene = GetTree().CurrentScene.Filename;
+          _globalPlayer.PlayerLocation = GlobalPosition;
           collision.Collider.Call("Hit");
         }
-        else if (!movementPossible()) {
+        else if (!MovementPossible()) {
           stuck = true;
-          teleport();
+          Teleport();
         }
       }
     }        
   }
 	
     //Possession listener
-    public override void _Input(InputEvent @event)
-    {
-        if (Input.IsActionJustPressed("possession")) { //If R is pressed
-            Possess();
-        }
+  public override void _Input(InputEvent @event) {
+    if (Input.IsActionJustPressed("possession")) { 
+      //If R is pressed
+      Possess();
     }
+  }
 	
   private void ChangeState(string newState) {
     switch (newState) {
@@ -158,71 +158,86 @@ public class Player : KinematicBody2D {
     }
   }
 
-    public void Possess() {
-        //1. Check if anyone within range
-        Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
-        float closestDistance = 1000;
-        int closestEnemyIndex = 0;
-        Boolean enemyFound = false;
+  private void Possess() {
+    //1. Check if anyone within range
+    Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
+    float closestDistance = 1000;
+    int closestEnemyIndex = 0;
+    Boolean enemyFound = false;
 
-        //2. Find closest enemy
-        for (int x = 0; x < nearby.Count; x++) { //Iterate them
-            PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; //Grab one
-            if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
-                float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
-                if (currentDistance < closestDistance) { //Check if closer than current closest
-                    closestEnemyIndex = x;
-                    closestDistance = currentDistance;
-                    enemyFound = true;
-                }
-            }
-        }  
-            
-        //3. If suitable enemy found & player not already possessing someone, possess that enemy
-        if (enemyFound && this.possessee == null) {
-            possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
-            this.resPath = possessee.Filename; //Grab victim resource path for later
-            Sprite victimSprite = (Sprite) possessee.GetNode("Sprite"); //Grab victim sprite
-            this.SetCollisionMaskBit(2, true); //Make GhostWalls impenetrable while possessing
-            if (resPath.Contains("Bat")) {
-                this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
-                this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
-            }
-            //Possession animation here (optional)
-            playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
-            PossesseeName = victimSprite.GetParent().Name;
-            victimSprite.GetParent().QueueFree(); //Make enemy disappear
-            gp.isPossesing = true;
-        } else if (possessee != null) { //Else if already possessing, undo it
-            playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
-            this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
-            if (resPath.Contains("Bat")) { //Return from Bat mode
-                this.SetCollisionLayerBit(0, true);
-                this.SetCollisionMaskBit(3, true);
-            }
-            Vector2 newLocation = this.GlobalPosition;
-            newLocation.x += 70;
-            this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
-            possessee = null;
-            gp.isPossesing = false;
+    //2. Find closest enemy
+    for (int x = 0; x < nearby.Count; x++) { 
+      //Iterate them
+      PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; 
+      //Grab one
+      if (currentEnemy.GetGroups().Contains("Enemies")) { 
+        //Skip bodies not belonging to the Enemies group
+        float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); 
+        //Calculate distance
+        if (currentDistance < closestDistance) { 
+          //Check if closer than current closest
+          closestEnemyIndex = x;
+          closestDistance = currentDistance;
+          enemyFound = true;
         }
+      }
+    }  
+            
+    //3. If suitable enemy found & player not already possessing someone, possess that enemy
+    if (enemyFound && _possessedEnemy == null) {
+      _possessedEnemy = (KinematicBody2D) nearby[closestEnemyIndex]; 
+      //Grab victim
+      resPath = _possessedEnemy.Filename; 
+      //Grab victim resource path for later
+      Sprite victimSprite = (Sprite) _possessedEnemy.GetNode("Sprite"); 
+      //Grab victim sprite
+      SetCollisionMaskBit(2, true); 
+      //Make GhostWalls impenetrable while possessing
+      if (resPath.Contains("Bat")) {
+        SetCollisionLayerBit(0, false); 
+        //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
+        SetCollisionMaskBit(3, false); //Turn off LowWall collisions
+      }
+      //Possession animation here (optional)
+      playerSpriteNode.Texture = victimSprite.Texture; 
+      //Copy victim's texture
+      _possessedEnemyId = victimSprite.GetParent().Name;
+      victimSprite.GetParent().QueueFree(); //Make enemy disappear
+      _globalPlayer.isPossesing = true;
     } 
+    else if (_possessedEnemy != null) { 
+      //Else if already possessing, undo it
+      playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png");
+      //Return player sprite to normal
+      SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
+      if (resPath.Contains("Bat")) { //Return from Bat mode
+        SetCollisionLayerBit(0, true);
+        SetCollisionMaskBit(3, true);
+      }
+      Vector2 newLocation = GlobalPosition;
+      newLocation.x += 70;
+      map.SpawnEnemy(resPath, newLocation, GetTree().CurrentScene, _possessedEnemyId); 
+      //Bring original enemy back
+      _possessedEnemy = null;
+      _globalPlayer.isPossesing = false;
+    }
+  } 
 
     //This method returns a Boolean denoting if player movement is possible in any direction
-    public Boolean movementPossible() {
-        Boolean movementPossible = true;
-        if (TestMove(this.Transform, new Vector2(1,0)) && TestMove(this.Transform, new Vector2(-1,0)) && TestMove(this.Transform, new Vector2(0,-1)) && TestMove(this.Transform, new Vector2(0,1))) { //Test all 4 directions
-            movementPossible = false;
-        }
-        return movementPossible;
+  public Boolean MovementPossible() {
+    Boolean movementPossible = true;
+    if (TestMove(Transform, new Vector2(1,0)) && TestMove(Transform, new Vector2(-1,0)) && TestMove(Transform, new Vector2(0,-1)) && TestMove(Transform, new Vector2(0,1))) {     //Test all 4 directions
+      movementPossible = false;
     }
+    return movementPossible;
+  }
 
-    //This method allows the player to teleport if they get stuck in a wall or between impassible objects, by clicking where you want to go
-    public void teleport() {
-        if (Input.IsActionJustReleased("left_click")) {
-            Vector2 mousePos = GetViewport().GetMousePosition();
-            this.Position = mousePos;
-            stuck = false;
-        }
+  //This method allows the player to teleport if they get stuck in a wall or between impassible objects, by clicking where you want to go
+  public void Teleport() {
+    if (Input.IsActionJustReleased("left_click")) {
+      Vector2 mousePos = GetViewport().GetMousePosition();
+      Position = mousePos;
+      stuck = false;
     }
+  }
 }
