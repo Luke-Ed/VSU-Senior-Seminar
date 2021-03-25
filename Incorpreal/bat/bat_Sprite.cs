@@ -17,7 +17,7 @@ public class bat_Sprite : Sprite
         footsteps.Stream = footstep;
         footsteps.Autoplay = true;
         footsteps.MaxDistance = 300;
-        footsteps.Attenuation = 6;
+        footsteps.Attenuation = (.8f) ;
         footsteps.VolumeDb = (1);
     }
 
