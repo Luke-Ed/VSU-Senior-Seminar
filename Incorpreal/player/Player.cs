@@ -74,7 +74,7 @@ public class Player : KinematicBody2D {
         GetParent().FindNode(gp.enemiesFought[i]).QueueFree();
       }
     }
-    animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
+    animate = GetNode<AnimationPlayer>("AnimationPlayer");
     playerSpriteNode = (Sprite)GetNode("Sprite/player");
     hitbox = (Area2D)GetNode("findEmptyPosArea2D");
     possessionArea = (Area2D)GetNode("Area2D");
@@ -89,55 +89,49 @@ public class Player : KinematicBody2D {
     gp.castSpell();
   }
 
-    public override void _PhysicsProcess(float delta)
-    {
-        if (Visible)
-        {
-            var motion = new Vector2();
-            //Player will use WASD to move their character
-            motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-            motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+  public override void _PhysicsProcess(float delta) {
+    if (Visible) {
+      var motion = new Vector2 {
+        x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left"),
+        y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up")
+      };
+      //Player will use WASD to move their character
 
-            MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+      MoveAndCollide(motion.Normalized() * moveSpeed * delta);
 
-            if (!motion.x.Equals(0) || !motion.y.Equals(0))
-            {
-                stuck = false;
-                ChangeState("Walking");
-                if (motion.x > 0)
-                { //If walking right
-                    playerSpriteNode.FlipH = false; //Character faces right
-                }
-                else if (motion.x < 0)
-                { //If walking left
-                    playerSpriteNode.FlipH = true; //Character faces left
-                }
-            }
-            else
-            {
-                ChangeState("Idle");
-            }
-
-
-            var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
-
-            if (collision != null)
-            {
-                if (collision.Collider.HasMethod("Hit"))
-                {
-                    gp = (GlobalPlayer)GetNode("/root/GlobalData");
-                    gp.lastScene = GetTree().CurrentScene.Filename;
-                    gp.PlayerLocation = GlobalPosition;
-                    collision.Collider.Call("Hit");
-                }
-                else if (!movementPossible())
-                {
-                    stuck = true;
-                    teleport();
-                }
-            }
-        }        
-    }
+      if (!motion.x.Equals(0) || !motion.y.Equals(0)) {
+        stuck = false;
+        ChangeState("Walking");
+        if (motion.x > 0) { 
+          //If walking right
+          playerSpriteNode.FlipH = false; 
+          //Character faces right
+        }
+        else if (motion.x < 0) {
+          //If walking left
+          playerSpriteNode.FlipH = true; 
+          //Character faces left
+        }
+      }
+      else {
+        ChangeState("Idle");
+      }
+      
+      var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
+      if (collision != null) {
+        if (collision.Collider.HasMethod("Hit")) {
+          gp = (GlobalPlayer)GetNode("/root/GlobalData");
+          gp.lastScene = GetTree().CurrentScene.Filename;
+          gp.PlayerLocation = GlobalPosition;
+          collision.Collider.Call("Hit");
+        }
+        else if (!movementPossible()) {
+          stuck = true;
+          teleport();
+        }
+      }
+    }        
+  }
 	
     //Possession listener
     public override void _Input(InputEvent @event)
