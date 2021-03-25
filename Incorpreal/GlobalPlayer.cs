@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class GlobalPlayer : Node {
   public Vector2 PlayerLocation;
   public NodePath enemyPath;
-  public Player PlayerCharacter = null;
+  public Player PlayerCharacter;
   private int _baseStat, _spiritPoints;
   public int CurrentPoints;
   // Note / Todo: Move Spirit points into player.cs, since all other values are stored there.
