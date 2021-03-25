@@ -3,9 +3,11 @@ using Godot;
 
 namespace Incorpreal.Enemies {
   public class Bat : AbstractEnemy {
+    public float time=0;
     
     private GlobalPlayer _globalPlayer;
     private KinematicBody2D _player;
+    public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
     
     public Bat() : 
       base(150, 2, 30, "Bat") {
@@ -20,22 +22,14 @@ namespace Incorpreal.Enemies {
 
     public override void _Ready() {
       _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
-      /*
-      var filePath = "res://Enemies/enemies.txt";
-      File newFile = new File();
-      newFile.Open(filePath, File.ModeFlags.Read);
-      
-      while (!newFile.EofReached())
-      {
-        String s = newFile.GetLine();
-        if (Name.Contains(s)){
-          enemyName = s;
-          attack = int.Parse(newFile.GetLine());
-          health = int.Parse(newFile.GetLine());
-          currentHealth = health;
-        }
-      }
-      */
+      this.AddChild(footsteps);
+        const string Path = "res://sounds/BatSound.wav";
+        AudioStream footstep = (AudioStream)GD.Load(Path);
+        footsteps.Stream = footstep;
+        footsteps.Autoplay = true;
+        footsteps.MaxDistance = 300;
+        footsteps.Attenuation = 3;
+        footsteps.VolumeDb = (1)
     }
 
     public Boolean PlayTurn() {
@@ -76,6 +70,15 @@ namespace Incorpreal.Enemies {
     public void _on_Area2D_body_exited(Node body) {
       if (body.Name == "Player") {
         _player = null;
+      }
+    }
+    public override void _Process(float delta){
+      time += delta;
+      if (footsteps.Playing == false) {
+        if (time > 5) {
+          time = 0;
+          footsteps.Play();
+          }
       }
     }
 
