@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Incorpreal.TileSets;
 
 //Code inspired by GameDevelopmentCenter on YouTube
 
@@ -30,8 +31,8 @@ public class Interactables : TileMap
                 loot_area_instance.Position = MapToWorld(cur_tile);
                 //MapToWorld(Vector2) - Returns the global position corresponding to the given tilemap's (grid-based) coordinates.
 
-                inter.addUsedTiles((Vector2)cur_tile);
-                inter.addUsedTextures((Vector2)GetCellAutotileCoord((int)cur_tile[0], (int)cur_tile[1]));
+                inter.AddUsedTiles((Vector2)cur_tile);
+                inter.AddUsedTextures((Vector2)GetCellAutotileCoord((int)cur_tile[0], (int)cur_tile[1]));
                 //GetCellAutoTileCoord(int x, int y) - Returns a Vector2 coordinate of the tile using a specific texture in the current tileset
 
                 AddChild(loot_area_instance);
@@ -51,7 +52,7 @@ public class Interactables : TileMap
             area.Connect("body_exited", inter, "OnLootAreaExited");
             //Connect(String signal, Node signal_handler, String method_name)
 
-            inter.setDisabledLootArea(area);
+            inter.SetDisabledLootArea(area);
         }
     }
 }
