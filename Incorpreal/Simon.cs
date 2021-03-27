@@ -12,6 +12,8 @@ public class Simon : Node
     public ColorRect battlePage;
     public ColorRect simonPage;
     private Label _codeLabel;
+    private Label _instructionLabel;
+    private Tween _fadeTween;
 
 
 
@@ -28,6 +30,9 @@ public class Simon : Node
         timer.Connect("timeout", this, "onTimeout");
         timer.WaitTime = 1;
         _codeLabel = simonPage.GetNode<Label>("CodeReveal");
+        _instructionLabel = simonPage.GetNode<Label>("Instruction");
+        _fadeTween = _instructionLabel.GetNode<Tween>("Tween");
+        _fadeTween.InterpolateProperty(_instructionLabel, "modulate", Color.Color8(255, 255, 255, 255), Color.Color8(255, 255, 255, 0), 3, Tween.TransitionType.Linear, Tween.EaseType.Out);
         for (int i = 0; i < 4; i++)
         {
             Button tempButton = simonPage.GetChild(i) as Button;
@@ -38,6 +43,7 @@ public class Simon : Node
 
     public void startMinigame()
     {
+        _fadeTween.Start();
         restartCode();
         battlePage.Visible = false;
         simonPage.Visible = true;
