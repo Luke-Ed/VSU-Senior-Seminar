@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
     [Export]
-
-    public int moveSpeed = 125;
+    public int moveSpeed = 100;
     public PhysicsBody2D possessee = null;	
     public string resPath;	
     public Map map = new Map();
@@ -47,6 +46,7 @@ public class Player : KinematicBody2D {
             Luck = 5;
             AttackDamage = 5 + Dexterity;
         }
+
         Experience = 0;
         MaxHealth = 5 + Vitality;
         CurrentHealth = MaxHealth;
@@ -58,7 +58,6 @@ public class Player : KinematicBody2D {
     {
 
     }
-
 
     public override void _Ready()
     {
@@ -186,7 +185,7 @@ public class Player : KinematicBody2D {
 
         //2. Find closest enemy
         for (int x = 0; x < nearby.Count; x++) { //Iterate them
-            PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; //Grab one
+            PhysicsBody2D currentEnemy = (PhysicsBody2D)nearby[x]; //Grab one
             if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
                 float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
                 if (currentDistance < closestDistance) { //Check if closer than current closest
