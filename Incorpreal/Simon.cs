@@ -11,6 +11,7 @@ public class Simon : Node
     public List<int> userAnswer = new List<int>();
     public ColorRect battlePage;
     public ColorRect simonPage;
+    private Label _codeLabel;
 
 
 
@@ -23,9 +24,10 @@ public class Simon : Node
     {
         battlePage = GetParent().GetNode<ColorRect>("BattlePage");
         simonPage = GetNode<ColorRect>("HideButtons");
-        timer = GetNode<Timer>("Timer") as Timer;
+        timer = GetNode<Timer>("Timer");
         timer.Connect("timeout", this, "onTimeout");
         timer.WaitTime = 1;
+        _codeLabel = simonPage.GetNode<Label>("CodeReveal");
         for (int i = 0; i < 4; i++)
         {
             Button tempButton = simonPage.GetChild(i) as Button;
@@ -65,6 +67,7 @@ public class Simon : Node
 
     public void onTimeout()
     {
+        _codeLabel.Text = "";
         if (count <= 3)
         {
             foreach (Button b in buttons)
@@ -86,6 +89,7 @@ public class Simon : Node
     {
         int number = combination[count];
         buttons[number - 1].Disabled = false;
+        _codeLabel.Text = number.ToString();
         count++;
         timer.Start();
     }
