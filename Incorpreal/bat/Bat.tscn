@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/bat.png" type="Texture" id=1]
+[ext_resource path="res://bat/bat_Sprite.cs" type="Script" id=2]
 
 [sub_resource type="CSharpScript" id=1]
 resource_name = "Bat"
@@ -36,9 +37,10 @@ script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 
-[node name="bat" type="Sprite" parent="Sprite"]
-position = Vector2( 0.591766, -2.0442 )
+[node name="bat_Sprite" type="Sprite" parent="Sprite"]
+position = Vector2( 0.591766, -2.04419 )
 texture = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
