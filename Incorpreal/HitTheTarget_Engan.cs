@@ -14,6 +14,8 @@ public class HitTheTarget_Engan : Node
     public Timer timer;
     public Boolean minigamePlaying = false;
     public Vector2 startingPos;
+    private Label _instructionLabel;
+    private Tween _fadeTween;
 
 
     public override void _Ready()
@@ -33,10 +35,14 @@ public class HitTheTarget_Engan : Node
         timer.Connect("timeout", this, "onTimeout");
         timer.WaitTime = 10;
         startingPos = player.Position;
+        _instructionLabel = targetPage.GetNode<Label>("Instruction");
+        _fadeTween = _instructionLabel.GetNode<Tween>("Tween");
+        _fadeTween.InterpolateProperty(_instructionLabel, "modulate", Color.Color8(255, 255, 255, 255), Color.Color8(255, 255, 255, 0), 3, Tween.TransitionType.Linear, Tween.EaseType.Out);
     }
 
     public void minigameStart()
     {
+        _fadeTween.Start();
         targetPage.Visible = true;
         battlePage.Visible = false;
         foreach (StaticBody2D target in targets)
@@ -47,14 +53,6 @@ public class HitTheTarget_Engan : Node
         minigamePlaying = true;
         player.Position = startingPos;
         timer.Start();
-    }
-
-    public void showTargets()
-    {
-        foreach(StaticBody2D target in targets)
-        {
-            target.Visible = true;
-        }
     }
 
     public void onTimeout()

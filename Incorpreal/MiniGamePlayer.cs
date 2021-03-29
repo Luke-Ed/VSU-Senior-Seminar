@@ -21,16 +21,8 @@ public class MiniGamePlayer : KinematicBody2D
     {
         int moveSpeed = 125;
         var motion = new Vector2();
-        //Player will use WASD to move their character
         motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
         motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-        /*
-        if (!motion.x.Equals(0) || !motion.y.Equals(0)) { //For Player animations
-                ChangeState("Walking");
-            } else {
-                ChangeState("Idle");
-            }
-        */
         MoveAndCollide(motion.Normalized() * moveSpeed * delta);
     }
 

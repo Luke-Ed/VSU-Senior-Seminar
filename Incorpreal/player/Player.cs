@@ -83,12 +83,14 @@ public class Player : KinematicBody2D {
                 GetParent().FindNode(gp.enemyFought[i]).QueueFree();
             }
         }
-        
-        animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
-        playerSpriteNode = (Sprite)GetNode("Sprite/player");
-        hitbox = (Area2D)GetNode("findEmptyPosArea2D");
-        possessionArea = (Area2D)GetNode("Area2D");
-        stuck = false;
+            animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
+            playerSpriteNode = (Sprite)GetNode("Sprite/player");
+            hitbox = (Area2D)GetNode("findEmptyPosArea2D");
+            possessionArea = (Area2D)GetNode("Area2D");
+            stuck = false;
+            Label hpLabel = (Label)GetNode("Camera2D").GetNode("CanvasLayer").GetNode("HealthLabel");
+            gp.hplabel = hpLabel;
+            gp.updateHealthLabel(gp.hplabel);
     }
 
     public Boolean attackEnemy()
@@ -228,7 +230,7 @@ public class Player : KinematicBody2D {
                 this.SetCollisionMaskBit(3, true);
             }
             Vector2 newLocation = this.GlobalPosition;
-            newLocation.x += 70;
+            newLocation.x += 80;
             this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
             possessee = null;
             gp.isPossesing = false;
