@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://TimingGame.cs" type="Script" id=1]
+[ext_resource path="res://assets/bullet.png" type="Texture" id=2]
+[ext_resource path="res://assets/rythm bar.png" type="Texture" id=3]
+[ext_resource path="res://Path2D.cs" type="Script" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 213.723, 62.2403 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 31.8845, 64.4853 )
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 3.82297, 179.089, 0, 0, 0, 0, 622.299, 185.824, 0, 0, 0, 0, 632.401, 183.579, 0, 0, 0, 0, 622.299, 195.926, 0, 0, 0, 0, -0.666885, 191.436, 0, 0, 0, 0, 12.8027, 179.089 )
+}
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 14.5914, 65.1479 )
+
+[node name="TimingGame_Engan" type="Node2D"]
+position = Vector2( 1.12247, -11.2246 )
+script = ExtResource( 1 )
+
+[node name="GamePage" type="ColorRect" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+color = Color( 1, 1, 1, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Rythm Bar" type="StaticBody2D" parent="GamePage"]
+position = Vector2( 306.432, 186.329 )
+
+[node name="rythm bar" type="Sprite" parent="GamePage/Rythm Bar"]
+position = Vector2( 8.3129, 0.617523 )
+scale = Vector2( 0.921575, 1 )
+texture = ExtResource( 3 )
+
+[node name="Good" type="Area2D" parent="GamePage/Rythm Bar"]
+position = Vector2( 95.4092, -1.12244 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GamePage/Rythm Bar/Good"]
+position = Vector2( -88.6746, 2.2449 )
+shape = SubResource( 1 )
+
+[node name="Perfect" type="Area2D" parent="GamePage/Rythm Bar"]
+position = Vector2( 32.5514, -5.61234 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GamePage/Rythm Bar/Perfect"]
+position = Vector2( -3.36743, 7.85721 )
+shape = SubResource( 2 )
+
+[node name="Path2D" type="Path2D" parent="GamePage"]
+curve = SubResource( 3 )
+script = ExtResource( 4 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="GamePage/Path2D"]
+position = Vector2( 3.82297, 179.089 )
+rotation = 0.0108997
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="GamePage/Path2D/PathFollow2D"]
+position = Vector2( -4.48985, 1.12247 )
+
+[node name="Bar" type="Sprite" parent="GamePage/Path2D/PathFollow2D/KinematicBody2D"]
+position = Vector2( 2.70051, 19.6994 )
+scale = Vector2( 1.67348, 2.32054 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GamePage/Path2D/PathFollow2D/KinematicBody2D"]
+position = Vector2( 9.01586, 3.2693 )
+shape = SubResource( 4 )
+
+[node name="Timer" type="Timer" parent="."]
+[connection signal="body_entered" from="GamePage/Rythm Bar/Good" to="." method="_on_Good_body_entered"]
+[connection signal="body_exited" from="GamePage/Rythm Bar/Good" to="." method="_on_Good_body_exited"]
+[connection signal="body_entered" from="GamePage/Rythm Bar/Perfect" to="." method="_on_Perfect_body_entered"]
+[connection signal="body_exited" from="GamePage/Rythm Bar/Perfect" to="." method="_on_Perfect_body_exited"]
