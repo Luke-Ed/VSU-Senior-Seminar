@@ -24,7 +24,6 @@ public class Player : KinematicBody2D {
     //Will be able choose class at the start of the game at a main menu once implemented.
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
     public String CharacterClass;
-    
     public Player(String Class)
     {
         

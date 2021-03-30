@@ -6,8 +6,10 @@ public class Pause : Control
     public Label PauseLabel;
     public Label QuitLabel;
     public Label RestartLabel;
+    public Label SaveLabel;
     public Boolean quitEntered = false;
     public Boolean restartEntered = false;
+    public Boolean saveEntered = false;
 
     //Pause listener
     public override void _Input(InputEvent @event) {
@@ -28,6 +30,7 @@ public class Pause : Control
         PauseLabel = (Label)GetNode("PauseLabel"); //Grab pause label
         QuitLabel = (Label)GetNode("QuitLabel"); //Grab quit label
         RestartLabel = (Label)GetNode("RestartLabel"); //Grab restart label
+        SaveLabel = (Label)GetNode("SaveLabel"); //Grab save label
     }
 
     public void _on_QuitLabel_mouse_entered() {
@@ -40,6 +43,11 @@ public class Pause : Control
         restartEntered = true;
     }
 
+    public void _on_SaveLabel_mouse_entered() {
+        SaveLabel.AddColorOverride("font_color", Colors.DarkRed);
+        saveEntered = true;
+    }
+
     public void _on_QuitLabel_mouse_exited() {
         QuitLabel.AddColorOverride("font_color", Colors.DarkGray);
         quitEntered = false;
@@ -48,6 +56,11 @@ public class Pause : Control
     public void _on_RestartLabel_mouse_exited() {
         RestartLabel.AddColorOverride("font_color", Colors.DarkGray);
         restartEntered = false;
+    }
+
+    public void _on_SaveLabel_mouse_exited() {
+        SaveLabel.AddColorOverride("font_color", Colors.DarkGray);
+        saveEntered = false;
     }
 
     public void _on_QuitLabel_gui_input(InputEvent @event) {
@@ -60,6 +73,12 @@ public class Pause : Control
         if (restartEntered && @event is InputEventMouseButton) {
             GetTree().ReloadCurrentScene(); //Reload the level
             PauseGame(); //Unpause or it will stay paused without the pause screen
+        }
+    }
+
+    public void _on_SaveLabel_gui_input(InputEvent @event) {
+        if (saveEntered && @event is InputEventMouseButton) {
+            //save everything (still under construction)
         }
     }
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

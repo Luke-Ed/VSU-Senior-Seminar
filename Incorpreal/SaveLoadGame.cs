@@ -17,14 +17,14 @@ public class SaveLoadGame : Node
         var saveFile = new File();
         saveFile.Open("user://savegame.save", File.ModeFlags.Write);
 
-        var saveables = GetTree().GetNodesInGroup("saveable");
+        var saveables = GetTree().GetNodesInGroup("persist");
         foreach (Node saveable in saveables) {
             if (saveable.Filename.Empty()) {
                 GD.Print(String.Format("node '{0}' is not an instanced scene", saveable.Name));
                 continue;
             }
             if (!saveable.HasMethod("Save")) {
-                GD.Print("node '{0}' has no Save method", saveable.Name));
+                GD.Print("node '{0}' has no Save method", saveable.Name);
                 continue;
             }
             var saveData = saveable.Call("Save");
