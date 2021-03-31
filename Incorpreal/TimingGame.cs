@@ -7,58 +7,87 @@ public class TimingGame : Node2D
     private Boolean _isGood = false;
     private Boolean _isPerfect = false;
     private Timer _timer;
-    private ColorRect _gamePage; 
+    private ColorRect _gamePage;
+    private ColorRect _battlePage;
+    private RichTextLabel _battleText;
+    private GlobalPlayer _globalPlayer;
+    private Boolean _playingMinigame = false;
+    private TurnQueue _turnQueue;
+    private Path2D _rythmPath;
+    private PathFollow2D _rythmFollowPath;
 
     public override void _Ready()
     {
-        _timer = GetNode<Timer>("Timer");
-        _timer.Connect("timeout", this, "onTimeout");
-        _timer.WaitTime = 10;
         _gamePage = GetNode<ColorRect>("GamePage");
+        _battlePage = GetParent().GetNode<ColorRect>("BattlePage");
+        _battleText = _battlePage.GetNode<RichTextLabel>("RichTextLabel");
+        _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
+        _turnQueue = (TurnQueue)GetNode("/root/Tq");
+        _rythmPath = _gamePage.GetNode<Path2D>("Path2D");
+        _rythmFollowPath = _rythmPath.GetNode<PathFollow2D>("PathFollow2D");
+
+    }
+
+    public void startMinigame()
+    {
+        _gamePage.Visible = true;
+        _battlePage.Visible = false;
+        _playingMinigame = true;
+        _rythmFollowPath.Offset = 0;
+        Console.WriteLine(_rythmPath.Name);
     }
 
 
     public void _on_Good_body_entered(Node body)
     {
-        _isGood = true;
-        Console.WriteLine("good");
+        _globalPlayer._goodHit = true;
     }
 
     public void _on_Good_body_exited(Node body)
     {
-        _isGood = false;
-        Console.WriteLine("not good");
+        _globalPlayer._goodHit = false;
     }
 
 
     public void _on_Perfect_body_entered(Node body)
     {
-        _isPerfect = true;
-        Console.WriteLine("perfect");
+        _globalPlayer._perfectHit = true;
     }
 
     public void _on_Perfect_body_exited(Node body)
     {
-        _isPerfect = false;
-        Console.WriteLine("not perfect");
-    }
-
-    public void onTimeout()
-    {
-        _gamePage.Visible = false;
+        _globalPlayer._perfectHit = false;
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed("left_click"))
+        if (@event.IsActionPressed("left_click") && _playingMinigame)
         {
-            if (_isGood)
+            Boolean _didHit = _globalPlayer.AttackEnemy();
+            if (_didHit)
             {
-                if (_isPerfect)
+                _battleText.Text += "You hit the " + _turnQueue.enemyName + "\n";
+                if (_globalPlayer._goodHit)
                 {
-
+                    if (_globalPlayer._perfectHit)
+                    {
+                        _battleText.Text += "You timed your hit perfectly. \n";
+                    }
+                    else
+                    {
+                        _battleText.Text += "You timed your hit well. \n";
+                    }
                 }
             }
+            else
+            {
+                _battleText.Text += "You missed the " + _turnQueue.enemyName + "\n";
+            }
+            _playingMinigame = false;
+            _globalPlayer._goodHit = false;
+            _globalPlayer._perfectHit = false;
+            _gamePage.Visible = false;
+            _battlePage.Visible = true;
         }
     }
 }

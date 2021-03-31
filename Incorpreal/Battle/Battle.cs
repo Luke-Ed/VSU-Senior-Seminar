@@ -16,10 +16,10 @@ public class Battle : Node
     public Button attackbtn, spellbtn, defendbtn;
     public Boolean playerActed = true;
     public ColorRect battlePage;
-    public ColorRect SimonPage;
     public Simon s;
     public Godot.Timer timer;
     public HitTheTarget_Engan HitTheTarget;
+    private TimingGame _timingGame;
 
     public Battle()
     {
@@ -50,6 +50,7 @@ public class Battle : Node
         timer.Connect("timeout", this, "onTimeout");
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
+        _timingGame = (TimingGame)GetNode("TimingGame_Engan");
     }
 
     public void updateEnemyHealth()
@@ -169,15 +170,7 @@ public class Battle : Node
     public void _on_Attackbtn_pressed()
     {
         timer.Stop();
-        Boolean didHit = (bool)player.Call("attackEnemy");
-        if (didHit)
-        {
-            rtl.Text += "You hit the " + tq.enemyName + "\n";
-        }
-        else
-        {
-            rtl.Text += "You missed the " + tq.enemyName + "\n";
-        }
+        _timingGame.startMinigame();
         playerActed = true;
         updateEnemyHealth();
         displayPlayerOptions();

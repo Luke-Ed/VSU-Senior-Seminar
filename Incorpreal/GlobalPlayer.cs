@@ -19,6 +19,8 @@ public class GlobalPlayer : Node
     public Boolean perfectSpell = false;
     public Boolean isPossesing = false;
     public String status;
+    public Boolean _goodHit { get; set; }
+    public Boolean _perfectHit { get; set; }
 
     public void updateHealthLabel(Label l)
     {
@@ -84,7 +86,27 @@ public class GlobalPlayer : Node
             //Checking for critical hit based on luck
             if (roll >= 100 - Luck)
             {
+                if (_goodHit)
+                {
+                    if (_perfectHit)
+                    {
+                        tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 2 * 1.5));
+                        return true;
+                    }
+                    tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 2 * 1.25));
+                    return true;
+                }
                 tq.enemyCurrentHP -= AttackDamage * 2;
+                return true;
+            }
+            if (_goodHit)
+            {
+                if (_perfectHit)
+                {
+                    tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 1.5));
+                    return true;
+                }
+                tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 1.25));
                 return true;
             }
             tq.enemyCurrentHP -= AttackDamage;
