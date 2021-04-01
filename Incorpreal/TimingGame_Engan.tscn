@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://TimingGame.cs" type="Script" id=1]
 [ext_resource path="res://assets/bullet.png" type="Texture" id=2]
 [ext_resource path="res://assets/rythm bar.png" type="Texture" id=3]
 [ext_resource path="res://Path2D.cs" type="Script" id=4]
+[ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 213.723, 62.2403 )
@@ -18,6 +19,12 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 14.5914, 65.1479 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 60
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
 
 [node name="TimingGame_Engan" type="Node2D"]
 position = Vector2( 1.12247, -11.2246 )
@@ -72,6 +79,30 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GamePage/Path2D/PathFollow2D/KinematicBody2D"]
 position = Vector2( 9.01586, 3.2693 )
 shape = SubResource( 4 )
+
+[node name="Instruction" type="Label" parent="GamePage"]
+margin_left = 104.062
+margin_top = 18.6331
+margin_right = 741.062
+margin_bottom = 155.633
+custom_fonts/font = SubResource( 5 )
+text = "Time Your Attack"
+__meta__ = {
+"_edit_use_anchors_": false,
+"_editor_description_": ""
+}
+
+[node name="Tween" type="Tween" parent="GamePage/Instruction"]
+
+[node name="Controls" type="Label" parent="GamePage"]
+margin_left = 3.12244
+margin_top = 347.838
+margin_right = 169.122
+margin_bottom = 442.838
+text = "Click To Stop The Bar"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Timer" type="Timer" parent="."]
 [connection signal="body_entered" from="GamePage/Rythm Bar/Good" to="." method="_on_Good_body_entered"]

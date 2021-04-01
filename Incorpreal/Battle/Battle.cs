@@ -48,6 +48,7 @@ public class Battle : Node
         timer = battlePage.GetNode<Godot.Timer>("Timer") as Godot.Timer;
         timer.WaitTime = 20;
         timer.Connect("timeout", this, "onTimeout");
+        gp.hplabel = playerHP;
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
         _timingGame = (TimingGame)GetNode("TimingGame_Engan");

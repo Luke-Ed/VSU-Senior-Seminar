@@ -15,6 +15,8 @@ public class TimingGame : Node2D
     private TurnQueue _turnQueue;
     private Path2D _rythmPath;
     private PathFollow2D _rythmFollowPath;
+    private Label _instructionLabel;
+    private Tween _fadeTween;
 
     public override void _Ready()
     {
@@ -25,11 +27,15 @@ public class TimingGame : Node2D
         _turnQueue = (TurnQueue)GetNode("/root/Tq");
         _rythmPath = _gamePage.GetNode<Path2D>("Path2D");
         _rythmFollowPath = _rythmPath.GetNode<PathFollow2D>("PathFollow2D");
+        _instructionLabel = _gamePage.GetNode<Label>("Instruction");
+        _fadeTween = _instructionLabel.GetNode<Tween>("Tween");
+        _fadeTween.InterpolateProperty(_instructionLabel, "modulate", Color.Color8(255, 255, 255, 255), Color.Color8(255, 255, 255, 0), 3, Tween.TransitionType.Linear, Tween.EaseType.Out);
 
     }
 
     public void startMinigame()
     {
+        _fadeTween.Start();
         _gamePage.Visible = true;
         _battlePage.Visible = false;
         _playingMinigame = true;

@@ -101,7 +101,7 @@ margin_left = 188.451
 margin_top = -175.104
 margin_right = 265.451
 margin_bottom = -161.104
-text = "TEST"
+text = "Player HP"
 __meta__ = {
 "_edit_use_anchors_": false
 }
