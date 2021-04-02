@@ -10,6 +10,7 @@ public class Pause : Control
     public Boolean quitEntered = false;
     public Boolean restartEntered = false;
     public Boolean saveEntered = false;
+    public SaveLoadGame saveLoadGame;
 
     //Pause listener
     public override void _Input(InputEvent @event) {
@@ -31,6 +32,7 @@ public class Pause : Control
         QuitLabel = (Label)GetNode("QuitLabel"); //Grab quit label
         RestartLabel = (Label)GetNode("RestartLabel"); //Grab restart label
         SaveLabel = (Label)GetNode("SaveLabel"); //Grab save label
+        saveLoadGame = new SaveLoadGame();
     }
 
     public void _on_QuitLabel_mouse_entered() {
@@ -78,13 +80,7 @@ public class Pause : Control
 
     public void _on_SaveLabel_gui_input(InputEvent @event) {
         if (saveEntered && @event is InputEventMouseButton) {
-            //save everything (still under construction)
+            saveLoadGame.Call("Save");
         }
     }
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
-
 }
