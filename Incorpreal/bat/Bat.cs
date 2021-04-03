@@ -6,7 +6,7 @@ public class Bat : KinematicBody2D
 {
     [Export]
 
-    public int moveSpeed = 150;
+    public int moveSpeed = 50;
     public int attack;
     public int health;
     public int currentHealth;

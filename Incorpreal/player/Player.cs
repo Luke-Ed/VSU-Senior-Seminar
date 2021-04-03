@@ -73,7 +73,6 @@ public class Player : KinematicBody2D {
             GlobalPosition = gp.playerLocation;
             for (int i = 0; i < gp.enemyFought.Count; i++)
             {
-                Console.WriteLine(gp.enemyFought[i]);
                 GetParent().FindNode(gp.enemyFought[i]).QueueFree();
             }
         }
