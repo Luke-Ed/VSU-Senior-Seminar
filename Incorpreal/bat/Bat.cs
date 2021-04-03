@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Bat : KinematicBody2D
 {
@@ -12,14 +13,11 @@ public class Bat : KinematicBody2D
     public string enemyName;
     public GlobalPlayer gp;
     public KinematicBody2D player;
+    private Navigation2D _navigation;
 
     public override void _PhysicsProcess(float delta)
     {
-        if (player != null)
-        {
-            Vector2 velocity = GlobalPosition.DirectionTo(player.GlobalPosition);
-            MoveAndCollide(velocity * moveSpeed * delta);
-        }
+
     }
 
     public override void _Ready()
