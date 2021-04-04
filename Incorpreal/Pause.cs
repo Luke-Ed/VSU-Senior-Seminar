@@ -81,7 +81,7 @@ public class Pause : Control
     public void _on_SaveLabel_gui_input(InputEvent @event) {
         if (saveEntered && @event is InputEventMouseButton) {
             GetTree().Paused = false;
-            Object[] saveables = GetTree().GetNodesInGroup("persist");
+            Godot.Collections.Array saveables = GetTree().GetNodesInGroup("persist");
             saveLoadGame.Call("Save", saveables);
             GetTree().Paused = true;
         }

@@ -13,10 +13,11 @@ public class SaveLoadGame : Node
         
     }
 
-    public void Save(Array saveableList) {
+    public void Save(Godot.Collections.Array saveables) {
         var saveFile = new File();
+        GD.Print(OS.GetUserDataDir());
         saveFile.Open("user://savegame.save", File.ModeFlags.Write);
-        /*
+        
         foreach (Node saveable in saveables) {
             if (saveable.Filename.Empty()) {
                 GD.Print(String.Format("node '{0}' is not an instanced scene", saveable.Name));
@@ -28,7 +29,7 @@ public class SaveLoadGame : Node
             }
             var saveData = saveable.Call("Save");
             saveFile.StoreLine(JSON.Print(saveData));
-        }*/
+        }
         saveFile.Close();
     }
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

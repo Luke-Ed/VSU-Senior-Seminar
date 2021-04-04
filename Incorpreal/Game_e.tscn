@@ -36,9 +36,7 @@ font_path = "res://assets/mrsmonster.ttf"
 size = 51
 font_data = SubResource( 5 )
 
-[node name="Game" type="Node" groups=[
-"persist",
-]]
+[node name="Game" type="Node"]
 script = ExtResource( 7 )
 
 [node name="Map" type="Node2D" parent="."]
@@ -55,7 +53,9 @@ __meta__ = {
 [node name="Bear" parent="." instance=ExtResource( 9 )]
 position = Vector2( 111.118, 207.95 )
 
-[node name="Player" parent="." instance=ExtResource( 10 )]
+[node name="Player" parent="." groups=[
+"persist",
+] instance=ExtResource( 10 )]
 position = Vector2( 112.392, 296.556 )
 
 [node name="Ghost Wall" parent="." instance=ExtResource( 2 )]
