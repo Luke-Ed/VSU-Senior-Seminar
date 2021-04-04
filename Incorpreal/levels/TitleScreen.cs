@@ -58,7 +58,7 @@ public class TitleScreen : Control
 
     public void _on_StartLabel_gui_input(InputEvent @event) {
         if (StartEntered && @event is InputEventMouseButton) {
-            GetTree().ChangeScene("res://levels/Level 1.tscn");
+            GetTree().ChangeScene("res://Level 1.tscn");
         }
     }
 

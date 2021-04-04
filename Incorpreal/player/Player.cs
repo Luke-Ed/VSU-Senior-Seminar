@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
     [Export]
-
-    public int moveSpeed = 125;
+    public int moveSpeed = 100;
     public PhysicsBody2D possessee = null;	
     public string resPath;	
     public Map map = new Map();
     public Area2D hitbox;
     public Sprite playerSpriteNode;
     public AnimationPlayer animate;
+    public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
     public Area2D possessionArea;
     public Boolean stuck;
     public GlobalPlayer gp;
@@ -46,6 +46,7 @@ public class Player : KinematicBody2D {
             Luck = 5;
             AttackDamage = 5 + Dexterity;
         }
+
         Experience = 0;
         MaxHealth = 5 + Vitality;
         CurrentHealth = MaxHealth;
@@ -58,9 +59,13 @@ public class Player : KinematicBody2D {
 
     }
 
-
     public override void _Ready()
     {
+        this.AddChild(footsteps);
+        const string Path = "res://sounds/footsteps.wav";
+        AudioStream footstep = (AudioStream)GD.Load(Path);
+        footsteps.Stream = footstep;
+        footsteps.VolumeDb = (0);
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
         //Eventually a main menu will already have a character made for the player
         //This is for demonstration purposes
@@ -73,7 +78,6 @@ public class Player : KinematicBody2D {
             GlobalPosition = gp.playerLocation;
             for (int i = 0; i < gp.enemyFought.Count; i++)
             {
-                Console.WriteLine(gp.enemyFought[i]);
                 GetParent().FindNode(gp.enemyFought[i]).QueueFree();
             }
         }
@@ -82,6 +86,9 @@ public class Player : KinematicBody2D {
             hitbox = (Area2D)GetNode("findEmptyPosArea2D");
             possessionArea = (Area2D)GetNode("Area2D");
             stuck = false;
+            Label hpLabel = (Label)GetNode("Camera2D").GetNode("CanvasLayer").GetNode("HealthLabel");
+            gp.hplabel = hpLabel;
+            gp.updateHealthLabel(gp.hplabel);
     }
 
     public Boolean attackEnemy()
@@ -107,6 +114,10 @@ public class Player : KinematicBody2D {
 
             if (!motion.x.Equals(0) || !motion.y.Equals(0))
             {
+                if (footsteps.Playing == false)
+                {
+                    footsteps.Play();
+                }
                 stuck = false;
                 ChangeState("Walking");
                 if (motion.x > 0)
@@ -120,6 +131,7 @@ public class Player : KinematicBody2D {
             }
             else
             {
+                footsteps.Stop();
                 ChangeState("Idle");
             }
 
@@ -181,15 +193,25 @@ public class Player : KinematicBody2D {
         Boolean enemyFound = false;
 
         //2. Find closest enemy
-        for (int x = 0; x < nearby.Count; x++) { //Iterate them
-            PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; //Grab one
-            if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
-                float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
-                if (currentDistance < closestDistance) { //Check if closer than current closest
-                    closestEnemyIndex = x;
-                    closestDistance = currentDistance;
-                    enemyFound = true;
+        for (int x = 0; x < nearby.Count; x++) 
+        { //Iterate them
+            try
+            {
+                PhysicsBody2D currentEnemy = (PhysicsBody2D)nearby[x]; //Grab one
+                if (currentEnemy.GetGroups().Contains("Enemies"))
+                { //Skip bodies not belonging to the Enemies group
+                    float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
+                    if (currentDistance < closestDistance)
+                    { //Check if closer than current closest
+                        closestEnemyIndex = x;
+                        closestDistance = currentDistance;
+                        enemyFound = true;
+                    }
                 }
+            }
+            catch
+            {
+
             }
         }  
             
@@ -216,7 +238,7 @@ public class Player : KinematicBody2D {
                 this.SetCollisionMaskBit(3, true);
             }
             Vector2 newLocation = this.GlobalPosition;
-            newLocation.x += 70;
+            newLocation.x += 80;
             this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
             possessee = null;
             gp.isPossesing = false;

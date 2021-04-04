@@ -18,6 +18,9 @@ public class GlobalPlayer : Node
     public Boolean didBlock = false;
     public Boolean perfectSpell = false;
     public Boolean isPossesing = false;
+    public String status;
+    public Boolean _goodHit { get; set; }
+    public Boolean _perfectHit { get; set; }
 
     public void updateHealthLabel(Label l)
     {
@@ -83,7 +86,27 @@ public class GlobalPlayer : Node
             //Checking for critical hit based on luck
             if (roll >= 100 - Luck)
             {
+                if (_goodHit)
+                {
+                    if (_perfectHit)
+                    {
+                        tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 2 * 1.5));
+                        return true;
+                    }
+                    tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 2 * 1.25));
+                    return true;
+                }
                 tq.enemyCurrentHP -= AttackDamage * 2;
+                return true;
+            }
+            if (_goodHit)
+            {
+                if (_perfectHit)
+                {
+                    tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 1.5));
+                    return true;
+                }
+                tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 1.25));
                 return true;
             }
             tq.enemyCurrentHP -= AttackDamage;
@@ -109,23 +132,23 @@ public class GlobalPlayer : Node
     {
         Level++;
         baseStat += 5;
-        if (Stat == 0)
+        if (Stat == 1)
         {
             Strength++;
         }
-        else if (Stat == 1)
+        else if (Stat == 2)
         {
             Dexterity++;
         }
-        else if (Stat == 2)
+        else if (Stat == 3)
         {
             Vitality++;
         }
-        else if (Stat == 3)
+        else if (Stat == 4)
         {
             Intelligence++;
         }
-        else if (Stat == 4)
+        else if (Stat == 5)
         {
             Luck++;
         }

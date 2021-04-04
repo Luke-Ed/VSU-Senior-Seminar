@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/BatSound.wav-305e95a06b325d08f8babcece2123a2c.sample"
+path="res://.import/bone pop.wav-f5bbf5d00d3e19accb1bb51973f8d24a.sample"
 
 [deps]
 
-source_file="res://sounds/BatSound.wav"
-dest_files=[ "res://.import/BatSound.wav-305e95a06b325d08f8babcece2123a2c.sample" ]
+source_file="res://sounds/bone pop.wav"
+dest_files=[ "res://.import/bone pop.wav-f5bbf5d00d3e19accb1bb51973f8d24a.sample" ]
 
 [params]
 

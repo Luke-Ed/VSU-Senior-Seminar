@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Simon : Node
 {
-    public Label orderLabel;
     public Timer timer;
     public List<int> combination = new List<int>();
     public int count = 0;
@@ -12,26 +11,39 @@ public class Simon : Node
     public List<int> userAnswer = new List<int>();
     public ColorRect battlePage;
     public ColorRect simonPage;
+    private Label _codeLabel;
+    private Label _instructionLabel;
+    private Tween _fadeTween;
 
 
 
     public Simon()
     {
-
+    
     }
 
     public override void _Ready()
     {
         battlePage = GetParent().GetNode<ColorRect>("BattlePage");
         simonPage = GetNode<ColorRect>("HideButtons");
-        orderLabel = simonPage.GetChild(4) as Label;
-        timer = GetNode<Timer>("Timer") as Timer;
+        timer = GetNode<Timer>("Timer");
         timer.Connect("timeout", this, "onTimeout");
-        timer.WaitTime = 3;
+        timer.WaitTime = 1;
+        _codeLabel = simonPage.GetNode<Label>("CodeReveal");
+        _instructionLabel = simonPage.GetNode<Label>("Instruction");
+        _fadeTween = _instructionLabel.GetNode<Tween>("Tween");
+        _fadeTween.InterpolateProperty(_instructionLabel, "modulate", Color.Color8(255, 255, 255, 255), Color.Color8(255, 255, 255, 0), 3, Tween.TransitionType.Linear, Tween.EaseType.Out);
+        for (int i = 0; i < 4; i++)
+        {
+            Button tempButton = simonPage.GetChild(i) as Button;
+            buttons.Add(tempButton);
+            tempButton.Disabled = true;
+        }
     }
 
     public void startMinigame()
     {
+        _fadeTween.Start();
         restartCode();
         battlePage.Visible = false;
         simonPage.Visible = true;
@@ -42,24 +54,32 @@ public class Simon : Node
     {
         combination.Clear();
         userAnswer.Clear();
-        buttons.Clear();
         count = 0;
         var random = new Random();
         for (int i = 0; i < 4; i++)
         {
-            Button tempButton = simonPage.GetChild(i) as Button;
-            buttons.Add(tempButton);
-            tempButton.Disabled = true;
             int temp = random.Next(1, 5);
+            if (i != 0)
+            {
+                while (temp == combination[i - 1])
+                {
+                    temp = random.Next(1, 5);
+                }
+            }
             combination.Add(temp);
+            buttons[i].Disabled = true;
         }
     }
 
     public void onTimeout()
     {
-        orderLabel.Text = "";
+        _codeLabel.Text = "";
         if (count <= 3)
         {
+            foreach (Button b in buttons)
+            {
+                b.Disabled = true;
+            }
             showColor();
         }
         else
@@ -74,8 +94,8 @@ public class Simon : Node
     public void showColor()
     {
         int number = combination[count];
-        string orderShown = (count + 1).ToString() + ". " + number.ToString();
-        orderLabel.Text = orderShown;
+        buttons[number - 1].Disabled = false;
+        _codeLabel.Text = number.ToString();
         count++;
         timer.Start();
     }
