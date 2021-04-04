@@ -80,7 +80,10 @@ public class Pause : Control
 
     public void _on_SaveLabel_gui_input(InputEvent @event) {
         if (saveEntered && @event is InputEventMouseButton) {
-            saveLoadGame.Call("Save");
+            GetTree().Paused = false;
+            Object[] saveables = GetTree().GetNodesInGroup("persist");
+            saveLoadGame.Call("Save", saveables);
+            GetTree().Paused = true;
         }
     }
 }

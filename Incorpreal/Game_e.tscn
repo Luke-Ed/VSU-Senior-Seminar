@@ -36,7 +36,9 @@ font_path = "res://assets/mrsmonster.ttf"
 size = 51
 font_data = SubResource( 5 )
 
-[node name="Game" type="Node"]
+[node name="Game" type="Node" groups=[
+"persist",
+]]
 script = ExtResource( 7 )
 
 [node name="Map" type="Node2D" parent="."]
@@ -92,6 +94,7 @@ pause_mode = 2
 layer = 128
 
 [node name="Pause" type="Control" parent="PauseMenu"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 8 )
@@ -158,6 +161,7 @@ margin_left = 263.548
 margin_top = 127.307
 margin_right = 369.548
 margin_bottom = 183.307
+mouse_filter = 0
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -170,7 +174,7 @@ text = "SAVE"
 [connection signal="mouse_exited" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_exited"]
 [connection signal="gui_input" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_mouse_entered"]
-[connection signal="mouse_exited" from="PauseMenu/Pause/SaveLabel" to="." method="_on_SaveLabel_mouse_exited"]
+[connection signal="mouse_exited" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_mouse_exited"]
 
 [editable path="Bear"]
 
