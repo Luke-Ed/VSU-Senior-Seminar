@@ -1,24 +1,22 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Bat : KinematicBody2D
 {
     [Export]
-    public int moveSpeed = 150;
+    public int moveSpeed = 50;
     public int attack;
     public int health;
     public int currentHealth;
     public string enemyName;
     public GlobalPlayer gp;
     public KinematicBody2D player;
+    private Navigation2D _navigation;
 
     public override void _PhysicsProcess(float delta)
     {
-        if (player != null)
-        {
-            Vector2 velocity = GlobalPosition.DirectionTo(player.GlobalPosition);
-            MoveAndCollide(velocity * moveSpeed * delta);
-        }
+
     }
 
     public override void _Ready()

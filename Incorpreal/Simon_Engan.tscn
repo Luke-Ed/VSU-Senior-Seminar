@@ -234,6 +234,16 @@ __meta__ = {
 
 [node name="Tween" type="Tween" parent="HideButtons/Instruction"]
 
+[node name="Controls" type="Label" parent="HideButtons"]
+margin_left = 9.7999
+margin_top = 330.523
+margin_right = 288.8
+margin_bottom = 344.523
+text = "Click The Buttons In The Order They Flash"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Timer" type="Timer" parent="."]
 [connection signal="pressed" from="HideButtons/Button1" to="." method="_on_Button1_pressed"]
 [connection signal="pressed" from="HideButtons/Button2" to="." method="_on_Button2_pressed"]

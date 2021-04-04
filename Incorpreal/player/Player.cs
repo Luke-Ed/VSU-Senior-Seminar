@@ -79,7 +79,6 @@ public class Player : KinematicBody2D {
             GlobalPosition = gp.playerLocation;
             for (int i = 0; i < gp.enemyFought.Count; i++)
             {
-                Console.WriteLine(gp.enemyFought[i]);
                 GetParent().FindNode(gp.enemyFought[i]).QueueFree();
             }
         }
@@ -195,15 +194,25 @@ public class Player : KinematicBody2D {
         Boolean enemyFound = false;
 
         //2. Find closest enemy
-        for (int x = 0; x < nearby.Count; x++) { //Iterate them
-            PhysicsBody2D currentEnemy = (PhysicsBody2D)nearby[x]; //Grab one
-            if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
-                float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
-                if (currentDistance < closestDistance) { //Check if closer than current closest
-                    closestEnemyIndex = x;
-                    closestDistance = currentDistance;
-                    enemyFound = true;
+        for (int x = 0; x < nearby.Count; x++) 
+        { //Iterate them
+            try
+            {
+                PhysicsBody2D currentEnemy = (PhysicsBody2D)nearby[x]; //Grab one
+                if (currentEnemy.GetGroups().Contains("Enemies"))
+                { //Skip bodies not belonging to the Enemies group
+                    float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
+                    if (currentDistance < closestDistance)
+                    { //Check if closer than current closest
+                        closestEnemyIndex = x;
+                        closestDistance = currentDistance;
+                        enemyFound = true;
+                    }
                 }
+            }
+            catch
+            {
+
             }
         }  
             
