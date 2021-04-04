@@ -7,9 +7,11 @@ public class Pause : Control
     public Label QuitLabel;
     public Label RestartLabel;
     public Label SaveLabel;
+    public Label LoadLabel;
     public Boolean quitEntered = false;
     public Boolean restartEntered = false;
     public Boolean saveEntered = false;
+    public Boolean loadEntered = false;
     public SaveLoadGame saveLoadGame;
 
     //Pause listener
@@ -32,6 +34,7 @@ public class Pause : Control
         QuitLabel = (Label)GetNode("QuitLabel"); //Grab quit label
         RestartLabel = (Label)GetNode("RestartLabel"); //Grab restart label
         SaveLabel = (Label)GetNode("SaveLabel"); //Grab save label
+        LoadLabel = (Label)GetNode("LoadLabel"); //Grab load label
         saveLoadGame = new SaveLoadGame();
     }
 
@@ -50,6 +53,11 @@ public class Pause : Control
         saveEntered = true;
     }
 
+    public void _on_LoadLabel_mouse_entered() {
+        LoadLabel.AddColorOverride("font_color", Colors.DarkRed);
+        loadEntered = true;
+    }
+
     public void _on_QuitLabel_mouse_exited() {
         QuitLabel.AddColorOverride("font_color", Colors.DarkGray);
         quitEntered = false;
@@ -63,6 +71,11 @@ public class Pause : Control
     public void _on_SaveLabel_mouse_exited() {
         SaveLabel.AddColorOverride("font_color", Colors.DarkGray);
         saveEntered = false;
+    }
+
+    public void _on_LoadLabel_mouse_exited() {
+        LoadLabel.AddColorOverride("font_color", Colors.DarkGray);
+        loadEntered = false;
     }
 
     public void _on_QuitLabel_gui_input(InputEvent @event) {
@@ -80,10 +93,16 @@ public class Pause : Control
 
     public void _on_SaveLabel_gui_input(InputEvent @event) {
         if (saveEntered && @event is InputEventMouseButton) {
-            GetTree().Paused = false;
-            Godot.Collections.Array saveables = GetTree().GetNodesInGroup("persist");
-            saveLoadGame.Call("Save", saveables);
-            GetTree().Paused = true;
+            GetTree().Paused = false; //Must unpause or GetTree() will return null
+            Godot.Collections.Array saveables = GetTree().GetNodesInGroup("persist"); //Snapshot of game state
+            GetTree().Paused = true; //Repause
+            saveLoadGame.Call("Save", saveables); //Call Save method in SaveLoadGame, passing snapshot as argument
+        }
+    }
+
+    public void _on_LoadLabel_gui_input(InputEvent @event) {
+        if (loadEntered && @event is InputEventMouseButton) {
+            //saveLoadGame.Call("Load"); not made yet
         }
     }
 }
