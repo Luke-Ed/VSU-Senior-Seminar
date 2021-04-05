@@ -12,11 +12,14 @@ public class Interaction : CanvasLayer
 
     //The loot_areas to be disabled after the chest opens
     Godot.Collections.Array<Area2D> loot_areas = new Godot.Collections.Array<Area2D>();
+
+    //
+    //LinkedList<Area2D> signs = new LinkedList<Area2D>();
     
     
     // Chests are loaded from left to right, top to bottom. 
     // Chests in the upper left corner are loaded before lower right.
-    // Tracking passed textures works out better than number of chests!
+    // Tracking number of chests.
     int current_chest = 0;
 
     //Variables to hold current tile texture and location
@@ -25,6 +28,10 @@ public class Interaction : CanvasLayer
     Vector2 open_chest = new Vector2(2,0);
     Godot.Collections.Array<Vector2> usedTiles = new Godot.Collections.Array<Vector2>();
     Godot.Collections.Array<Vector2> usedTextures = new Godot.Collections.Array<Vector2>();
+
+    //Variable to hold sign and grave textures
+    //Vector2 sign;
+    //Vector2 grave;
 
     //Empty constructor for use in other scripts
     public Interaction() {

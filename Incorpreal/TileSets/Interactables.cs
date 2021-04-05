@@ -15,12 +15,16 @@ public class Interactables : TileMap
         //This allows us to print to console or give other responses to Signals and Responses
         Interaction inter = GetNode("../Interaction_Console") as Interaction; //This miracle line of code says "load node A as a script"
 
+        //Vector2 to represent the signs in the Forest Map
+        //Vector2 readable_sign = new Vector2(2,1);
+
         //Vector2 to represent 'Closed' chest textures
         Vector2 closed_chest_silver = new Vector2(0, 0);
         Vector2 closed_chest_gold = new Vector2(1, 0);
 
         //Return an array of all cells (array of objects) with the given tile id
         Godot.Collections.Array used_chest_tiles = GetUsedCellsById(22);
+        //Godot.Collections.Array used_sign_tiles = GetUsedCellsById(21);
 
         //Loop through the above array to check if the chest is using the 'Closed' chest textures
         foreach (Vector2 cur_tile in used_chest_tiles)
