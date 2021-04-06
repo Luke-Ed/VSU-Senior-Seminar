@@ -38,24 +38,33 @@ public class TextPopup : Popup
     //
     //}
 
+    //Set the name of the current speaker or object
     public void setSpeaker(String source) {
         npc_name = source;
         speaker_name.Text = source;
     }
 
+    //Set the array of text for the dialogue box
+    //to pull from during the chat/reading
     public void setDialogue(String[] inText) {
         dialogue = inText;
     }
 
+    //Set the actual text inside of the box
     public void setDialogueText(String curText) {
         output_text.Text = curText;
     }
 
+    //Show the player a few options depending
+    //on what is currently happening
+    //E.g. opening a chest, reading a sign, etc.
     public void setPlayerResponse(String options) {
         answers = options;
         continue_options.Text = options;
     }
 
+    //Show the popup box, it will remain
+    //hidden until this method is called
     public void openDialogue() {
         GetTree().Paused = true;
         this.PopupCentered();
@@ -63,27 +72,20 @@ public class TextPopup : Popup
         animPlay.Play("ShowDialogue");
     }
 
+    //Hide the popup box
     public void closeDialogue() {
         GetTree().Paused = false;
         this.Hide();
     }
 
+    //Allow the player to give input only when the animation ends
     public void _on_DialogueAnimation_animation_finished() {
         this.SetProcessInput(true);
     }
 
+    //Move through the diaglogue array and load it into the text box,
+    //line by line.
     public void loadDialogue() {
-        if(Input.IsActionJustPressed("Continue")) {
-            
-            this.SetProcessInput(false);
-        }
-
-        // else if(Input.IsActionJustPressed("Back")) {
-        //     this.SetProcessInput(false);
-        // }
-
-        // else {
-
-        // }
+        
     }
 }
