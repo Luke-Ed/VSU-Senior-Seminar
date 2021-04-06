@@ -103,3 +103,7 @@ position = Vector2( 98.9949, 0.000244141 )
 rotation = 3.14159
 
 [editable path="Map/Player"]
+
+[editable path="Map/Bear"]
+
+[editable path="Map/Path2D/PathFollow2D/Bat"]
