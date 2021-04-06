@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
@@ -19,14 +19,20 @@ extents = Vector2( 32, 31 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFontData" id=5]
@@ -34,6 +40,8 @@ font_path = "res://assets/mrsmonster.ttf"
 
 [sub_resource type="DynamicFont" id=6]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 5 )
 
 [sub_resource type="DynamicFontData" id=7]
@@ -41,7 +49,11 @@ font_path = "res://assets/mrsmonster.ttf"
 
 [sub_resource type="DynamicFont" id=8]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 7 )
+
+[sub_resource type="Theme" id=9]
 
 [node name="Game" type="Node"]
 script = ExtResource( 7 )
@@ -107,7 +119,6 @@ pause_mode = 2
 layer = 128
 
 [node name="Pause" type="Control" parent="PauseMenu"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 8 )
@@ -156,9 +167,9 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 12 )
 
 [node name="RestartLabel" type="Label" parent="PauseMenu/Pause"]
-margin_left = 165.0
+margin_left = 166.251
 margin_top = 226.397
-margin_right = 478.0
+margin_right = 479.251
 margin_bottom = 282.397
 mouse_filter = 0
 custom_fonts/font = SubResource( 4 )
@@ -194,6 +205,42 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LoadDialog" type="Control" parent="PauseMenu/Pause"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -137.5
+margin_right = 170.0
+margin_bottom = 153.5
+theme = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="PauseMenu/Pause/LoadDialog"]
+margin_left = 95.0
+margin_top = 251.0
+margin_right = 234.0
+margin_bottom = 269.0
+text = "Select save game file..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu/Pause/LoadDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -145.0
+margin_right = 170.0
+margin_bottom = 145.0
+color = Color( 0.137255, 0.137255, 0.137255, 0.972549 )
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]
