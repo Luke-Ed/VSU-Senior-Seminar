@@ -11,6 +11,9 @@ public class Simon : Node
     public List<int> userAnswer = new List<int>();
     public ColorRect battlePage;
     public ColorRect simonPage;
+    private Label _codeLabel;
+    private Label _instructionLabel;
+    private Tween _fadeTween;
 
 
 
@@ -23,9 +26,13 @@ public class Simon : Node
     {
         battlePage = GetParent().GetNode<ColorRect>("BattlePage");
         simonPage = GetNode<ColorRect>("HideButtons");
-        timer = GetNode<Timer>("Timer") as Timer;
+        timer = GetNode<Timer>("Timer");
         timer.Connect("timeout", this, "onTimeout");
         timer.WaitTime = 1;
+        _codeLabel = simonPage.GetNode<Label>("CodeReveal");
+        _instructionLabel = simonPage.GetNode<Label>("Instruction");
+        _fadeTween = _instructionLabel.GetNode<Tween>("Tween");
+        _fadeTween.InterpolateProperty(_instructionLabel, "modulate", Color.Color8(255, 255, 255, 255), Color.Color8(255, 255, 255, 0), 3, Tween.TransitionType.Linear, Tween.EaseType.Out);
         for (int i = 0; i < 4; i++)
         {
             Button tempButton = simonPage.GetChild(i) as Button;
@@ -36,6 +43,7 @@ public class Simon : Node
 
     public void startMinigame()
     {
+        _fadeTween.Start();
         restartCode();
         battlePage.Visible = false;
         simonPage.Visible = true;
@@ -65,6 +73,7 @@ public class Simon : Node
 
     public void onTimeout()
     {
+        _codeLabel.Text = "";
         if (count <= 3)
         {
             foreach (Button b in buttons)
@@ -86,6 +95,7 @@ public class Simon : Node
     {
         int number = combination[count];
         buttons[number - 1].Disabled = false;
+        _codeLabel.Text = number.ToString();
         count++;
         timer.Start();
     }

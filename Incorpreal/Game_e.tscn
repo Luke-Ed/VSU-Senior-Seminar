@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
@@ -29,6 +29,20 @@ font_data = ExtResource( 11 )
 size = 51
 font_data = ExtResource( 11 )
 
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://assets/mrsmonster.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 51
+font_data = SubResource( 5 )
+
+[sub_resource type="DynamicFontData" id=7]
+font_path = "res://assets/mrsmonster.ttf"
+
+[sub_resource type="DynamicFont" id=8]
+size = 51
+font_data = SubResource( 7 )
+
 [node name="Game" type="Node"]
 script = ExtResource( 7 )
 
@@ -46,8 +60,16 @@ __meta__ = {
 [node name="Bear" parent="." instance=ExtResource( 9 )]
 position = Vector2( 111.118, 207.95 )
 
-[node name="Player" parent="." instance=ExtResource( 10 )]
+[node name="Player" parent="." groups=[
+"persist",
+] instance=ExtResource( 10 )]
 position = Vector2( 112.392, 296.556 )
+
+[node name="HealthLabel" parent="Player/Camera2D/CanvasLayer" index="0"]
+margin_left = 498.103
+margin_top = 5.32614
+margin_right = 575.103
+margin_bottom = 19.3261
 
 [node name="Ghost Wall" parent="." instance=ExtResource( 2 )]
 position = Vector2( 122.523, 109.101 )
@@ -103,9 +125,9 @@ __meta__ = {
 
 [node name="PauseLabel" type="Label" parent="PauseMenu/Pause"]
 margin_left = 231.896
-margin_top = 73.033
+margin_top = 38.033
 margin_right = 400.896
-margin_bottom = 129.033
+margin_bottom = 94.033
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 0.670588 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -116,9 +138,9 @@ __meta__ = {
 
 [node name="QuitLabel" type="Label" parent="PauseMenu/Pause"]
 margin_left = 265.387
-margin_top = 177.132
+margin_top = 276.132
 margin_right = 367.387
-margin_bottom = 233.132
+margin_bottom = 332.132
 mouse_filter = 0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
@@ -135,14 +157,40 @@ texture = ExtResource( 12 )
 
 [node name="RestartLabel" type="Label" parent="PauseMenu/Pause"]
 margin_left = 165.0
-margin_top = 124.0
+margin_top = 226.397
 margin_right = 478.0
-margin_bottom = 180.0
+margin_bottom = 282.397
 mouse_filter = 0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "RESTART LEVEL"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveLabel" type="Label" parent="PauseMenu/Pause"]
+margin_left = 263.548
+margin_top = 127.307
+margin_right = 369.548
+margin_bottom = 183.307
+mouse_filter = 0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "SAVE"
+
+[node name="LoadLabel" type="Label" parent="PauseMenu/Pause"]
+margin_left = 260.0
+margin_top = 176.0
+margin_right = 374.0
+margin_bottom = 232.0
+mouse_filter = 0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "LOAD"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -152,6 +200,12 @@ __meta__ = {
 [connection signal="gui_input" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_exited"]
+[connection signal="gui_input" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_gui_input"]
+[connection signal="mouse_entered" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_mouse_exited"]
+[connection signal="gui_input" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_gui_input"]
+[connection signal="mouse_entered" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_mouse_exited"]
 
 [editable path="Bear"]
 
