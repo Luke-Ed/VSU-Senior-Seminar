@@ -25,10 +25,10 @@ public class TextPopup : Popup
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        speaker_name = (Label)GetNode("Interaction_Console/TextPopup/ColorRect/ObjectName");
-        output_text = (Label)GetNode("Interaction_Console/TextPopup/ColorRect/ObjectText");
-        continue_options = (Label)GetNode("Interaction_Console/TextPopup/ColorRect/PlayerOptions");
-        animPlay = (AnimationPlayer)GetNode("Interaction_Console/TextPopup/DialogueAnimation");
+        speaker_name = (Label)GetNode("TextPopup/ColorRect/ObjectName");
+        output_text = (Label)GetNode("TextPopup/ColorRect/ObjectText");
+        continue_options = (Label)GetNode("TextPopup/ColorRect/PlayerOptions");
+        animPlay = (AnimationPlayer)GetNode("TextPopup/DialogueAnimation");
         this.SetProcessInput(false);
     }
 
@@ -59,7 +59,7 @@ public class TextPopup : Popup
     public void openDialogue() {
         GetTree().Paused = true;
         this.PopupCentered();
-        animPlay.PlaybackSpeed = 60.0 / (float)dialogue.Length;
+        animPlay.PlaybackSpeed = (float)(60.0 / dialogue.Length);
         animPlay.Play("ShowDialogue");
     }
 
