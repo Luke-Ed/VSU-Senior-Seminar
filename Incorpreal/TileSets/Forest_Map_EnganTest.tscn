@@ -72,7 +72,7 @@ cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( 131101, 10, 327680, 1441783, 22, 0, 1441789, 22, 0, 1376259, 22, 0 )
+tile_data = PoolIntArray( 131101, 10, 327680, 655377, 22, 0, 1900589, 22, 1 )
 script = ExtResource( 3 )
 
 [node name="Low_Wall_Example" type="TileMap" parent="."]
