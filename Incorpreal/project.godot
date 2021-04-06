@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Incorpreal"
-run/main_scene="res://TileSets/Forest_Map_EnganTest.tscn"
+run/main_scene="res://Game_e.tscn"
 config/icon="res://icon.png"
 
 [autoload]

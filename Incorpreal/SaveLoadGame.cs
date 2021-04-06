@@ -54,14 +54,14 @@ public class SaveLoadGame : Node
                 var newObject = (Node)newObjectScene.Instance();
                 GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
                 newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
-
+                /*
                 foreach(KeyValuePair<string, string> entry in nodeData) {
                     string key = entry.Key.ToString();
                     if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
                         continue;
                     }
                     newObject.Set(key, entry.value);
-                }
+                }*/
             }
             saveFile.Close();
         }
