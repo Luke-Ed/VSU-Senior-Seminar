@@ -8,6 +8,8 @@ public class Pause : Control
     public Label RestartLabel;
     public Label SaveLabel;
     public Label LoadLabel;
+    public Control LoadDialog;
+    public Button ExitButton;
     public Boolean quitEntered = false;
     public Boolean restartEntered = false;
     public Boolean saveEntered = false;
@@ -35,6 +37,8 @@ public class Pause : Control
         RestartLabel = (Label)GetNode("RestartLabel"); //Grab restart label
         SaveLabel = (Label)GetNode("SaveLabel"); //Grab save label
         LoadLabel = (Label)GetNode("LoadLabel"); //Grab load label
+        LoadDialog = (Control)GetNode("LoadDialog"); //Grab load dialog
+        ExitButton = (Button)GetNode("ExitButton"); //Grab load dialog exit button
         saveLoadGame = new SaveLoadGame();
     }
 
@@ -100,9 +104,16 @@ public class Pause : Control
         }
     }
 
+    public void _on_ExitButton_pressed() {
+        LoadDialog.Visible = false;
+    }
+
     public void _on_LoadLabel_gui_input(InputEvent @event) {
         if (loadEntered && @event is InputEventMouseButton) {
-            //saveLoadGame.Call("Load"); not made yet
+            LoadDialog.Visible = true;
+            //User selects file or cancels out
+            //saveLoadGame.Call("Load", selectedFile); not made yet
+            //LoadDialog.Visible = false;
         }
     }
 }
