@@ -78,7 +78,6 @@ public class Interaction : CanvasLayer
     }
 
     public void setDisabledLootArea(Area2D openedChest) {
-        //loot_area_import = openedChest;
         loot_areas.Add(openedChest);
     }
     
