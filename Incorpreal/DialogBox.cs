@@ -30,8 +30,9 @@ public class DialogBox : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        //Example dialogue for class
         dialog = new String[3]{"Hello there, the tutorial from Emillio on YouTube was extremely helpful for figuring this system out.",
-        "I tried a more elaborate method, based off actual NPC dialogue system but that ended in error.", 
+        "I tried a more elaborate method, based off an actual NPC dialogue system but that ended in error.", 
         "So, I gave up and moved on to greener patures. By that I mean I found a different tutorial."};
 
         text_box = (RichTextLabel)GetNode("TextBox");
@@ -46,9 +47,8 @@ public class DialogBox : Control
             finished = false;
             text_box.BbcodeText = dialog[dialog_index];
             text_box.PercentVisible = 0;
-            text_animator.InterpolateProperty(text_box, "percent_visible", 0, 1, 1, 0, 0);
+            text_animator.InterpolateProperty(text_box, "percent_visible", 0, 1, 3, Tween.TransitionType.Linear, Tween.EaseType.InOut);
             //InterpolateProperty(Object @object, NodePath property, object initialVal, object finalVal, float duration, TransitionType transType, EaseType easeType, float delay = 0f)
-            //TransType = 0 = Linear, EaseType = 0 = Ease In
             text_animator.Start();
         }
 
