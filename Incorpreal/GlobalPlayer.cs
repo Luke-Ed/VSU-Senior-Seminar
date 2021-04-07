@@ -19,6 +19,9 @@ public class GlobalPlayer : Node
     public Boolean perfectSpell = false;
     public Boolean isPossesing = false;
     public String status;
+    private List<Item> _inventory;
+    public Item _equipedWeapon { get; set; }
+    public Item _equipedArmor { get; set; }
     public Boolean _goodHit { get; set; }
     public Boolean _perfectHit { get; set; }
 
@@ -52,6 +55,7 @@ public class GlobalPlayer : Node
         spiritPoints = 5 + Intelligence;
         currentPoints = spiritPoints;
         baseStat = 5;
+        _inventory = new List<Item>();
     }
 
     public Boolean takeDamage(int damage)
@@ -165,5 +169,10 @@ public class GlobalPlayer : Node
         spiritPoints = baseStat + Intelligence;
         currentPoints = spiritPoints;
         ExperienceToNextLevel += 10;
+    }
+
+    public void updateHealth()
+    {
+        MaxHealth = baseStat + Vitality;
     }
 }
