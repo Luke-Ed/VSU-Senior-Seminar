@@ -6,7 +6,10 @@ public class Interaction : CanvasLayer
     //Code inspired by GameDevelopmentCenter on YouTube
 
     //Popup to handle any text
-    TextPopup diagBox;
+    //TextPopup diagBox;
+
+    //String array of text to use
+    //String[] responses;
     
     //Our "state" for player interaction with map objects,
     //Will likely be replaced by an Enum as code grows more complex
@@ -15,6 +18,9 @@ public class Interaction : CanvasLayer
 
     //The loot_areas to be disabled after the chest opens
     Godot.Collections.Array<Area2D> loot_areas = new Godot.Collections.Array<Area2D>();
+
+    //The collsion shape to turn off
+    CollisionShape2D disable_chest;
 
     // Chests are loaded from left to right, top to bottom. 
     // Chests in the upper left corner are loaded before lower right.
@@ -36,7 +42,7 @@ public class Interaction : CanvasLayer
 
     //Called when the node enters the scene tree for the first time.
     public override void _Ready() {
-        diagBox = (Popup)GetNode("../TextHandler/TextPopup") as TextPopup;
+        // diagBox = (Popup)GetNode("../Interaction_Console/TextHandler/TextPopup") as TextPopup;
         changeMap = (TileMap)GetNode("../Interactables");
     }
 
@@ -45,16 +51,23 @@ public class Interaction : CanvasLayer
             //Respond based on the action_state
             switch(action_state) {
                 case "off":
+                    // responses = new String[1]{"I got nothing to do here. \n"};
+                    // diagBox.setSpeaker("Self");
+                    // diagBox.setDialogue(responses);
+                    // diagBox.setPlayerOptions("Press Continue[Enter] to dismiss. \n");
+                    // diagBox.openDialogue();
+                    // diagBox.loadDialogue();
+
                     GD.Print("I got nothing to do here. \n");
                     break;
 
-                case "on":
+                case "on": 
                     //Add some function or load a scene/panel for gold, etc.
                     GD.Print("What do we have here? \n");
                     changeMap.SetCell((int)tile[0], (int)tile[1], 22, false, false, false, tile_region);
                     //SetCell(int x, int y, int tile, boolean flip_x, boolean flip_y, boolean transpose, Vector2 autotileCoordinates)
 
-                    CollisionShape2D disable_chest = (CollisionShape2D)(GetNode(((String)(loot_areas[current_chest].GetPath() + "/CollisionShape2D"))));
+                    disable_chest = (CollisionShape2D)(GetNode(((String)(loot_areas[current_chest].GetPath() + "/CollisionShape2D"))));
                     disable_chest.Disabled = true;
                     //Disable the collision box for this chest
 
