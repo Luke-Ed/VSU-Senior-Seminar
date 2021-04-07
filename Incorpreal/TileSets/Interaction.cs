@@ -4,6 +4,9 @@ using System;
 public class Interaction : CanvasLayer
 {
     //Code inspired by GameDevelopmentCenter on YouTube
+
+    //Popup to handle any text
+    TextPopup diagBox;
     
     //Our "state" for player interaction with map objects,
     //Will likely be replaced by an Enum as code grows more complex
@@ -13,29 +16,28 @@ public class Interaction : CanvasLayer
     //The loot_areas to be disabled after the chest opens
     Godot.Collections.Array<Area2D> loot_areas = new Godot.Collections.Array<Area2D>();
 
-    //
-    //LinkedList<Area2D> signs = new LinkedList<Area2D>();
-    
-    
     // Chests are loaded from left to right, top to bottom. 
     // Chests in the upper left corner are loaded before lower right.
     // Tracking number of chests.
     int current_chest = 0;
 
-    //Variables to hold current tile texture and location
+    //Variables to hold current tilemap, tile texture and tile location
+    TileMap changeMap;
     Vector2 tile;
     Vector2 tile_region;
     Vector2 open_chest = new Vector2(2,0);
     Godot.Collections.Array<Vector2> usedTiles = new Godot.Collections.Array<Vector2>();
     Godot.Collections.Array<Vector2> usedTextures = new Godot.Collections.Array<Vector2>();
 
-    //Variable to hold sign and grave textures
-    //Vector2 sign;
-    //Vector2 grave;
-
     //Empty constructor for use in other scripts
     public Interaction() {
 
+    }
+
+    //Called when the node enters the scene tree for the first time.
+    public override void _Ready() {
+        diagBox = (Popup)GetNode("res://DialogueBox.tscn/TextPopup") as TextPopup;
+        changeMap = (TileMap)GetNode("../Interactables");
     }
 
     public override void _Process(float delta) {
@@ -49,7 +51,6 @@ public class Interaction : CanvasLayer
                 case "on":
                     //Add some function or load a scene/panel for gold, etc.
                     GD.Print("What do we have here? \n");
-                    TileMap changeMap = (TileMap)GetNode("../Interactables");
                     changeMap.SetCell((int)tile[0], (int)tile[1], 22, false, false, false, tile_region);
                     //SetCell(int x, int y, int tile, boolean flip_x, boolean flip_y, boolean transpose, Vector2 autotileCoordinates)
 

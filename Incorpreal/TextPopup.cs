@@ -9,6 +9,8 @@ public class TextPopup : Popup
 
     protected String answers;
 
+    private int dialogueIndex = 0;
+
     Label speaker_name;
 
     Label output_text;
@@ -86,6 +88,14 @@ public class TextPopup : Popup
     //Move through the diaglogue array and load it into the text box,
     //line by line.
     public void loadDialogue() {
-        
+        if(dialogueIndex < dialouge.Length) {
+            
+        }
+
+        else {
+
+        }
+
+        dialogueIndex++;
     }
 }
