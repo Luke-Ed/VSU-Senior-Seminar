@@ -21,6 +21,10 @@ public class Path2D : Godot.Path2D
             {
                 follow.Offset = (follow.Offset + (int)enemy.Get("moveSpeed") * delta);
             }
+            else
+            {
+                follow.Offset = (follow.Offset + 300 * delta);
+            }
         }
     }
 }

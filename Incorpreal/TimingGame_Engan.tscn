@@ -14,7 +14,7 @@ extents = Vector2( 31.8845, 64.4853 )
 
 [sub_resource type="Curve2D" id=3]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 3.82297, 179.089, 0, 0, 0, 0, 622.299, 185.824, 0, 0, 0, 0, 632.401, 183.579, 0, 0, 0, 0, 622.299, 195.926, 0, 0, 0, 0, -0.666885, 191.436, 0, 0, 0, 0, 12.8027, 179.089 )
+"points": PoolVector2Array( 0, 0, 0, 0, -0.666885, 191.436, 0, 0, 0, 0, 3.08243, 184.673, 0, 0, 0, 0, 628.872, 188.208, 0, 0, 0, 0, 1.66822, 184.673 )
 }
 
 [sub_resource type="RectangleShape2D" id=4]
@@ -57,27 +57,29 @@ shape = SubResource( 1 )
 position = Vector2( 32.5514, -5.61234 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GamePage/Rythm Bar/Perfect"]
-position = Vector2( -3.36743, 7.85721 )
+position = Vector2( -4.07455, 7.85721 )
 shape = SubResource( 2 )
 
 [node name="Path2D" type="Path2D" parent="GamePage"]
+position = Vector2( -1.12247, -11.8526 )
 curve = SubResource( 3 )
 script = ExtResource( 4 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="GamePage/Path2D"]
-position = Vector2( 3.82297, 179.089 )
+position = Vector2( 5.94429, 184.039 )
 rotation = 0.0108997
+rotate = false
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="GamePage/Path2D/PathFollow2D"]
-position = Vector2( -4.48985, 1.12247 )
+position = Vector2( 1.12213, 1.06131 )
 
 [node name="Bar" type="Sprite" parent="GamePage/Path2D/PathFollow2D/KinematicBody2D"]
-position = Vector2( 2.70051, 19.6994 )
+position = Vector2( -0.547935, 27.5827 )
 scale = Vector2( 1.67348, 2.32054 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GamePage/Path2D/PathFollow2D/KinematicBody2D"]
-position = Vector2( 9.01586, 3.2693 )
+position = Vector2( 9.08929, 10.0037 )
 shape = SubResource( 4 )
 
 [node name="Instruction" type="Label" parent="GamePage"]
