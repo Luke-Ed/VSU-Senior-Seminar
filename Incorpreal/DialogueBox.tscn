@@ -30,7 +30,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[node name="Control" type="Control"]
+[node name="TextHandler" type="Control"]
 margin_right = 40.0
 margin_bottom = 40.0
 __meta__ = {

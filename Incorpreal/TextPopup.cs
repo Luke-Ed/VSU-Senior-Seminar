@@ -27,10 +27,10 @@ public class TextPopup : Popup
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        speaker_name = (Label)GetNode("TextPopup/ColorRect/ObjectName");
-        output_text = (Label)GetNode("TextPopup/ColorRect/ObjectText");
-        continue_options = (Label)GetNode("TextPopup/ColorRect/PlayerOptions");
-        animPlay = (AnimationPlayer)GetNode("TextPopup/DialogueAnimation");
+        speaker_name = (Label)GetNode("ObjectName");
+        output_text = (Label)GetNode("ObjectText");
+        continue_options = (Label)GetNode("PlayerOptions");
+        animPlay = (AnimationPlayer)GetNode("DialogueAnimation");
         this.SetProcessInput(false);
     }
 
@@ -88,12 +88,12 @@ public class TextPopup : Popup
     //Move through the diaglogue array and load it into the text box,
     //line by line.
     public void loadDialogue() {
-        if(dialogueIndex < dialouge.Length) {
-            
+        if(dialogueIndex < dialogue.Length) {
+            output_text.Text = dialogue[dialogueIndex];
         }
 
         else {
-
+            QueueFree();
         }
 
         dialogueIndex++;
