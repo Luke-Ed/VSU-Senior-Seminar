@@ -220,16 +220,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextEdit" type="TextEdit" parent="PauseMenu/Pause/LoadDialog"]
-margin_left = 95.0
-margin_top = 251.0
-margin_right = 234.0
-margin_bottom = 269.0
-text = "Select save game file..."
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="ColorRect" type="ColorRect" parent="PauseMenu/Pause/LoadDialog"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -240,6 +230,9 @@ margin_top = -145.0
 margin_right = 170.0
 margin_bottom = 145.0
 color = Color( 0.137255, 0.137255, 0.137255, 0.972549 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ExitButton" type="Button" parent="PauseMenu/Pause/LoadDialog"]
 margin_left = 319.0
@@ -247,6 +240,15 @@ margin_top = 15.0
 margin_right = 331.0
 margin_bottom = 35.0
 rect_rotation = -90.2902
+
+[node name="LoadGameVBox" type="VBoxContainer" parent="PauseMenu/Pause/LoadDialog"]
+margin_left = 6.0
+margin_top = 22.0
+margin_right = 335.0
+margin_bottom = 285.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]

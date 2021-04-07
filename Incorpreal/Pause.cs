@@ -10,6 +10,7 @@ public class Pause : Control
     public Label LoadLabel;
     public Control LoadDialog;
     public Button ExitButton;
+    public VBoxContainer LoadGameVBox;
     public Boolean quitEntered = false;
     public Boolean restartEntered = false;
     public Boolean saveEntered = false;
@@ -39,6 +40,7 @@ public class Pause : Control
         LoadLabel = (Label)GetNode("LoadLabel"); //Grab load label
         LoadDialog = (Control)GetNode("LoadDialog"); //Grab load dialog
         ExitButton = (Button)GetNode("ExitButton"); //Grab load dialog exit button
+        LoadGameVBox = (VBoxContainer)GetNode("LoadGameVBox"); //Grab VBox for selecting load files
         saveLoadGame = new SaveLoadGame();
     }
 
@@ -111,9 +113,18 @@ public class Pause : Control
     public void _on_LoadLabel_gui_input(InputEvent @event) {
         if (loadEntered && @event is InputEventMouseButton) {
             LoadDialog.Visible = true;
-            //User selects file or cancels out
+            PopulateLoadDialog();
             //saveLoadGame.Call("Load", selectedFile); not made yet
             //LoadDialog.Visible = false;
+        }
+    }
+
+    public void PopulateLoadDialog() {
+        DirectoryInfo d = new DirectoryInfo("user://"); //Access user:// directory
+        FileInfo[] Files = d.GetFiles("*.save"); //Get list of files ending in .save
+        foreach(FileInfo file in Files ) {
+            
+            str = str + ", " + file.Name;
         }
     }
 }
