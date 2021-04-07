@@ -36,7 +36,7 @@ public class Interaction : CanvasLayer
 
     //Called when the node enters the scene tree for the first time.
     public override void _Ready() {
-        diagBox = (Popup)GetNode("res://DialogueBox.tscn/TextPopup") as TextPopup;
+        diagBox = (Popup)GetNode("../TextHandler/TextPopup") as TextPopup;
         changeMap = (TileMap)GetNode("../Interactables");
     }
 

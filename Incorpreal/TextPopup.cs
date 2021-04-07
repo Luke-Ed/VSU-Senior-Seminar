@@ -27,9 +27,9 @@ public class TextPopup : Popup
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        speaker_name = (Label)GetNode("ObjectName");
-        output_text = (Label)GetNode("ObjectText");
-        continue_options = (Label)GetNode("PlayerOptions");
+        speaker_name = (Label)GetNode("ColorRect/ObjectName");
+        output_text = (Label)GetNode("ColorRect/ObjectText");
+        continue_options = (Label)GetNode("ColorRect/PlayerOptions");
         animPlay = (AnimationPlayer)GetNode("DialogueAnimation");
         this.SetProcessInput(false);
     }
