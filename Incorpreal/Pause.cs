@@ -39,8 +39,8 @@ public class Pause : Control
         SaveLabel = (Label)GetNode("SaveLabel"); //Grab save label
         LoadLabel = (Label)GetNode("LoadLabel"); //Grab load label
         LoadDialog = (Control)GetNode("LoadDialog"); //Grab load dialog
-        ExitButton = (Button)GetNode("ExitButton"); //Grab load dialog exit button
-        LoadGameVBox = (VBoxContainer)GetNode("LoadGameVBox"); //Grab VBox for selecting load files
+        ExitButton = (Button)GetNode("LoadDialog/ExitButton"); //Grab load dialog exit button
+        LoadGameVBox = (VBoxContainer)GetNode("LoadDialog/LoadGameVBox"); //Grab VBox for selecting load files
         saveLoadGame = new SaveLoadGame();
     }
 
@@ -120,11 +120,24 @@ public class Pause : Control
     }
 
     public void PopulateLoadDialog() {
-        DirectoryInfo d = new DirectoryInfo("user://"); //Access user:// directory
-        FileInfo[] Files = d.GetFiles("*.save"); //Get list of files ending in .save
-        foreach(FileInfo file in Files ) {
-            
-            str = str + ", " + file.Name;
+        var saveFile = new File();
+
+        if (!saveFile.FileExists("user://savegame.save")) {
+            GD.Print("Cannot find a savefile!");
+            return; //Stop loading
+        } else {
+            saveFile.Open("user://savegame.save", File.ModeFlags.Read);
+            saveLoadGame.Load(saveFile);
         }
+        /*May use later for selecting which save file to load
+        DirectoryInfo dir = new DirectoryInfo(@"user://"); //Access user:// directory
+        FileInfo[] Files = dir.GetFiles(".save"); //Get list of files ending in .save
+        foreach(FileInfo saveFile in Files) { //Iterate them
+            var newOption = (PackedScene)ResourceLoader.Load("res://assets/LoadSelection.tscn");
+            Label optionLabel = (Label)newOption.Instance();
+            LoadGameVBox.AddSpacer(false);
+            LoadGameVBox.AddChild(optionLabel);
+        }
+        */
     }
 }
