@@ -34,7 +34,7 @@ namespace Incorpreal.Battle {
       _playerHp = _battlePage.GetNode<Label>("HealthLabel");
       _enemyHp = _battlePage.GetNode<Label>("EnemyHealth");
       _battleSequenceRtl = _battlePage.GetNode<RichTextLabel>("RichTextLabel");
-      _battleSequenceRtl.Text = "You have encountered a(n): " + _turnQueue.EnemyName + "\n";
+      _battleSequenceRtl.Text = "You have encountered a(n): " + _turnQueue.EnemyType + "\n";
       _attackBtn = _battlePage.GetNode<Button>("AttackBtn");
       _spellBtn = _battlePage.GetNode<Button>("SpellBtn");
       _defendBtn = _battlePage.GetNode<Button>("DefendBtn");
@@ -66,7 +66,7 @@ namespace Incorpreal.Battle {
             // If the current fighter is the enemy.
             Boolean didHit = (bool)_enemy.Call("PlayTurn");
             if (didHit) {
-              _battleSequenceRtl.Text += "You got hit by the " + _turnQueue.EnemyName + "\n";
+              _battleSequenceRtl.Text += "You got hit by the " + _turnQueue.EnemyType + "\n";
               if (_globalPlayer.didBlock) {
                 _battleSequenceRtl.Text += "but you blocked perfectly!" + "\n";
               }
@@ -163,7 +163,7 @@ namespace Incorpreal.Battle {
     public void _on_SpellBtn_Pressed() {
       _battleTimer.Stop();
       _player.Call("CastSpell");
-      _battleSequenceRtl.Text += "You cast a spell at the " + _turnQueue.EnemyName + "\n";
+      _battleSequenceRtl.Text += "You cast a spell at the " + _turnQueue.EnemyType + "\n";
       _playerActed = true;
       _hitTheTarget.minigameStart();
       UpdateEnemyHealth();
@@ -182,7 +182,7 @@ namespace Incorpreal.Battle {
 
     public void OnTimeout() {
       DisplayPlayerOptions();
-      _battleSequenceRtl.Text += "You spent too long and the " + _turnQueue.EnemyName + " attacks!\n";
+      _battleSequenceRtl.Text += "You spent too long and the " + _turnQueue.EnemyType + " attacks!\n";
       _playerActed = true;
     }
 

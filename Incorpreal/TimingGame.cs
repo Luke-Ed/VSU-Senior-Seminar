@@ -62,7 +62,7 @@ public class TimingGame : Node2D {
         if (@event.IsActionPressed("left_click") && _playingMinigame){
             Boolean _didHit = _globalPlayer.AttackEnemy();
             if (_didHit) {
-                _battleText.Text += "You hit the " + _turnQueue.EnemyName + "\n";
+                _battleText.Text += "You hit the " + _turnQueue.EnemyType + "\n";
                 if (_globalPlayer.GoodHit) {
                     if (_globalPlayer.PerfectHit) {
                         _battleText.Text += "You timed your hit perfectly. \n";
@@ -73,7 +73,7 @@ public class TimingGame : Node2D {
                 }
             }
             else {
-                _battleText.Text += "You missed the " + _turnQueue.EnemyName + "\n";
+                _battleText.Text += "You missed the " + _turnQueue.EnemyType + "\n";
             }
             _playingMinigame = false;
             _globalPlayer.GoodHit = false;

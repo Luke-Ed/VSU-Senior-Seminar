@@ -6,7 +6,7 @@ public class TurnQueue : Node {
   public Godot.Collections.Array Combatants;
   public int EnemyMaxHp { get; private set; }
   public int EnemyCurrentHp { get; set; }
-  public string EnemyName { get; private set; }
+  public string EnemyType { get; private set; }
   private int _enemyAttack;
   
   public Node EnemyNode;
@@ -39,7 +39,7 @@ public class TurnQueue : Node {
       if (enemy.Get("Health") == null || enemy.Get("CurrentHealth") == null) return;
       EnemyMaxHp = (int)enemy.Get("Health");
       EnemyCurrentHp = (int)enemy.Get("CurrentHealth");
-      EnemyName = (string)enemy.Get("EnemyType");
+      EnemyType = (string)enemy.Get("EnemyType");
       _enemyAttack = (int)enemy.Get("Attack");
     }
 }

@@ -8,8 +8,8 @@ namespace Incorpreal.bat {
     public GlobalPlayer _globalPlayer;
     public KinematicBody2D player;
 
-    public Bat(int moveSpeed = 50, int attack = 2, int health = 30, string enemyName = "Bat") : 
-      base(moveSpeed, attack, health, enemyName) {
+    public Bat() : 
+      base(50, 2, 30, "Bat") {
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -20,7 +20,7 @@ namespace Incorpreal.bat {
       _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
     }
 
-    public Boolean playTurn() {
+    public Boolean PlayTurn() {
       TurnQueue turnQueue = (TurnQueue)GetNode("/root/Tq");
       Boolean didHit;
       if (!_globalPlayer.isDefending) {
@@ -59,16 +59,16 @@ namespace Incorpreal.bat {
           default:
             break;
           }
-        }
-        return didHit;
+      }
+      return didHit;
     }
 
 
     public void Hit() { 
       if (!_globalPlayer.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
-        _globalPlayer.enemiesFought.Add(this.Name);
+        _globalPlayer.enemiesFought.Add(Name);
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
-        tq.GetChild(1).Name = tq.EnemyName;
+        tq.GetChild(1).Name = EnemyType;
         tq.GetChild(1).Call("_Ready");
         GetTree().ChangeScene("res://Battle.tscn");
       }

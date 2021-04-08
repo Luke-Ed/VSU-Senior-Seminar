@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/bat.png" type="Texture" id=1]
 [ext_resource path="res://Enemies/Bat.cs" type="Script" id=2]
@@ -21,4 +21,4 @@ shape = SubResource( 1 )
 [node name="bat_Sprite" type="Sprite" parent="Sprite"]
 position = Vector2( 0.591766, -2.04419 )
 texture = ExtResource( 1 )
-script = ExtResource( 2 )
+script = ExtResource( 3 )
