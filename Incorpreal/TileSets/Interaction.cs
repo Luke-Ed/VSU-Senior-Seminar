@@ -5,8 +5,9 @@ public class Interaction : CanvasLayer
 {
     //Code inspired by GameDevelopmentCenter on YouTube
 
-    //Popup to handle any text
-    //TextPopup diagBox;
+    //Textbox to handle any text
+    //PackedScene dialogueBox = GD.Load<PackedScene>("res://DialogueBoxV2.tscn");
+    //DialogBox textBox;
 
     //String array of text to use
     //String[] responses;
@@ -42,7 +43,7 @@ public class Interaction : CanvasLayer
 
     //Called when the node enters the scene tree for the first time.
     public override void _Ready() {
-        // diagBox = (Popup)GetNode("../Interaction_Console/TextHandler/TextPopup") as TextPopup;
+        //textBox = (Control)GetNode("..res://DialogueBoxV2.tscn/ResponseGUI/DialogBox") as DialogBox;
         changeMap = (TileMap)GetNode("../Interactables");
     }
 
@@ -51,13 +52,6 @@ public class Interaction : CanvasLayer
             //Respond based on the action_state
             switch(action_state) {
                 case "off":
-                    // responses = new String[1]{"I got nothing to do here. \n"};
-                    // diagBox.setSpeaker("Self");
-                    // diagBox.setDialogue(responses);
-                    // diagBox.setPlayerOptions("Press Continue[Enter] to dismiss. \n");
-                    // diagBox.openDialogue();
-                    // diagBox.loadDialogue();
-
                     GD.Print("I got nothing to do here. \n");
                     break;
 
