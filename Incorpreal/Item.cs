@@ -8,16 +8,28 @@ public class Item : Node
     private String _stat;
     private int _bonus;
     private GlobalPlayer _globalPlayer;
+    private TextureRect _itemPicture;
 
 
     // Making a new object would look like "Item i = new Item("Long Sword", "Weapon", "Strength", 5);" When equiped this would increase the players strength score by 5.
     public Item(String name, String type, String stat, int bonus)
     {
-        this._name = name;
-        this._type = type;
-        this._stat = stat;
-        this._bonus = bonus;
+        this._name = name; //Any name you like
+        this._type = type; // "Weapon", "Armor", or "Consumable" for now.
+        this._stat = stat; // "Strength", "Dexterity", "Vitality", "Intelligence", or "Luck"
+        this._bonus = bonus; //Positive number.
         _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
+    }
+
+    public Item()
+    {
+
+    }
+    public override void _Ready()
+    {
+        //just for testing adding gem to each slot
+        _itemPicture = (TextureRect)GetNode("Picture");
+        _itemPicture.Texture = (Texture)ResourceLoader.Load("res://assets/gem.png");
     }
 
     public void equip()
