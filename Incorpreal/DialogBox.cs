@@ -3,6 +3,8 @@ using System;
 
 public class DialogBox : Control
 {
+    //Code inspired by Emilio on YouTube 
+    
     //A string array of all text for current situation
     protected String[] dialog = new String[3]{"Hello there, the tutorial from Emillio on YouTube was extremely helpful for figuring this system out.",
     "I tried a more elaborate method, based off an actual NPC dialogue system but that ended in error.", 

@@ -5,13 +5,6 @@ public class Interaction : CanvasLayer
 {
     //Code inspired by GameDevelopmentCenter on YouTube
 
-    //Textbox to handle any text
-    //PackedScene dialogueBox = GD.Load<PackedScene>("res://DialogueBoxV2.tscn");
-    //DialogBox textBox;
-
-    //String array of text to use
-    //String[] responses;
-    
     //Our "state" for player interaction with map objects,
     //Will likely be replaced by an Enum as code grows more complex
     //Enum states = {Idle, Looting, Reading, Puzzle, Secret}
@@ -43,7 +36,6 @@ public class Interaction : CanvasLayer
 
     //Called when the node enters the scene tree for the first time.
     public override void _Ready() {
-        //textBox = (Control)GetNode("..res://DialogueBoxV2.tscn/ResponseGUI/DialogBox") as DialogBox;
         changeMap = (TileMap)GetNode("../Interactables");
     }
 
