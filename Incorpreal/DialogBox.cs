@@ -1,14 +1,18 @@
 using Godot;
 using System;
+//using System.Diagnostics;
 
 public class DialogBox : Control
 {
     //Code inspired by Emilio on YouTube 
     
     //A string array of all text for current situation
-    protected String[] dialog = new String[3]{"Hello there, the tutorial from Emillio on YouTube was extremely helpful for figuring this system out.",
-    "I tried a more elaborate method, based off an actual NPC dialogue system but that ended in error.", 
-    "So, I gave up and moved on to greener pastures. By that I mean I found a different tutorial."};
+    [Export]
+    protected String[] dialog;
+
+    //protected String dialogPath = "";
+
+    //protected float textSpeed = 0.05;
 
     //An index for the above array
     protected int dialog_index = 0;
@@ -18,13 +22,13 @@ public class DialogBox : Control
     private Boolean finished = false;
 
     //The actual text box itself
-    protected RichTextLabel text_box;
+    private RichTextLabel text_box;
 
     //The little corner indicator for when text is ready to transition
-    protected Sprite next_indicator;
+    private Sprite next_indicator;
 
     //The tween that handles animating our text
-    protected Tween text_animator;
+    private Tween text_animator;
     //The name tween comes from in-betweening, an animation technique where you specify keyframes and the computer interpolates the frames that appear between them -GodotDocumentation
 
     //Empty constructor for other classes
@@ -40,6 +44,12 @@ public class DialogBox : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        //text_timer = (Timer)GetNode("TextTime");
+        //text_timer.WaitTime = textSpeed;
+        //dialog = getDialog();
+        //Debug.Assert(dialog, "File path does not exist);
+        //nextPhrase();
+
         text_box = (RichTextLabel)GetNode("TextBox");
         text_animator = (Tween)GetNode("Tween");
         next_indicator = (Sprite)GetNode("Next-Indicator");
@@ -78,4 +88,20 @@ public class DialogBox : Control
     public void onTweenCompleted(Godot.Object obj, NodePath key) {
         finished = true;
     }
+
+    // public String[] getDialog() {
+    //     try {
+    //         File textFile = new File();
+    //         Debug.Assert(textFile.Exists(dialogPath), "File not found");
+
+    //         textFile.Open(dialogPath, (int)File.ModeFlags.Read);
+
+    //         var jsonFile = 
+
+    //     }
+
+    //     catch(Exception EX) {
+    //         Console.WriteLine(EX.ToString());
+    //     }
+    // }
 }
