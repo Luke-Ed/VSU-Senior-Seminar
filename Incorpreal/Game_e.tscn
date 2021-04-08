@@ -130,6 +130,8 @@ __meta__ = {
 [node name="PauseBackground" type="ColorRect" parent="PauseMenu/Pause"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -0.315002
+margin_right = -0.315002
 color = Color( 0.231373, 0.121569, 0.109804, 0.780392 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -207,6 +209,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SaveConfirmLabel" type="Label" parent="PauseMenu/Pause"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -39.5
+margin_top = -69.0
+margin_right = 39.5
+margin_bottom = -55.0
+text = "Game Saved"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="LoadDialog" type="Control" parent="PauseMenu/Pause"]
 visible = false
 anchor_left = 0.5
@@ -248,7 +266,7 @@ text = "x"
 margin_left = 5.0
 margin_top = 26.0
 margin_right = 335.0
-margin_bottom = 285.0
+margin_bottom = 287.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -8,6 +8,7 @@ public class Pause : Control
     public Label RestartLabel;
     public Label SaveLabel;
     public Label LoadLabel;
+    public Label SaveConfirmedLabel;
     public Control LoadDialog;
     public Button ExitButton;
     public VBoxContainer LoadGameVBox;
@@ -38,6 +39,7 @@ public class Pause : Control
         RestartLabel = (Label)GetNode("RestartLabel"); //Grab restart label
         SaveLabel = (Label)GetNode("SaveLabel"); //Grab save label
         LoadLabel = (Label)GetNode("LoadLabel"); //Grab load label
+        SaveConfirmedLabel = (Label)GetNode("SaveConfirmLabel"); //Grab save confirmation label
         LoadDialog = (Control)GetNode("LoadDialog"); //Grab load dialog
         ExitButton = (Button)GetNode("LoadDialog/ExitButton"); //Grab load dialog exit button
         LoadGameVBox = (VBoxContainer)GetNode("LoadDialog/LoadGameVBox"); //Grab VBox for selecting load files
@@ -102,8 +104,18 @@ public class Pause : Control
             GetTree().Paused = false; //Must unpause or GetTree() will return null
             Godot.Collections.Array saveables = GetTree().GetNodesInGroup("persist"); //Snapshot of game state
             GetTree().Paused = true; //Repause
-            saveLoadGame.Call("Save", saveables); //Call Save method in SaveLoadGame, passing snapshot as argument
+            if ((Boolean)saveLoadGame.Call("Save", saveables)) { //Call Save method in SaveLoadGame, passing snapshot as argument
+                SaveConfirmedLabel.Visible = true;
+                Timer timer = new Timer();
+                timer.Connect("timeout", this, "_on_timer_timeout");
+                AddChild(timer, false);
+                timer.Start();
+            }
         }
+    }
+
+    public void _on_timer_timeout() {
+        SaveConfirmedLabel.Visible = false;
     }
 
     public void _on_ExitButton_pressed() {
@@ -127,7 +139,8 @@ public class Pause : Control
             return; //Stop loading
         } else {
             saveFile.Open("user://savegame.save", File.ModeFlags.Read);
-            saveLoadGame.Load(saveFile);
+            var saveNodes = GetTree().GetNodesInGroup("persist");
+            saveLoadGame.Load(saveFile, saveNodes);
         }
         /*May use later for selecting which save file to load
         DirectoryInfo dir = new DirectoryInfo(@"user://"); //Access user:// directory

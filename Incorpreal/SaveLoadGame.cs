@@ -13,7 +13,7 @@ public class SaveLoadGame : Node
         
     }
 
-    public void Save(Godot.Collections.Array saveables) {
+    public Boolean Save(Godot.Collections.Array saveables) {
         var saveFile = new File();
         saveFile.Open("user://savegame.save", File.ModeFlags.Write); //Open file in write mode
         
@@ -30,13 +30,13 @@ public class SaveLoadGame : Node
             saveFile.StoreLine(JSON.Print(saveData));
         }
         saveFile.Close();
+        return true;
     }
 
-    public void Load(File saveFile) {
+    public void Load(File saveFile, Godot.Collections.Array saveNodes) {
         //Get rid of current persistant nodes before loading
-        var saveNodes = GetTree().GetNodesInGroup("persist");
-        foreach (Node saveNode in saveNodes) {
-            saveNode.QueueFree();
+        /*foreach (Node saveNode in saveNodes) { //Iterate them
+            saveNode.QueueFree(); //Remove them
         }
         while (saveFile.GetPosition() < saveFile.GetLen()) { //While there is still file left to read
             var nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
@@ -44,15 +44,15 @@ public class SaveLoadGame : Node
             var newObject = (Node)newObjectScene.Instance();
             GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
             newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
-            /*
+            
             foreach(KeyValuePair<string, string> entry in nodeData) {
                 string key = entry.Key.ToString();
                 if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
                     continue;
                 }
                 newObject.Set(key, entry.value);
-            }*/
-        }
+            }
+        }*/
         saveFile.Close();
     }
 }
