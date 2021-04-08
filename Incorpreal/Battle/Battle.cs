@@ -19,6 +19,7 @@ namespace Incorpreal.Battle {
     private Simon _simon;
     private Timer _battleTimer;
     private HitTheTarget_Engan _hitTheTarget;
+    private TimingGame _timingGame;
 
     public override void _Ready() {
       _simon = (Simon)GetNode("SimonGame");
@@ -40,8 +41,10 @@ namespace Incorpreal.Battle {
       _battleTimer = _battlePage.GetNode<Timer>("Timer");
       _battleTimer.WaitTime = 20;
       _battleTimer.Connect("timeout", this, "OnTimeout");
+      _globalPlayer.hplabel = _playerHp;
       _globalPlayer.updateHealthLabel(_playerHp);
       UpdateEnemyHealth();
+      _timingGame = (TimingGame)GetNode("TimingGame_Engan");
     }
 
     private void UpdateEnemyHealth() {
@@ -72,6 +75,7 @@ namespace Incorpreal.Battle {
               _battleSequenceRtl.Text += "The attack passed through you" + "\n";
             }
             _globalPlayer.updateHealthLabel(_playerHp);
+            UpdateEnemyHealth();
             break;
         }
         
@@ -92,12 +96,14 @@ namespace Incorpreal.Battle {
           _globalPlayer.PlayerCharacter.Experience += 10;
           if(_globalPlayer.PlayerCharacter.Experience >= _globalPlayer.PlayerCharacter.ExperienceToNextLevel) {
               GetTree().ChangeScene("res://LevelUp.tscn");
+              // Remove player status effect on level up.
+              _globalPlayer.Status = null;
           }
           _fightOver = true;
         }
       }
       else {
-        _globalPlayer.Status = null;
+        
         GetTree().ChangeScene(_globalPlayer.lastScene);
       }
     }
@@ -118,6 +124,7 @@ namespace Incorpreal.Battle {
             break;
           }
       }
+      _globalPlayer.updateHealthLabel(_playerHp);
       DisplayPlayerOptions();
       _battleSequenceRtl.Text += "Choose an action \n";
       _battleTimer.Start();
@@ -147,13 +154,7 @@ namespace Incorpreal.Battle {
 
     public void _on_AttackBtn_Pressed() {
       _battleTimer.Stop();
-      Boolean didHit = (bool)_player.Call("AttackEnemy");
-      if (didHit) {
-        _battleSequenceRtl.Text += "You hit the " + _turnQueue.EnemyName + "\n";
-      }
-      else {
-        _battleSequenceRtl.Text += "You missed the " + _turnQueue.EnemyName + "\n";
-      }
+      _timingGame.startMinigame();
       _playerActed = true;
       UpdateEnemyHealth();
       DisplayPlayerOptions();

@@ -67,16 +67,23 @@ public class Player : KinematicBody2D {
   }
 
   public override void _Ready() {
+    // Add Footsteps sound.
+    this.AddChild(footsteps);
+    const string Path = "res://sounds/footsteps.wav";
+    AudioStream footstep = (AudioStream)GD.Load(Path);
+    footsteps.Stream = footstep;
+    footsteps.VolumeDb = (0);
+
+    // Load the GlobalPlayer
     _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
     //Eventually a main menu will already have a character made for the player
     //This is for demonstration purposes
     if (_globalPlayer.PlayerCharacter == null) {
       _globalPlayer.createPlayer();
     }
-    if (_globalPlayer.enemiesFought.Count > 0) {
+    if (_globalPlayer.PlayerLocation != null && _globalPlayer.enemiesFought.Count > 0) {
       GlobalPosition = _globalPlayer.PlayerLocation;
       for (int i = 0; i < _globalPlayer.enemiesFought.Count; i++) {
-        Console.WriteLine(_globalPlayer.enemiesFought[i]);
         GetParent().FindNode(_globalPlayer.enemiesFought[i]).QueueFree();
       }
     }
@@ -182,18 +189,23 @@ public class Player : KinematicBody2D {
     //2. Find closest enemy
     for (int x = 0; x < nearby.Count; x++) { 
       //Iterate them
-      PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; 
-      //Grab one
-      if (currentEnemy.GetGroups().Contains("Enemies")) { 
-        //Skip bodies not belonging to the Enemies group
-        float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); 
-        //Calculate distance
-        if (currentDistance < closestDistance) { 
-          //Check if closer than current closest
-          closestEnemyIndex = x;
-          closestDistance = currentDistance;
-          enemyFound = true;
+      try {
+        PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; 
+        //Grab one
+        if (currentEnemy.GetGroups().Contains("Enemies")) { 
+          //Skip bodies not belonging to the Enemies group
+          float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); 
+          //Calculate distance
+          if (currentDistance < closestDistance) { 
+            //Check if closer than current closest
+            closestEnemyIndex = x;
+            closestDistance = currentDistance;
+            enemyFound = true;
+          }
         }
+      }
+      catch {
+
       }
     }  
             
@@ -229,7 +241,7 @@ public class Player : KinematicBody2D {
         SetCollisionMaskBit(3, true);
       }
       Vector2 newLocation = GlobalPosition;
-      newLocation.x += 70;
+      newLocation.x += 80;
       map.SpawnEnemy(resPath, newLocation, GetTree().CurrentScene, _possessedEnemyId); 
       //Bring original enemy back
       _possessedEnemy = null;
@@ -254,4 +266,33 @@ public class Player : KinematicBody2D {
       stuck = false;
     }
   }
+    //Still under construction
+    public Godot.Collections.Dictionary<string, object> Save() {
+        return new Godot.Collections.Dictionary<string, object>() {
+            { "moveSpeed", moveSpeed},
+            { "_possessedEnemy", _possessedEnemy},
+            { "resPath", resPath},
+            { "map", map},
+            { "playerSpriteNode", playerSpriteNode},
+            { "stuck", stuck},
+            { "_globalPlayer", _globalPlayer},
+            { "_possessedEnemyId", _possessedEnemyId},
+            { "ExperienceToNextLevel", ExperienceToNextLevel},
+            { "AttackDamage", AttackDamage},
+            { "Level", Level},
+            { "CurrentHealth", CurrentHealth},
+            { "MaxHealth", MaxHealth},
+            { "Experience", Experience},
+            { "Luck", Luck },
+            { "Intelligence", Intelligence },
+            { "Vitality", Vitality },
+            { "Dexterity", Dexterity },
+            { "Strength", Strength },
+            { "CharacterPlayerClass", CharacterPlayerClass },    
+            { "Filename", this.Filename },
+            { "Parent", GetParent().GetPath() },
+            { "PosX", Position.x }, // Vector2 is not supported by JSON
+            { "PosY", Position.y },
+        };
+    }
 }

@@ -8,15 +8,12 @@ namespace Incorpreal.bat {
     public GlobalPlayer _globalPlayer;
     public KinematicBody2D player;
 
-    public Bat(int moveSpeed = 150, int attack = 2, int health = 30, string enemyName = "Bat") : 
+    public Bat(int moveSpeed = 50, int attack = 2, int health = 30, string enemyName = "Bat") : 
       base(moveSpeed, attack, health, enemyName) {
     }
 
     public override void _PhysicsProcess(float delta) {
-      if (player != null) {
-        Vector2 velocity = GlobalPosition.DirectionTo(player.GlobalPosition);
-        MoveAndCollide(velocity * MoveSpeed * delta);
-      }
+      
     }
 
     public override void _Ready() {

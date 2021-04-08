@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Simon_Engan.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Battle/Battle.cs" type="Script" id=2]
 [ext_resource path="res://HitTheTarget_Engan.tscn" type="PackedScene" id=3]
+[ext_resource path="res://TimingGame_Engan.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=2]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 5 )
 
 [node name="Battle" type="Node"]
 script = ExtResource( 2 )
@@ -16,20 +28,22 @@ __meta__ = {
 }
 
 [node name="HealthLabel" type="Label" parent="BattlePage"]
-margin_left = 12.7106
+margin_left = 6.10345
 margin_top = 5.28523
-margin_right = 217.71
+margin_right = 211.103
 margin_bottom = 79.285
+custom_fonts/font = SubResource( 1 )
 text = "Health Goes Here"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="EnemyHealth" type="Label" parent="BattlePage"]
-margin_left = 485.112
-margin_top = 9.41328
-margin_right = 609.112
-margin_bottom = 23.4133
+margin_left = 500.214
+margin_top = 4.69389
+margin_right = 629.214
+margin_bottom = 22.6939
+custom_fonts/font = SubResource( 2 )
 text = "Enemy Health Here"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -138,6 +152,11 @@ position = Vector2( 304.23, 174.814 )
 
 [node name="Player" parent="HitTheTarget_Engan/HitTheTarget" index="1"]
 position = Vector2( 303.041, 174.814 )
+
+[node name="TimingGame_Engan" parent="." instance=ExtResource( 4 )]
+
+[node name="GamePage" parent="TimingGame_Engan" index="0"]
+visible = false
 [connection signal="pressed" from="BattlePage/AttackBtn" to="." method="_on_AttackBtn_Pressed"]
 [connection signal="pressed" from="BattlePage/SpellBtn" to="." method="_on_SpellBtn_Pressed"]
 [connection signal="pressed" from="BattlePage/DefendBtn" to="." method="_on_DefendBtn_Pressed"]
@@ -147,3 +166,5 @@ position = Vector2( 303.041, 174.814 )
 [editable path="SimonGame"]
 
 [editable path="HitTheTarget_Engan"]
+
+[editable path="TimingGame_Engan"]

@@ -20,6 +20,9 @@ public class GlobalPlayer : Node {
   public Boolean perfectSpell = false;
   public Boolean isPossesing = false;
   public String Status {get; set;}
+
+  public Boolean GoodHit { get; set; }
+  public Boolean PerfectHit { get; set; }
   public void updateHealthLabel(Label l) {
     String text = "Your Health: " + PlayerCharacter.CurrentHealth + "/" + PlayerCharacter.MaxHealth;
     text += "\n Spirit Points: " + CurrentPoints + "/" + _spiritPoints;
@@ -56,16 +59,32 @@ public class GlobalPlayer : Node {
 }
 
     //Returns the amount of damage done if you are able to hit
-    public Boolean AttackEnemy()
-    {
+    public Boolean AttackEnemy(){
         TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
         Random random = new Random();
         int roll = random.Next(101);
         //Checking to make sure the ghost can hit the enemy based on intelligence
         if (roll >= 20 - PlayerCharacter.Intelligence) {
             //Checking for critical hit based on luck
-            if (roll >= 100 - PlayerCharacter.Luck) {
+            if (roll >= 100 - PlayerCharacter.Luck){
+                if (GoodHit){
+                    if (PerfectHit){
+                        tq.EnemyCurrentHp -= Convert.ToInt32(Math.Floor(PlayerCharacter.AttackDamage * 2 * 1.5));
+                        return true;
+                    }
+                    tq.EnemyCurrentHp -= Convert.ToInt32(Math.Floor(PlayerCharacter.AttackDamage * 2 * 1.25));
+                    return true;
+                }
                 tq.EnemyCurrentHp -= PlayerCharacter.AttackDamage * 2;
+                return true;
+            }
+            // If not Critical Hit:
+            if (GoodHit){
+                if (PerfectHit){
+                    tq.EnemyCurrentHp -= Convert.ToInt32(Math.Floor(PlayerCharacter.AttackDamage * 1.5));
+                    return true;
+                }
+                tq.EnemyCurrentHp -= Convert.ToInt32(Math.Floor(PlayerCharacter.AttackDamage * 1.25));
                 return true;
             }
             tq.EnemyCurrentHp -= PlayerCharacter.AttackDamage;
