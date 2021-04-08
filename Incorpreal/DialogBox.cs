@@ -96,7 +96,7 @@ public class DialogBox : Control
 
     //         textFile.Open(dialogPath, (int)File.ModeFlags.Read);
 
-    //         var jsonFile = 
+    //         var jsonFile =  textFile.ReadAllLines();
 
     //     }
 
