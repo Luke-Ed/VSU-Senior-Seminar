@@ -7,8 +7,7 @@ public class DialogBox : Control
     //Code inspired by Emilio on YouTube 
     
     //String path to dialogue JSON file
-    [Export]
-    protected String dialogPath = "";
+    [Export] public String dialogPath = "";
     
     //A string array of all text for current situation
     protected String[] dialog;
@@ -39,9 +38,9 @@ public class DialogBox : Control
     }
 
     //Set the array of text to pull from
-    public void setDialog(String[] inText) {
-        dialog = inText;
-    }
+    // public void setDialog(String[] inText) {
+    //     dialog = inText;
+    // }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -59,8 +58,8 @@ public class DialogBox : Control
     public void loadDialogue() {
         if(dialog_index < dialog.Length) {
             finished = false;
-            speaker.BbcodeText = dialog[dialog_index]["Name"];
-            text_box.BbcodeText = dialog[dialog_index]["Text"];
+            speaker.BbcodeText = dialog[dialog_index][0].ToString();
+            text_box.BbcodeText = dialog[dialog_index][1].ToString();
             text_box.PercentVisible = 0;
             text_animator.InterpolateProperty(text_box, "percent_visible", 0, 1, 5, Tween.TransitionType.Linear, Tween.EaseType.InOut);
             //InterpolateProperty(Object @object, NodePath property, object initialVal, object finalVal, float duration, TransitionType transType, EaseType easeType, float delay = 0f)
@@ -96,7 +95,7 @@ public class DialogBox : Control
 
             var json =  textFile.GetAsText();
 
-            var output = JSON.Parse(json);
+            var output = JSON.Parse(json).getResult();
 
             if(output.GetType() ==  dialog.GetType()) {
                 return output;
