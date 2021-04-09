@@ -12,7 +12,7 @@ public class Bat : KinematicBody2D
     public string enemyName;
     public GlobalPlayer gp;
     public KinematicBody2D player;
-    private Navigation2D _navigation;
+    //private Navigation2D _navigation;
 
     public override void _PhysicsProcess(float delta)
     {

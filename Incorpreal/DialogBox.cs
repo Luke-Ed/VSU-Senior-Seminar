@@ -1,6 +1,6 @@
 using Godot;
 using System;
-//using System.Diagnostics;
+using System.Diagnostics;
 
 public class DialogBox : Control
 {
@@ -10,9 +10,8 @@ public class DialogBox : Control
     [Export]
     protected String[] dialog;
 
-    //protected String dialogPath = "";
-
-    //protected float textSpeed = 0.05;
+    [Export]
+    protected String dialogPath = "";
 
     //An index for the above array
     protected int dialog_index = 0;
@@ -44,10 +43,8 @@ public class DialogBox : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        //text_timer = (Timer)GetNode("TextTime");
-        //text_timer.WaitTime = textSpeed;
         //dialog = getDialog();
-        //Debug.Assert(dialog, "File path does not exist);
+        //Debug.Assert(dialog, "File not found!");
         //nextPhrase();
 
         text_box = (RichTextLabel)GetNode("TextBox");
@@ -89,19 +86,30 @@ public class DialogBox : Control
         finished = true;
     }
 
-    // public String[] getDialog() {
-    //     try {
-    //         File textFile = new File();
-    //         Debug.Assert(textFile.Exists(dialogPath), "File not found");
+    public String[] getDialog() {
+        try {
+            File textFile = new File();
+            Debug.Assert(textFile.FileExists(dialogPath), "File not found");
 
-    //         textFile.Open(dialogPath, (int)File.ModeFlags.Read);
+            textFile.Open(dialogPath, File.ModeFlags.Read);
 
-    //         var jsonFile =  textFile.ReadAllLines();
+            var json =  textFile.GetAsText();
 
-    //     }
+            var output = JSON.Parse(json);
+            
+            if(output.GetType() == dialog.GetType()) {
+                return output;
+            }
 
-    //     catch(Exception EX) {
-    //         Console.WriteLine(EX.ToString());
-    //     }
-    // }
+            else {
+                return new string[0];
+            }
+
+        }
+
+        catch(Exception EX) {
+            Console.WriteLine(EX.ToString());
+            return new string[0];
+        }
+    }
 }
