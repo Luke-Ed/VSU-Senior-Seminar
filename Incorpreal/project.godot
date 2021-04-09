@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Incorpreal"
-run/main_scene="res://levels/TitleScreen.tscn"
+run/main_scene="res://TileSets/Forest_Map_EnganTest.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -114,6 +114,7 @@ interact={
 pause={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":80,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":11,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
 left_click={
@@ -146,5 +147,11 @@ shoot={
 
 [rendering]
 
+quality/2d/use_nvidia_rect_flicker_workaround=true
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
 quality/2d/use_pixel_snap=true
+threads/thread_model=2
+quality/subsurface_scattering/quality=0
+quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"

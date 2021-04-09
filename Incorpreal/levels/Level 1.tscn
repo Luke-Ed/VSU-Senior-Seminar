@@ -3,7 +3,9 @@
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Game.cs" type="Script" id=2]
 
-[node name="Game" type="Node"]
+[node name="Game" type="Node" groups=[
+"persist",
+]]
 script = ExtResource( 2 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]

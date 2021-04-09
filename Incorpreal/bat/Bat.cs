@@ -1,24 +1,22 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class Bat : KinematicBody2D
 {
     [Export]
-    public int moveSpeed = 150;
+    public int moveSpeed = 50;
     public int attack;
     public int health;
     public int currentHealth;
     public string enemyName;
     public GlobalPlayer gp;
     public KinematicBody2D player;
+    private Navigation2D _navigation;
 
     public override void _PhysicsProcess(float delta)
     {
-        if (player != null)
-        {
-            Vector2 velocity = GlobalPosition.DirectionTo(player.GlobalPosition);
-            MoveAndCollide(velocity * moveSpeed * delta);
-        }
+
     }
 
     public override void _Ready()
@@ -41,21 +39,53 @@ public class Bat : KinematicBody2D
 
     public Boolean playTurn()
     {
+        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
+        Boolean didHit = false;
         if (!gp.isDefending)
         {
-            return gp.takeDamage(attack);
+            didHit = gp.takeDamage(attack);
         }
         else
         {
             if (gp.didBlock)
             {
-                return gp.takeDamage(0);
+                didHit = gp.takeDamage(0);
             }
             else
             {
-                return gp.takeDamage(attack / 2);
+                didHit = gp.takeDamage(attack / 2);
             }
         }
+        if (didHit)
+        {
+            switch (enemyName)
+            {
+                case ("Bat"):
+                    if (tq.enemyCurrentHP + attack <= tq.enemyMaxHP)
+                    {
+                        tq.enemyCurrentHP += attack;
+                    }
+                    break;
+                case ("Bear"):
+                    gp.status = "Bleeding";
+                    break;
+                case ("Goblin"):
+                    //Need something for goblin
+                    break;
+                case ("Skeleton"):
+                    //Need something for skeleton
+                    break;
+                case ("Snake"):
+                    //Need something for snake
+                    break;
+                case ("Wolf"):
+                    //Need something for wolf
+                    break;
+                default:
+                    break;
+            }
+        }
+        return didHit;
     }
 
 

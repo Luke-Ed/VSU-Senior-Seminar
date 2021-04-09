@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/player.png" type="Texture" id=1]
 [ext_resource path="res://player/Player.cs" type="Script" id=2]
+[ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 32 )
@@ -57,6 +58,11 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 80, 80 )
 
+[sub_resource type="DynamicFont" id=6]
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 1, 0 )
 collision_mask = 2147483659
@@ -93,3 +99,17 @@ current = true
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
+layer = 5
+
+[node name="HealthLabel" type="Label" parent="Camera2D/CanvasLayer"]
+margin_left = 178.349
+margin_top = -178.471
+margin_right = 255.349
+margin_bottom = -160.471
+custom_fonts/font = SubResource( 6 )
+text = "Player HP"
+__meta__ = {
+"_edit_use_anchors_": false
+}

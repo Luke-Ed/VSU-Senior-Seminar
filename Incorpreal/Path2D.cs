@@ -14,7 +14,13 @@ public class Path2D : Godot.Path2D
 
     public override void _Process(float delta)
     {
-        follow.Offset = (follow.Offset + 350 * delta);
-
+        if (follow.GetChildCount() > 0)
+        {
+            Node enemy = follow.GetChild(0);
+            if (enemy.Get("moveSpeed") != null)
+            {
+                follow.Offset = (follow.Offset + (int)enemy.Get("moveSpeed") * delta);
+            }
+        }
     }
 }

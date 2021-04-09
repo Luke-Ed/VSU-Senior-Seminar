@@ -16,10 +16,10 @@ public class Battle : Node
     public Button attackbtn, spellbtn, defendbtn;
     public Boolean playerActed = true;
     public ColorRect battlePage;
-    public ColorRect SimonPage;
     public Simon s;
     public Godot.Timer timer;
     public HitTheTarget_Engan HitTheTarget;
+    private TimingGame _timingGame;
 
     public Battle()
     {
@@ -48,8 +48,10 @@ public class Battle : Node
         timer = battlePage.GetNode<Godot.Timer>("Timer") as Godot.Timer;
         timer.WaitTime = 20;
         timer.Connect("timeout", this, "onTimeout");
+        gp.hplabel = playerHP;
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
+        _timingGame = (TimingGame)GetNode("TimingGame_Engan");
     }
 
     public void updateEnemyHealth()
@@ -70,6 +72,19 @@ public class Battle : Node
                 gp.isDefending = false;
                 gp.didBlock = false;
                 playerActed = false;
+                if (gp.status != null)
+                {
+                    rtl.Text += "You are " + gp.status + "\n";
+                    switch (gp.status)
+                    {
+                        case ("Bleeding"):
+                            gp.CurrentHealth -= 2;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                gp.updateHealthLabel(playerHP);
                 displayPlayerOptions();
                 rtl.Text += "Choose an action \n";
                 timer.Start();
@@ -90,6 +105,7 @@ public class Battle : Node
                     rtl.Text += "The attack passed through you" + "\n";
                 }
                 gp.updateHealthLabel(playerHP);
+                updateEnemyHealth();
             }
             changeCurrentFighter();
             if (gp.CurrentHealth <= 0 || tq.enemyCurrentHP <= 0)
@@ -99,6 +115,7 @@ public class Battle : Node
                     rtl.Text += "You have lost the fight";
                     playerActed = false;
                     GetNode<ColorRect>("DeathScreen").Visible = true;
+                    gp.status = null;
                 }
                 else
                 {
@@ -106,6 +123,7 @@ public class Battle : Node
                     gp.Experience += 10;
                     if(gp.Experience >= gp.ExperienceToNextLevel)
                     {
+                        gp.status = null;
                         GetTree().ChangeScene("res://LevelUp.tscn");
                     }
                 }
@@ -114,6 +132,7 @@ public class Battle : Node
         }
         else
         {
+            gp.status = null;
             GetTree().ChangeScene(gp.lastScene);
         }
     }
@@ -152,15 +171,7 @@ public class Battle : Node
     public void _on_Attackbtn_pressed()
     {
         timer.Stop();
-        Boolean didHit = (bool)player.Call("attackEnemy");
-        if (didHit)
-        {
-            rtl.Text += "You hit the " + tq.enemyName + "\n";
-        }
-        else
-        {
-            rtl.Text += "You missed the " + tq.enemyName + "\n";
-        }
+        _timingGame.startMinigame();
         playerActed = true;
         updateEnemyHealth();
         displayPlayerOptions();

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
     [Export]
-
-    public int moveSpeed = 125;
+    public int moveSpeed = 100;
     public PhysicsBody2D possessee = null;	
     public string resPath;	
     public Map map = new Map();
@@ -25,7 +24,6 @@ public class Player : KinematicBody2D {
     //Will be able choose class at the start of the game at a main menu once implemented.
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
     public String CharacterClass;
-    
     public Player(String Class)
     {
         
@@ -48,6 +46,7 @@ public class Player : KinematicBody2D {
             Luck = 5;
             AttackDamage = 5 + Dexterity;
         }
+
         Experience = 0;
         MaxHealth = 5 + Vitality;
         CurrentHealth = MaxHealth;
@@ -59,7 +58,6 @@ public class Player : KinematicBody2D {
     {
 
     }
-
 
     public override void _Ready()
     {
@@ -80,7 +78,6 @@ public class Player : KinematicBody2D {
             GlobalPosition = gp.playerLocation;
             for (int i = 0; i < gp.enemyFought.Count; i++)
             {
-                Console.WriteLine(gp.enemyFought[i]);
                 GetParent().FindNode(gp.enemyFought[i]).QueueFree();
             }
         }
@@ -89,6 +86,9 @@ public class Player : KinematicBody2D {
             hitbox = (Area2D)GetNode("findEmptyPosArea2D");
             possessionArea = (Area2D)GetNode("Area2D");
             stuck = false;
+            Label hpLabel = (Label)GetNode("Camera2D").GetNode("CanvasLayer").GetNode("HealthLabel");
+            gp.hplabel = hpLabel;
+            gp.updateHealthLabel(gp.hplabel);
     }
 
     public Boolean attackEnemy()
@@ -193,15 +193,25 @@ public class Player : KinematicBody2D {
         Boolean enemyFound = false;
 
         //2. Find closest enemy
-        for (int x = 0; x < nearby.Count; x++) { //Iterate them
-            PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; //Grab one
-            if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
-                float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
-                if (currentDistance < closestDistance) { //Check if closer than current closest
-                    closestEnemyIndex = x;
-                    closestDistance = currentDistance;
-                    enemyFound = true;
+        for (int x = 0; x < nearby.Count; x++) 
+        { //Iterate them
+            try
+            {
+                PhysicsBody2D currentEnemy = (PhysicsBody2D)nearby[x]; //Grab one
+                if (currentEnemy.GetGroups().Contains("Enemies"))
+                { //Skip bodies not belonging to the Enemies group
+                    float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
+                    if (currentDistance < closestDistance)
+                    { //Check if closer than current closest
+                        closestEnemyIndex = x;
+                        closestDistance = currentDistance;
+                        enemyFound = true;
+                    }
                 }
+            }
+            catch
+            {
+
             }
         }  
             
@@ -228,7 +238,7 @@ public class Player : KinematicBody2D {
                 this.SetCollisionMaskBit(3, true);
             }
             Vector2 newLocation = this.GlobalPosition;
-            newLocation.x += 70;
+            newLocation.x += 80;
             this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
             possessee = null;
             gp.isPossesing = false;
@@ -251,5 +261,35 @@ public class Player : KinematicBody2D {
             this.Position = mousePos;
             stuck = false;
         }
+    }
+
+    //Still under construction
+    public Godot.Collections.Dictionary<string, object> Save() {
+        return new Godot.Collections.Dictionary<string, object>() {
+            { "moveSpeed", moveSpeed},
+            { "possessee", possessee},
+            { "resPath", resPath},
+            { "map", map},
+            { "playerSpriteNode", playerSpriteNode},
+            { "stuck", stuck},
+            { "gp", gp},
+            { "PossesseeName", PossesseeName},
+            { "ExperienceToNextLevel", ExperienceToNextLevel},
+            { "AttackDamage", AttackDamage},
+            { "Level", Level},
+            { "CurrentHealth", CurrentHealth},
+            { "MaxHealth", MaxHealth},
+            { "Experience", Experience},
+            { "Luck", Luck },
+            { "Intelligence", Intelligence },
+            { "Vitality", Vitality },
+            { "Dexterity", Dexterity },
+            { "Strength", Strength },
+            { "CharacterClass", CharacterClass },    
+            { "Filename", this.Filename },
+            { "Parent", GetParent().GetPath() },
+            { "PosX", Position.x }, // Vector2 is not supported by JSON
+            { "PosY", Position.y },
+        };
     }
 }

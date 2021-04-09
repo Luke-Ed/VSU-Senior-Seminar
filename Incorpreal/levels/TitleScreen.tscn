@@ -15,21 +15,24 @@ font_path = "res://assets/mrsmonster.ttf"
 
 [sub_resource type="DynamicFont" id=4]
 size = 51
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 3 )
-
-[sub_resource type="DynamicFontData" id=5]
-font_path = "res://assets/mrsmonster.ttf"
-
-[sub_resource type="DynamicFont" id=6]
-size = 51
-font_data = SubResource( 5 )
 
 [sub_resource type="DynamicFontData" id=7]
 font_path = "res://assets/mrsmonster.ttf"
 
 [sub_resource type="DynamicFont" id=8]
 size = 51
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 7 )
+
+[sub_resource type="DynamicFontData" id=5]
+font_path = "res://assets/mrsmonster.ttf"
+
+[sub_resource type="DynamicFont" id=6]
+size = 51
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 5 )
 
 [node name="TitleScreen" type="Control"]
 anchor_right = 1.0
@@ -40,7 +43,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 320.738, 179.633 )
+position = Vector2( 319.989, 180.008 )
 scale = Vector2( 0.333375, 0.333358 )
 texture = ExtResource( 2 )
 
@@ -62,10 +65,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -55.1271
-margin_top = -49.1707
-margin_right = 58.8729
-margin_bottom = 6.8293
+margin_left = -57.0
+margin_top = -50.669
+margin_right = 57.0
+margin_bottom = 5.33101
 mouse_filter = 0
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
@@ -75,15 +78,29 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LoadLabel" type="Label" parent="."]
+margin_left = 263.0
+margin_top = 180.0
+margin_right = 377.0
+margin_bottom = 236.0
+mouse_filter = 0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+text = "LOAD"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="QuitLabel" type="Label" parent="."]
-anchor_left = 1.3691
-anchor_top = 1.58054
-anchor_right = 1.52848
-anchor_bottom = 1.73609
+anchor_left = 1.36265
+anchor_top = 1.79466
+anchor_right = 1.52203
+anchor_bottom = 1.95022
 margin_left = -605.1
-margin_top = -316.078
+margin_top = -416.077
 margin_right = -605.1
-margin_bottom = -316.076
+margin_bottom = -416.077
 mouse_filter = 0
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
@@ -92,30 +109,12 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
-
-[node name="SettingLabel" type="Label" parent="."]
-anchor_left = 0.333
-anchor_top = 0.538
-anchor_right = 0.628
-anchor_bottom = 0.667
-margin_left = 27.8326
-margin_top = -3.05118
-margin_right = 1.03262
-margin_bottom = 6.50882
-mouse_filter = 0
-custom_fonts/font = SubResource( 8 )
-custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
-text = "Settings"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 [connection signal="gui_input" from="StartLabel" to="." method="_on_StartLabel_gui_input"]
 [connection signal="mouse_entered" from="StartLabel" to="." method="_on_StartLabel_mouse_entered"]
 [connection signal="mouse_exited" from="StartLabel" to="." method="_on_StartLabel_mouse_exited"]
+[connection signal="gui_input" from="LoadLabel" to="." method="_on_LoadLabel_gui_input"]
+[connection signal="mouse_entered" from="LoadLabel" to="." method="_on_LoadLabel_mouse_entered"]
+[connection signal="mouse_exited" from="LoadLabel" to="." method="_on_LoadLabel_mouse_exited"]
 [connection signal="gui_input" from="QuitLabel" to="." method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="QuitLabel" to="." method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="QuitLabel" to="." method="_on_QuitLabel_mouse_exited"]
-[connection signal="gui_input" from="SettingLabel" to="." method="_on_SettingLabel_gui_input"]
-[connection signal="mouse_entered" from="SettingLabel" to="." method="_on_SettingLabel_mouse_entered"]
-[connection signal="mouse_exited" from="SettingLabel" to="." method="_on_SettingLabel_mouse_exited"]
