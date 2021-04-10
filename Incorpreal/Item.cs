@@ -3,10 +3,10 @@ using System;
 
 public class Item : Node
 {
-    private String _name;
-    private String _type;
-    private String _stat;
-    private int _bonus;
+    public String _name { get; set; }
+    public String _type { get; set; }
+    public String _stat { get; set; }
+    public int _bonus { get; set; }
     private GlobalPlayer _globalPlayer;
     private TextureRect _itemPicture;
 

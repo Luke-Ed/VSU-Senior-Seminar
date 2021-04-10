@@ -31,6 +31,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="StatText" type="RichTextLabel" parent="Inventory/TextureRect"]
+margin_left = 5.76587
+margin_top = 134.008
+margin_right = 168.766
+margin_bottom = 274.008
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="GridContainer" type="GridContainer" parent="Inventory/TextureRect"]
 margin_left = 163.819
 margin_top = 7.55954
@@ -169,3 +178,33 @@ margin_bottom = 263.0
 rect_min_size = Vector2( 73, 73 )
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot1" to="Inventory/TextureRect/GridContainer/Slot1" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot1" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot2" to="Inventory/TextureRect/GridContainer/Slot2" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot2" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot3" to="Inventory/TextureRect/GridContainer/Slot3" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot3" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot4" to="Inventory/TextureRect/GridContainer/Slot4" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot4" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot5" to="Inventory/TextureRect/GridContainer/Slot5" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot5" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot6" to="Inventory/TextureRect/GridContainer/Slot6" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot6" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot7" to="Inventory/TextureRect/GridContainer/Slot7" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot7" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot8" to="Inventory/TextureRect/GridContainer/Slot8" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot8" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot9" to="Inventory/TextureRect/GridContainer/Slot9" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot9" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot10" to="Inventory/TextureRect/GridContainer/Slot10" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot10" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot11" to="Inventory/TextureRect/GridContainer/Slot11" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot11" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot12" to="Inventory/TextureRect/GridContainer/Slot12" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot12" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot13" to="Inventory/TextureRect/GridContainer/Slot13" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot13" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot14" to="Inventory/TextureRect/GridContainer/Slot14" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot14" to="Inventory" method="_on_Slot_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory/TextureRect/GridContainer/Slot15" to="Inventory/TextureRect/GridContainer/Slot15" method="_on_Slot_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory/TextureRect/GridContainer/Slot15" to="Inventory" method="_on_Slot_mouse_exited"]
