@@ -40,7 +40,6 @@ public class TimingGame : Node2D
         _battlePage.Visible = false;
         _playingMinigame = true;
         _rythmFollowPath.Offset = 0;
-        Console.WriteLine(_rythmPath.Name);
     }
 
 
