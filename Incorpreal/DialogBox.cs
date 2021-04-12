@@ -95,21 +95,23 @@ public class DialogBox : Control
 
             var json =  textFile.GetAsText();
 
-            var output = JSON.Parse(json).getResult();
+            var output = JSON.Parse(json).Result;
+
+            String divideMe = output.ToString();
 
             if(output.GetType() ==  dialog.GetType()) {
-                return output;
+                return divideMe.Split(',');
             }
 
             else {
-                return new string[0];
+                return new String[1]{"This is test text!"};
             }
 
         }
 
         catch(Exception EX) {
             Console.WriteLine(EX.ToString());
-            return new string[0];
+            return new String[1]{"This is also test text!"};
         }
     }
 }
