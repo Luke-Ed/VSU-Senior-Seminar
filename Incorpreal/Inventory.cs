@@ -18,11 +18,25 @@ public class Inventory : Control
         }
     }
 
+    public void fillSlot(Item item)
+    {
+        foreach (Node slot in GetNode("TextureRect").GetNode("GridContainer").GetChildren())
+        {
+            if (slot.Get("item") == null)
+            {
+                slot.Set("item", item);
+                slot.AddChild(item);
+                break;
+            }
+        }
+    }
+
     private void openInventory()
     {
         this.Visible = !this.Visible;
         GetTree().Paused = !GetTree().Paused;
     }
+
 
     private void _on_Slot_mouse_exited()
     {

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/wall.png" type="Texture" id=1]
 [ext_resource path="res://assets/ghostwall.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://assets/lowwall.png" type="Texture" id=5]
 [ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game.cs" type="Script" id=7]
-[ext_resource path="res://PauseMenu.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Path2D.cs" type="Script" id=9]
 [ext_resource path="res://Inventory.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Map.cs" type="Script" id=11]
@@ -23,7 +22,7 @@ extents = Vector2( 33, 33 )
 
 [sub_resource type="Curve2D" id=4]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 227.004, 282.389, 0, 0, 0, 0, 124.236, 282.389, 0, 0, 0, 0, -16.6721, 283.449, 0, 0, 0, 0, -114.143, 280.27, 0, 0, 0, 0, -162.878, 281.33, 0, 0, 0, 0, -169.235, 342.779, 0, 0, 0, 0, 232.302, 339.6, 0, 0, 0, 0, 227.004, 283.449 )
+"points": PoolVector2Array( 0, 0, 0, 0, 227.004, 282.389, 0, 0, 0, 0, 185.941, 279.574, 0, 0, 0, 0, 124.236, 282.389, 0, 0, 0, 0, -16.6721, 283.449, 0, 0, 0, 0, -114.143, 280.27, 0, 0, 0, 0, -162.878, 281.33, 0, 0, 0, 0, -166.198, 348.87, 0, 0, 0, 0, 135.029, 337.557, 0, 0, 0, 0, 232.302, 339.6, 0, 0, 0, 0, 227.004, 283.449 )
 }
 
 [node name="Game" type="Node"]
@@ -36,7 +35,7 @@ __meta__ = {
 script = ExtResource( 11 )
 
 [node name="Player" parent="Map" instance=ExtResource( 3 )]
-position = Vector2( 318.657, 179.594 )
+position = Vector2( 581.701, 80.5991 )
 
 [node name="Camera2D" parent="Map/Player" index="5"]
 position = Vector2( -1.12244, 1.12247 )
@@ -104,9 +103,19 @@ rotate = false
 position = Vector2( 98.9949, 0.000244141 )
 rotation = 3.14159
 
-[node name="PauseMenu" parent="Map" instance=ExtResource( 8 )]
+[node name="CollisionShape2D" parent="Map/Path2D/PathFollow2D/Bat" index="0"]
+position = Vector2( 2.8284, 0.656891 )
 
-[node name="Inventory" parent="Map" instance=ExtResource( 10 )]
+[node name="Sprite" parent="Map/Path2D/PathFollow2D/Bat" index="1"]
+position = Vector2( 0.585762, 3.41428 )
+
+[node name="Area2D" parent="Map/Path2D/PathFollow2D/Bat" index="2"]
+position = Vector2( -2.82846, 1.41418 )
+
+[node name="CollisionShape2D" parent="Map/Path2D/PathFollow2D/Bat/Area2D" index="0"]
+position = Vector2( 1.41431, -3.05176e-05 )
+
+[node name="InventoryMenu" parent="Map" instance=ExtResource( 10 )]
 
 [editable path="Map/Player"]
 
@@ -114,6 +123,4 @@ rotation = 3.14159
 
 [editable path="Map/Path2D/PathFollow2D/Bat"]
 
-[editable path="Map/PauseMenu"]
-
-[editable path="Map/Inventory"]
+[editable path="Map/InventoryMenu"]

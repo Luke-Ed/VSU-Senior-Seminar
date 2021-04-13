@@ -162,6 +162,15 @@ public class Player : KinematicBody2D {
         if (Input.IsActionJustPressed("possession")) { //If R is pressed
             Possess();
         }
+        //Pressing M will add this test weapon to your inventory and it should show.
+        else if (Input.IsActionJustPressed("createItem") && Visible)
+        {
+            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+            Item item = (Item)ItemScene.Instance();
+            item.giveProperties("Sword", "Weapon", "Strength", 10);
+            gp.addItem(item);
+            GetParent().GetNode("InventoryMenu").GetNode("Inventory").Call("fillSlot", item);
+        }
     }
 	
     public void ChangeState(string newState)

@@ -10,23 +10,24 @@ public class Item : Node
     private GlobalPlayer _globalPlayer;
     private TextureRect _itemPicture;
 
+    public Item()
+    {
 
-    // Making a new object would look like "Item i = new Item("Long Sword", "Weapon", "Strength", 5);" When equiped this would increase the players strength score by 5.
-    public Item(String name, String type, String stat, int bonus)
+    }
+
+
+    // Needed to make this method due to the fact that you cannot just create an item with stats in the same method as the constructor due to having to pack the scene first in order to make it an
+    // interactable object within the inventory screne.
+    public void giveProperties(String name, String type, String stat, int bonus)
     {
         this._name = name; //Any name you like
         this._type = type; // "Weapon", "Armor", or "Consumable" for now.
         this._stat = stat; // "Strength", "Dexterity", "Vitality", "Intelligence", or "Luck"
         this._bonus = bonus; //Positive number.
-        _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
-    }
-
-    public Item()
-    {
-
     }
     public override void _Ready()
     {
+        _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
         //just for testing adding gem to each slot
         _itemPicture = (TextureRect)GetNode("Picture");
         _itemPicture.Texture = (Texture)ResourceLoader.Load("res://assets/gem.png");
