@@ -265,12 +265,12 @@ public class Player : KinematicBody2D {
 
     //Still under construction
     public Godot.Collections.Dictionary<string, object> Save() {
+        string spriteFileName = playerSpriteNode.Texture.ResourcePath;
         return new Godot.Collections.Dictionary<string, object>() {
             { "moveSpeed", moveSpeed},
             { "possessee", possessee},
             { "resPath", resPath},
-            { "map", map},
-            { "playerSpriteNode", playerSpriteNode},
+            { "playerSpriteNode.Texture.ResourcePath", spriteFileName},
             { "stuck", stuck},
             { "gp", gp},
             { "PossesseeName", PossesseeName},
