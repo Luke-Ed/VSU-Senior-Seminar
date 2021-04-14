@@ -100,7 +100,8 @@ public class DialogBox : Control
             String divideMe = output.ToString();
 
             if(output.GetType() ==  dialog.GetType()) {
-                return divideMe.Split(',');
+                //return divideMe.Split(',');
+                return output;
             }
 
             else {
