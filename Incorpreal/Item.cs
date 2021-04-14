@@ -54,6 +54,26 @@ public class Item : Node
             default:
                 break;
         }
+        switch (_stat)
+        {
+            case ("Strength"):
+                _globalPlayer.Strength += _bonus;
+                break;
+            case ("Dexterity"):
+                _globalPlayer.Dexterity += _bonus;
+                break;
+            case ("Vitality"):
+                _globalPlayer.Vitality += _bonus;
+                break;
+            case ("Intelligence"):
+                _globalPlayer.Intelligence += _bonus;
+                break;
+            case ("Luck"):
+                _globalPlayer.Luck += _bonus;
+                break;
+            default:
+                break;
+        }
     }
 
     private void unequip()

@@ -4,10 +4,15 @@ using System;
 public class Inventory : Control
 {
     private RichTextLabel _statText;
+    private Item _heldItem;
+    private GridContainer _invMenu;
+    private GlobalPlayer _globalPlayer;
 
     public override void _Ready()
     {
+        _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
         _statText = (RichTextLabel)GetNode("TextureRect").GetNode("StatText");
+        _invMenu = (GridContainer)GetNode("TextureRect").GetNode("GridContainer");
     }
 
     public override void _Input(InputEvent @event)
@@ -20,7 +25,7 @@ public class Inventory : Control
 
     public void fillSlot(Item item)
     {
-        foreach (Node slot in GetNode("TextureRect").GetNode("GridContainer").GetChildren())
+        foreach (Node slot in _invMenu.GetChildren())
         {
             if (slot.Get("item") == null)
             {
@@ -40,6 +45,11 @@ public class Inventory : Control
 
     private void _on_Slot_mouse_exited()
     {
-        _statText.Text = "";
+        _statText.Text = "Your Stats: \n";
+        _statText.Text += "Strength: " + _globalPlayer.Strength;
+        _statText.Text += "\nDexterity: " + _globalPlayer.Dexterity;
+        _statText.Text += "\nVitality: " + _globalPlayer.Vitality;
+        _statText.Text += "\nIntelligence: " + _globalPlayer.Intelligence;
+        _statText.Text += "\nLuck: " + _globalPlayer.Luck;
     }
 }

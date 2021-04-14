@@ -162,12 +162,21 @@ public class Player : KinematicBody2D {
         if (Input.IsActionJustPressed("possession")) { //If R is pressed
             Possess();
         }
-        //Pressing M will add this test weapon to your inventory and it should show.
+        //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes
         else if (Input.IsActionJustPressed("createItem") && Visible)
         {
             PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
             Item item = (Item)ItemScene.Instance();
-            item.giveProperties("Sword", "Weapon", "Strength", 10);
+            Random random = new Random();
+            int roll = random.Next(10);
+            if (roll % 2 == 1)
+            {
+                item.giveProperties("Leather", "Armor", "Vitality", 5);
+            }
+            else
+            {
+                item.giveProperties("Robe", "Armor", "Intelligence", 10);
+            }
             gp.addItem(item);
             GetParent().GetNode("InventoryMenu").GetNode("Inventory").Call("fillSlot", item);
         }
