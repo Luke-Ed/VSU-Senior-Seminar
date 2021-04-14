@@ -27,7 +27,6 @@ public class LevelUp : Node
         lblStr.AddColorOverride("font_color", Colors.Red);
         statInfo.Text = "Increase Melee Damage.";
         stat = 1;
-        Console.WriteLine("Hover str");
     }
 
     public void _on_Dex_mouse_entered()
