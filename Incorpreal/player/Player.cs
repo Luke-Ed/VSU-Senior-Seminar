@@ -171,13 +171,13 @@ public class Player : KinematicBody2D {
             int roll = random.Next(10);
             if (roll % 2 == 1)
             {
-                item.giveProperties("Leather", "Armor", "Vitality", 5);
+                item.giveProperties("Sword", "Weapon", "Strength", 10);
             }
             else
             {
-                item.giveProperties("Robe", "Armor", "Intelligence", 10);
+                item.giveProperties("Bow", "Weapon", "Dexterity", 10);
             }
-            gp.addItem(item);
+            gp._inventory.Add(item);
             GetParent().GetNode("InventoryMenu").GetNode("Inventory").Call("fillSlot", item);
         }
     }

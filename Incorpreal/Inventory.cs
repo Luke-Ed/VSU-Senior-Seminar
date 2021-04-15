@@ -13,6 +13,32 @@ public class Inventory : Control
         _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
         _statText = (RichTextLabel)GetNode("TextureRect").GetNode("StatText");
         _invMenu = (GridContainer)GetNode("TextureRect").GetNode("GridContainer");
+        if (_globalPlayer._equipedArmor != null)
+        {
+            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+            Item tempItem = (Item)ItemScene.Instance();
+            tempItem.giveProperties(_globalPlayer._equipedArmor._name, _globalPlayer._equipedArmor._type, _globalPlayer._equipedArmor._stat, _globalPlayer._equipedArmor._bonus);
+            FindNode("EquipedArmor").AddChild(tempItem);
+            FindNode("EquipedArmor").Set("item", tempItem);
+        }
+        if (_globalPlayer._equipedWeapon != null)
+        {
+            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+            Item tempItem = (Item)ItemScene.Instance();
+            tempItem.giveProperties(_globalPlayer._equipedWeapon._name, _globalPlayer._equipedWeapon._type, _globalPlayer._equipedWeapon._stat, _globalPlayer._equipedWeapon._bonus);
+            FindNode("EquipedWeapon").AddChild(tempItem);
+            FindNode("EquipedWeapon").Set("item", tempItem);
+        }
+        if (_globalPlayer._inventory.Count > 0)
+        {
+            foreach (Item item in _globalPlayer._inventory)
+            {
+                PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+                Item tempItem = (Item)ItemScene.Instance();
+                tempItem.giveProperties(item._name, item._type, item._stat, item._bonus);
+                fillSlot(tempItem);
+            }
+        }
     }
 
     public override void _Input(InputEvent @event)

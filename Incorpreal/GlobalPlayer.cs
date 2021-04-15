@@ -176,8 +176,4 @@ public class GlobalPlayer : Node
         MaxHealth = baseStat + Vitality;
     }
 
-    public void addItem(Item i)
-    {
-        _inventory.Add(i);
-    }
 }

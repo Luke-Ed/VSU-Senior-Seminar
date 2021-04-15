@@ -13,6 +13,7 @@ region_rect = Rect2( 0, 0, 73, 73 )
 pause_mode = 2
 
 [node name="Inventory" type="Control" parent="."]
+visible = false
 margin_left = -91.9238
 margin_top = 7.07104
 margin_right = -51.9238

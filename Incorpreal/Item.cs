@@ -43,6 +43,7 @@ public class Item : Node
                     _globalPlayer._equipedWeapon.unequip();
                 }
                 _globalPlayer._equipedWeapon = this;
+                _globalPlayer._inventory.Remove(this);
                 break;
             case ("Armor"):
                 if (_globalPlayer._equipedArmor != null)
@@ -50,6 +51,7 @@ public class Item : Node
                     _globalPlayer._equipedArmor.unequip();
                 }
                 _globalPlayer._equipedArmor = this;
+                _globalPlayer._inventory.Remove(this);
                 break;
             default:
                 break;
@@ -100,10 +102,12 @@ public class Item : Node
         }
         if (_type.Equals("Weapon")){
             _globalPlayer._equipedWeapon = null;
+            _globalPlayer._inventory.Add(this);
         }
         else
         {
             _globalPlayer._equipedArmor = null;
+            _globalPlayer._inventory.Add(this);
         }
     }
 }
