@@ -29,12 +29,17 @@ public class Item : Node
     {
         _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
         //just for testing adding gem to each slot
+    }
+
+    public void changePicture(NodePath nodePath)
+    {
         _itemPicture = (TextureRect)GetNode("Picture");
-        _itemPicture.Texture = (Texture)ResourceLoader.Load("res://assets/gem.png");
+        _itemPicture.Texture = (Texture)ResourceLoader.Load(nodePath);
     }
 
     public void equip()
     {
+        //Takes the item type and places it in the globalplayer slot while removing it from the inventory of the player.
         switch (_type)
         {
             case ("Weapon"):
@@ -56,19 +61,24 @@ public class Item : Node
             default:
                 break;
         }
+        //Increases the given stat and updates any other stat that is associated with it.
         switch (_stat)
         {
             case ("Strength"):
                 _globalPlayer.Strength += _bonus;
+                _globalPlayer.AttackDamage = _globalPlayer.baseStat + _globalPlayer.Strength;
                 break;
             case ("Dexterity"):
                 _globalPlayer.Dexterity += _bonus;
+                _globalPlayer.AttackDamage = _globalPlayer.baseStat + _globalPlayer.Dexterity;
                 break;
             case ("Vitality"):
                 _globalPlayer.Vitality += _bonus;
+                _globalPlayer.MaxHealth = _globalPlayer.baseStat + _globalPlayer.Vitality;
                 break;
             case ("Intelligence"):
                 _globalPlayer.Intelligence += _bonus;
+                _globalPlayer.spiritPoints = _globalPlayer.baseStat + _globalPlayer.Intelligence;
                 break;
             case ("Luck"):
                 _globalPlayer.Luck += _bonus;
@@ -78,6 +88,7 @@ public class Item : Node
         }
     }
 
+    //Unequiping an item will remove any stat bonuses and remove the item from the given slot and add it back into the inventory list of global player.
     private void unequip()
     {
         switch (_stat)

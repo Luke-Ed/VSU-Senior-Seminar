@@ -13,6 +13,7 @@ public class Inventory : Control
         _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
         _statText = (RichTextLabel)GetNode("TextureRect").GetNode("StatText");
         _invMenu = (GridContainer)GetNode("TextureRect").GetNode("GridContainer");
+        //Is ran everytime it is loaded in order to refill the inventory and equiped items based on what is in the global player.
         if (_globalPlayer._equipedArmor != null)
         {
             PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
@@ -51,6 +52,7 @@ public class Inventory : Control
 
     public void fillSlot(Item item)
     {
+        //Goes through each node in the inventory menu, finds an empty one and fills it with the given item.
         foreach (Node slot in _invMenu.GetChildren())
         {
             if (slot.Get("item") == null)
@@ -64,6 +66,7 @@ public class Inventory : Control
 
     private void openInventory()
     {
+        //Similar to the pause menu pressing I will bring up the inventory and pause the surrounding game. Pressing I again will undo it.
         this.Visible = !this.Visible;
         GetTree().Paused = !GetTree().Paused;
     }
@@ -71,6 +74,7 @@ public class Inventory : Control
 
     private void _on_Slot_mouse_exited()
     {
+        //While you are not hovering any item will display the player's stats.
         _statText.Text = "Your Stats: \n";
         _statText.Text += "Strength: " + _globalPlayer.Strength;
         _statText.Text += "\nDexterity: " + _globalPlayer.Dexterity;

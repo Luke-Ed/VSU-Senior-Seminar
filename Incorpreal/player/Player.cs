@@ -162,23 +162,31 @@ public class Player : KinematicBody2D {
         if (Input.IsActionJustPressed("possession")) { //If R is pressed
             Possess();
         }
-        //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes
+        //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes and example.
         else if (Input.IsActionJustPressed("createItem") && Visible)
         {
+            //Creating a scene of the item node.
+            Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
             PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
             Item item = (Item)ItemScene.Instance();
+            //Wanted two different items just so I could test to make sure things were being changed so randomly deciding bewteen the two.
             Random random = new Random();
             int roll = random.Next(10);
             if (roll % 2 == 1)
             {
                 item.giveProperties("Sword", "Weapon", "Strength", 10);
+                //item currently holds base gem picture can be changed like the following with a sword asset that I found online.
+                item.changePicture("res://assets/sword.png");
             }
             else
             {
                 item.giveProperties("Bow", "Weapon", "Dexterity", 10);
+                item.changePicture("res://assets/Bow.png");
             }
+            //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
             gp._inventory.Add(item);
-            GetParent().GetNode("InventoryMenu").GetNode("Inventory").Call("fillSlot", item);
+            //Putting the item into an inventory slot.
+            inventory.Call("fillSlot", item);
         }
     }
 	

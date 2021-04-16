@@ -19,6 +19,7 @@ public class Slot : Panel
 
     public void equipItem()
     {
+        //Moves the item to item to equiped slot, removing it from the inventory and replacing it if an item was already equiped.
         switch (item._type)
         {
             case ("Weapon"):
@@ -48,6 +49,7 @@ public class Slot : Panel
         }
     }
 
+    //Is called if an item is being equiped but there is already an item of the same type equiped and will unequip that item removing stat bonuses and moving it to the inventory menu.
     private void unequipItem(Item i)
     {
         switch (item._type)
@@ -69,6 +71,7 @@ public class Slot : Panel
 
     private void _on_Slot_mouse_entered()
     {
+        //Hovering over an item will display its name and the stat it increases.
         if (item != null)
         {
             _statText.Text = "Name: " + item._name;
@@ -79,6 +82,7 @@ public class Slot : Panel
 
     private void _on_Slot_gui_input(InputEvent @event)
     {
+        //Clicking an item will equip it.
         if(@event is InputEventMouseButton && item != null)
         {
             if (IsInGroup("BaseInventory"))
