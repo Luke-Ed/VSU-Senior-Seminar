@@ -18,6 +18,7 @@ public class Inventory : Control
         {
             PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
             Item tempItem = (Item)ItemScene.Instance();
+            tempItem.changePicture(_globalPlayer._equipedArmor._spritePath);
             tempItem.giveProperties(_globalPlayer._equipedArmor._name, _globalPlayer._equipedArmor._type, _globalPlayer._equipedArmor._stat, _globalPlayer._equipedArmor._bonus);
             FindNode("EquipedArmor").AddChild(tempItem);
             FindNode("EquipedArmor").Set("item", tempItem);
@@ -26,6 +27,7 @@ public class Inventory : Control
         {
             PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
             Item tempItem = (Item)ItemScene.Instance();
+            tempItem.changePicture(_globalPlayer._equipedWeapon._spritePath);
             tempItem.giveProperties(_globalPlayer._equipedWeapon._name, _globalPlayer._equipedWeapon._type, _globalPlayer._equipedWeapon._stat, _globalPlayer._equipedWeapon._bonus);
             FindNode("EquipedWeapon").AddChild(tempItem);
             FindNode("EquipedWeapon").Set("item", tempItem);
@@ -36,6 +38,7 @@ public class Inventory : Control
             {
                 PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
                 Item tempItem = (Item)ItemScene.Instance();
+                tempItem.changePicture(item._spritePath);
                 tempItem.giveProperties(item._name, item._type, item._stat, item._bonus);
                 fillSlot(tempItem);
             }

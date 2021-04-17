@@ -8,6 +8,7 @@ public class Item : Node
     public String _stat { get; set; }
     public int _bonus { get; set; }
     private GlobalPlayer _globalPlayer;
+    public NodePath _spritePath { get; set; }
     private TextureRect _itemPicture;
 
     public Item()
@@ -34,6 +35,7 @@ public class Item : Node
     public void changePicture(NodePath nodePath)
     {
         _itemPicture = (TextureRect)GetNode("Picture");
+        _spritePath = nodePath;
         _itemPicture.Texture = (Texture)ResourceLoader.Load(nodePath);
     }
 
