@@ -7,7 +7,7 @@ public class DialogBox : Control
     //Code inspired by Emilio on YouTube 
     
     //String path to dialogue JSON file
-    [Export] public String dialogPath = "";
+    [Export] public String dialogPath = "res://Dialogues/Dialog0.txt";
     
     //A string array of all text for current situation
     protected String[] dialog;

@@ -21,7 +21,7 @@ tracks/0/keys = {
 "values": [ Vector2( 556, 140 ), Vector2( 556, 150 ) ]
 }
 
-[node name="ResponseGUI" type="CanvasLayer"]
+[node name="DialogueBoxContainer" type="CanvasLayer"]
 
 [node name="DialogBox" type="Control" parent="."]
 anchor_left = 0.494
@@ -35,7 +35,7 @@ script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-dialogPath = "res://Dialogues/Chest.txt"
+dialogPath = "res://Dialogues/Grave.txt"
 
 [node name="TextureRect" type="TextureRect" parent="DialogBox"]
 anchor_right = 1.0
@@ -73,12 +73,13 @@ custom_colors/default_color = Color( 0, 0, 0, 1 )
 bbcode_enabled = true
 bbcode_text = "Hello World! This is a long dialogue to test the wraping and margins for this text box."
 text = "Hello World! This is a long dialogue to test the wraping and margins for this text box."
+scroll_following = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Next-Indicator" type="Sprite" parent="DialogBox"]
-position = Vector2( 556, 146.124 )
+position = Vector2( 556, 140 )
 scale = Vector2( 0.470588, 0.470588 )
 texture = ExtResource( 3 )
 

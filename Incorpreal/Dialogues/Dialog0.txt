@@ -1,1 +1,1 @@
-Me,This is a test.,I need to prove that this concept actually does work.,Please just freaking work! For the love of all that is good!,I need this. Please.
+System,This is a test.,All the text written here is for test purposes. It's meant to be really long.,That's why there's so much text here. I know this is kind of boring.,It's important to have long text to show how the tween animation speed works compared to input length.,It should also show that the dialogue box is scrollable. I have to have a lot of text to make the scroll bar show up.
