@@ -58,8 +58,8 @@ public class DialogBox : Control
     public void loadDialogue() {
         if(dialog_index < dialog.Length) {
             finished = false;
-            speaker.BbcodeText = dialog[0].ToString();
-            text_box.BbcodeText = dialog[dialog_index].ToString();
+            speaker.BbcodeText = dialog[0];
+            text_box.BbcodeText = dialog[dialog_index];
             text_box.PercentVisible = 0;
             text_animator.InterpolateProperty(text_box, "percent_visible", 0, 1, 3, Tween.TransitionType.Linear, Tween.EaseType.InOut);
             //InterpolateProperty(Object @object, NodePath property, object initialVal, object finalVal, float duration, TransitionType transType, EaseType easeType, float delay = 0f)
@@ -95,15 +95,12 @@ public class DialogBox : Control
 
             var inFile =  textFile.GetAsText();
 
-            //String divideMe = output.ToString();
-
             return inFile.Split(',');
-            //return output;
         }
 
         catch(Exception EX) {
             Console.WriteLine(EX.ToString());
-            return new String[1]{"This is also test text!"};
+            return new String[1]{"Hey! Your file isn't there!"};
         }
     }
 }

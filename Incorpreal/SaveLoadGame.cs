@@ -38,49 +38,6 @@ public class SaveLoadGame : Node
         return true;
     }
 
-<<<<<<< HEAD
-    // public void Load() { //Not nearly finished
-    //     var saveFile = new File();
-        
-    //     if (!saveFile.FileExists("user://savegame.save")) { //If none found
-    //         GD.Print("Cannot find a save file in %s", OS.GetUserDataDir());
-    //         return; //Stop loading
-    //     } else {
-    //         saveFile.Open("user://savegame.save", File.ModeFlags.Read);
-
-    //         //Get rid of current persistant nodes before loading
-    //         var saveNodes = GetTree().GetNodesInGroup("persist");
-    //         foreach (Node saveNode in saveNodes) {
-    //             saveNode.QueueFree();
-    //         }
-
-    //         while (saveFile.GetPosition() < saveFile.GetLen()) { //While there is still file left to read
-    //             var nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
-
-    //             var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
-    //             var newObject = (Node)newObjectScene.Instance();
-    //             GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
-    //             newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
-
-    //             foreach(KeyValuePair<string, object> entry in nodeData) {
-    //                 string key = entry.Key.ToString();
-    //                 if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
-    //                     continue;
-    //                 }
-    //                 newObject.Set(key, entry.value);
-    //             }
-    //         }
-    //         saveFile.Close();
-    //     }
-
-    // }
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
-}
-=======
     public void Load(File saveFile, Godot.Collections.Array saveNodes)
     {
         //Get rid of current persistant nodes before loading
@@ -105,4 +62,3 @@ public class SaveLoadGame : Node
         saveFile.Close();
     }
 }
->>>>>>> a3bcdf51c1e790865049f4962d4369cf69439216
