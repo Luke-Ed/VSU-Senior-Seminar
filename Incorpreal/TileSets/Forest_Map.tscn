@@ -5,10 +5,13 @@
 [ext_resource path="res://TileSets/Interactables.cs" type="Script" id=3]
 [ext_resource path="res://TileSets/Interaction.cs" type="Script" id=4]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node"]
 
-[node name="Interaction_Console" type="CanvasLayer" parent="."]
+[node name="Interaction_Console" type="Node2D" parent="."]
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BaseLayer" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
@@ -38,7 +41,7 @@ cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( 131101, 10, 327680, 1441783, 22, 0, 1441789, 22, 0, 1376259, 22, 0 )
+tile_data = PoolIntArray( 131101, 10, 327680, 1376259, 22, 0 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true
@@ -67,16 +70,13 @@ __meta__ = {
 }
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -256, 1088 )
+position = Vector2( -256, 1122.47 )
 z_index = 1
 
-[node name="CanvasLayer" parent="Player/Camera2D" index="0"]
-layer = 20
-
 [node name="HealthLabel" parent="Player/Camera2D/CanvasLayer" index="0"]
-margin_left = -32.1616
-margin_top = 909.82
-margin_right = 28.8384
-margin_bottom = 940.82
+anchor_left = -0.401563
+anchor_top = 3.11798
+anchor_right = -0.401563
+anchor_bottom = 3.11798
 
 [editable path="Player"]

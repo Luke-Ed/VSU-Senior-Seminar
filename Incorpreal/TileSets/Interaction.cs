@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Interaction : CanvasLayer
+public class Interaction : Node2D
 {
     //Code inspired by GameDevelopmentCenter on YouTube
 

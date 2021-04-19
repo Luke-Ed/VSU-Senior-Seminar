@@ -10,10 +10,11 @@ public class DialogBox : Control
     [Export] public String dialogPath = "";
     
     //A string array of all text for current situation
-    protected String[] dialog;
+    protected String[] dialog = new string[4]{"Afely", "This is test dialog. Things are still not working.", 
+    "Quite frankly, this is rather annoying.", "I hate this."};
 
     //An index for the above array
-    protected int dialog_index = 0;
+    protected int dialog_index = 1;
 
     //A boolean to tell when all text has been displayed
     //and there is nothing left to show
@@ -46,7 +47,7 @@ public class DialogBox : Control
     public override void _Ready()
     {
         dialog = getDialog();
-        Debug.Assert((dialog == null || dialog.Length == 0), "Dialogue not found!");
+        //Debug.Assert((dialog == null || dialog.Length == 0), "Dialogue not found!");
         speaker = (RichTextLabel)GetNode("SpeakerBox");
         text_box = (RichTextLabel)GetNode("TextBox");
         text_animator = (Tween)GetNode("Tween");
@@ -58,10 +59,10 @@ public class DialogBox : Control
     public void loadDialogue() {
         if(dialog_index < dialog.Length) {
             finished = false;
-            speaker.BbcodeText = dialog[dialog_index][0].ToString();
-            text_box.BbcodeText = dialog[dialog_index][1].ToString();
+            speaker.BbcodeText = dialog[0].ToString();
+            text_box.BbcodeText = dialog[dialog_index].ToString();
             text_box.PercentVisible = 0;
-            text_animator.InterpolateProperty(text_box, "percent_visible", 0, 1, 5, Tween.TransitionType.Linear, Tween.EaseType.InOut);
+            text_animator.InterpolateProperty(text_box, "percent_visible", 0, 1, 3, Tween.TransitionType.Linear, Tween.EaseType.InOut);
             //InterpolateProperty(Object @object, NodePath property, object initialVal, object finalVal, float duration, TransitionType transType, EaseType easeType, float delay = 0f)
             text_animator.Start();
         }
@@ -93,21 +94,12 @@ public class DialogBox : Control
 
             textFile.Open(dialogPath, File.ModeFlags.Read);
 
-            var json =  textFile.GetAsText();
+            var inFile =  textFile.GetAsText();
 
-            var output = JSON.Parse(json).Result;
+            //String divideMe = output.ToString();
 
-            String divideMe = output.ToString();
-
-            if(output.GetType() ==  dialog.GetType()) {
-                //return divideMe.Split(',');
-                return output;
-            }
-
-            else {
-                return new String[1]{"This is test text!"};
-            }
-
+            return inFile.Split(',');
+            //return output;
         }
 
         catch(Exception EX) {

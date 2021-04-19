@@ -33,21 +33,7 @@ _data = {
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -254.257, 1123.82 )
-scale = Vector2( 0.995932, 1 )
-z_index = 1
-
-[node name="CanvasLayer" parent="Player/Camera2D" index="0"]
-layer = 20
-
-[node name="HealthLabel" parent="Player/Camera2D/CanvasLayer" index="0"]
-margin_left = -32.1616
-margin_top = 909.82
-margin_right = 28.8384
-margin_bottom = 940.82
-
-[node name="Interaction_Console" type="CanvasLayer" parent="."]
+[node name="Interaction_Console" type="Node2D" parent="."]
 script = ExtResource( 4 )
 
 [node name="BaseLayer" type="TileMap" parent="."]
@@ -145,6 +131,21 @@ rotate = false
 [node name="Skeleton" parent="Enemies/Skeleton/PathFollow2D" instance=ExtResource( 10 )]
 position = Vector2( -0.561035, 0.0316162 )
 scale = Vector2( 0.504674, 0.473651 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( -254.257, 1123.82 )
+scale = Vector2( 0.995932, 1 )
+z_index = 1
+
+[node name="CanvasLayer" parent="Player/Camera2D" index="0"]
+layer = 20
+
+[node name="HealthLabel" parent="Player/Camera2D/CanvasLayer" index="0"]
+margin_left = -196.458
+margin_top = 1006.65
+margin_right = -122.458
+margin_bottom = 1037.65
+autowrap = true
 
 [node name="PauseMenu" parent="." instance=ExtResource( 9 )]
 
