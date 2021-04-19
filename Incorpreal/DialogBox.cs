@@ -10,8 +10,7 @@ public class DialogBox : Control
     [Export] public String dialogPath = "";
     
     //A string array of all text for current situation
-    protected String[] dialog = new string[4]{"Afely", "This is test dialog. Things are still not working.", 
-    "Quite frankly, this is rather annoying.", "I hate this."};
+    protected String[] dialog;
 
     //An index for the above array
     protected int dialog_index = 1;
