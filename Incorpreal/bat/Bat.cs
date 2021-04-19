@@ -114,6 +114,7 @@ public class Bat : KinematicBody2D
         {
             Console.WriteLine("Entered");
             player = (KinematicBody2D)body;
+            this.AddToGroup("Following");
         }
     }
 
@@ -123,6 +124,7 @@ public class Bat : KinematicBody2D
         {
             Console.WriteLine("left");
             player = null;
+            this.RemoveFromGroup("Following");
         }
     }
 }

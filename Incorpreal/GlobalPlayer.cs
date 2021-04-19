@@ -19,7 +19,7 @@ public class GlobalPlayer : Node
     public Boolean perfectSpell = false;
     public Boolean isPossesing = false;
     public String status;
-    private List<Item> _inventory;
+    public List<Item> _inventory { get; set; }
     public Item _equipedWeapon { get; set; }
     public Item _equipedArmor { get; set; }
     public Boolean _goodHit { get; set; }
@@ -175,4 +175,5 @@ public class GlobalPlayer : Node
     {
         MaxHealth = baseStat + Vitality;
     }
+
 }
