@@ -137,16 +137,6 @@ position = Vector2( -254.257, 1123.82 )
 scale = Vector2( 0.995932, 1 )
 z_index = 1
 
-[node name="CanvasLayer" parent="Player/Camera2D" index="0"]
-layer = 20
-
-[node name="HealthLabel" parent="Player/Camera2D/CanvasLayer" index="0"]
-margin_left = -196.458
-margin_top = 1006.65
-margin_right = -122.458
-margin_bottom = 1037.65
-autowrap = true
-
 [node name="PauseMenu" parent="." instance=ExtResource( 9 )]
 
 [editable path="Player"]

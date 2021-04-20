@@ -100,14 +100,11 @@ drag_margin_h_enabled = true
 drag_margin_v_enabled = true
 smoothing_enabled = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Camera2D"]
-layer = 5
-
-[node name="HealthLabel" type="Label" parent="Camera2D/CanvasLayer"]
-margin_left = 178.349
-margin_top = -178.471
-margin_right = 255.349
-margin_bottom = -160.471
+[node name="HealthLabel" type="Label" parent="Camera2D"]
+margin_left = 59.0
+margin_top = -102.0
+margin_right = 136.0
+margin_bottom = -84.0
 custom_fonts/font = SubResource( 6 )
 text = "Player HP"
 __meta__ = {

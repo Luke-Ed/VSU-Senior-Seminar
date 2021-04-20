@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Interaction : Node2D
+public class Interaction : CanvasLayer
 {
     //Code inspired by GameDevelopmentCenter on YouTube
 
@@ -43,8 +43,6 @@ public class Interaction : Node2D
     //Called when the node enters the scene tree for the first time.
     public override void _Ready() {
         changeMap = (TileMap)GetNode("../Interactables");
-        //CanvasLayer dialogBoxControl = (CanvasLayer)dialogueBoxes.Instance();
-        //diagBox = dialogBoxControl.GetNode("DialogueBoxContainer") as DialogBox;
         diagBox = dialogueBoxes.Instance() as DialogBox;
     }
 
@@ -60,7 +58,7 @@ public class Interaction : Node2D
                     //Add some function or load a scene/panel for gold, etc.
                     GD.Print("What do we have here? \n");
                     diagBox.dialogPath = "res://Dialogues/Chest.txt";
-                    AddChild(diagBox);
+                    GetTree().GetRoot().GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
                     changeMap.SetCell((int)tile[0], (int)tile[1], 22, false, false, false, tile_region);
                     //SetCell(int x, int y, int tile, boolean flip_x, boolean flip_y, boolean transpose, Vector2 autotileCoordinates)
 

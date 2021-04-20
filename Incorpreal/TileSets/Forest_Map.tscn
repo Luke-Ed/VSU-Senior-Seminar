@@ -7,11 +7,8 @@
 
 [node name="Node2D" type="Node"]
 
-[node name="Interaction_Console" type="Node2D" parent="."]
+[node name="Interaction_Console" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_lock_": true
-}
 
 [node name="BaseLayer" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
@@ -72,11 +69,3 @@ __meta__ = {
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( -256, 1122.47 )
 z_index = 1
-
-[node name="HealthLabel" parent="Player/Camera2D/CanvasLayer" index="0"]
-anchor_left = -0.401563
-anchor_top = 3.11798
-anchor_right = -0.401563
-anchor_bottom = 3.11798
-
-[editable path="Player"]

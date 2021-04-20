@@ -22,6 +22,7 @@ tracks/0/keys = {
 }
 
 [node name="DialogueBoxContainer" type="CanvasLayer"]
+layer = 7
 follow_viewport_enable = true
 script = ExtResource( 4 )
 
