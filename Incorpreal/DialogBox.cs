@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Diagnostics;
 
-public class DialogBox : Control
+public class DialogBox : CanvasLayer
 {
     //Code inspired by Emilio on YouTube 
     
@@ -37,20 +37,15 @@ public class DialogBox : Control
 
     }
 
-    //Set the array of text to pull from
-    // public void setDialog(String[] inText) {
-    //     dialog = inText;
-    // }
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         dialog = getDialog();
         //Debug.Assert((dialog == null || dialog.Length == 0), "Dialogue not found!");
-        speaker = (RichTextLabel)GetNode("SpeakerBox");
-        text_box = (RichTextLabel)GetNode("TextBox");
-        text_animator = (Tween)GetNode("Tween");
-        next_indicator = (Sprite)GetNode("Next-Indicator");
+        speaker = (RichTextLabel)GetNode("DialogBox/SpeakerBox");
+        text_box = (RichTextLabel)GetNode("DialogBox/TextBox");
+        text_animator = (Tween)GetNode("DialogBox/Tween");
+        next_indicator = (Sprite)GetNode("DialogBox/Next-Indicator");
         loadDialogue();
     }
 

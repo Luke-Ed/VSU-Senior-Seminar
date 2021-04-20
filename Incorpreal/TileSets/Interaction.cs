@@ -5,6 +5,9 @@ public class Interaction : Node2D
 {
     //Code inspired by GameDevelopmentCenter on YouTube
 
+    //The dialogue box scene for use in code
+    PackedScene dialogueBoxes = GD.Load<PackedScene>("res://DialogueBoxV2.tscn");
+
     //Our "state" for player interaction with map objects,
     //Will likely be replaced by an Enum as code grows more complex
     //Enum states = {Idle, Looting, Reading, Puzzle, Secret}
@@ -15,6 +18,9 @@ public class Interaction : Node2D
 
     //The collsion shape to turn off
     CollisionShape2D disable_chest;
+
+    //CanvasLayer to hold dialogue box
+    DialogBox diagBox;
 
     // Chests are loaded from left to right, top to bottom. 
     // Chests in the upper left corner are loaded before lower right.
@@ -37,6 +43,9 @@ public class Interaction : Node2D
     //Called when the node enters the scene tree for the first time.
     public override void _Ready() {
         changeMap = (TileMap)GetNode("../Interactables");
+        //CanvasLayer dialogBoxControl = (CanvasLayer)dialogueBoxes.Instance();
+        //diagBox = dialogBoxControl.GetNode("DialogueBoxContainer") as DialogBox;
+        diagBox = dialogueBoxes.Instance() as DialogBox;
     }
 
     public override void _Process(float delta) {
@@ -50,6 +59,8 @@ public class Interaction : Node2D
                 case "on": 
                     //Add some function or load a scene/panel for gold, etc.
                     GD.Print("What do we have here? \n");
+                    diagBox.dialogPath = "res://Dialogues/Chest.txt";
+                    AddChild(diagBox);
                     changeMap.SetCell((int)tile[0], (int)tile[1], 22, false, false, false, tile_region);
                     //SetCell(int x, int y, int tile, boolean flip_x, boolean flip_y, boolean transpose, Vector2 autotileCoordinates)
 
@@ -68,15 +79,17 @@ public class Interaction : Node2D
         }
     }
 
-    //Please just ignore, it's just a setter
+    //The actual vector2 tile coordiate on the tilemap
     public void addUsedTiles(Vector2 used_tile) {
         usedTiles.Add(used_tile);
     }
 
+    //The vector2 of tile texture from the tileset
     public void addUsedTextures(Vector2 used_texture) {
         usedTextures.Add(used_texture);
     }
 
+    //The loot areas that will be disabled once the chest is opened
     public void setDisabledLootArea(Area2D openedChest) {
         loot_areas.Add(openedChest);
     }

@@ -22,20 +22,21 @@ tracks/0/keys = {
 }
 
 [node name="DialogueBoxContainer" type="CanvasLayer"]
+follow_viewport_enable = true
+script = ExtResource( 4 )
 
 [node name="DialogBox" type="Control" parent="."]
 anchor_left = 0.494
-anchor_top = 0.5
+anchor_top = 0.533
 anchor_right = 0.494
-anchor_bottom = 0.5
+anchor_bottom = 0.533
 margin_left = -300.16
-margin_top = -172.0
+margin_top = -183.88
 margin_right = 299.84
-script = ExtResource( 4 )
+margin_bottom = 0.11998
 __meta__ = {
 "_edit_use_anchors_": false
 }
-dialogPath = "res://Dialogues/Grave.txt"
 
 [node name="TextureRect" type="TextureRect" parent="DialogBox"]
 anchor_right = 1.0
@@ -73,7 +74,6 @@ custom_colors/default_color = Color( 0, 0, 0, 1 )
 bbcode_enabled = true
 bbcode_text = "Hello World! This is a long dialogue to test the wraping and margins for this text box."
 text = "Hello World! This is a long dialogue to test the wraping and margins for this text box."
-scroll_following = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -88,4 +88,4 @@ autoplay = "Idle"
 anims/Idle = SubResource( 1 )
 
 [node name="Tween" type="Tween" parent="DialogBox"]
-[connection signal="tween_completed" from="DialogBox/Tween" to="DialogBox" method="onTweenCompleted"]
+[connection signal="tween_completed" from="DialogBox/Tween" to="." method="onTweenCompleted"]
