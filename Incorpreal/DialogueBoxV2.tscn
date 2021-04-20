@@ -22,17 +22,19 @@ tracks/0/keys = {
 }
 
 [node name="DialogueBoxContainer" type="CanvasLayer"]
+offset = Vector2( 0, 150 )
+transform = Transform2D( 1, 0, 0, 1, 0, 150 )
 script = ExtResource( 4 )
 
 [node name="DialogBox" type="Control" parent="."]
 anchor_left = 0.494
-anchor_top = 0.533
+anchor_top = 0.536
 anchor_right = 0.494
-anchor_bottom = 0.533
+anchor_bottom = 0.536
 margin_left = -300.16
-margin_top = -183.88
+margin_top = -184.96
 margin_right = 299.84
-margin_bottom = 0.11998
+margin_bottom = 0.0400085
 __meta__ = {
 "_edit_use_anchors_": false
 }
