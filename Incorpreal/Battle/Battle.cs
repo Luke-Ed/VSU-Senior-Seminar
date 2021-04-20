@@ -211,6 +211,9 @@ public class Battle : Node
         gp.playerCharacter = null;
         gp.playerLocation = new Vector2(324, 179);
         gp.enemyFought.Clear();
+        gp._inventory.Clear();
+        gp._equipedArmor = null;
+        gp._equipedWeapon = null;
         gp.createPlayer();
         GetTree().ChangeScene(gp.lastScene);
     }

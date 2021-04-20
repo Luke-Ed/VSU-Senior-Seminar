@@ -112,7 +112,6 @@ public class Bat : KinematicBody2D
     {
         if (body.Name == "Player")
         {
-            Console.WriteLine("Entered");
             player = (KinematicBody2D)body;
             this.AddToGroup("Following");
         }
@@ -122,7 +121,6 @@ public class Bat : KinematicBody2D
     {
         if (body.Name == "Player")
         {
-            Console.WriteLine("left");
             player = null;
             this.RemoveFromGroup("Following");
         }

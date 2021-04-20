@@ -114,8 +114,8 @@ public class Item : Node
                 break;
         }
         if (_type.Equals("Weapon")){
+            _globalPlayer._inventory.Add(_globalPlayer._equipedWeapon);
             _globalPlayer._equipedWeapon = null;
-            _globalPlayer._inventory.Add(this);
         }
         else
         {
