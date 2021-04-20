@@ -56,7 +56,6 @@ public class Interaction : CanvasLayer
 
                 case "on": 
                     //Add some function or load a scene/panel for gold, etc.
-                    GD.Print("What do we have here? \n");
                     diagBox.dialogPath = "res://Dialogues/Chest.txt";
                     GetTree().GetRoot().GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
                     changeMap.SetCell((int)tile[0], (int)tile[1], 22, false, false, false, tile_region);
@@ -97,12 +96,10 @@ public class Interaction : CanvasLayer
         action_state = "on";
         tile = (Vector2)usedTiles[current_chest]; //Pass the current tile ingame to the process method
         tile_region = (Vector2)usedTextures[current_chest] + open_chest; //Pass the Vector2 and change the texture to the "open chest" texture
-        // GD.Print("Looting \n");
     }
 
     //When the player leaves a loot_area, print "Leaving"
     public void OnLootAreaExited(Area2D area) {
         action_state = "off";
-        // GD.Print("Leaving \n");
     }
 }
