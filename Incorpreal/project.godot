@@ -17,6 +17,7 @@ _global_script_class_icons={
 
 config/name="Incorpreal"
 run/main_scene="res://Game_Engan.tscn"
+
 config/icon="res://icon.png"
 
 [autoload]
