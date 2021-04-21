@@ -19,7 +19,14 @@ public class Path2D : Godot.Path2D
             Node enemy = follow.GetChild(0);
             if (enemy.Get("moveSpeed") != null)
             {
-                follow.Offset = (follow.Offset + (int)enemy.Get("moveSpeed") * delta);
+                if (!enemy.IsInGroup("Following"))
+                {
+                    follow.Offset = (follow.Offset + (int)enemy.Get("moveSpeed") * delta);
+                }
+            }
+            else
+            {
+                follow.Offset = (follow.Offset + 300 * delta);
             }
         }
     }

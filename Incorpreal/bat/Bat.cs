@@ -16,7 +16,15 @@ public class Bat : KinematicBody2D
 
     public override void _PhysicsProcess(float delta)
     {
+        try
+        {
+            Vector2 direction = (player.GlobalPosition - GlobalPosition).Normalized();
+            MoveAndCollide(direction * moveSpeed * delta);
+        }
+        catch
+        {
 
+        }
     }
 
     public override void _Ready()
@@ -104,7 +112,9 @@ public class Bat : KinematicBody2D
     {
         if (body.Name == "Player")
         {
-            //player = (KinematicBody2D)body;
+            Console.WriteLine("Entered");
+            player = (KinematicBody2D)body;
+            this.AddToGroup("Following");
         }
     }
 
@@ -112,7 +122,9 @@ public class Bat : KinematicBody2D
     {
         if (body.Name == "Player")
         {
+            Console.WriteLine("left");
             player = null;
+            this.RemoveFromGroup("Following");
         }
     }
 }

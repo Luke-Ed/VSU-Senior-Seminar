@@ -11,19 +11,23 @@ public class SaveLoadGame : Node
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        
+
     }
 
-    public Boolean Save(Godot.Collections.Array saveables) {
+    public Boolean Save(Godot.Collections.Array saveables)
+    {
         var saveFile = new File();
         saveFile.Open("user://savegame.save", File.ModeFlags.Write); //Open file in write mode
-        
-        foreach (Node saveable in saveables) { //Iterate them
-            if (saveable.Filename.Empty()) { //Skip empty nodes
+
+        foreach (Node saveable in saveables)
+        { //Iterate them
+            if (saveable.Filename.Empty())
+            { //Skip empty nodes
                 GD.Print(String.Format("node '{0}' is not an instanced scene ", saveable.Name));
                 continue;
             }
-            if (!saveable.HasMethod("Save")) { //Skip ones without save methods
+            if (!saveable.HasMethod("Save"))
+            { //Skip ones without save methods
                 GD.Print("node '{0}' has no Save method", saveable.Name);
                 continue;
             }
@@ -35,9 +39,11 @@ public class SaveLoadGame : Node
         return true;
     }
 
-    public void Load(File saveFile, Godot.Collections.Array saveNodes) {
+    public void Load(File saveFile, Godot.Collections.Array saveNodes) 
+    {
         //Get rid of current persistant nodes before loading
         foreach (Node saveNode in saveNodes) { //Iterate them
+
             saveNode.QueueFree(); //Remove them
         }
         while (saveFile.GetPosition() < saveFile.GetLen()) { //While there is still file left to read
