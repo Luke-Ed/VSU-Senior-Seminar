@@ -188,6 +188,18 @@ public class Player : KinematicBody2D {
             //Putting the item into an inventory slot.
             inventory.Call("fillSlot", item);
         }
+        else if (Input.IsActionJustPressed("createPotion") && Visible)
+        {
+            gp.CurrentHealth -= 5;
+            gp.updateHealthLabel(gp.hplabel);
+            Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+            Item item = (Item)ItemScene.Instance();
+            item.giveProperties("Health Potion", "Consumable", "Health", 10);
+            item.changePicture("res://assets/HealthPotion.png");
+            gp._inventory.Add(item);
+            inventory.Call("fillSlot", item);
+        }
     }
 	
     public void ChangeState(string newState)

@@ -44,6 +44,11 @@ public class Slot : Panel
                 item.equip();
                 item = null;
                 break;
+            case ("Consumable"):
+                RemoveChild(item);
+                item.equip();
+                item = null;
+                break;
             case null:
                 break;
         }
@@ -74,9 +79,18 @@ public class Slot : Panel
         //Hovering over an item will display its name and the stat it increases.
         if (item != null)
         {
-            _statText.Text = "Name: " + item._name;
-            _statText.Text += "\nType: " + item._type;
-            _statText.Text += "\n" + item._stat + " + " + item._bonus;
+            if (item._type != "Consumable")
+            {
+                _statText.Text = "Name: " + item._name;
+                _statText.Text += "\nType: " + item._type;
+                _statText.Text += "\n" + item._stat + " + " + item._bonus;
+            }
+            else
+            {
+                _statText.Text = "Name: " + item._name;
+                _statText.Text += "\nType: " + item._type;
+                _statText.Text += "\nIncreases " + item._stat + " by " + item._bonus;
+            }
         }
     }
 

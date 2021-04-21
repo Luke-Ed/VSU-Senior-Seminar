@@ -209,6 +209,8 @@ public class Battle : Node
     public void _on_Resetbtn_pressed()
     {
         gp.playerCharacter = null;
+        //This only works for test game_engan need to make method and or variable
+        //for loading positions in all maps.
         gp.playerLocation = new Vector2(324, 179);
         gp.enemyFought.Clear();
         gp._inventory.Clear();
