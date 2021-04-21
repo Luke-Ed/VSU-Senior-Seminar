@@ -44,6 +44,7 @@ public class Pause : Control
         ExitButton = (Button)GetNode("LoadDialog/ExitButton"); //Grab load dialog exit button
         LoadGameVBox = (VBoxContainer)GetNode("LoadDialog/LoadGameVBox"); //Grab VBox for selecting load files
         saveLoadGame = new SaveLoadGame();
+        AddChild(saveLoadGame);
     }
 
     public void _on_QuitLabel_mouse_entered() {
@@ -124,6 +125,7 @@ public class Pause : Control
 
     public void _on_LoadLabel_gui_input(InputEvent @event) {
         if (loadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
+
             LoadDialog.Visible = true;
             PopulateLoadDialog();
             //saveLoadGame.Call("Load", selectedFile); not made yet

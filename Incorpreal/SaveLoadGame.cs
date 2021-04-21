@@ -30,6 +30,13 @@ public class SaveLoadGame : Node
             var saveData = saveable.Call("Save");
             saveFile.StoreLine(JSON.Print(saveData));
         }
+
+        //Finally, add which level player is currently on to save file:
+        Godot.Collections.Dictionary<string, object> level = new Godot.Collections.Dictionary<string, object>() {
+            { "currentLevel", GetTree().CurrentScene.Name },
+        };
+        saveFile.StoreLine(JSON.Print(level));
+
         saveFile.Close();
         return true;
     }
