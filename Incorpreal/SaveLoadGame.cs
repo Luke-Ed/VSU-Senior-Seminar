@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public class SaveLoadGame : Node
 {
@@ -35,7 +36,7 @@ public class SaveLoadGame : Node
 
     public void Load(File saveFile, Godot.Collections.Array saveNodes) {
         //Get rid of current persistant nodes before loading
-        /*foreach (Node saveNode in saveNodes) { //Iterate them
+        foreach (Node saveNode in saveNodes) { //Iterate them
             saveNode.QueueFree(); //Remove them
         }
         while (saveFile.GetPosition() < saveFile.GetLen()) { //While there is still file left to read
@@ -45,14 +46,14 @@ public class SaveLoadGame : Node
             GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
             newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
             
-            foreach(KeyValuePair<string, string> entry in nodeData) {
+            foreach(KeyValuePair<string, object> entry in nodeData) {
                 string key = entry.Key.ToString();
                 if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
                     continue;
                 }
-                newObject.Set(key, entry.value);
+                newObject.Set(key, entry.Value);
             }
-        }*/
+        }
         saveFile.Close();
     }
 }
