@@ -87,20 +87,20 @@ public class Pause : Control
     }
 
     public void _on_QuitLabel_gui_input(InputEvent @event) {
-        if (quitEntered && @event is InputEventMouseButton) {
+        if (quitEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             GetTree().Quit();
         }
     }
 
     public void _on_RestartLabel_gui_input(InputEvent @event) {
-        if (restartEntered && @event is InputEventMouseButton) {
+        if (restartEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             GetTree().ReloadCurrentScene(); //Reload the level
             PauseGame(); //Unpause or it will stay paused without the pause screen
         }
     }
 
     public void _on_SaveLabel_gui_input(InputEvent @event) {
-        if (saveEntered && @event is InputEventMouseButton) {
+        if (saveEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             GetTree().Paused = false; //Must unpause or GetTree() will return null
             Godot.Collections.Array saveables = GetTree().GetNodesInGroup("persist"); //Snapshot of game state
             GetTree().Paused = true; //Repause
@@ -123,7 +123,7 @@ public class Pause : Control
     }
 
     public void _on_LoadLabel_gui_input(InputEvent @event) {
-        if (loadEntered && @event is InputEventMouseButton) {
+        if (loadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             LoadDialog.Visible = true;
             PopulateLoadDialog();
             //saveLoadGame.Call("Load", selectedFile); not made yet
@@ -150,7 +150,6 @@ public class Pause : Control
             Label optionLabel = (Label)newOption.Instance();
             LoadGameVBox.AddSpacer(false);
             LoadGameVBox.AddChild(optionLabel);
-        }
-        */
+        }*/
     }
 }

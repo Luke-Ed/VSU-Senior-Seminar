@@ -41,18 +41,19 @@ public class SaveLoadGame : Node
         }
         while (saveFile.GetPosition() < saveFile.GetLen()) { //While there is still file left to read
             var nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
-            var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
-            var newObject = (Node)newObjectScene.Instance();
-            GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
-            newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
+            GD.Print(nodeData);
+            //var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
+            //var newObject = (Node)newObjectScene.Instance();
+            //GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
+            //newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
             
-            foreach(KeyValuePair<string, object> entry in nodeData) {
-                string key = entry.Key.ToString();
-                if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
-                    continue;
-                }
-                newObject.Set(key, entry.Value);
-            }
+            //foreach(KeyValuePair<string, object> entry in nodeData) {
+                //string key = entry.Key.ToString();
+                //if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
+                  //  continue;
+                //}
+              //  newObject.Set(key, entry.Value);
+            //}
         }
         saveFile.Close();
     }
