@@ -293,7 +293,7 @@ public class Player : KinematicBody2D {
             { "PosY", gp.playerLocation.y },
             { "enemyFought", gp.enemyFought },
             { "hplabel", gp.hplabel.Text },
-            { "lastScene", gp.lastScene }
+            { "currentLevel", GetTree().CurrentScene.Name }
         };
     }
 }
