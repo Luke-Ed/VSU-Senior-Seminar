@@ -208,15 +208,12 @@ public class Battle : Node
 
     public void _on_Resetbtn_pressed()
     {
+        //This should later be replaced with loading a save from Eli if possible.
         gp.playerCharacter = null;
-        //This only works for test game_engan need to make method and or variable
-        //for loading positions in all maps.
-        gp.playerLocation = new Vector2(324, 179);
         gp.enemyFought.Clear();
         gp._inventory.Clear();
         gp._equipedArmor = null;
         gp._equipedWeapon = null;
-        gp.createPlayer();
         GetTree().ChangeScene(gp.lastScene);
     }
 

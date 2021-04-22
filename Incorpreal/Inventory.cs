@@ -87,7 +87,8 @@ public class Inventory : Control
     {
         //While you are not hovering any item will display the player's stats.
         _statText.Text = "Your Stats: \n";
-        _statText.Text += "Strength: " + _globalPlayer.Strength;
+        _statText.Text += "Level: " + _globalPlayer.Level;
+        _statText.Text += "\nStrength: " + _globalPlayer.Strength;
         _statText.Text += "\nDexterity: " + _globalPlayer.Dexterity;
         _statText.Text += "\nVitality: " + _globalPlayer.Vitality;
         _statText.Text += "\nIntelligence: " + _globalPlayer.Intelligence;

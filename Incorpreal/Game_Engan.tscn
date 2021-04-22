@@ -35,7 +35,7 @@ __meta__ = {
 script = ExtResource( 11 )
 
 [node name="Player" parent="Map" instance=ExtResource( 3 )]
-position = Vector2( 581.701, 80.5991 )
+position = Vector2( 605.298, 37.1809 )
 
 [node name="Camera2D" parent="Map/Player" index="5"]
 position = Vector2( -1.12244, 1.12247 )

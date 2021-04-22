@@ -34,7 +34,7 @@ _data = {
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -254.257, 1123.82 )
+position = Vector2( -247.337, 1127.65 )
 scale = Vector2( 0.995932, 1 )
 z_index = 1
 

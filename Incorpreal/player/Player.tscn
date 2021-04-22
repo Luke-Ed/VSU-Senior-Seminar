@@ -80,8 +80,9 @@ shape = SubResource( 1 )
 offset = Vector2( 0, -0.667321 )
 
 [node name="player" type="Sprite" parent="Sprite"]
+position = Vector2( 0.629944, -0.629959 )
 texture = ExtResource( 1 )
-offset = Vector2( 0, -0.317424 )
+offset = Vector2( 0, -1.37858 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
