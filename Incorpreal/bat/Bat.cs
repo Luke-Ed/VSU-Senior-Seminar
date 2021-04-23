@@ -13,6 +13,9 @@ public class Bat : KinematicBody2D
     public GlobalPlayer gp;
     public KinematicBody2D player;
     private Navigation2D _navigation;
+    private Vector2 _startingPos;
+    private Timer timer;
+    public Boolean _onCamera { get; set; }
 
     public override void _PhysicsProcess(float delta)
     {
@@ -29,6 +32,7 @@ public class Bat : KinematicBody2D
 
     public override void _Ready()
     {
+        _startingPos = this.Position;
         var filePath = "res://Enemies/enemies.txt";
         File newFile = new File();
         newFile.Open(filePath, File.ModeFlags.Read);
@@ -42,6 +46,12 @@ public class Bat : KinematicBody2D
                 health = int.Parse(newFile.GetLine());
                 currentHealth = health;
             }
+        }
+        if (Visible)
+        {
+            timer = GetNode<Timer>("Timer");
+            timer.Connect("timeout", this, "onTimeout");
+            timer.WaitTime = 10;
         }
     }
 
@@ -122,6 +132,19 @@ public class Bat : KinematicBody2D
         if (body.Name == "Player")
         {
             player = null;
+            timer.Start();
+        }
+    }
+
+    public void onTimeout()
+    {
+        if (_onCamera)
+        {
+            timer.Start();
+        }
+        else
+        {
+            this.Position = _startingPos;
             this.RemoveFromGroup("Following");
         }
     }

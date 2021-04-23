@@ -66,7 +66,7 @@ curve = SubResource( 3 )
 script = ExtResource( 4 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="GamePage/Path2D"]
-position = Vector2( 5.94429, 184.039 )
+position = Vector2( -0.666885, 191.436 )
 rotation = 0.0108997
 rotate = false
 

@@ -280,6 +280,22 @@ public class Player : KinematicBody2D {
         }
     }
 
+    public void _on_Camera_body_entered(Node body)
+    {
+        if (body.IsInGroup("Enemies"))
+        {
+            body.Set("_onCamera", true);
+        }
+    }
+
+    public void _on_Camera_body_exited(Node body)
+    {
+        if (body.IsInGroup("Enemies"))
+        {
+            body.Set("_onCamera", false);
+        }
+    }
+
     //Still under construction
     public Godot.Collections.Dictionary<string, object> Save() {
         return new Godot.Collections.Dictionary<string, object>() {

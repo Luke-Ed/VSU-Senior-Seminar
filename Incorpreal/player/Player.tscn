@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/player.png" type="Texture" id=1]
 [ext_resource path="res://player/Player.cs" type="Script" id=2]
@@ -63,6 +63,9 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 330, 183 )
+
 [node name="Player" type="KinematicBody2D"]
 position = Vector2( 1, 0 )
 collision_mask = 2147483659
@@ -114,3 +117,10 @@ text = "Player HP"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Area2D" type="Area2D" parent="Camera2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/Area2D"]
+shape = SubResource( 7 )
+[connection signal="body_entered" from="Camera2D/Area2D" to="." method="_on_Camera_body_entered"]
+[connection signal="body_exited" from="Camera2D/Area2D" to="." method="_on_Camera_body_exited"]
