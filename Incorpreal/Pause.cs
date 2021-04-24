@@ -8,6 +8,10 @@ public class Pause : Control
     public Label RestartLabel;
     public Label SaveLabel;
     public Label LoadLabel;
+    public Label SaveConfirmedLabel;
+    public Control LoadDialog;
+    public Button ExitButton;
+    public VBoxContainer LoadGameVBox;
     public Boolean quitEntered = false;
     public Boolean restartEntered = false;
     public Boolean saveEntered = false;
@@ -35,7 +39,12 @@ public class Pause : Control
         RestartLabel = (Label)GetNode("RestartLabel"); //Grab restart label
         SaveLabel = (Label)GetNode("SaveLabel"); //Grab save label
         LoadLabel = (Label)GetNode("LoadLabel"); //Grab load label
+        SaveConfirmedLabel = (Label)GetNode("SaveConfirmLabel"); //Grab save confirmation label
+        LoadDialog = (Control)GetNode("LoadDialog"); //Grab load dialog
+        ExitButton = (Button)GetNode("LoadDialog/ExitButton"); //Grab load dialog exit button
+        LoadGameVBox = (VBoxContainer)GetNode("LoadDialog/LoadGameVBox"); //Grab VBox for selecting load files
         saveLoadGame = new SaveLoadGame();
+        AddChild(saveLoadGame);
     }
 
     public void _on_QuitLabel_mouse_entered() {
@@ -79,30 +88,70 @@ public class Pause : Control
     }
 
     public void _on_QuitLabel_gui_input(InputEvent @event) {
-        if (quitEntered && @event is InputEventMouseButton) {
+        if (quitEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             GetTree().Quit();
         }
     }
 
     public void _on_RestartLabel_gui_input(InputEvent @event) {
-        if (restartEntered && @event is InputEventMouseButton) {
+        if (restartEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             GetTree().ReloadCurrentScene(); //Reload the level
             PauseGame(); //Unpause or it will stay paused without the pause screen
         }
     }
 
     public void _on_SaveLabel_gui_input(InputEvent @event) {
-        if (saveEntered && @event is InputEventMouseButton) {
+        if (saveEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             GetTree().Paused = false; //Must unpause or GetTree() will return null
             Godot.Collections.Array saveables = GetTree().GetNodesInGroup("persist"); //Snapshot of game state
             GetTree().Paused = true; //Repause
-            saveLoadGame.Call("Save", saveables); //Call Save method in SaveLoadGame, passing snapshot as argument
+            if ((Boolean)saveLoadGame.Call("Save", saveables)) { //Call Save method in SaveLoadGame, passing snapshot as argument
+                SaveConfirmedLabel.Visible = true;
+                Timer timer = new Timer();
+                timer.Connect("timeout", this, "_on_timer_timeout");
+                AddChild(timer, false);
+                timer.Start();
+            }
         }
     }
 
+    public void _on_timer_timeout() {
+        SaveConfirmedLabel.Visible = false;
+    }
+
+    public void _on_ExitButton_pressed() {
+        LoadDialog.Visible = false;
+    }
+
     public void _on_LoadLabel_gui_input(InputEvent @event) {
-        if (loadEntered && @event is InputEventMouseButton) {
-            //saveLoadGame.Call("Load"); not made yet
+        if (loadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
+
+            LoadDialog.Visible = true;
+            PopulateLoadDialog();
+            //saveLoadGame.Call("Load", selectedFile); not made yet
+            //LoadDialog.Visible = false;
         }
+    }
+
+    public void PopulateLoadDialog() {
+        var saveFile = new File();
+
+        if (!saveFile.FileExists("user://savegame.save")) {
+            GD.Print("Cannot find a savefile!");
+            return; //Stop loading
+        } else {
+            saveFile.Open("user://savegame.save", File.ModeFlags.Read);
+            var saveNodes = GetTree().GetNodesInGroup("persist");
+            saveLoadGame.Load(saveFile, saveNodes);
+        }
+        /*May use later for selecting which save file to load
+        DirectoryInfo dir = new DirectoryInfo(@"user://"); //Access user:// directory
+        FileInfo[] Files = dir.GetFiles(".save"); //Get list of files ending in .save
+        foreach(FileInfo saveFile in Files) { //Iterate them
+            var newOption = (PackedScene)ResourceLoader.Load("res://assets/LoadSelection.tscn");
+            Label optionLabel = (Label)newOption.Instance();
+            LoadGameVBox.AddSpacer(false);
+            LoadGameVBox.AddChild(optionLabel);
+        }*/
     }
 }

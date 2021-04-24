@@ -300,30 +300,36 @@ public class Player : KinematicBody2D {
 
     //Still under construction
     public Godot.Collections.Dictionary<string, object> Save() {
+        string spriteFileName = playerSpriteNode.Texture.ResourcePath;
         return new Godot.Collections.Dictionary<string, object>() {
-            { "moveSpeed", moveSpeed},
-            { "possessee", possessee},
-            { "resPath", resPath},
-            { "map", map},
-            { "playerSpriteNode", playerSpriteNode},
-            { "stuck", stuck},
-            { "gp", gp},
-            { "PossesseeName", PossesseeName},
-            { "ExperienceToNextLevel", ExperienceToNextLevel},
-            { "AttackDamage", AttackDamage},
-            { "Level", Level},
-            { "CurrentHealth", CurrentHealth},
-            { "MaxHealth", MaxHealth},
-            { "Experience", Experience},
-            { "Luck", Luck },
-            { "Intelligence", Intelligence },
-            { "Vitality", Vitality },
-            { "Dexterity", Dexterity },
-            { "Strength", Strength },
+            { "moveSpeed", moveSpeed },
+            { "possessee", possessee },
+            { "resPath", resPath },
+            { "playerSpriteNode.Texture.ResourcePath", spriteFileName },
+            { "stuck", stuck },
+            { "PossesseeName", PossesseeName },
+            { "currentPoints", gp.currentPoints },
+            { "spiritPoints", gp.spiritPoints },
+            { "baseStat", gp.baseStat },
+            { "ExperienceToNextLevel", gp.ExperienceToNextLevel },
+            { "AttackDamage", gp.AttackDamage },
+            { "Level", gp.Level },
+            { "CurrentHealth", gp.CurrentHealth },
+            { "MaxHealth", gp.MaxHealth },
+            { "Experience", gp.Experience },
+            { "Luck", gp.Luck },
+            { "Intelligence", gp.Intelligence },
+            { "Vitality", gp.Vitality },
+            { "Dexterity", gp.Dexterity },
+            { "Strength", gp.Strength }, 
             { "Filename", this.Filename },
             { "Parent", GetParent().GetPath() },
-            { "PosX", Position.x }, // Vector2 is not supported by JSON
-            { "PosY", Position.y },
+            { "isPossesing", gp.isPossesing },
+            { "PosX", gp.playerLocation.x }, // Vector2 is not supported by JSON
+            { "PosY", gp.playerLocation.y },
+            { "enemyFought", gp.enemyFought },
+            { "hplabel", gp.hplabel.Text },
+            { "currentLevel", GetTree().CurrentScene.Name }
         };
     }
 }

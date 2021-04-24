@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Walls/Low Wall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Walls/Ghost Wall.tscn" type="PackedScene" id=2]
@@ -19,14 +19,20 @@ extents = Vector2( 32, 31 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFontData" id=5]
@@ -34,6 +40,8 @@ font_path = "res://assets/mrsmonster.ttf"
 
 [sub_resource type="DynamicFont" id=6]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 5 )
 
 [sub_resource type="DynamicFontData" id=7]
@@ -41,7 +49,11 @@ font_path = "res://assets/mrsmonster.ttf"
 
 [sub_resource type="DynamicFont" id=8]
 size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = SubResource( 7 )
+
+[sub_resource type="Theme" id=9]
 
 [node name="Game" type="Node"]
 script = ExtResource( 7 )
@@ -118,6 +130,8 @@ __meta__ = {
 [node name="PauseBackground" type="ColorRect" parent="PauseMenu/Pause"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -0.315002
+margin_right = -0.315002
 color = Color( 0.231373, 0.121569, 0.109804, 0.780392 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -156,9 +170,9 @@ scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 12 )
 
 [node name="RestartLabel" type="Label" parent="PauseMenu/Pause"]
-margin_left = 165.0
+margin_left = 166.251
 margin_top = 226.397
-margin_right = 478.0
+margin_right = 479.251
 margin_bottom = 282.397
 mouse_filter = 0
 custom_fonts/font = SubResource( 4 )
@@ -194,6 +208,68 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="SaveConfirmLabel" type="Label" parent="PauseMenu/Pause"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -39.5
+margin_top = -69.0
+margin_right = 39.5
+margin_bottom = -55.0
+text = "Game Saved"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoadDialog" type="Control" parent="PauseMenu/Pause"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -137.5
+margin_right = 170.0
+margin_bottom = 153.5
+theme = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu/Pause/LoadDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -145.0
+margin_right = 170.0
+margin_bottom = 145.0
+color = Color( 0.137255, 0.137255, 0.137255, 0.972549 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" type="Button" parent="PauseMenu/Pause/LoadDialog"]
+margin_left = 339.0
+margin_top = 22.0
+margin_right = 358.0
+margin_bottom = 42.0
+rect_rotation = -179.953
+text = "x"
+
+[node name="LoadGameVBox" type="VBoxContainer" parent="PauseMenu/Pause/LoadDialog"]
+margin_left = 5.0
+margin_top = 26.0
+margin_right = 335.0
+margin_bottom = 287.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]
@@ -206,6 +282,7 @@ __meta__ = {
 [connection signal="gui_input" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_mouse_exited"]
+[connection signal="pressed" from="PauseMenu/Pause/LoadDialog/ExitButton" to="PauseMenu/Pause" method="_on_ExitButton_pressed"]
 
 [editable path="Bear"]
 
