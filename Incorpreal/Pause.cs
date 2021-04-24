@@ -125,33 +125,17 @@ public class Pause : Control
 
     public void _on_LoadLabel_gui_input(InputEvent @event) {
         if (loadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
-
-            LoadDialog.Visible = true;
-            PopulateLoadDialog();
-            //saveLoadGame.Call("Load", selectedFile); not made yet
-            //LoadDialog.Visible = false;
+            LoadDialog.Visible = true;            
+            var saveFile = new File();
+            if (!saveFile.FileExists("user://savegame.save")) {
+                GD.Print("Cannot find a savefile!");
+                return; //Stop loading
+            } else {
+                saveFile.Open("user://savegame.save", File.ModeFlags.Read);
+                var saveNodes = GetTree().GetNodesInGroup("persist");
+                saveLoadGame.Load(saveFile, saveNodes);
+                GetTree().Paused = false; //unpause
+            }
         }
-    }
-
-    public void PopulateLoadDialog() {
-        var saveFile = new File();
-
-        if (!saveFile.FileExists("user://savegame.save")) {
-            GD.Print("Cannot find a savefile!");
-            return; //Stop loading
-        } else {
-            saveFile.Open("user://savegame.save", File.ModeFlags.Read);
-            var saveNodes = GetTree().GetNodesInGroup("persist");
-            saveLoadGame.Load(saveFile, saveNodes);
-        }
-        /*May use later for selecting which save file to load
-        DirectoryInfo dir = new DirectoryInfo(@"user://"); //Access user:// directory
-        FileInfo[] Files = dir.GetFiles(".save"); //Get list of files ending in .save
-        foreach(FileInfo saveFile in Files) { //Iterate them
-            var newOption = (PackedScene)ResourceLoader.Load("res://assets/LoadSelection.tscn");
-            Label optionLabel = (Label)newOption.Instance();
-            LoadGameVBox.AddSpacer(false);
-            LoadGameVBox.AddChild(optionLabel);
-        }*/
     }
 }

@@ -41,16 +41,28 @@ public class SaveLoadGame : Node
 
     public void Load(File saveFile, Godot.Collections.Array saveNodes) 
     {
-        //Get rid of current persistant nodes before loading
-        foreach (Node saveNode in saveNodes) { //Iterate them
+        Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
+        string level = (string) nodeData["currentLevel"];
 
-            saveNode.QueueFree(); //Remove them
-        }
+        //Load the appropriate scene for the level, no need to unload old scene as it is does automatically
+        switch ((string)nodeData["currentLevel"]) {
+            case "Level 1":
+                GetTree().ChangeScene("res://levels/Level 1.tscn");
+                break;
+            case "Level 2":
+                GetTree().ChangeScene("res://levels/Level 2.tscn");
+                break;
+            case "Level 3":
+                GetTree().ChangeScene("res://levels/Level 3.tscn");
+                break;
+            default:
+                break;
+        }
+
+
         while (saveFile.GetPosition() < saveFile.GetLen()) { //While there is still file left to read
-            var nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
-            
             foreach(KeyValuePair<string, object> entry in nodeData) {
-                /*switch (entry.Key) {
+                switch (entry.Key) {
                     case "currentLevel":
                         
                         break;
@@ -60,8 +72,8 @@ public class SaveLoadGame : Node
                     default:
                         Console.WriteLine("Default case");
                         break;
-                }*/
-                GD.Print(entry.Key, entry.Value);
+                }
+                //GD.Print(entry.Key, entry.Value);
                 //if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
                   //  continue;
                 //}
