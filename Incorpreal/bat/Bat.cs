@@ -114,10 +114,16 @@ public class Bat : KinematicBody2D
             TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
             tq.GetChild(1).Name = enemyName;
             tq.GetChild(1).Call("_Ready");
+            if (!timer.IsStopped())
+            {
+                timer.Stop();
+            }
             GetTree().ChangeScene("res://Battle.tscn");
         }
     }
 
+    //If player enters the range sets player to the player body and adds the enemy to the group following which
+    //makes it stop following the given path and start following the player using _PhysicsProcess method.
     public void _on_Area2D_body_entered(Node body)
     {
         if (body.Name == "Player")
@@ -127,6 +133,8 @@ public class Bat : KinematicBody2D
         }
     }
 
+
+    //Will remove the body from player variable so it has nothing to follow and will start the timer (see below onTimeout()).
     public void _on_Area2D_body_exited(Node body)
     {
         if (body.Name == "Player")
@@ -136,6 +144,9 @@ public class Bat : KinematicBody2D
         }
     }
 
+
+    //After the player gets out of range of the enemy and will continue to stay in that spot after 10 seconds if the enemy is no longer on screen then it is returned to the original starting position
+    //and follows the original path if it has one by removing it from the "Following" group. If the enemy is still on screen the timer refreshes and will check again in another 10 seconds.
     public void onTimeout()
     {
         if (_onCamera)

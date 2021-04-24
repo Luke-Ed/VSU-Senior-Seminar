@@ -23,7 +23,7 @@ public class Item : Node
     {
         this._name = name; //Any name you like
         this._type = type; // "Weapon", "Armor", or "Consumable" for now.
-        this._stat = stat; // "Strength", "Dexterity", "Vitality", "Intelligence", or "Luck"
+        this._stat = stat; // "Strength", "Dexterity", "Vitality", "Intelligence", or "Luck". (If it is a Consumable "Health" or "Spirit"
         this._bonus = bonus; //Positive number.
     }
     public override void _Ready()
@@ -61,6 +61,7 @@ public class Item : Node
                 _globalPlayer._inventory.Remove(this);
                 break;
             case ("Consumable"):
+                //Potions as of now will increase your current health or spirit more options can be added at a later time if desired.
                 if (_stat == "Health")
                 {
                     _globalPlayer.CurrentHealth += _bonus;

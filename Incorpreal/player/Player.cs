@@ -167,6 +167,8 @@ public class Player : KinematicBody2D {
             //Putting the item into an inventory slot.
             inventory.Call("fillSlot", item);
         }
+        //Pressing N will reduce your health by 5 and put a health potion in player's inventory that when used will increase player's current health by 10.
+        //again this is for demonstration/testing purposes only.
         else if (Input.IsActionJustPressed("createPotion") && Visible)
         {
             gp.CurrentHealth -= 5;

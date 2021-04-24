@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class Inventory : Control
 {
     private RichTextLabel _statText;
-    private Item _heldItem;
     private GridContainer _invMenu;
     private GlobalPlayer _globalPlayer;
 
@@ -75,18 +74,63 @@ public class Inventory : Control
         }
     }
 
+
+    //Similar to the pause menu pressing I will bring up the inventory and pause the surrounding game. Pressing I again will undo it.
     private void openInventory()
     {
-        //Similar to the pause menu pressing I will bring up the inventory and pause the surrounding game. Pressing I again will undo it.
+        sortInventory();
         this.Visible = !this.Visible;
         GetTree().Paused = !GetTree().Paused;
+    }
+
+    //Whenever inventory is opened it is sorted so that all your weapons are first then your armors and lastly your consumables.
+    private void sortInventory()
+    {
+        List<Item> weapons = new List<Item>();
+        List<Item> armors = new List<Item>();
+        List<Item> consumables = new List<Item>();
+        foreach (Node slot in _invMenu.GetChildren())
+        {
+            if(slot.Get("item") != null)
+            {
+                slot.RemoveChild((Item)slot.Get("item"));
+                slot.Set("item", null);
+            }
+        }
+        foreach (Item item in _globalPlayer._inventory)
+        {
+            if (item._type.Equals("Weapon"))
+            {
+                weapons.Add(item);
+            }
+            else if (item._type.Equals("Armor"))
+            {
+                armors.Add(item);
+            }
+            else
+            {
+                consumables.Add(item);
+            }
+        }
+        foreach (Item item in weapons)
+        {
+            fillSlot(item);
+        }
+        foreach (Item item in armors)
+        {
+            fillSlot(item);
+        }
+        foreach (Item item in consumables)
+        {
+            fillSlot(item);
+        }
     }
 
 
     private void _on_Slot_mouse_exited()
     {
         //While you are not hovering any item will display the player's stats.
-        _statText.Text = "Your Stats: \n";
+        _statText.Text =  "Your Stats: \n";
         _statText.Text += "Level: " + _globalPlayer.Level;
         _statText.Text += "\nStrength: " + _globalPlayer.Strength;
         _statText.Text += "\nDexterity: " + _globalPlayer.Dexterity;
