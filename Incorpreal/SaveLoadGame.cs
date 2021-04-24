@@ -4,14 +4,10 @@ using System.Collections.Generic;
 
 public class SaveLoadGame : Node
 {
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
-
-    // Called when the node enters the scene tree for the first time.
+    public GlobalPlayer gp;
     public override void _Ready()
     {
-
+        gp = (GlobalPlayer)GetNode("/root/GlobalData");
     }
 
     public Boolean Save(Godot.Collections.Array saveables)
@@ -44,7 +40,7 @@ public class SaveLoadGame : Node
         Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
         string level = (string) nodeData["currentLevel"];
 
-        //Load the appropriate scene for the level, no need to unload old scene as it is does automatically
+        //Load the appropriate scene for the level, no need to unload old scene as it is done automatically
         switch ((string)nodeData["currentLevel"]) {
             case "Level 1":
                 GetTree().ChangeScene("res://levels/Level 1.tscn");
@@ -59,33 +55,24 @@ public class SaveLoadGame : Node
                 break;
         }
 
+        //Check if the player is possessing someone or not
+        if (nodeData["resPath"] != null) {
+            player.resPath = (string)nodeData["resPath"];
+            player.playerSpriteNode.Texture.ResourcePath = (string)nodeData["playerSpriteNode.Texture.ResourcePath"];
+            player.PossesseeName = (string)nodeData["possesseeName"];
+            gp.isPossesing = true;
+        } else {
+            gp.isPossesing = false;
+        }
 
-        while (saveFile.GetPosition() < saveFile.GetLen()) { //While there is still file left to read
-            foreach(KeyValuePair<string, object> entry in nodeData) {
-                switch (entry.Key) {
-                    case "currentLevel":
-                        
-                        break;
-                    case "":
-                        Console.WriteLine("Case 2");
-                        break;
-                    default:
-                        Console.WriteLine("Default case");
-                        break;
-                }
-                //GD.Print(entry.Key, entry.Value);
-                //if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
-                  //  continue;
-                //}
-              //  newObject.Set(key, entry.Value);
-            }
+        //Reload all the necessary values
+        player.moveSpeed = (int)nodeData["moveSpeed"];
+
 
             //var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
             //var newObject = (Node)newObjectScene.Instance();
             //GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
             //newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
-            
-        }
         saveFile.Close();
     }
 }
