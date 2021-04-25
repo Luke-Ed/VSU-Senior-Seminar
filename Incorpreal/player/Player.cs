@@ -310,7 +310,6 @@ public class Player : KinematicBody2D {
             { "Vitality", gp.Vitality },
             { "Dexterity", gp.Dexterity },
             { "Strength", gp.Strength },
-            { "Parent", GetParent().GetPath() },
             { "isPossesing", gp.isPossesing },
             { "PosX", GlobalPosition.x }, // Vector2 is not supported by JSON
             { "PosY", GlobalPosition.y },

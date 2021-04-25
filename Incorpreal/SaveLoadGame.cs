@@ -37,13 +37,19 @@ public class SaveLoadGame : Node
 
     public void Load(File saveFile, Godot.Collections.Array saveNodes) 
     {
+              
+        //First free previous resources
+        foreach (Node node in saveNodes) {
+            node.QueueFree();
+        }
+        
         //Read the save file
         Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
         
         //Check which level its in
         string level = (string) nodeData["currentLevel"];
 
-        //Load that level, old scene's resources automatically freed
+        //Load the level
         switch ((string)nodeData["currentLevel"]) {
             case "Level 1":
                 GetTree().ChangeScene("res://levels/Level 1.tscn");
@@ -58,9 +64,19 @@ public class SaveLoadGame : Node
                 break;
         }
 
+        foreach (Node node in GetTree().Root.GetChildren()) {
+            GD.Print("Before: " + node, node.Name);
+            if (node.Name == "Level 1") {
+                var newTree = node.GetChildren();
+                foreach (Node newNode in newTree) {
+                    GD.Print("Before: Level 1: " + newNode + " " + newNode.Name);
+                }
+            }
+        }
+        GD.Print("This: " + this + " " + this.Name + " " + this.GetChildren());
+        
         //Grab the player node
-        var persistGroup = GetTree().GetNodesInGroup("persist");
-        Player player = (Player) persistGroup[0];
+        Player player = (Player)GetTree().Root.GetNode("Level 1/Player");
 
         //Check if the player is possessing someone or not
         if (nodeData["resPath"] != null) {
@@ -74,9 +90,6 @@ public class SaveLoadGame : Node
 
         //Reload all the necessary values
         player.moveSpeed = (int)((float)nodeData["moveSpeed"]);
-
-
-
         player.stuck = (Boolean)nodeData["stuck"];
         gp.currentPoints = (int)((float)nodeData["currentPoints"]);
         gp.spiritPoints = (int)((float)nodeData["spiritPoints"]);
@@ -103,8 +116,18 @@ public class SaveLoadGame : Node
         player.Dexterity = gp.Dexterity;
         gp.Strength = (int)((float)nodeData["Strength"]);
         player.Strength = gp.Strength;
-        gp.playerLocation = new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]);
-        player.Position = gp.playerLocation;
+        Vector2 newPosition = new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]);
+        player.Set("Position", newPosition);
+        gp.playerLocation = newPosition;
+        foreach (Node node in GetTree().Root.GetChildren()) {
+            GD.Print("After: " + node, node.Name);
+            if (node.Name == "Level 1") {
+                var newTree = node.GetChildren();
+                foreach (Node newNode in newTree) {
+                    GD.Print("After: Level 1: " + newNode + " " + newNode.Name);
+                }
+            }
+        }
         //Label healthLabel = (Label)GetNode("Player/Camera2D/CanvasLayer/HealthLabel");
         //healthLabel.Text = (string)nodeData["hplabel"];
 
@@ -113,5 +136,5 @@ public class SaveLoadGame : Node
         //GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
         //newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
         saveFile.Close();
-    }
+    }
 }
