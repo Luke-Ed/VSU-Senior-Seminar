@@ -4,9 +4,9 @@ using System;
 public class Game : Node
 {
 
-    public Game()
-    {
-    }
+	public Game()
+	{
+	}
 
 
 	// Declare member variables here. Examples:
