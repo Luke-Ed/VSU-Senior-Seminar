@@ -309,12 +309,11 @@ public class Player : KinematicBody2D {
             { "Intelligence", gp.Intelligence },
             { "Vitality", gp.Vitality },
             { "Dexterity", gp.Dexterity },
-            { "Strength", gp.Strength }, 
-            { "Filename", this.Filename },
+            { "Strength", gp.Strength },
             { "Parent", GetParent().GetPath() },
             { "isPossesing", gp.isPossesing },
-            { "PosX", gp.playerLocation.x }, // Vector2 is not supported by JSON
-            { "PosY", gp.playerLocation.y },
+            { "PosX", GlobalPosition.x }, // Vector2 is not supported by JSON
+            { "PosY", GlobalPosition.y },
             { "enemyFought", gp.enemyFought },
             { "hplabel", gp.hplabel.Text }
         };
