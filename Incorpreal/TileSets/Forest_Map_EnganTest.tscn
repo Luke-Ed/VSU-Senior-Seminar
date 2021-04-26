@@ -8,8 +8,8 @@
 [ext_resource path="res://Path2D.cs" type="Script" id=6]
 [ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Enemies/Snake.tscn" type="PackedScene" id=8]
-[ext_resource path="res://PauseMenu.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Enemies/Skeleton.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Inventory.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -34,7 +34,7 @@ _data = {
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -254.257, 1123.82 )
+position = Vector2( -247.337, 1127.65 )
 scale = Vector2( 0.995932, 1 )
 z_index = 1
 
@@ -146,6 +146,16 @@ rotate = false
 position = Vector2( -0.561035, 0.0316162 )
 scale = Vector2( 0.504674, 0.473651 )
 
-[node name="PauseMenu" parent="." instance=ExtResource( 9 )]
+[node name="InventoryMenu" parent="." instance=ExtResource( 11 )]
 
 [editable path="Player"]
+
+[editable path="Enemies/Bat/PathFollow2D/Bat"]
+
+[editable path="Enemies/Bear"]
+
+[editable path="Enemies/Bat2/PathFollow2D/Bat2"]
+
+[editable path="Enemies/Snake/PathFollow2D/Snake"]
+
+[editable path="Enemies/Skeleton/PathFollow2D/Skeleton"]

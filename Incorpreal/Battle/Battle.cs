@@ -208,10 +208,12 @@ public class Battle : Node
 
     public void _on_Resetbtn_pressed()
     {
+        //This should later be replaced with loading a save from Eli if possible.
         gp.playerCharacter = null;
-        gp.playerLocation = new Vector2(324, 179);
         gp.enemyFought.Clear();
-        gp.createPlayer();
+        gp._inventory.Clear();
+        gp._equipedArmor = null;
+        gp._equipedWeapon = null;
         GetTree().ChangeScene(gp.lastScene);
     }
 

@@ -22,7 +22,7 @@ extents = Vector2( 33, 33 )
 
 [sub_resource type="Curve2D" id=4]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 227.004, 282.389, 0, 0, 0, 0, 185.941, 279.574, 0, 0, 0, 0, 124.236, 282.389, 0, 0, 0, 0, -16.6721, 283.449, 0, 0, 0, 0, -114.143, 280.27, 0, 0, 0, 0, -162.878, 281.33, 0, 0, 0, 0, -166.198, 348.87, 0, 0, 0, 0, 135.029, 337.557, 0, 0, 0, 0, 232.302, 339.6, 0, 0, 0, 0, 227.004, 283.449 )
+"points": PoolVector2Array( 0, 0, 0, 0, 318.129, 283.809, 0, 0, 0, 0, -186.845, 286.64, 0, 0, 0, 0, -187.789, 366.87, 0, 0, 0, 0, 318.129, 369.702, 0, 0, 0, 0, 317.185, 282.865 )
 }
 
 [node name="Game" type="Node"]
@@ -35,7 +35,7 @@ __meta__ = {
 script = ExtResource( 11 )
 
 [node name="Player" parent="Map" instance=ExtResource( 3 )]
-position = Vector2( 581.701, 80.5991 )
+position = Vector2( 605.298, 37.1809 )
 
 [node name="Camera2D" parent="Map/Player" index="5"]
 position = Vector2( -1.12244, 1.12247 )
@@ -90,17 +90,17 @@ position = Vector2( 110.037, 68.0034 )
 shape = SubResource( 3 )
 
 [node name="Path2D" type="Path2D" parent="Map"]
-position = Vector2( 245.795, -3.17834 )
+position = Vector2( 264.672, -36.214 )
 curve = SubResource( 4 )
 script = ExtResource( 9 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Map/Path2D"]
-position = Vector2( 227.004, 282.389 )
+position = Vector2( 318.129, 283.809 )
 rotation = 3.14159
 rotate = false
 
 [node name="Bat" parent="Map/Path2D/PathFollow2D" instance=ExtResource( 6 )]
-position = Vector2( 98.9949, 0.000244141 )
+position = Vector2( 96.1632, 33.0359 )
 rotation = 3.14159
 
 [node name="CollisionShape2D" parent="Map/Path2D/PathFollow2D/Bat" index="0"]
@@ -113,7 +113,7 @@ position = Vector2( 0.585762, 3.41428 )
 position = Vector2( -2.82846, 1.41418 )
 
 [node name="CollisionShape2D" parent="Map/Path2D/PathFollow2D/Bat/Area2D" index="0"]
-position = Vector2( 1.41431, -3.05176e-05 )
+position = Vector2( 4.24594, -1.52588e-05 )
 
 [node name="InventoryMenu" parent="Map" instance=ExtResource( 10 )]
 

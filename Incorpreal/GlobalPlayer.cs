@@ -8,7 +8,6 @@ public class GlobalPlayer : Node
     public NodePath enemyPath;
     public Player playerCharacter;
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
-    public String CharacterClass;
     public Node PC;
     public Node Enemy;
     public List<String> enemyFought;
@@ -37,14 +36,13 @@ public class GlobalPlayer : Node
 
     public void createPlayer()
     {
-        Player temp = new Player("Melee");
+        Player temp = new Player();
         this.playerCharacter = temp;
         Strength = playerCharacter.Strength;
         Dexterity = playerCharacter.Dexterity;
         Vitality = playerCharacter.Vitality;
         Intelligence = playerCharacter.Intelligence;
         Luck = playerCharacter.Luck;
-        CharacterClass = playerCharacter.CharacterClass;
         AttackDamage = playerCharacter.AttackDamage;
         Experience = playerCharacter.Experience;
         MaxHealth = playerCharacter.MaxHealth;
@@ -156,19 +154,19 @@ public class GlobalPlayer : Node
         {
             Luck++;
         }
-        if (CharacterClass == "Ranged")
+        if (_equipedWeapon == null || _equipedWeapon._stat == "Strength")
         {
-            AttackDamage += baseStat + Dexterity;
+            AttackDamage += baseStat + Strength;
         }
         else
         {
-            AttackDamage += baseStat + Strength;
+            AttackDamage += baseStat + Dexterity;
         }
         MaxHealth = baseStat + Vitality;
         CurrentHealth = MaxHealth;
         spiritPoints = baseStat + Intelligence;
         currentPoints = spiritPoints;
-        ExperienceToNextLevel += 10;
+        ExperienceToNextLevel += Level * 10;
     }
 
     public void updateHealth()

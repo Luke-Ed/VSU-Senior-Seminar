@@ -23,40 +23,19 @@ public class Player : KinematicBody2D {
     //Can create two different types of players one with melee stats and the other with ranged.
     //Will be able choose class at the start of the game at a main menu once implemented.
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
-    public String CharacterClass;
-    public Player(String Class)
+    public Player()
     {
-        
-        CharacterClass = Class;
-        if (Class == "Melee")
-        {
-            Strength = 10;
-            Dexterity = 5;
-            Vitality = 10;
-            Intelligence = 5;
-            Luck = 5;
-            AttackDamage = 5 + Strength;
-        }
-        else if (Class == "Ranged")
-        {
-            Strength = 5;
-            Dexterity = 10;
-            Vitality = 5;
-            Intelligence = 10;
-            Luck = 5;
-            AttackDamage = 5 + Dexterity;
-        }
-
+        Strength = 5;
+        Dexterity = 5;
+        Vitality = 10;
+        Intelligence = 5;
+        Luck = 5;
+        AttackDamage = 5 + Strength;
         Experience = 0;
         MaxHealth = 5 + Vitality;
         CurrentHealth = MaxHealth;
         Level = 1;
         ExperienceToNextLevel = 10;
-    }
-
-    public Player()
-    {
-
     }
 
     public override void _Ready()
@@ -188,6 +167,20 @@ public class Player : KinematicBody2D {
             //Putting the item into an inventory slot.
             inventory.Call("fillSlot", item);
         }
+        //Pressing N will reduce your health by 5 and put a health potion in player's inventory that when used will increase player's current health by 10.
+        //again this is for demonstration/testing purposes only.
+        else if (Input.IsActionJustPressed("createPotion") && Visible)
+        {
+            gp.CurrentHealth -= 5;
+            gp.updateHealthLabel(gp.hplabel);
+            Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+            Item item = (Item)ItemScene.Instance();
+            item.giveProperties("Health Potion", "Consumable", "Health", 10);
+            item.changePicture("res://assets/HealthPotion.png");
+            gp._inventory.Add(item);
+            inventory.Call("fillSlot", item);
+        }
     }
 	
     public void ChangeState(string newState)
@@ -289,6 +282,23 @@ public class Player : KinematicBody2D {
         }
     }
 
+    public void _on_Camera_body_entered(Node body)
+    {
+        if (body.IsInGroup("Enemies"))
+        {
+            body.Set("_onCamera", true);
+        }
+    }
+
+    public void _on_Camera_body_exited(Node body)
+    {
+        if (body.IsInGroup("Enemies"))
+        {
+            body.Set("_onCamera", false);
+        }
+    }
+
+    //Still under construction
     public Godot.Collections.Dictionary<string, object> Save() {
         string spriteFileName = playerSpriteNode.Texture.ResourcePath;
         return new Godot.Collections.Dictionary<string, object>() {
