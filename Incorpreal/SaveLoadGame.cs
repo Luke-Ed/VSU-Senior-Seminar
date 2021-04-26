@@ -47,15 +47,6 @@ public class SaveLoadGame : Node
         //Load the level
         GetTree().ChangeScene("res://levels/" + level + ".tscn");
 
-        foreach (Node node in GetTree().Root.GetChildren()) {
-            GD.Print("Before: " + node, node.Name);
-            if (node.Name == "Level 1") {
-                var newTree = node.GetChildren();
-                foreach (Node newNode in newTree) {
-                    GD.Print("Before: Level 1: " + newNode + " " + newNode.Name);
-                }
-            }
-        }
         saveFile.Close();
         System.Action loadAction = new System.Action(Load); //Return Load() as the next action to be performed once old nodes are freed
         return loadAction;
@@ -107,16 +98,6 @@ public class SaveLoadGame : Node
         gp.playerLocation = newPosition;
         player.Position = newPosition;
         player.playerSpriteNode.FlipH = (Boolean)nodeData_["facingLeft"];
-
-        foreach (Node node in GetTree().Root.GetChildren()) {
-            GD.Print("After: " + node, node.Name);
-            if (node.Name == "Level 1") {
-                var newTree = node.GetChildren();
-                foreach (Node newNode in newTree) {
-                    GD.Print("After: Level 1: " + newNode + " " + newNode.Name);
-                }
-            }
-        }
         //Label healthLabel = (Label)GetNode("Player/Camera2D/CanvasLayer/HealthLabel");
         //healthLabel.Text = (string)nodeData["hplabel"];
 

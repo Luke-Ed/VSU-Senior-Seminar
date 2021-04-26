@@ -126,19 +126,7 @@ public class Pause : Control
 
     async void _on_LoadLabel_gui_input(InputEvent @event) {
         if (loadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
-            var tree = GetTree().Root.GetChildren();
-            foreach (Node node in tree) {
-                GD.Print(node, node.Name);
-                if (node.Name == "Level 1") {
-                    var newTree = node.GetChildren();
-                    foreach (Node newNode in newTree) {
-                        GD.Print("Level 1: " + newNode + " " + newNode.Name);
-                    }
-                }
-            }
-
             Player player = (Player)GetTree().Root.GetNode("Level 1/Player");
-            GD.Print(player);
             LoadDialog.Visible = true;            
             var saveFile = new File();
             if (!saveFile.FileExists("user://savegame.save")) { //If no save file
