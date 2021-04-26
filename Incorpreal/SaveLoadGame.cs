@@ -39,10 +39,6 @@ public class SaveLoadGame : Node
 
     public System.Action Unload(File saveFile, Godot.Collections.Dictionary<string, object> nodeData) 
     {
-        //First free previous resources
-        //foreach (Node node in GetTree().Root.GetChildren()) {
-         //   node.QueueFree();
-        //}
         this.nodeData_ = nodeData;
 
         //Check which level its in
@@ -61,7 +57,7 @@ public class SaveLoadGame : Node
             }
         }
         saveFile.Close();
-        System.Action loadAction = new System.Action(Load);
+        System.Action loadAction = new System.Action(Load); //Return Load() as the next action to be performed once old nodes are freed
         return loadAction;
     }
 
@@ -108,8 +104,10 @@ public class SaveLoadGame : Node
         gp.Strength = (int)((float)nodeData_["Strength"]);
         player.Strength = gp.Strength;
         Vector2 newPosition = new Vector2((float)nodeData_["PosX"], (float)nodeData_["PosY"]);
-        player.Set("Position", newPosition);
         gp.playerLocation = newPosition;
+        player.Position = newPosition;
+        player.playerSpriteNode.FlipH = (Boolean)nodeData_["facingLeft"];
+
         foreach (Node node in GetTree().Root.GetChildren()) {
             GD.Print("After: " + node, node.Name);
             if (node.Name == "Level 1") {
@@ -126,5 +124,6 @@ public class SaveLoadGame : Node
         //var newObject = (Node)newObjectScene.Instance();
         //GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
         //newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
+        this.nodeData_ = null;
     }
 }

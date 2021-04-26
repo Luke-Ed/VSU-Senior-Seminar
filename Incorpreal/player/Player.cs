@@ -314,7 +314,8 @@ public class Player : KinematicBody2D {
             { "PosX", GlobalPosition.x }, // Vector2 is not supported by JSON
             { "PosY", GlobalPosition.y },
             { "enemyFought", gp.enemyFought },
-            { "hplabel", gp.hplabel.Text }
+            { "hplabel", gp.hplabel.Text },
+			{ "facingLeft", playerSpriteNode.FlipH }
         };
     }
 }
