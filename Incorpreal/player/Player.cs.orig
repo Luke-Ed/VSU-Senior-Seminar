@@ -3,23 +3,74 @@ using System;
 using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
-    [Export]
-    public int moveSpeed = 100;
-    public PhysicsBody2D possessee = null;	
-    public string resPath;	
-    public Map map = new Map();
-    public Area2D hitbox;
-    public Sprite playerSpriteNode;
-    public AnimationPlayer animate;
-    public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
-    public Area2D possessionArea;
-    public Boolean stuck;
-    public GlobalPlayer gp;
-    public String PossesseeName;
+[Export]
+public int moveSpeed = 100;
+public PhysicsBody2D possessee = null;	
+public string resPath;	
+public Map map = new Map();
+public Area2D hitbox;
+public Sprite playerSpriteNode;
+public AnimationPlayer animate;
+public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
+public Area2D possessionArea;
+public Boolean stuck;
+public GlobalPlayer gp;
+public String PossesseeName;
 
-    //For all the methods pertaining to stats, nothing is set in stone
-    //numbers are expected to change as at a later date.
+//For all the methods pertaining to stats, nothing is set in stone
+//numbers are expected to change as at a later date.
 
+<<<<<<< HEAD
+//Can create two different types of players one with melee stats and the other with ranged.
+//Will be able choose class at the start of the game at a main menu once implemented.
+public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
+public Player()
+{
+    Strength = 5;
+    Dexterity = 5;
+    Vitality = 10;
+    Intelligence = 5;
+    Luck = 5;
+    AttackDamage = 5 + Strength;
+    Experience = 0;
+    MaxHealth = 5 + Vitality;
+    CurrentHealth = MaxHealth;
+    Level = 1;
+    ExperienceToNextLevel = 10;
+}
+
+public override void _Ready()
+{
+	this.AddChild(footsteps);
+	const string Path = "res://sounds/footsteps.wav";
+	AudioStream footstep = (AudioStream)GD.Load(Path);
+	footsteps.Stream = footstep;
+	footsteps.VolumeDb = (0);
+	gp = (GlobalPlayer)GetNode("/root/GlobalData");
+	//Eventually a main menu will already have a character made for the player
+	//This is for demonstration purposes
+	if (gp.playerCharacter == null)
+	{
+		gp.createPlayer();
+	}
+	if (gp.playerLocation != null && gp.enemyFought.Count > 0)
+	{
+		GlobalPosition = gp.playerLocation;
+		for (int i = 0; i < gp.enemyFought.Count; i++)
+		{
+			GetParent().FindNode(gp.enemyFought[i]).QueueFree();
+		}
+	}
+		animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
+		playerSpriteNode = (Sprite)GetNode("Sprite/player");
+		hitbox = (Area2D)GetNode("findEmptyPosArea2D");
+		possessionArea = (Area2D)GetNode("Area2D");
+		stuck = false;
+		Label hpLabel = (Label)GetNode("Camera2D").GetNode("CanvasLayer").GetNode("HealthLabel");
+		gp.hplabel = hpLabel;
+		gp.updateHealthLabel(gp.hplabel);
+}
+=======
     //Can create two different types of players one with melee stats and the other with ranged.
     //Will be able choose class at the start of the game at a main menu once implemented.
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
@@ -69,6 +120,7 @@ public class Player : KinematicBody2D {
             gp.hplabel = hpLabel;
             gp.updateHealthLabel(gp.hplabel);
     }
+>>>>>>> 4610a7b0ed60fef5ef8cb05994cd4d2b235de0f5
 
     public Boolean attackEnemy()
     {

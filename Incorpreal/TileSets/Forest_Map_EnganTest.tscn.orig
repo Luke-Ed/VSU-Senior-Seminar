@@ -33,6 +33,8 @@ _data = {
 
 [node name="Node2D" type="Node2D"]
 
+<<<<<<< HEAD
+=======
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( -247.337, 1127.65 )
 scale = Vector2( 0.995932, 1 )
@@ -47,6 +49,7 @@ margin_top = 909.82
 margin_right = 28.8384
 margin_bottom = 940.82
 
+>>>>>>> 4610a7b0ed60fef5ef8cb05994cd4d2b235de0f5
 [node name="Interaction_Console" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
 
@@ -72,7 +75,7 @@ cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( 131101, 10, 327680, 1441783, 22, 0, 1441789, 22, 0, 1376259, 22, 0 )
+tile_data = PoolIntArray( 131101, 10, 327680, 1376259, 22, 0, 1900575, 22, 0, 2031661, 22, 1 )
 script = ExtResource( 3 )
 
 [node name="Low_Wall_Example" type="TileMap" parent="."]
@@ -146,7 +149,16 @@ rotate = false
 position = Vector2( -0.561035, 0.0316162 )
 scale = Vector2( 0.504674, 0.473651 )
 
+<<<<<<< HEAD
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( -254.257, 1123.82 )
+scale = Vector2( 0.995932, 1 )
+z_index = 1
+
+[node name="PauseMenu" parent="." instance=ExtResource( 9 )]
+=======
 [node name="InventoryMenu" parent="." instance=ExtResource( 11 )]
+>>>>>>> 4610a7b0ed60fef5ef8cb05994cd4d2b235de0f5
 
 [editable path="Player"]
 
