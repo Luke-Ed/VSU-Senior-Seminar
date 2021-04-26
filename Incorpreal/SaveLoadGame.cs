@@ -1,10 +1,12 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class SaveLoadGame : Node
 {
     public GlobalPlayer gp;
+    public Godot.Collections.Dictionary<string, object> nodeData_;
     public override void _Ready()
     {
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
@@ -35,34 +37,19 @@ public class SaveLoadGame : Node
         return true;
     }
 
-    public void Load(File saveFile, Godot.Collections.Array saveNodes) 
+    public System.Action Unload(File saveFile, Godot.Collections.Dictionary<string, object> nodeData) 
     {
-              
         //First free previous resources
-        foreach (Node node in saveNodes) {
-            node.QueueFree();
-        }
-        
-        //Read the save file
-        Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
-        
+        //foreach (Node node in GetTree().Root.GetChildren()) {
+         //   node.QueueFree();
+        //}
+        this.nodeData_ = nodeData;
+
         //Check which level its in
         string level = (string) nodeData["currentLevel"];
 
         //Load the level
-        switch ((string)nodeData["currentLevel"]) {
-            case "Level 1":
-                GetTree().ChangeScene("res://levels/Level 1.tscn");
-                break;
-            case "Level 2":
-                GetTree().ChangeScene("res://levels/Level 2.tscn");
-                break;
-            case "Level 3":
-                GetTree().ChangeScene("res://levels/Level 3.tscn");
-                break;
-            default:
-                break;
-        }
+        GetTree().ChangeScene("res://levels/" + level + ".tscn");
 
         foreach (Node node in GetTree().Root.GetChildren()) {
             GD.Print("Before: " + node, node.Name);
@@ -73,50 +60,54 @@ public class SaveLoadGame : Node
                 }
             }
         }
-        GD.Print("This: " + this + " " + this.Name + " " + this.GetChildren());
-        
+        saveFile.Close();
+        System.Action loadAction = new System.Action(Load);
+        return loadAction;
+    }
+
+    public void Load() {
         //Grab the player node
         Player player = (Player)GetTree().Root.GetNode("Level 1/Player");
 
         //Check if the player is possessing someone or not
-        if (nodeData["resPath"] != null) {
-            player.resPath = (string)nodeData["resPath"];
-            player.playerSpriteNode.Texture.ResourcePath = (string)nodeData["playerSpriteNode.Texture.ResourcePath"];
-            player.PossesseeName = (string)nodeData["PossesseeName"];
+        if (nodeData_["resPath"] != null) {
+            player.resPath = (string)nodeData_["resPath"];
+            player.playerSpriteNode.Texture.ResourcePath = (string)nodeData_["playerSpriteNode.Texture.ResourcePath"];
+            player.PossesseeName = (string)nodeData_["PossesseeName"];
             gp.isPossesing = true;
         } else {
             gp.isPossesing = false;
         }
 
         //Reload all the necessary values
-        player.moveSpeed = (int)((float)nodeData["moveSpeed"]);
-        player.stuck = (Boolean)nodeData["stuck"];
-        gp.currentPoints = (int)((float)nodeData["currentPoints"]);
-        gp.spiritPoints = (int)((float)nodeData["spiritPoints"]);
-        gp.baseStat = (int)((float)nodeData["baseStat"]);
-        gp.ExperienceToNextLevel = (int)((float)nodeData["ExperienceToNextLevel"]);
+        player.moveSpeed = (int)((float)nodeData_["moveSpeed"]);
+        player.stuck = (Boolean)nodeData_["stuck"];
+        gp.currentPoints = (int)((float)nodeData_["currentPoints"]);
+        gp.spiritPoints = (int)((float)nodeData_["spiritPoints"]);
+        gp.baseStat = (int)((float)nodeData_["baseStat"]);
+        gp.ExperienceToNextLevel = (int)((float)nodeData_["ExperienceToNextLevel"]);
         player.ExperienceToNextLevel = gp.ExperienceToNextLevel;
-        gp.AttackDamage = (int)((float)nodeData["AttackDamage"]);
+        gp.AttackDamage = (int)((float)nodeData_["AttackDamage"]);
         player.AttackDamage = gp.AttackDamage;
-        gp.Level = (int)((float)nodeData["Level"]);
+        gp.Level = (int)((float)nodeData_["Level"]);
         player.Level = gp.Level;
-        gp.CurrentHealth = (int)((float)nodeData["CurrentHealth"]);
+        gp.CurrentHealth = (int)((float)nodeData_["CurrentHealth"]);
         player.CurrentHealth = gp.CurrentHealth;
-        gp.MaxHealth = (int)((float)nodeData["MaxHealth"]);
+        gp.MaxHealth = (int)((float)nodeData_["MaxHealth"]);
         player.MaxHealth = gp.MaxHealth;
-        gp.Experience = (int)((float)nodeData["Experience"]);
+        gp.Experience = (int)((float)nodeData_["Experience"]);
         player.Experience = gp.Experience;
-        gp.Luck = (int)((float)nodeData["Luck"]);
+        gp.Luck = (int)((float)nodeData_["Luck"]);
         player.Luck = gp.Luck;
-        gp.Intelligence = (int)((float)nodeData["Intelligence"]);
+        gp.Intelligence = (int)((float)nodeData_["Intelligence"]);
         player.Intelligence = gp.Intelligence;
-        gp.Vitality = (int)((float)nodeData["Vitality"]);
+        gp.Vitality = (int)((float)nodeData_["Vitality"]);
         player.Vitality = gp.Vitality;
-        gp.Dexterity = (int)((float)nodeData["Dexterity"]);
+        gp.Dexterity = (int)((float)nodeData_["Dexterity"]);
         player.Dexterity = gp.Dexterity;
-        gp.Strength = (int)((float)nodeData["Strength"]);
+        gp.Strength = (int)((float)nodeData_["Strength"]);
         player.Strength = gp.Strength;
-        Vector2 newPosition = new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]);
+        Vector2 newPosition = new Vector2((float)nodeData_["PosX"], (float)nodeData_["PosY"]);
         player.Set("Position", newPosition);
         gp.playerLocation = newPosition;
         foreach (Node node in GetTree().Root.GetChildren()) {
@@ -135,6 +126,5 @@ public class SaveLoadGame : Node
         //var newObject = (Node)newObjectScene.Instance();
         //GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
         //newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
-        saveFile.Close();
     }
 }

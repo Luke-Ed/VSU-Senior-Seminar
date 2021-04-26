@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class Pause : Control
 {
@@ -43,8 +44,7 @@ public class Pause : Control
         LoadDialog = (Control)GetNode("LoadDialog"); //Grab load dialog
         ExitButton = (Button)GetNode("LoadDialog/ExitButton"); //Grab load dialog exit button
         LoadGameVBox = (VBoxContainer)GetNode("LoadDialog/LoadGameVBox"); //Grab VBox for selecting load files
-        saveLoadGame = new SaveLoadGame();
-        AddChild(saveLoadGame);
+        saveLoadGame = (SaveLoadGame)GetNode("/root/SaveLoadGame");
     }
 
     public void _on_QuitLabel_mouse_entered() {
@@ -124,7 +124,7 @@ public class Pause : Control
         LoadDialog.Visible = false;
     }
 
-    public void _on_LoadLabel_gui_input(InputEvent @event) {
+    async void _on_LoadLabel_gui_input(InputEvent @event) {
         if (loadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             var tree = GetTree().Root.GetChildren();
             foreach (Node node in tree) {
@@ -145,10 +145,12 @@ public class Pause : Control
                 GD.Print("Cannot find a savefile!");
                 return; //Stop loading
             } else {
+                //Open save file
                 saveFile.Open("user://savegame.save", File.ModeFlags.Read);
-                var saveNodes = GetTree().GetNodesInGroup("persist");
+                //Read save file
+                Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
                 GetTree().Paused = false; //Must unpause first or QueueFree() won't work
-                saveLoadGame.Load(saveFile, saveNodes);
+                await Task.Run(saveLoadGame.Unload(saveFile, nodeData));
             }
         }
     }
