@@ -15,6 +15,7 @@ public class Bat : KinematicBody2D
     private Navigation2D _navigation;
     private Vector2 _startingPos;
     private Timer timer;
+    private Boolean _battleStarting;
     public Boolean _onCamera { get; set; }
 
     public override void _PhysicsProcess(float delta)
@@ -47,7 +48,7 @@ public class Bat : KinematicBody2D
                 currentHealth = health;
             }
         }
-        if (Visible)
+        if (HasNode("Timer")) //Making sure it has the timer node because the dummy enemy in turn queue does not.
         {
             timer = GetNode<Timer>("Timer");
             timer.Connect("timeout", this, "onTimeout");
@@ -110,14 +111,12 @@ public class Bat : KinematicBody2D
     public void Hit()
     { 
         if (!gp.isPossesing) { //Prevents bat from attacking other (possessed) enemies. Should add this to other enemies code eventually
+            timer.Stop();
+            _battleStarting = true; //Setting boolean statement to true once the battle is starting.
             gp.enemyFought.Add(this.Name);
             TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
             tq.GetChild(1).Name = enemyName;
             tq.GetChild(1).Call("_Ready");
-            if (!timer.IsStopped())
-            {
-                timer.Stop();
-            }
             GetTree().ChangeScene("res://Battle.tscn");
         }
     }
@@ -140,7 +139,10 @@ public class Bat : KinematicBody2D
         if (body.Name == "Player")
         {
             player = null;
-            timer.Start();
+            if (!_battleStarting) //Checking if when the body is leaving if it is due ot the battle starting it will not start the timer.
+            {
+                timer.Start();
+            }
         }
     }
 
