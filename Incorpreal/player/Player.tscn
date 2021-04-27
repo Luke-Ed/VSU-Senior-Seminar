@@ -119,5 +119,6 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/Area2D"]
 shape = SubResource( 7 )
+
 [connection signal="body_entered" from="Camera2D/Area2D" to="." method="_on_Camera_body_entered"]
 [connection signal="body_exited" from="Camera2D/Area2D" to="." method="_on_Camera_body_exited"]
