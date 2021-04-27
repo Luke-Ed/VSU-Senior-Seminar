@@ -43,7 +43,7 @@ public class Interaction : CanvasLayer
     //Called when the node enters the scene tree for the first time.
     public override void _Ready() {
         _interactiveTilemap = (TileMap)GetNode("../Interactables");
-        diagBox = dialogueBoxes.Instance() as DialogBox;
+        //diagBox = dialogueBoxes.Instance() as DialogBox;
     }
 
     public override void _Process(float delta) {
@@ -56,6 +56,7 @@ public class Interaction : CanvasLayer
 
                 case "on": 
                     //Add some function or load a scene/panel for gold, etc.
+                    diagBox = dialogueBoxes.Instance() as DialogBox;
                     diagBox.DialogPath = "res://Dialogues/Chest.txt";
                     GetTree().Root.GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
                     _interactiveTilemap.SetCell((int)_currentTileLocation[0], (int)_currentTileLocation[1], 22, false, false, false, _currentTileTexture);

@@ -1,1 +1,1 @@
-Me,What do we have here?,I seem to have found something useful.,I don't think the owner will miss this.
+Me,What do we have here?,I've found something useful.,I should press ['i'] to open my inventory.
