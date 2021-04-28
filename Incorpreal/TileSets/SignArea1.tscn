@@ -3,8 +3,8 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 10.6854, 11.3304 )
 
-[node name="LootArea1" type="Area2D" groups=[
-"LootAreas",
+[node name="SignArea1" type="Area2D" groups=[
+"Signs",
 ]]
 light_mask = 0
 collision_layer = 2

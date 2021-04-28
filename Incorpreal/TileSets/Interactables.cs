@@ -7,6 +7,8 @@ public class Interactables : TileMap
 {
     //Load the Area2D scene that represents lootable areas
     PackedScene loot_area = GD.Load<PackedScene>("res://TileSets/LootArea1.tscn");
+    PackedScene sign_area = GD.Load<PackedScene>("res://TileSets/SignArea1.tscn");
+    PackedScene grave_area = GD.Load<PackedScene>("res://TileSets/GraveArea1.tscn");
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -15,16 +17,21 @@ public class Interactables : TileMap
         //This allows us to print to console or give other responses to Signals and Responses
         Interaction outConsole = GetTree().Root.GetNode("Node2D/Interaction_Console") as Interaction; //This miracle line of code says "load node A as a script"
 
-        //Vector2 to represent the signs in the Forest Map
-        //Vector2 readable_sign = new Vector2(2,1);
+        //Vector2 to represent the sign textures
+        Vector2 groundSign = new Vector2(1,2);
+        Vector2 wallSign = new Vector2(3,1);
 
         //Vector2 to represent 'Closed' chest textures
         Vector2 chestSilver = new Vector2(0, 0);
         Vector2 chestGold = new Vector2(1, 0);
 
+        //Vector2 to represent the grave texture
+        Vector2 grave = new Vector2(0, 0);
+
         //Return an array of all cells (array of objects) with the given tile id
         Godot.Collections.Array chestsOnMap = GetUsedCellsById(22);
-        //Godot.Collections.Array used_sign_tiles = GetUsedCellsById(21);
+        Godot.Collections.Array signsOnMap = GetUsedCellsById(21);
+        Godot.Collections.Array gravesOnMap = GetUsedCellsById(23);
 
         //Loop through the above array to check if the chest is using the 'Closed' chest textures
         foreach (Vector2 currentTile in chestsOnMap)
@@ -39,6 +46,19 @@ public class Interactables : TileMap
                 //GetCellAutoTileCoord(int x, int y) - Returns a Vector2 coordinate of the tile using a specific texture in the current tileset
 
                 AddChild(lootAreaInstance);
+            }
+        }
+
+        //Loop through the above array to check if the sign is using the 'Ground' or 'Wall' texture
+        foreach (Vector2 currentTile in signsOnMap) 
+        {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(groundSign) || GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(wallSign))
+            {
+                Area2D signAreaInstance = (Area2D)sign_area.Instance();
+                signAreaInstance.Position = MapToWorld(currentTile);
+                signAreaInstance.Connect("body_entered", outConsole, "OnSignAreaEntered");
+                signAreaInstance.Connect("body_exited", outConsole, "OnSignAreaExited");
+                AddChild(signAreaInstance);
             }
         }
 

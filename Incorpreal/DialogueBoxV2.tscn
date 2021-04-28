@@ -18,7 +18,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 556, 140 ), Vector2( 556, 150 ) ]
+"values": [ Vector2( 558, 160 ), Vector2( 558, 170 ) ]
 }
 
 [node name="DialogueBoxContainer" type="CanvasLayer"]
@@ -42,6 +42,7 @@ __meta__ = {
 [node name="TextureRect" type="TextureRect" parent="DialogBox"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_bottom = 5.99998
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 1
@@ -69,7 +70,7 @@ anchor_bottom = 1.0
 margin_left = 15.0
 margin_top = 56.0
 margin_right = -8.0
-margin_bottom = -15.0
+margin_bottom = 4.99998
 custom_fonts/normal_font = ExtResource( 2 )
 custom_colors/default_color = Color( 0, 0, 0, 1 )
 bbcode_enabled = true
@@ -80,8 +81,8 @@ __meta__ = {
 }
 
 [node name="Next-Indicator" type="Sprite" parent="DialogBox"]
-position = Vector2( 556, 140 )
-scale = Vector2( 0.470588, 0.470588 )
+position = Vector2( 558, 179.307 )
+scale = Vector2( 0.471, 0.471 )
 texture = ExtResource( 3 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="DialogBox/Next-Indicator"]
@@ -89,4 +90,5 @@ autoplay = "Idle"
 anims/Idle = SubResource( 1 )
 
 [node name="Tween" type="Tween" parent="DialogBox"]
+
 [connection signal="tween_completed" from="DialogBox/Tween" to="." method="onTweenCompleted"]

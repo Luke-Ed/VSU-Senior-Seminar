@@ -70,8 +70,14 @@ public class Interaction : CanvasLayer
                     //Switch to next chest
                     break;
 
+                case "sign":
+                    diagBox = dialogueBoxes.Instance() as DialogBox;
+                    diagBox.DialogPath = "res://Dialogues/Sign.txt";
+                    GetTree().Root.GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
+                    break;
+                
                 default:
-                    GD.Print("...");
+                    GD.Print("... \n");
                     break;
             }
         }
@@ -101,6 +107,14 @@ public class Interaction : CanvasLayer
 
     //When the player leaves a loot_area, print "Leaving"
     public void OnLootAreaExited(Area2D area) {
+        actionState = "off";
+    }
+
+    public void OnSignAreaEntered(Area2D area) {
+        actionState = "sign";
+    }
+
+    public void OnSignAreaExited(Area2D area) {
         actionState = "off";
     }
 }
