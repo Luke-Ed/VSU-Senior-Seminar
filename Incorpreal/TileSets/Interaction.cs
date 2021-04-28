@@ -75,6 +75,12 @@ public class Interaction : CanvasLayer
                     diagBox.DialogPath = "res://Dialogues/Sign.txt";
                     GetTree().Root.GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
                     break;
+
+                case "grave":
+                    diagBox = dialogueBoxes.Instance() as DialogBox;
+                    diagBox.DialogPath = "res://Dialogues/Grave.txt";
+                    GetTree().Root.GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
+                    break;
                 
                 default:
                     GD.Print("... \n");
@@ -115,6 +121,14 @@ public class Interaction : CanvasLayer
     }
 
     public void OnSignAreaExited(Area2D area) {
+        actionState = "off";
+    }
+
+    public void OnGraveAreaEntered(Area2D area) {
+        actionState = "grave";
+    }
+
+    public void OnGraveAreaExited(Area2D area) {
         actionState = "off";
     }
 }

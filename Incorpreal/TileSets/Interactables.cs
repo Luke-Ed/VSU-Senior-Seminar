@@ -62,6 +62,18 @@ public class Interactables : TileMap
             }
         }
 
+        foreach (Vector2 currentTile in gravesOnMap) 
+        {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(grave))
+            {
+                Area2D graveAreaInstance = (Area2D)grave_area.Instance();
+                graveAreaInstance.Position = MapToWorld(currentTile);
+                graveAreaInstance.Connect("body_entered", outConsole, "OnGraveAreaEntered");
+                graveAreaInstance.Connect("body_exited", outConsole, "OnGraveAreaExited");
+                AddChild(graveAreaInstance);
+            }
+        }
+
         //Get all nodes under the "LootAreas" Group
         //GetTree gets the SceneTree object that the node is in
         //GetNodesInGroup retrieves all nodes from a SceneTree that have the supplied group tag
