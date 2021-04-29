@@ -9,6 +9,7 @@ public class Interactables : TileMap
     PackedScene loot_area = GD.Load<PackedScene>("res://TileSets/LootArea1.tscn");
     PackedScene sign_area = GD.Load<PackedScene>("res://TileSets/SignArea1.tscn");
     PackedScene grave_area = GD.Load<PackedScene>("res://TileSets/GraveArea1.tscn");
+    PackedScene exit_area = GD.Load<PackedScene>("res://TileSets/TransitionArea1.tscn");
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -28,10 +29,15 @@ public class Interactables : TileMap
         //Vector2 to represent the grave texture
         Vector2 grave = new Vector2(0, 0);
 
+        //Vector2 to represent the ForestExit
+        Vector2 forestLevelEnd = new Vector2(0, 0);
+
         //Return an array of all cells (array of objects) with the given tile id
         Godot.Collections.Array chestsOnMap = GetUsedCellsById(22);
         Godot.Collections.Array signsOnMap = GetUsedCellsById(21);
         Godot.Collections.Array gravesOnMap = GetUsedCellsById(23);
+        Godot.Collections.Array forestExits = GetUsedCellsById(37);
+        //Godot.Collections.Array caveExits = GetUsedCellsById();
 
         //Loop through the above array to check if the chest is using the 'Closed' chest textures
         foreach (Vector2 currentTile in chestsOnMap)
@@ -77,6 +83,18 @@ public class Interactables : TileMap
                 graveAreaInstance.Connect("body_entered", outConsole, "OnGraveAreaEntered");
                 graveAreaInstance.Connect("body_exited", outConsole, "OnGraveAreaExited");
                 AddChild(graveAreaInstance);
+            }
+        }
+
+        foreach (Vector2 currentTile in forestExits)
+        {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(forestLevelEnd))
+            {
+                Area2D forestExitInstance = (Area2D)exit_area.Instance();
+                forestExitInstance.Position = MapToWorld(currentTile);
+                forestExitInstance.Connect("body_entered", outConsole, "OnTransitionAreaEntered");
+                forestExitInstance.Connect("body_exited", outConsole, "OnTransitionAreaExited");
+                AddChild(forestExitInstance);
             }
         }
 

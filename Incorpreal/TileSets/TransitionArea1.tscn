@@ -1,16 +1,15 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10.6854, 14.9612 )
+extents = Vector2( 15.1001, 18.6467 )
 
-[node name="SignArea1" type="Area2D" groups=[
-"Signs",
+[node name="TransitionScene" type="Area2D" groups=[
+"Exits",
 ]]
-light_mask = 0
 collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 light_mask = 0
-position = Vector2( 15, 15 )
+position = Vector2( 15, 19 )
 shape = SubResource( 1 )
