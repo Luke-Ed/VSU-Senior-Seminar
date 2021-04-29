@@ -66,7 +66,7 @@ cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( 131089, 10, 65536, 131101, 10, 327680, 131102, 21, 65539, 655349, 21, 65539, 983064, 21, 131073, 1441783, 22, 0, 1441789, 22, 0, 1376259, 22, 0, 2031625, 21, 131073, 2031656, 23, 0, 2293749, 23, 0, 2293754, 23, 0 )
+tile_data = PoolIntArray( 131089, 10, 65536, 131101, 10, 327680, 131102, 21, 65539, 655349, 21, 65539, 983064, 21, 131073, 1376259, 22, 0, 1900589, 22, 1, 2031625, 21, 131073, 2031656, 23, 0, 2293749, 23, 0, 2293754, 23, 0 )
 script = ExtResource( 3 )
 
 [node name="Low_Wall_Example" type="TileMap" parent="."]
@@ -99,6 +99,9 @@ rotate = false
 [node name="Bat" parent="Enemies/Bat/PathFollow2D" instance=ExtResource( 5 )]
 position = Vector2( -0.000190735, 0.0527344 )
 
+[node name="Timer" parent="Enemies/Bat/PathFollow2D/Bat" index="3"]
+autostart = true
+
 [node name="Bear" parent="Enemies" instance=ExtResource( 7 )]
 position = Vector2( 555.372, 132.024 )
 
@@ -113,6 +116,9 @@ rotate = false
 
 [node name="Bat2" parent="Enemies/Bat2/PathFollow2D" instance=ExtResource( 5 )]
 position = Vector2( 33.8837, -0.249908 )
+
+[node name="Timer" parent="Enemies/Bat2/PathFollow2D/Bat2" index="3"]
+autostart = true
 
 [node name="Snake" type="Path2D" parent="Enemies"]
 curve = SubResource( 3 )
