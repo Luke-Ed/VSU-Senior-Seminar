@@ -20,7 +20,7 @@ public class BearSprite : Sprite
         footsteps.Autoplay = true;
         footsteps.MaxDistance = 300;
         footsteps.Attenuation = (.8f);
-        footsteps.VolumeDb = (0);
+        footsteps.VolumeDb = (-1);
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -29,7 +29,7 @@ public class BearSprite : Sprite
         time += delta;
         if (footsteps.Playing == false)
         {
-            if (time > 2.5)
+            if (time > 3)
             {
                 time = 0;
                 footsteps.Play();

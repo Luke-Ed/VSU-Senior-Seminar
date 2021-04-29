@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class bat_Sprite : Sprite
+public class SkelSprite2 : Sprite
 {
     // Declare member variables here. Examples:
     // private int a = 2;
@@ -12,26 +12,26 @@ public class bat_Sprite : Sprite
     public override void _Ready()
     {
         this.AddChild(footsteps);
-        const string Path = "res://sounds/BatSound.wav";
+        const string Path = "res://sounds/bone_pop.wav";
         AudioStream footstep = (AudioStream)GD.Load(Path);
         footsteps.Stream = footstep;
         footsteps.Autoplay = true;
         footsteps.MaxDistance = 300;
-        footsteps.Attenuation = (.8f) ;
+        footsteps.Attenuation = (.8f);
         footsteps.VolumeDb = (-1);
     }
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-  public override void _Process(float delta)
- {
-              time += delta;
+    //  // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(float delta)
+    {
+        time += delta;
         if (footsteps.Playing == false)
         {
-            if (time > 3)
+            if (time > 1)
             {
                 time = 0;
                 footsteps.Play();
             }
         }
- }
+    }
 }
