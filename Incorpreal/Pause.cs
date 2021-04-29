@@ -126,7 +126,6 @@ public class Pause : Control
 
     async void _on_LoadLabel_gui_input(InputEvent @event) {
         if (loadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
-            Player player = (Player)GetTree().Root.GetNode("Level 1/Player");
             LoadDialog.Visible = true;            
             var saveFile = new File();
             if (!saveFile.FileExists("user://savegame.save")) { //If no save file
