@@ -6,7 +6,7 @@ namespace Incorpreal.Enemies {
     
     public GlobalPlayer _globalPlayer;
     public KinematicBody2D player;
-    private Random _random;
+    private readonly Random _random = new Random();
     public Bat() : 
       base(50, 2, 30, "Bat", "Leeching") {
     }
