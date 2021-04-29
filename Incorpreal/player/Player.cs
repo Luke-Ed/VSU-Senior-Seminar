@@ -250,7 +250,7 @@ public class Player : KinematicBody2D {
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
             gp.isPossesing = true;
         } else if (possessee != null) { //Else if already possessing, undo it
-            playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
+            playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/PlayerSpriteSingleTest.png"); //Return player sprite to normal
             this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
             if (resPath.Contains("Bat")) { //Return from Bat mode
                 this.SetCollisionLayerBit(0, true);

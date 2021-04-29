@@ -41,9 +41,15 @@ public class Interactables : TileMap
                 lootAreaInstance.Position = MapToWorld(currentTile);
                 //MapToWorld(Vector2) - Returns the global position corresponding to the given tilemap's (grid-based) coordinates.
 
+                lootAreaInstance.Connect("body_entered", outConsole, "OnLootAreaEntered");
+                lootAreaInstance.Connect("body_exited", outConsole, "OnLootAreaExited");
+                //Connect(String signal, Node signal_handler, String method_name)
+
                 outConsole.AddChestTile((Vector2)currentTile);
                 outConsole.AddChestTextures((Vector2)GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]));
                 //GetCellAutoTileCoord(int x, int y) - Returns a Vector2 coordinate of the tile using a specific texture in the current tileset
+
+                outConsole.AddOpenedLootAreas(lootAreaInstance);
 
                 AddChild(lootAreaInstance);
             }
@@ -74,20 +80,20 @@ public class Interactables : TileMap
             }
         }
 
-        //Get all nodes under the "LootAreas" Group
-        //GetTree gets the SceneTree object that the node is in
-        //GetNodesInGroup retrieves all nodes from a SceneTree that have the supplied group tag
-        Godot.Collections.Array signalEmitters = GetTree().GetNodesInGroup("LootAreas");
+        // //Get all nodes under the "LootAreas" Group
+        // //GetTree gets the SceneTree object that the node is in
+        // //GetNodesInGroup retrieves all nodes from a SceneTree that have the supplied group tag
+        // Godot.Collections.Array signalEmitters = GetTree().GetNodesInGroup("LootAreas");
 
-        //Connect the appropriate signals to each "LootArea"
-        //Signals are "body_entered" and "body_exited"
-        foreach (Area2D area in signalEmitters)
-        {
-            area.Connect("body_entered", outConsole, "OnLootAreaEntered");
-            area.Connect("body_exited", outConsole, "OnLootAreaExited");
-            //Connect(String signal, Node signal_handler, String method_name)
+        // //Connect the appropriate signals to each "LootArea"
+        // //Signals are "body_entered" and "body_exited"
+        // foreach (Area2D area in signalEmitters)
+        // {
+        //     area.Connect("body_entered", outConsole, "OnLootAreaEntered");
+        //     area.Connect("body_exited", outConsole, "OnLootAreaExited");
+        //     //Connect(String signal, Node signal_handler, String method_name)
 
-            outConsole.AddOpenedLootAreas(area);
-        }
+        //     outConsole.AddOpenedLootAreas(area);
+        // }
     }
 }
