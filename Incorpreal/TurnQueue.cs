@@ -18,12 +18,11 @@ public class TurnQueue : Node {
 
   public void PrintQueue() {
     string s = "";
-    for (int i = 0; i < Combatants.Count; i++)
-    {
+    for (int i = 0; i < Combatants.Count; i++) {
       s +="Type/Name: " + GetChild(i).Name + " , Health: " + GetChild(i).Get("Health") +" .";
     }
     Console.WriteLine(s);
-    }
+  }
 
     public void RemoveChildren() {
       for (int i = 0; i < GetChildCount(); i++) {
