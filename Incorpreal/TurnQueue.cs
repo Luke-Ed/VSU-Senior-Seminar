@@ -3,7 +3,7 @@ using System;
 
 public class TurnQueue : Node
 {
-    Node currentTurn;
+    //Node currentTurn;
     public Godot.Collections.Array combatants;
     public int enemyMaxHP;
     public int enemyCurrentHP;

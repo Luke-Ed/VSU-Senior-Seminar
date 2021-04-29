@@ -65,7 +65,7 @@ public class Player : KinematicBody2D {
             hitbox = (Area2D)GetNode("findEmptyPosArea2D");
             possessionArea = (Area2D)GetNode("Area2D");
             stuck = false;
-            Label hpLabel = (Label)GetNode("Camera2D").GetNode("CanvasLayer").GetNode("HealthLabel");
+            Label hpLabel = (Label)GetNode("Camera2D/HealthLabel");
             gp.hplabel = hpLabel;
             gp.updateHealthLabel(gp.hplabel);
     }
@@ -250,7 +250,7 @@ public class Player : KinematicBody2D {
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
             gp.isPossesing = true;
         } else if (possessee != null) { //Else if already possessing, undo it
-            playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
+            playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/PlayerSpriteSingleTest.png"); //Return player sprite to normal
             this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
             if (resPath.Contains("Bat")) { //Return from Bat mode
                 this.SetCollisionLayerBit(0, true);

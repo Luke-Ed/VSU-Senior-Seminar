@@ -40,12 +40,6 @@ position = Vector2( 605.298, 37.1809 )
 [node name="Camera2D" parent="Map/Player" index="5"]
 position = Vector2( -1.12244, 1.12247 )
 
-[node name="HealthLabel" parent="Map/Player/Camera2D/CanvasLayer" index="0"]
-margin_left = 502.74
-margin_top = 4.48984
-margin_right = 579.74
-margin_bottom = 18.4898
-
 [node name="Bear" parent="Map" instance=ExtResource( 4 )]
 position = Vector2( 80.6349, 177.649 )
 

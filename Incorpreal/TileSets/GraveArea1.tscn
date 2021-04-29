@@ -1,14 +1,11 @@
 [gd_scene load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 10.6854, 11.3304 )
+extents = Vector2( 10.6854, 13.748 )
 
-[node name="LootArea1" type="Area2D" groups=[
-"LootAreas",
+[node name="Area2D" type="Area2D" groups=[
+"Graves",
 ]]
-light_mask = 0
-collision_layer = 2
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 light_mask = 0

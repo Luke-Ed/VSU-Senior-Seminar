@@ -4,9 +4,9 @@ using System;
 public class TimingGame : Node2D
 {
 
-    private Boolean _isGood = false;
-    private Boolean _isPerfect = false;
-    private Timer _timer;
+    //private Boolean _isGood = false;
+    //private Boolean _isPerfect = false;
+    //private Timer _timer;
     private ColorRect _gamePage;
     private ColorRect _battlePage;
     private RichTextLabel _battleText;
