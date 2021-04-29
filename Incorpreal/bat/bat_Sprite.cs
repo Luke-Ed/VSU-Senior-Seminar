@@ -18,7 +18,7 @@ public class bat_Sprite : Sprite
         footsteps.Autoplay = true;
         footsteps.MaxDistance = 300;
         footsteps.Attenuation = (.8f) ;
-        footsteps.VolumeDb = (-1);
+        footsteps.VolumeDb = (-10);
     }
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

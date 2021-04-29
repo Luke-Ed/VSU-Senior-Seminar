@@ -20,7 +20,8 @@ public class Battle : Node
     public Godot.Timer timer;
     public HitTheTarget_Engan HitTheTarget;
     private TimingGame _timingGame;
-
+    public AudioStreamPlayer music = new AudioStreamPlayer();
+    AudioStream theme = (AudioStream)GD.Load("res://sounds/Battle.wav");
     public Battle()
     {
 
@@ -28,6 +29,10 @@ public class Battle : Node
 
     public override void _Ready()
     {
+        this.AddChild(music);
+        music.VolumeDb = (-20);
+        music.Stream = theme;
+        music.Play();
         s = (Simon)GetNode("SimonGame");
         HitTheTarget = (HitTheTarget_Engan)GetNode("HitTheTarget_Engan");
         battlePage = GetNode<ColorRect>("BattlePage");

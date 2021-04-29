@@ -15,7 +15,7 @@ public class MiniGamePlayer : KinematicBody2D
         this.AddChild(audioStreamPlayer);
         AudioStream Background = (AudioStream)GD.Load(Path);
         audioStreamPlayer.Stream = Background;
-        audioStreamPlayer.VolumeDb=(-6);
+        audioStreamPlayer.VolumeDb=(-10);
         HitTargetNode = GetParent();
         timer = HitTargetNode.GetNode<Timer>("ShotCooldown");
         timer.WaitTime = 1;
