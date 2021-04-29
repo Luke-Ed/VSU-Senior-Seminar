@@ -9,7 +9,7 @@ public class Interaction : CanvasLayer
     PackedScene dialogueBoxes = GD.Load<PackedScene>("res://DialogueBoxV2.tscn");
 
     //Test for switching scenes
-    PackedScene caveMapTest = GD.Load<PackedScene>("res://TileSets/CaveMap.tscn");
+    //PackedScene caveMapTest = GD.Load<PackedScene>("res://TileSets/CaveMap.tscn");
 
     //CanvasLayer to hold dialogue box
     DialogBox diagBox;
@@ -138,7 +138,7 @@ public class Interaction : CanvasLayer
     }
 
     public void OnTransitionAreaEntered(Area2D area) {
-        GetTree().ChangeSceneTo(caveMapTest);
+        GetTree().ChangeScene("res://TileSets/CaveMap.tscn");
     }
 
     public void OnTransitionAreaExited(Area area) {

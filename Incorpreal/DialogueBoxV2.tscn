@@ -18,7 +18,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 558, 160 ), Vector2( 558, 170 ) ]
+"values": [ Vector2( 558, 165 ), Vector2( 558, 170 ) ]
 }
 
 [node name="DialogueBoxContainer" type="CanvasLayer"]
@@ -85,7 +85,7 @@ __meta__ = {
 }
 
 [node name="Next-Indicator" type="Sprite" parent="DialogBox"]
-position = Vector2( 558, 166.33 )
+position = Vector2( 558, 168.873 )
 scale = Vector2( 0.471, 0.471 )
 texture = ExtResource( 3 )
 

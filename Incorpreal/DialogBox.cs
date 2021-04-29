@@ -4,9 +4,11 @@ using System.Diagnostics;
 
 public class DialogBox : CanvasLayer
 {
-    //Code inspired by Emilio on YouTube 
+    //Code inspired by Emilio on YouTube
+    //Fixes inspired by Afely on YouTube
     
-    //String path to dialogue JSON file
+    //String path to dialogue text file
+    //I'll likely replace this with JSON files later
     [Export] public String DialogPath = "res://Dialogues/Dialog0.txt";
     
     //A string array of all text for current situation
