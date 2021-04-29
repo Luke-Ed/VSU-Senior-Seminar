@@ -36,6 +36,7 @@ public class Player : KinematicBody2D {
   public int AttackDamage { get; set; }
   public int ExperienceToNextLevel { get; set; }
   public String CharacterPlayerClass { get; set; }
+  public String StatusEffect { get; set; }
     
   public Player(String playerClass) {
     CharacterPlayerClass = playerClass;

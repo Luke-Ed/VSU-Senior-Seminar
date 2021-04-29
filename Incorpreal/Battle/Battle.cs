@@ -114,9 +114,9 @@ namespace Incorpreal.Battle {
       _globalPlayer.isDefending = false;
       _globalPlayer.didBlock = false;
       _playerActed = false;
-      if (_globalPlayer.Status != null){
-        _battleSequenceRtl.Text += "You are " + _globalPlayer.Status + "\n";
-        switch (_globalPlayer.Status){
+      if (_globalPlayer.PlayerCharacter.StatusEffect != String.Empty){
+        _battleSequenceRtl.Text += "You are " + _globalPlayer.PlayerCharacter.StatusEffect + "\n";
+        switch (_globalPlayer.PlayerCharacter.StatusEffect){
           case ("Bleeding"):
             _globalPlayer.PlayerCharacter.CurrentHealth -= 2;
             break;

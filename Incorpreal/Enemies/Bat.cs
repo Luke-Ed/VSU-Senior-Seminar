@@ -1,15 +1,14 @@
 using System;
 using Godot;
-using Incorpreal.Enemies;
 
-namespace Incorpreal.bat {
+namespace Incorpreal.Enemies {
   public class Bat : AbstractEnemy {
     
     public GlobalPlayer _globalPlayer;
     public KinematicBody2D player;
-
+    private Random _random;
     public Bat() : 
-      base(50, 2, 30, "Bat") {
+      base(50, 2, 30, "Bat", "Leeching") {
     }
 
     public override void _PhysicsProcess(float delta) {
@@ -19,6 +18,13 @@ namespace Incorpreal.bat {
     public override void _Ready() {
       _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
     }
+
+    protected override void ApplyStatusEffect() {
+      if(CurrentHealth + Attack <= Health) {
+        CurrentHealth += Attack;
+      }
+    }
+
 
     public Boolean PlayTurn() {
       TurnQueue turnQueue = (TurnQueue)GetNode("/root/Tq");
@@ -34,31 +40,9 @@ namespace Incorpreal.bat {
           didHit = _globalPlayer.takeDamage(Attack / 2);
         }
       }
-      if (didHit){
-        switch (EnemyType){
-          case ("Bat"):
-            if (turnQueue.EnemyCurrentHp + Attack <= turnQueue.EnemyMaxHp){
-              turnQueue.EnemyCurrentHp += Attack;
-            }
-            break;
-          case ("Bear"):
-            _globalPlayer.Status = "Bleeding";
-            break;
-          case ("Goblin"):
-            //Need something for goblin
-            break;
-          case ("Skeleton"):
-            //Need something for skeleton
-            break;
-          case ("Snake"):
-            //Need something for snake
-            break;
-          case ("Wolf"):
-            //Need something for wolf
-            break;
-          default:
-            break;
-          }
+      if (didHit && _random.Next(0,10) > 3){
+        // Thirty percent chance to apply a status effect if the enemy was hit.
+        ApplyStatusEffect();
       }
       return didHit;
     }

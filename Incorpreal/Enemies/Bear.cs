@@ -7,11 +7,17 @@ namespace Incorpreal.Enemies {
     private KinematicBody2D _player;
 
     public Bear() :
-      base(150, 5, 60, "Bear") {
+      base(150, 5, 60, "Bear", "Bleeding") {
     }
 
     public override void _Ready() {
       _globalPlayer = (GlobalPlayer) GetNode("/root/GlobalData");
+    }
+
+    protected override void ApplyStatusEffect() {
+      if (!_globalPlayer.PlayerCharacter.StatusEffect.Equals(StatusEffect)) {
+        _globalPlayer.PlayerCharacter.StatusEffect = "Bleeding";
+      }
     }
 
     public override void _PhysicsProcess(float delta) {
