@@ -13,6 +13,8 @@ namespace Incorpreal
         public override void _Ready()
         {
             SoundSlider = (HSlider)GetNode("HSlider");
+            SoundSlider.Value = (AudioServer.GetBusVolumeDb(0));
+            
         }
 
         //  // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -41,12 +41,12 @@ margin_left = 2.38109
 margin_top = 328.592
 margin_right = 61.3811
 margin_bottom = 360.592
-custom_fonts/font = null
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
 text = "Back"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="mouse_exited" from="HSlider" to="." method="_on_HSlider_mouse_exited"]
 [connection signal="value_changed" from="HSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="gui_input" from="Back" to="." method="_on_Back_gui_input"]
 [connection signal="mouse_entered" from="Back" to="." method="_on_Back_mouse_entered"]

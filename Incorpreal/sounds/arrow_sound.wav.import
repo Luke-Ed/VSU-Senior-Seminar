@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/Deep Grunt.wav-88819453767c5154e34b4cdfda6a33e3.sample"
+path="res://.import/arrow_sound.wav-c2ea6802d0857eac329eba51bf6be39c.sample"
 
 [deps]
 
-source_file="res://sounds/Deep Grunt.wav"
-dest_files=[ "res://.import/Deep Grunt.wav-88819453767c5154e34b4cdfda6a33e3.sample" ]
+source_file="res://sounds/arrow_sound.wav"
+dest_files=[ "res://.import/arrow_sound.wav-c2ea6802d0857eac329eba51bf6be39c.sample" ]
 
 [params]
 

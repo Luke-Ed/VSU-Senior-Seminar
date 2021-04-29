@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/arrow sound.wav-7cca70fd96d4e360e992375d439dcfbe.sample"
+path="res://.import/Deep_Grunt.wav-fa36ed78dc6e2f23617629596cc950fe.sample"
 
 [deps]
 
-source_file="res://sounds/arrow sound.wav"
-dest_files=[ "res://.import/arrow sound.wav-7cca70fd96d4e360e992375d439dcfbe.sample" ]
+source_file="res://sounds/Deep_Grunt.wav"
+dest_files=[ "res://.import/Deep_Grunt.wav-fa36ed78dc6e2f23617629596cc950fe.sample" ]
 
 [params]
 
