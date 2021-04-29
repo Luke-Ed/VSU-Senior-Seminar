@@ -4,7 +4,7 @@ using Godot;
 namespace Incorpreal.Enemies {
   public class Bat : AbstractEnemy {
     
-    public GlobalPlayer _globalPlayer;
+    private GlobalPlayer _globalPlayer;
     public KinematicBody2D player;
     private readonly Random _random = new Random();
     public Bat() : 
