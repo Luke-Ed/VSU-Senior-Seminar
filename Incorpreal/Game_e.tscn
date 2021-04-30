@@ -75,7 +75,7 @@ position = Vector2( 111.118, 207.95 )
 [node name="Player" parent="." groups=[
 "persist",
 ] instance=ExtResource( 10 )]
-position = Vector2( 112.392, 296.556 )
+position = Vector2( 113.392, 383.556 )
 
 [node name="HealthLabel" parent="Player/Camera2D/CanvasLayer" index="0"]
 margin_left = 498.103
