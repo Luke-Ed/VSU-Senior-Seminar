@@ -18,7 +18,7 @@ public class Player : KinematicBody2D {
 
   //For all the methods pertaining to stats, nothing is set in stone
   //numbers are expected to change as at a later date.
-
+  
   //Can create two different types of players one with melee stats and the other with ranged.
   //Will be able choose class at the start of the game at a main menu once implemented.
     
@@ -35,27 +35,17 @@ public class Player : KinematicBody2D {
   public int Level { get; set; }
   public int AttackDamage { get; set; }
   public int ExperienceToNextLevel { get; set; }
-  public String CharacterPlayerClass { get; set; }
   public String StatusEffect { get; set; }
-    
-  public Player(String playerClass) {
-    CharacterPlayerClass = playerClass;
-    if (playerClass == "Melee") {
-      Strength = 10;
-      Dexterity = 5;
-      Vitality = 10;
-      Intelligence = 5;
-      Luck = 5;
-      AttackDamage = 5 + Strength;
-    }
-    else if (playerClass == "Ranged") {
-      Strength = 5;
-      Dexterity = 10;
-      Vitality = 5;
-      Intelligence = 10;
-      Luck = 5;
-      AttackDamage = 5 + Dexterity;
-    }
+  
+    //Can create two different types of players one with melee stats and the other with ranged.
+    //Will be able choose class at the start of the game at a main menu once implemented.
+  public Player() {
+    Strength = 5;
+    Dexterity = 5;
+    Vitality = 10;
+    Intelligence = 5;
+    Luck = 5;
+    AttackDamage = 5 + Strength;
     Experience = 0;
     MaxHealth = 5 + Vitality;
     CurrentHealth = MaxHealth;
@@ -63,11 +53,7 @@ public class Player : KinematicBody2D {
     ExperienceToNextLevel = 10;
   }
 
-  public Player() {
-    
-  }
-
-  public override void _Ready() {
+    public override void _Ready() {
     // Add Footsteps sound.
     this.AddChild(footsteps);
     const string Path = "res://sounds/footsteps.wav";
@@ -82,10 +68,10 @@ public class Player : KinematicBody2D {
     if (_globalPlayer.PlayerCharacter == null) {
       _globalPlayer.createPlayer();
     }
-    if (_globalPlayer.PlayerLocation != null && _globalPlayer.enemiesFought.Count > 0) {
+    if (_globalPlayer.PlayerLocation != null && _globalPlayer.EnemiesFought.Count > 0) {
       GlobalPosition = _globalPlayer.PlayerLocation;
-      for (int i = 0; i < _globalPlayer.enemiesFought.Count; i++) {
-        GetParent().FindNode(_globalPlayer.enemiesFought[i]).QueueFree();
+      for (int i = 0; i < _globalPlayer.EnemiesFought.Count; i++) {
+        GetParent().FindNode(_globalPlayer.EnemiesFought[i]).QueueFree();
       }
     }
     animate = GetNode<AnimationPlayer>("AnimationPlayer");
@@ -155,11 +141,48 @@ public class Player : KinematicBody2D {
   
     //Possession listener
   public override void _Input(InputEvent @event) {
-    if (Input.IsActionJustPressed("possession")) { 
+    if (Input.IsActionJustPressed("possession")) {
       //If R is pressed
       Possess();
     }
+    //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes and example.
+    else if (Input.IsActionJustPressed("createItem") && Visible) {
+      //Creating a scene of the item node.
+      Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+      PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+      Item item = (Item)ItemScene.Instance();
+      //Wanted two different items just so I could test to make sure things were being changed so randomly deciding bewteen the two.
+      Random random = new Random();
+      int roll = random.Next(10);
+      if (roll % 2 == 1) {
+        item.giveProperties("Sword", "Weapon", "Strength", 10);
+        //item currently holds base gem picture can be changed like the following with a sword asset that I found online.
+        item.changePicture("res://assets/sword.png");
+      }
+      else {
+        item.giveProperties("Bow", "Weapon", "Dexterity", 10);
+        item.changePicture("res://assets/Bow.png");
+      }
+      //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
+        _globalPlayer._inventory.Add(item);
+        //Putting the item into an inventory slot.
+        inventory.Call("fillSlot", item);
+    }
+    //Pressing N will reduce your health by 5 and put a health potion in player's inventory that when used will increase player's current health by 10.
+    //again this is for demonstration/testing purposes only.
+    else if (Input.IsActionJustPressed("createPotion") && Visible) {
+        _globalPlayer.PlayerCharacter.CurrentHealth -= 5;
+        _globalPlayer.updateHealthLabel(_globalPlayer.hplabel);
+        Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+        PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+        Item item = (Item)ItemScene.Instance();
+        item.giveProperties("Health Potion", "Consumable", "Health", 10);
+        item.changePicture("res://assets/HealthPotion.png");
+        _globalPlayer._inventory.Add(item);
+        inventory.Call("fillSlot", item);
+    }
   }
+  
   
   private void ChangeState(string newState) {
     switch (newState) {
@@ -181,24 +204,24 @@ public class Player : KinematicBody2D {
   }
 
   private void Possess() {
-    //1. Check if anyone within range
+    // 1. Check if anyone within range
     Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
     float closestDistance = 1000;
     int closestEnemyIndex = 0;
     Boolean enemyFound = false;
 
-    //2. Find closest enemy
+    // 2. Find closest enemy
     for (int x = 0; x < nearby.Count; x++) { 
-      //Iterate them
+      // Iterate them
       try {
         PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; 
-        //Grab one
+        // Grab one
         if (currentEnemy.GetGroups().Contains("Enemies")) { 
-          //Skip bodies not belonging to the Enemies group
+          // Skip bodies not belonging to the Enemies group
           float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); 
-          //Calculate distance
+          // Calculate distance
           if (currentDistance < closestDistance) { 
-            //Check if closer than current closest
+            // Check if closer than current closest
             closestEnemyIndex = x;
             closestDistance = currentDistance;
             enemyFound = true;
@@ -208,8 +231,7 @@ public class Player : KinematicBody2D {
       catch {
 
       }
-    }  
-            
+    }
     //3. If suitable enemy found & player not already possessing someone, possess that enemy
     if (enemyFound && _possessedEnemy == null) {
       _possessedEnemy = (KinematicBody2D) nearby[closestEnemyIndex]; 
@@ -267,33 +289,55 @@ public class Player : KinematicBody2D {
       stuck = false;
     }
   }
-    //Still under construction
-    public Godot.Collections.Dictionary<string, object> Save() {
-        return new Godot.Collections.Dictionary<string, object>() {
-            { "moveSpeed", moveSpeed},
-            { "_possessedEnemy", _possessedEnemy},
-            { "resPath", resPath},
-            { "map", map},
-            { "playerSpriteNode", playerSpriteNode},
-            { "stuck", stuck},
-            { "_globalPlayer", _globalPlayer},
-            { "_possessedEnemyId", _possessedEnemyId},
-            { "ExperienceToNextLevel", ExperienceToNextLevel},
-            { "AttackDamage", AttackDamage},
-            { "Level", Level},
-            { "CurrentHealth", CurrentHealth},
-            { "MaxHealth", MaxHealth},
-            { "Experience", Experience},
-            { "Luck", Luck },
-            { "Intelligence", Intelligence },
-            { "Vitality", Vitality },
-            { "Dexterity", Dexterity },
-            { "Strength", Strength },
-            { "CharacterPlayerClass", CharacterPlayerClass },    
-            { "Filename", this.Filename },
-            { "Parent", GetParent().GetPath() },
-            { "PosX", Position.x }, // Vector2 is not supported by JSON
-            { "PosY", Position.y },
-        };
+
+
+    public void _on_Camera_body_entered(Node body) {
+      if (body.IsInGroup("Enemies")) {
+        body.Set("_onCamera", true);
+      }
     }
+
+    public void _on_Camera_body_exited(Node body) {
+      if (body.IsInGroup("Enemies")) {
+        body.Set("_onCamera", false);
+      }
+    }
+
+
+    //Still under construction
+  public Godot.Collections.Dictionary<string, object> Save() {
+    string spriteFileName = playerSpriteNode.Texture.ResourcePath;
+    return new Godot.Collections.Dictionary<string, object>() {
+      { "moveSpeed", moveSpeed},
+      { "_possessedEnemy", _possessedEnemy},
+      { "resPath", resPath},
+      { "map", map},
+      { "playerSpriteNode", playerSpriteNode},
+      { "stuck", stuck},
+      { "_globalPlayer", _globalPlayer},
+      { "_possessedEnemyId", _possessedEnemyId},
+      { "ExperienceToNextLevel", ExperienceToNextLevel},
+      { "AttackDamage", AttackDamage},
+      { "Level", Level},
+      { "CurrentHealth", CurrentHealth},
+      { "MaxHealth", MaxHealth},
+      { "Experience", Experience},
+      { "Luck", Luck },
+      { "Intelligence", Intelligence },
+      { "Vitality", Vitality },
+      { "Dexterity", Dexterity },
+      { "Strength", Strength },  
+      { "playerSpriteNode.Texture.ResourcePath", spriteFileName },
+      { "currentPoints", _globalPlayer.CurrentPoints }, // This needs to be fixed to.
+      // { "spiritPoints", _globalPlayer._SpiritPoints }, //Todo: Fix this.
+      { "Filename", Filename },
+      { "Parent", GetParent().GetPath() },
+      { "isPossesing", _globalPlayer.isPossesing },
+      { "PosX", _globalPlayer.PlayerLocation.x }, // Vector2 is not supported by JSON
+      { "PosY", _globalPlayer.PlayerLocation.y },
+      { "enemiesFought", _globalPlayer.EnemiesFought },
+      { "hplabel", _globalPlayer.hplabel.Text },
+      { "currentLevel", GetTree().CurrentScene.Name }
+    };
+  }
 }

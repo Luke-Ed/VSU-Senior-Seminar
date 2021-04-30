@@ -1,11 +1,14 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://assets/bat.png" type="Texture" id=1]
-[ext_resource path="res://Enemies/Bat.cs" type="Script" id=2]
+[ext_resource path="res://assets/pipo-enemy001-96px.png" type="Texture" id=1]
+[ext_resource path="res://bat/Bat.cs" type="Script" id=2]
 [ext_resource path="res://bat/bat_Sprite.cs" type="Script" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 18.3538
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 112.383
 
 [node name="Bat" type="KinematicBody2D" groups=[
 "Enemies",
@@ -22,3 +25,13 @@ shape = SubResource( 1 )
 position = Vector2( 0.591766, -2.04419 )
 texture = ExtResource( 1 )
 script = ExtResource( 3 )
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

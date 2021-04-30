@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/wall.png" type="Texture" id=1]
 [ext_resource path="res://assets/ghostwall.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://Game.cs" type="Script" id=7]
 [ext_resource path="res://Enemies/Bear.cs" type="Script" id=8]
 [ext_resource path="res://Path2D.cs" type="Script" id=9]
+[ext_resource path="res://Inventory.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Map.cs" type="Script" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -22,7 +23,7 @@ extents = Vector2( 33, 33 )
 
 [sub_resource type="Curve2D" id=4]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 227.004, 282.389, 0, 0, 0, 0, 124.236, 282.389, 0, 0, 0, 0, -16.6721, 283.449, 0, 0, 0, 0, -114.143, 280.27, 0, 0, 0, 0, -162.878, 281.33, 0, 0, 0, 0, -169.235, 342.779, 0, 0, 0, 0, 232.302, 339.6, 0, 0, 0, 0, 227.004, 283.449 )
+"points": PoolVector2Array( 0, 0, 0, 0, 318.129, 283.809, 0, 0, 0, 0, -186.845, 286.64, 0, 0, 0, 0, -187.789, 366.87, 0, 0, 0, 0, 318.129, 369.702, 0, 0, 0, 0, 317.185, 282.865 )
 }
 
 [node name="Game" type="Node"]
@@ -35,16 +36,10 @@ __meta__ = {
 script = ExtResource( 11 )
 
 [node name="Player" parent="Map" instance=ExtResource( 3 )]
-position = Vector2( 318.657, 179.594 )
+position = Vector2( 605.298, 37.1809 )
 
 [node name="Camera2D" parent="Map/Player" index="5"]
 position = Vector2( -1.12244, 1.12247 )
-
-[node name="HealthLabel" parent="Map/Player/Camera2D/CanvasLayer" index="0"]
-margin_left = 502.74
-margin_top = 4.48984
-margin_right = 579.74
-margin_bottom = 18.4898
 
 [node name="Bear" parent="Map" instance=ExtResource( 4 )]
 position = Vector2( 79.6349, 177.649 )
@@ -91,17 +86,37 @@ position = Vector2( 110.037, 68.0034 )
 shape = SubResource( 3 )
 
 [node name="Path2D" type="Path2D" parent="Map"]
-position = Vector2( 245.795, -3.17834 )
+position = Vector2( 264.672, -36.214 )
 curve = SubResource( 4 )
 script = ExtResource( 9 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Map/Path2D"]
-position = Vector2( 227.004, 282.389 )
+position = Vector2( 318.129, 283.809 )
 rotation = 3.14159
 rotate = false
 
 [node name="Bat" parent="Map/Path2D/PathFollow2D" instance=ExtResource( 6 )]
-position = Vector2( 98.9949, 0.000244141 )
+position = Vector2( 96.1632, 33.0359 )
 rotation = 3.14159
 
+[node name="CollisionShape2D" parent="Map/Path2D/PathFollow2D/Bat" index="0"]
+position = Vector2( 2.8284, 0.656891 )
+
+[node name="Sprite" parent="Map/Path2D/PathFollow2D/Bat" index="1"]
+position = Vector2( 0.585762, 3.41428 )
+
+[node name="Area2D" parent="Map/Path2D/PathFollow2D/Bat" index="2"]
+position = Vector2( -2.82846, 1.41418 )
+
+[node name="CollisionShape2D" parent="Map/Path2D/PathFollow2D/Bat/Area2D" index="0"]
+position = Vector2( 4.24594, -1.52588e-05 )
+
+[node name="InventoryMenu" parent="Map" instance=ExtResource( 10 )]
+
 [editable path="Map/Player"]
+
+[editable path="Map/Bear"]
+
+[editable path="Map/Path2D/PathFollow2D/Bat"]
+
+[editable path="Map/InventoryMenu"]

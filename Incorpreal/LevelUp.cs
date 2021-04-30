@@ -21,11 +21,10 @@ namespace Incorpreal {
       _statInfo.Text = "Hover over a stat for more information";
     }
 
-    public void _on_Str_mouse_entered() {
+    public void _on_Str_mouse_entered(){
       _lblStr.AddColorOverride("font_color", Colors.Red);
       _statInfo.Text = "Increase Melee Damage.";
       _stat = 1;
-      Console.WriteLine("Hover str");
     }
 
     public void _on_Dex_mouse_entered() {

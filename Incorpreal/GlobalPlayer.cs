@@ -5,14 +5,14 @@ using System.Collections.Generic;
 public class GlobalPlayer : Node {
   public Vector2 PlayerLocation;
   public NodePath enemyPath;
-  public Player PlayerCharacter = null;
+  public Player PlayerCharacter;
   private int _baseStat, _spiritPoints;
   public int CurrentPoints;
   // Note / Todo: Move Spirit points into player.cs, since all other values are stored there.
   public String CharacterClass;
   public Node PC;
   public Node Enemy;
-  public List<String> enemiesFought;
+  public List<String> EnemiesFought;
   public Label hplabel;
   public string lastScene;
   public Boolean isDefending = false;
@@ -20,6 +20,11 @@ public class GlobalPlayer : Node {
   public Boolean perfectSpell = false;
   public Boolean isPossesing = false;
   public String Status {get; set;}
+  public List<Item> _inventory { get; set; }
+  public Item _equippedWeapon { get; set; }
+  public Item _equippedArmor { get; set; }
+  public Boolean _goodHit { get; set; }
+  public Boolean _perfectHit { get; set; }
 
   public Boolean GoodHit { get; set; }
   public Boolean PerfectHit { get; set; }
@@ -31,32 +36,33 @@ public class GlobalPlayer : Node {
     }
   }
 
+
   public void createPlayer() {
-    Player temp = new Player("Melee");
+    Player temp = new Player();
     PlayerCharacter = temp;
-    CharacterClass = PlayerCharacter.CharacterPlayerClass;
     PlayerCharacter.CurrentHealth = PlayerCharacter.MaxHealth;
-    enemiesFought = new List<String>();
+    EnemiesFought = new List<String>();
     _spiritPoints = 5 + PlayerCharacter.Intelligence;
     CurrentPoints = _spiritPoints;
     _baseStat = 5;
+    _inventory = new List<Item>();
   }
 
-    public Boolean takeDamage(int damage) {
-      Random random = new Random();
-      int roll = random.Next(101);
-      if (roll >= 100 - PlayerCharacter.Intelligence) {
-        return false;
-      }
-      else {
-        if ((PlayerCharacter.CurrentHealth - damage) <= 0) {
+  public Boolean takeDamage(int damage) {
+    Random random = new Random();
+    int roll = random.Next(101);
+    if (roll >= 100 - PlayerCharacter.Intelligence) {
+      return false;
+    }
+    else {
+      if ((PlayerCharacter.CurrentHealth - damage) <= 0) {
         PlayerCharacter.CurrentHealth = 0;
         return true;
       }
       PlayerCharacter.CurrentHealth -= damage;
       return true;
     }
-}
+  }
 
     //Returns the amount of damage done if you are able to hit
     public Boolean AttackEnemy(){
@@ -126,16 +132,22 @@ public class GlobalPlayer : Node {
         break;
     }
 
-    if (CharacterClass == "Ranged") {
-      PlayerCharacter.AttackDamage += _baseStat + PlayerCharacter.Dexterity;
-    }
-    else {
+
+    if (_equippedWeapon == null || _equippedWeapon._stat == "Strength"){
       PlayerCharacter.AttackDamage += _baseStat + PlayerCharacter.Strength;
     }
+    else {
+      PlayerCharacter.AttackDamage += _baseStat + PlayerCharacter.Dexterity;
+    }
+
     PlayerCharacter.MaxHealth = _baseStat + PlayerCharacter.Vitality;
     PlayerCharacter.CurrentHealth = PlayerCharacter.MaxHealth;
     _spiritPoints = _baseStat + PlayerCharacter.Intelligence;
     CurrentPoints = _spiritPoints;
-    PlayerCharacter.ExperienceToNextLevel += 10;
-    }
+    PlayerCharacter.ExperienceToNextLevel += PlayerCharacter.Level * 10;
+  }
+
+  //public void updateHealth(){
+  //  MaxHealth = baseStat + Vitality;
+  //}
 }

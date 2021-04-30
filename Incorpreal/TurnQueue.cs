@@ -2,14 +2,13 @@ using Godot;
 using System;
 
 public class TurnQueue : Node {
-  Node currentTurn;
   public Godot.Collections.Array Combatants;
   public int EnemyMaxHp { get; private set; }
   public int EnemyCurrentHp { get; set; }
   public string EnemyType { get; private set; }
   private int _enemyAttack;
-  
   public Node EnemyNode;
+
   public override void _Ready() { }
   
   public Godot.Collections.Array GetCombatants() {
