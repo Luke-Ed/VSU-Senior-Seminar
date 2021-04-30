@@ -20,76 +20,55 @@ public class Player : KinematicBody2D {
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
 
-    //Can create two different types of players one with melee stats and the other with ranged.
-    //Will be able choose class at the start of the game at a main menu once implemented.
-    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
-    public String CharacterClass;
-    public Player(String Class)
-    {
-        
-        CharacterClass = Class;
-        if (Class == "Melee")
-        {
-            Strength = 10;
-            Dexterity = 5;
-            Vitality = 10;
-            Intelligence = 5;
-            Luck = 5;
-            AttackDamage = 5 + Strength;
-        }
-        else if (Class == "Ranged")
-        {
-            Strength = 5;
-            Dexterity = 10;
-            Vitality = 5;
-            Intelligence = 10;
-            Luck = 5;
-            AttackDamage = 5 + Dexterity;
-        }
+    //Can create two different types of players one with melee stats and the other with ranged.
+    //Will be able choose class at the start of the game at a main menu once implemented.
+    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel;
+    public Player()
+    {
+        Strength = 5;
+        Dexterity = 5;
+        Vitality = 10;
+        Intelligence = 5;
+        Luck = 5;
+        AttackDamage = 5 + Strength;
+        Experience = 0;
+        MaxHealth = 5 + Vitality;
+        CurrentHealth = MaxHealth;
+        Level = 1;
+        ExperienceToNextLevel = 10;
+    }
 
-        Experience = 0;
-        MaxHealth = 5 + Vitality;
-        CurrentHealth = MaxHealth;
-        Level = 1;
-        ExperienceToNextLevel = 10;
-    }
-
-    public Player()
-    {
-
-    }
-
-    public override void _Ready()
-    {
-        this.AddChild(footsteps);
-        const string Path = "res://sounds/footsteps.wav";
-        AudioStream footstep = (AudioStream)GD.Load(Path);
-        footsteps.Stream = footstep;
-        footsteps.VolumeDb = (0);
-        gp = (GlobalPlayer)GetNode("/root/GlobalData");
-        //Eventually a main menu will already have a character made for the player
-        //This is for demonstration purposes
-        if (gp.playerCharacter == null)
-        {
-            gp.createPlayer();
-        }
-        if (gp.playerLocation != null && gp.enemyFought.Count > 0)
-        {
-            GlobalPosition = gp.playerLocation;
-            for (int i = 0; i < gp.enemyFought.Count; i++)
-            {
-                GetParent().FindNode(gp.enemyFought[i]).QueueFree();
-            }
-        }
-            animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
-            playerSpriteNode = (Sprite)GetNode("Sprite/player");
-            hitbox = (Area2D)GetNode("findEmptyPosArea2D");
-            possessionArea = (Area2D)GetNode("Area2D");
-            stuck = false;
-            Label hpLabel = (Label)GetNode("Camera2D").GetNode("CanvasLayer").GetNode("HealthLabel");
-            gp.hplabel = hpLabel;
-            gp.updateHealthLabel(gp.hplabel);
-    }
+    public override void _Ready()
+    {
+        this.AddChild(footsteps);
+        const string Path = "res://sounds/footsteps.wav";
+        AudioStream footstep = (AudioStream)GD.Load(Path);
+        footsteps.Stream = footstep;
+        footsteps.VolumeDb = (0);
+        gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        //Eventually a main menu will already have a character made for the player
+        //This is for demonstration purposes
+        if (gp.playerCharacter == null)
+        {
+            gp.createPlayer();
+        }
+        if (gp.playerLocation != null && gp.enemyFought.Count > 0)
+        {
+            GlobalPosition = gp.playerLocation;
+            for (int i = 0; i < gp.enemyFought.Count; i++)
+            {
+                GetParent().FindNode(gp.enemyFought[i]).QueueFree();
+            }
+        }
+            animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
+            playerSpriteNode = (Sprite)GetNode("Sprite/player");
+            hitbox = (Area2D)GetNode("findEmptyPosArea2D");
+            possessionArea = (Area2D)GetNode("Area2D");
+            stuck = false;
+            Label hpLabel = (Label)GetNode("Camera2D/HealthLabel");
+            gp.hplabel = hpLabel;
+            gp.updateHealthLabel(gp.hplabel);
+    }
 
     public Boolean attackEnemy()
     {
@@ -138,75 +117,91 @@ public class Player : KinematicBody2D {
 
             var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
 
-            if (collision != null)
-            {
-                if (collision.Collider.HasMethod("Hit"))
-                {
-                    gp = (GlobalPlayer)GetNode("/root/GlobalData");
-                    gp.lastScene = GetTree().CurrentScene.Filename;
-                    gp.playerLocation = GlobalPosition;
-                    collision.Collider.Call("Hit");
-                }
-                else if (!movementPossible())
-                {
-                    stuck = true;
-                    teleport();
-                }
-            }
-        }        
-    }
-    //Possession listener
-    public override void _Input(InputEvent @event)
-    {
-        if (Input.IsActionJustPressed("possession")) { //If R is pressed
-            Possess();
-        }
-        //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes and example.
-        else if (Input.IsActionJustPressed("createItem") && Visible)
-        {
-            //Creating a scene of the item node.
-            Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
-            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
-            Item item = (Item)ItemScene.Instance();
-            //Wanted two different items just so I could test to make sure things were being changed so randomly deciding bewteen the two.
-            Random random = new Random();
-            int roll = random.Next(10);
-            if (roll % 2 == 1)
-            {
-                item.giveProperties("Sword", "Weapon", "Strength", 10);
-                //item currently holds base gem picture can be changed like the following with a sword asset that I found online.
-                item.changePicture("res://assets/sword.png");
-            }
-            else
-            {
-                item.giveProperties("Bow", "Weapon", "Dexterity", 10);
-                item.changePicture("res://assets/Bow.png");
-            }
-            //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
-            gp._inventory.Add(item);
-            //Putting the item into an inventory slot.
-            inventory.Call("fillSlot", item);
-        }
-    }
-    public void ChangeState(string newState)
-    {
-        switch (newState) {
-	      case "Idle": {
-		      animate.Play("Idle");
-		      break;
-	      }
-	      case "Dead": {
-	        animate.Play("Die");
-	        break;
-	      }
-	      case "Walking": {
-          animate.Play("Walking");
-	        break;
-	      }
-	      default: {
-	        break;
-	      }
-	  }
+            if (collision != null)
+            {
+                if (collision.Collider.HasMethod("Hit"))
+                {
+                    gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                    gp.lastScene = GetTree().CurrentScene.Filename;
+                    gp.playerLocation = GlobalPosition;
+                    collision.Collider.Call("Hit");
+                }
+                else if (!movementPossible())
+                {
+                    stuck = true;
+                    teleport();
+                }
+            }
+        }        
+    }
+	
+    //Possession listener
+    public override void _Input(InputEvent @event)
+    {
+        if (Input.IsActionJustPressed("possession")) { //If R is pressed
+            Possess();
+        }
+        //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes and example.
+        else if (Input.IsActionJustPressed("createItem") && Visible)
+        {
+            //Creating a scene of the item node.
+            Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+            Item item = (Item)ItemScene.Instance();
+            //Wanted two different items just so I could test to make sure things were being changed so randomly deciding bewteen the two.
+            Random random = new Random();
+            int roll = random.Next(10);
+            if (roll % 2 == 1)
+            {
+                item.giveProperties("Sword", "Weapon", "Strength", 10);
+                //item currently holds base gem picture can be changed like the following with a sword asset that I found online.
+                item.changePicture("res://assets/sword.png");
+            }
+            else
+            {
+                item.giveProperties("Bow", "Weapon", "Dexterity", 10);
+                item.changePicture("res://assets/Bow.png");
+            }
+            //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
+            gp._inventory.Add(item);
+            //Putting the item into an inventory slot.
+            inventory.Call("fillSlot", item);
+        }
+        //Pressing N will reduce your health by 5 and put a health potion in player's inventory that when used will increase player's current health by 10.
+        //again this is for demonstration/testing purposes only.
+        else if (Input.IsActionJustPressed("createPotion") && Visible)
+        {
+            gp.CurrentHealth -= 5;
+            gp.updateHealthLabel(gp.hplabel);
+            Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+            Item item = (Item)ItemScene.Instance();
+            item.giveProperties("Health Potion", "Consumable", "Health", 10);
+            item.changePicture("res://assets/HealthPotion.png");
+            gp._inventory.Add(item);
+            inventory.Call("fillSlot", item);
+        }
+    }
+	
+    public void ChangeState(string newState)
+    {
+        switch (newState) {
+	      case "Idle": {
+		      animate.Play("Idle");
+		      break;
+	      }
+	      case "Dead": {
+	        animate.Play("Die");
+	        break;
+	      }
+	      case "Walking": {
+          animate.Play("Walking");
+	        break;
+	      }
+	      default: {
+	        break;
+	      }
+	  }
 }
 
     public void Possess() {
@@ -236,38 +231,38 @@ public class Player : KinematicBody2D {
             catch
             {
 
-            }
-        }  
-            
-        //3. If suitable enemy found & player not already possessing someone, possess that enemy
-        if (enemyFound && this.possessee == null) {
-            possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
-            this.resPath = possessee.Filename; //Grab victim resource path for later
-            Sprite victimSprite = (Sprite) possessee.GetNode("Sprite"); //Grab victim sprite
-            this.SetCollisionMaskBit(2, true); //Make GhostWalls impenetrable while possessing
-            if (resPath.Contains("Bat")) {
-                this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
-                this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
-            }
-            //Possession animation here (optional)
-            playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
-            PossesseeName = victimSprite.GetParent().Name;
-            victimSprite.GetParent().QueueFree(); //Make enemy disappear
-            gp.isPossesing = true;
-        } else if (possessee != null) { //Else if already possessing, undo it
-            playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png"); //Return player sprite to normal
-            this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
-            if (resPath.Contains("Bat")) { //Return from Bat mode
-                this.SetCollisionLayerBit(0, true);
-                this.SetCollisionMaskBit(3, true);
-            }
-            Vector2 newLocation = this.GlobalPosition;
-            newLocation.x += 80;
-            this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
-            possessee = null;
-            gp.isPossesing = false;
-        }
-    } 
+            }
+        }  
+            
+        //3. If suitable enemy found & player not already possessing someone, possess that enemy
+        if (enemyFound && this.possessee == null) {
+            possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
+            this.resPath = possessee.Filename; //Grab victim resource path for later
+            Sprite victimSprite = (Sprite) possessee.GetNode("Sprite"); //Grab victim sprite
+            this.SetCollisionMaskBit(2, true); //Make GhostWalls impenetrable while possessing
+            if (resPath.Contains("Bat")) {
+                this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
+                this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
+            }
+            //Possession animation here (optional)
+            playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
+            PossesseeName = victimSprite.GetParent().Name;
+            victimSprite.GetParent().QueueFree(); //Make enemy disappear
+            gp.isPossesing = true;
+        } else if (possessee != null) { //Else if already possessing, undo it
+            playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/PlayerSpriteSingleTest.png"); //Return player sprite to normal
+            this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
+            if (resPath.Contains("Bat")) { //Return from Bat mode
+                this.SetCollisionLayerBit(0, true);
+                this.SetCollisionMaskBit(3, true);
+            }
+            Vector2 newLocation = this.GlobalPosition;
+            newLocation.x += 80;
+            this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
+            possessee = null;
+            gp.isPossesing = false;
+        }
+    } 
 
     //This method returns a Boolean denoting if player movement is possible in any direction
     public Boolean movementPossible() {
@@ -287,6 +282,22 @@ public class Player : KinematicBody2D {
         }
     }
 
+    public void _on_Camera_body_entered(Node body)
+    {
+        if (body.IsInGroup("Enemies"))
+        {
+            body.Set("_onCamera", true);
+        }
+    }
+
+    public void _on_Camera_body_exited(Node body)
+    {
+        if (body.IsInGroup("Enemies"))
+        {
+            body.Set("_onCamera", false);
+        }
+    }
+  
     public Godot.Collections.Dictionary<string, object> Save() {
         string spriteFileName = playerSpriteNode.Texture.ResourcePath;
         return new Godot.Collections.Dictionary<string, object>() {

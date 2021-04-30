@@ -23,7 +23,7 @@ public class Item : Node
     {
         this._name = name; //Any name you like
         this._type = type; // "Weapon", "Armor", or "Consumable" for now.
-        this._stat = stat; // "Strength", "Dexterity", "Vitality", "Intelligence", or "Luck"
+        this._stat = stat; // "Strength", "Dexterity", "Vitality", "Intelligence", or "Luck". (If it is a Consumable "Health" or "Spirit"
         this._bonus = bonus; //Positive number.
     }
     public override void _Ready()
@@ -60,67 +60,88 @@ public class Item : Node
                 _globalPlayer._equipedArmor = this;
                 _globalPlayer._inventory.Remove(this);
                 break;
-            default:
-                break;
-        }
-        //Increases the given stat and updates any other stat that is associated with it.
-        switch (_stat)
-        {
-            case ("Strength"):
-                _globalPlayer.Strength += _bonus;
-                _globalPlayer.AttackDamage = _globalPlayer.baseStat + _globalPlayer.Strength;
-                break;
-            case ("Dexterity"):
-                _globalPlayer.Dexterity += _bonus;
-                _globalPlayer.AttackDamage = _globalPlayer.baseStat + _globalPlayer.Dexterity;
-                break;
-            case ("Vitality"):
-                _globalPlayer.Vitality += _bonus;
-                _globalPlayer.MaxHealth = _globalPlayer.baseStat + _globalPlayer.Vitality;
-                break;
-            case ("Intelligence"):
-                _globalPlayer.Intelligence += _bonus;
-                _globalPlayer.spiritPoints = _globalPlayer.baseStat + _globalPlayer.Intelligence;
-                break;
-            case ("Luck"):
-                _globalPlayer.Luck += _bonus;
+            case ("Consumable"):
+                //Potions as of now will increase your current health or spirit more options can be added at a later time if desired.
+                if (_stat == "Health")
+                {
+                    _globalPlayer.CurrentHealth += _bonus;
+                    if (_globalPlayer.CurrentHealth > _globalPlayer.MaxHealth)
+                    {
+                        _globalPlayer.CurrentHealth = _globalPlayer.MaxHealth;
+                    }
+                }
+                else if (_stat == "Spirit")
+                {
+                    _globalPlayer.currentPoints += _bonus;
+                    if (_globalPlayer.currentPoints > _globalPlayer.spiritPoints)
+                    {
+                        _globalPlayer.currentPoints = _globalPlayer.spiritPoints;
+                    }
+                }
+                _globalPlayer.updateHealthLabel(_globalPlayer.hplabel);
+                _globalPlayer._inventory.Remove(this);
                 break;
             default:
                 break;
         }
-    }
+                //Increases the given stat and updates any other stat that is associated with it.
+                switch (_stat)
+                {
+                    case ("Strength"):
+                        _globalPlayer.Strength += _bonus;
+                        _globalPlayer.AttackDamage = _globalPlayer.baseStat + _globalPlayer.Strength;
+                        break;
+                    case ("Dexterity"):
+                        _globalPlayer.Dexterity += _bonus;
+                        _globalPlayer.AttackDamage = _globalPlayer.baseStat + _globalPlayer.Dexterity;
+                        break;
+                    case ("Vitality"):
+                        _globalPlayer.Vitality += _bonus;
+                        _globalPlayer.MaxHealth = _globalPlayer.baseStat + _globalPlayer.Vitality;
+                        break;
+                    case ("Intelligence"):
+                        _globalPlayer.Intelligence += _bonus;
+                        _globalPlayer.spiritPoints = _globalPlayer.baseStat + _globalPlayer.Intelligence;
+                        break;
+                    case ("Luck"):
+                        _globalPlayer.Luck += _bonus;
+                        break;
+                    default:
+                        break;
+                }
+        }
 
-    //Unequiping an item will remove any stat bonuses and remove the item from the given slot and add it back into the inventory list of global player.
-    private void unequip()
-    {
-        switch (_stat)
+        //Unequiping an item will remove any stat bonuses and remove the item from the given slot and add it back into the inventory list of global player.
+        private void unequip()
         {
-            case ("Strength"):
-                _globalPlayer.Strength -= _bonus;
-                break;
-            case ("Dexterity"):
-                _globalPlayer.Dexterity -= _bonus;
-                break;
-            case ("Vitality"):
-                _globalPlayer.Vitality -= _bonus;
-                break;
-            case ("Intelligence"):
-                _globalPlayer.Intelligence -= _bonus;
-                break;
-            case ("Luck"):
-                _globalPlayer.Luck -= _bonus;
-                break;
-            default:
-                break;
-        }
-        if (_type.Equals("Weapon")){
-            _globalPlayer._equipedWeapon = null;
-            _globalPlayer._inventory.Add(this);
-        }
-        else
-        {
-            _globalPlayer._equipedArmor = null;
-            _globalPlayer._inventory.Add(this);
+            switch (_stat)
+            {
+                case ("Strength"):
+                    _globalPlayer.Strength -= _bonus;
+                    break;
+                case ("Dexterity"):
+                    _globalPlayer.Dexterity -= _bonus;
+                    break;
+                case ("Vitality"):
+                    _globalPlayer.Vitality -= _bonus;
+                    break;
+                case ("Intelligence"):
+                    _globalPlayer.Intelligence -= _bonus;
+                    break;
+                case ("Luck"):
+                    _globalPlayer.Luck -= _bonus;
+                    break;
+                default:
+                    break;
+            }
+            if (_type.Equals("Weapon")) {
+                _globalPlayer._inventory.Add(_globalPlayer._equipedWeapon);
+                _globalPlayer._equipedWeapon = null;
+            }
+            else
+            {
+                _globalPlayer._equipedArmor = null;
+                _globalPlayer._inventory.Add(this);
+            }
         }
     }
-}

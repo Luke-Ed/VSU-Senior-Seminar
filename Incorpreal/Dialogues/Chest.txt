@@ -1,0 +1,1 @@
+Me,What do we have here?,I've found something useful.,I should press ['i'] to open my inventory.
