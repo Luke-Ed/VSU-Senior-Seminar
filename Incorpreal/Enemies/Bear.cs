@@ -29,7 +29,7 @@ namespace Incorpreal.Enemies {
 
     public void Hit() {
       if (!_globalPlayer.isPossesing) {
-        _globalPlayer.enemiesFought.Add(Name);
+        _globalPlayer.EnemiesFought.Add(Name);
         TurnQueue turnQueue = (TurnQueue) GetNode("/root/Tq");
         turnQueue.GetChild(1).Name = EnemyType;
         turnQueue.GetChild(1).Call("_Ready");

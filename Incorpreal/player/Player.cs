@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Incorpreal;
 
 public class Player : KinematicBody2D {
   [Export]
@@ -34,8 +35,11 @@ public class Player : KinematicBody2D {
   public int CurrentHealth { get; set; }
   public int Level { get; set; }
   public int AttackDamage { get; set; }
+  public int CurrentSpiritPoints { get; set; }
+  public int MaxSpiritPoints { get; set; }
   public int ExperienceToNextLevel { get; set; }
   public String StatusEffect { get; set; }
+  
   
     //Can create two different types of players one with melee stats and the other with ranged.
     //Will be able choose class at the start of the game at a main menu once implemented.
@@ -155,16 +159,16 @@ public class Player : KinematicBody2D {
       Random random = new Random();
       int roll = random.Next(10);
       if (roll % 2 == 1) {
-        item.giveProperties("Sword", "Weapon", "Strength", 10);
+        item.GiveProperties("Sword", "Weapon", "Strength", 10);
         //item currently holds base gem picture can be changed like the following with a sword asset that I found online.
         item.changePicture("res://assets/sword.png");
       }
       else {
-        item.giveProperties("Bow", "Weapon", "Dexterity", 10);
+        item.GiveProperties("Bow", "Weapon", "Dexterity", 10);
         item.changePicture("res://assets/Bow.png");
       }
       //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
-        _globalPlayer._inventory.Add(item);
+        _globalPlayer.Inventory.Add(item);
         //Putting the item into an inventory slot.
         inventory.Call("fillSlot", item);
     }
@@ -176,9 +180,9 @@ public class Player : KinematicBody2D {
         Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
         PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
         Item item = (Item)ItemScene.Instance();
-        item.giveProperties("Health Potion", "Consumable", "Health", 10);
+        item.GiveProperties("Health Potion", "Consumable", "Health", 10);
         item.changePicture("res://assets/HealthPotion.png");
-        _globalPlayer._inventory.Add(item);
+        _globalPlayer.Inventory.Add(item);
         inventory.Call("fillSlot", item);
     }
   }
@@ -198,8 +202,6 @@ public class Player : KinematicBody2D {
         animate.Play("Walking");
         break;
       }
-      default: 
-        break;
     }
   }
 
@@ -328,8 +330,8 @@ public class Player : KinematicBody2D {
       { "Dexterity", Dexterity },
       { "Strength", Strength },  
       { "playerSpriteNode.Texture.ResourcePath", spriteFileName },
-      { "currentPoints", _globalPlayer.CurrentPoints }, // This needs to be fixed to.
-      // { "spiritPoints", _globalPlayer._SpiritPoints }, //Todo: Fix this.
+      { "CurrentSpiritPoints", CurrentSpiritPoints}, // This needs to be fixed to.
+       { "MaxSpiritPoints", MaxSpiritPoints }, 
       { "Filename", Filename },
       { "Parent", GetParent().GetPath() },
       { "isPossesing", _globalPlayer.isPossesing },

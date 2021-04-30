@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Incorpreal;
 
 public class Slot : Panel
 {
@@ -20,7 +21,7 @@ public class Slot : Panel
     public void equipItem()
     {
         //Moves the item to item to equiped slot, removing it from the inventory and replacing it if an item was already equiped.
-        switch (item._type)
+        switch (item.Type)
         {
             case ("Weapon"):
                 if (_equipedWeapon.Get("item") != null)
@@ -57,7 +58,7 @@ public class Slot : Panel
     //Is called if an item is being equiped but there is already an item of the same type equiped and will unequip that item removing stat bonuses and moving it to the inventory menu.
     private void unequipItem(Item i)
     {
-        switch (item._type)
+        switch (item.Type)
         {
             case ("Weapon"):
                 _equipedWeapon.RemoveChild(i);
@@ -79,17 +80,17 @@ public class Slot : Panel
         //Hovering over an item will display its name and the stat it increases.
         if (item != null)
         {
-            if (item._type != "Consumable")
+            if (item.Type != "Consumable")
             {
-                _statText.Text = "Name: " + item._name;
-                _statText.Text += "\nType: " + item._type;
-                _statText.Text += "\n" + item._stat + " + " + item._bonus;
+                _statText.Text = "Name: " + item.ItemName;
+                _statText.Text += "\nType: " + item.Type;
+                _statText.Text += "\n" + item.Stat + " + " + item.Bonus;
             }
             else
             {
-                _statText.Text = "Name: " + item._name;
-                _statText.Text += "\nType: " + item._type;
-                _statText.Text += "\nIncreases " + item._stat + " by " + item._bonus;
+                _statText.Text = "Name: " + item.ItemName;
+                _statText.Text += "\nType: " + item.Type;
+                _statText.Text += "\nIncreases " + item.Stat + " by " + item.Bonus;
             }
         }
     }

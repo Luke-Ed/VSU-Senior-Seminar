@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Incorpreal;
 
 public class HitTheTarget_Engan : Node
 {
@@ -63,10 +64,10 @@ public class HitTheTarget_Engan : Node
         if (minigamePlaying) {
             numberOfTargets--;
             if (numberOfTargets == 0) {
-                GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+                GlobalPlayer globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
                 rbl.Text += "You cast the spell perfectly and absorb some of the energy back!\n";
-                gp.CurrentPoints += 2;
-                gp.perfectSpell = true;
+                globalPlayer.PlayerCharacter.CurrentSpiritPoints += 2;
+                globalPlayer.perfectSpell = true;
                 targetPage.Visible = false;
                 battlePage.Visible = true;
                 minigamePlaying = false;
