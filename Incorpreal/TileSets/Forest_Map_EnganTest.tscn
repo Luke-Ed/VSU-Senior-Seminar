@@ -74,6 +74,7 @@ tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 collision_layer = 8
+collision_mask = 9
 format = 1
 tile_data = PoolIntArray( 458787, 24, 196608, 524323, 24, 65539, 589859, 24, 65539, 655395, 24, 65539, 720931, 24, 65539, 786467, 24, 65539, 1835038, 24, 1, 1900577, 24, 65539, 1966113, 24, 65539, 2031649, 24, 65539, 2097185, 24, 65539, 2162721, 24, 65539 )
 

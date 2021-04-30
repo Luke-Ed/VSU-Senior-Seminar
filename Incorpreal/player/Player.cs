@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
-<<<<<<< HEAD
     [Export]
     public int moveSpeed = 100;
     public PhysicsBody2D possessee = null;	
@@ -21,21 +20,6 @@ public class Player : KinematicBody2D {
 
     protected Vector2 lastDirection;
     protected String animationToPlay;
-=======
-    [Export]
-    public int moveSpeed = 100;
-    public PhysicsBody2D possessee = null;	
-    public string resPath;	
-    public Map map = new Map();
-    public Area2D hitbox;
-    public Sprite playerSpriteNode;
-    public AnimationPlayer animate;
-    public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
-    public Area2D possessionArea;
-    public Boolean stuck;
-    public GlobalPlayer gp;
-    public String PossesseeName;
->>>>>>> b2cacf8cc6cfe811061ac9d62cd8c88a873ea06e
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
@@ -139,7 +123,7 @@ public class Player : KinematicBody2D {
             }
 
 
-            var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
+            var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
 
             if (collision != null)
             {
