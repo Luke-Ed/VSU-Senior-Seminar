@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public class Player : KinematicBody2D {
+<<<<<<< HEAD
     [Export]
     public int moveSpeed = 100;
     public PhysicsBody2D possessee = null;	
@@ -20,9 +21,24 @@ public class Player : KinematicBody2D {
 
     protected Vector2 lastDirection;
     protected String animationToPlay;
+=======
+    [Export]
+    public int moveSpeed = 100;
+    public PhysicsBody2D possessee = null;	
+    public string resPath;	
+    public Map map = new Map();
+    public Area2D hitbox;
+    public Sprite playerSpriteNode;
+    public AnimationPlayer animate;
+    public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
+    public Area2D possessionArea;
+    public Boolean stuck;
+    public GlobalPlayer gp;
+    public String PossesseeName;
+>>>>>>> b2cacf8cc6cfe811061ac9d62cd8c88a873ea06e
 
-    //For all the methods pertaining to stats, nothing is set in stone
-    //numbers are expected to change as at a later date.
+    //For all the methods pertaining to stats, nothing is set in stone
+    //numbers are expected to change as at a later date.
 
     //Can create two different types of players one with melee stats and the other with ranged.
     //Will be able choose class at the start of the game at a main menu once implemented.
@@ -78,52 +94,52 @@ public class Player : KinematicBody2D {
             lastDirection = new Vector2(0,1); //Keep track of player's last facing direction
     }
 
-    public Boolean attackEnemy()
-    {
-        return gp.AttackEnemy();
-    }
+    public Boolean attackEnemy()
+    {
+        return gp.AttackEnemy();
+    }
 
-    public void castSpell()
-    {
-        gp.castSpell();
-    }
+    public void castSpell()
+    {
+        gp.castSpell();
+    }
 
-    public override void _PhysicsProcess(float delta)
-    {
-        if (Visible)
-        {
-            var motion = new Vector2();
-            //Player will use WASD to move their character
-            motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
-            motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+    public override void _PhysicsProcess(float delta)
+    {
+        if (Visible)
+        {
+            var motion = new Vector2();
+            //Player will use WASD to move their character
+            motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
+            motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
-            MoveAndCollide(motion.Normalized() * moveSpeed * delta);
+            MoveAndCollide(motion.Normalized() * moveSpeed * delta);
 
-            if (!motion.x.Equals(0) || !motion.y.Equals(0))
-            {
-                if (footsteps.Playing == false)
-                {
-                    footsteps.Play();
-                }
-                stuck = false;
-                ChangeState("Walking");
-                if (motion.x > 0)
-                { //If walking right
-                    playerSpriteNode.FlipH = false; //Character faces right
-                }
-                else if (motion.x < 0)
-                { //If walking left
-                    playerSpriteNode.FlipH = true; //Character faces left
-                }
-            }
-            else
-            {
-                footsteps.Stop();
-                ChangeState("Idle");
-            }
+            if (!motion.x.Equals(0) || !motion.y.Equals(0))
+            {
+                if (footsteps.Playing == false)
+                {
+                    footsteps.Play();
+                }
+                stuck = false;
+                ChangeState("Walking");
+                if (motion.x > 0)
+                { //If walking right
+                    playerSpriteNode.FlipH = false; //Character faces right
+                }
+                else if (motion.x < 0)
+                { //If walking left
+                    playerSpriteNode.FlipH = true; //Character faces left
+                }
+            }
+            else
+            {
+                footsteps.Stop();
+                ChangeState("Idle");
+            }
 
 
-            var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
+            var collision = MoveAndCollide(motion.Normalized() * delta * moveSpeed);
 
             if (collision != null)
             {
@@ -268,32 +284,32 @@ public class Player : KinematicBody2D {
 	    }
     }
 
-    public void Possess() {
-        //1. Check if anyone within range
-        Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
-        float closestDistance = 1000;
-        int closestEnemyIndex = 0;
-        Boolean enemyFound = false;
+    public void Possess() {
+        //1. Check if anyone within range
+        Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
+        float closestDistance = 1000;
+        int closestEnemyIndex = 0;
+        Boolean enemyFound = false;
 
-        //2. Find closest enemy
-        for (int x = 0; x < nearby.Count; x++) 
-        { //Iterate them
-            try
-            {
-                PhysicsBody2D currentEnemy = (PhysicsBody2D)nearby[x]; //Grab one
-                if (currentEnemy.GetGroups().Contains("Enemies"))
-                { //Skip bodies not belonging to the Enemies group
-                    float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
-                    if (currentDistance < closestDistance)
-                    { //Check if closer than current closest
-                        closestEnemyIndex = x;
-                        closestDistance = currentDistance;
-                        enemyFound = true;
-                    }
-                }
-            }
-            catch
-            {
+        //2. Find closest enemy
+        for (int x = 0; x < nearby.Count; x++) 
+        { //Iterate them
+            try
+            {
+                PhysicsBody2D currentEnemy = (PhysicsBody2D)nearby[x]; //Grab one
+                if (currentEnemy.GetGroups().Contains("Enemies"))
+                { //Skip bodies not belonging to the Enemies group
+                    float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
+                    if (currentDistance < closestDistance)
+                    { //Check if closer than current closest
+                        closestEnemyIndex = x;
+                        closestDistance = currentDistance;
+                        enemyFound = true;
+                    }
+                }
+            }
+            catch
+            {
 
             }
         }  
@@ -332,23 +348,23 @@ public class Player : KinematicBody2D {
         }
     } 
 
-    //This method returns a Boolean denoting if player movement is possible in any direction
-    public Boolean movementPossible() {
-        Boolean movementPossible = true;
-        if (TestMove(this.Transform, new Vector2(1,0)) && TestMove(this.Transform, new Vector2(-1,0)) && TestMove(this.Transform, new Vector2(0,-1)) && TestMove(this.Transform, new Vector2(0,1))) { //Test all 4 directions
-            movementPossible = false;
-        }
-        return movementPossible;
-    }
+    //This method returns a Boolean denoting if player movement is possible in any direction
+    public Boolean movementPossible() {
+        Boolean movementPossible = true;
+        if (TestMove(this.Transform, new Vector2(1,0)) && TestMove(this.Transform, new Vector2(-1,0)) && TestMove(this.Transform, new Vector2(0,-1)) && TestMove(this.Transform, new Vector2(0,1))) { //Test all 4 directions
+            movementPossible = false;
+        }
+        return movementPossible;
+    }
 
-    //This method allows the player to teleport if they get stuck in a wall or between impassible objects, by clicking where you want to go
-    public void teleport() {
-        if (Input.IsActionJustReleased("left_click")) {
-            Vector2 mousePos = GetViewport().GetMousePosition();
-            this.Position = mousePos;
-            stuck = false;
-        }
-    }
+    //This method allows the player to teleport if they get stuck in a wall or between impassible objects, by clicking where you want to go
+    public void teleport() {
+        if (Input.IsActionJustReleased("left_click")) {
+            Vector2 mousePos = GetViewport().GetMousePosition();
+            this.Position = mousePos;
+            stuck = false;
+        }
+    }
 
     public void _on_Camera_body_entered(Node body)
     {
@@ -365,39 +381,36 @@ public class Player : KinematicBody2D {
             body.Set("_onCamera", false);
         }
     }
-
-    //Still under construction
-    public Godot.Collections.Dictionary<string, object> Save() {
-        string spriteFileName = playerSpriteNode.Texture.ResourcePath;
-        return new Godot.Collections.Dictionary<string, object>() {
-            { "moveSpeed", moveSpeed },
-            { "possessee", possessee },
-            { "resPath", resPath },
-            { "playerSpriteNode.Texture.ResourcePath", spriteFileName },
-            { "stuck", stuck },
-            { "PossesseeName", PossesseeName },
-            { "currentPoints", gp.currentPoints },
-            { "spiritPoints", gp.spiritPoints },
-            { "baseStat", gp.baseStat },
-            { "ExperienceToNextLevel", gp.ExperienceToNextLevel },
-            { "AttackDamage", gp.AttackDamage },
-            { "Level", gp.Level },
-            { "CurrentHealth", gp.CurrentHealth },
-            { "MaxHealth", gp.MaxHealth },
-            { "Experience", gp.Experience },
-            { "Luck", gp.Luck },
-            { "Intelligence", gp.Intelligence },
-            { "Vitality", gp.Vitality },
-            { "Dexterity", gp.Dexterity },
-            { "Strength", gp.Strength }, 
-            { "Filename", this.Filename },
-            { "Parent", GetParent().GetPath() },
-            { "isPossesing", gp.isPossesing },
-            { "PosX", gp.playerLocation.x }, // Vector2 is not supported by JSON
-            { "PosY", gp.playerLocation.y },
-            { "enemyFought", gp.enemyFought },
-            { "hplabel", gp.hplabel.Text },
-            { "currentLevel", GetTree().CurrentScene.Name }
-        };
-    }
+  
+    public Godot.Collections.Dictionary<string, object> Save() {
+        string spriteFileName = playerSpriteNode.Texture.ResourcePath;
+        return new Godot.Collections.Dictionary<string, object>() {
+            { "currentLevel", GetTree().CurrentScene.Name },
+            { "moveSpeed", moveSpeed },
+            { "playerSpriteNode.Texture.ResourcePath", spriteFileName },
+            { "resPath", resPath },
+            { "stuck", stuck },
+            { "PossesseeName", PossesseeName },
+            { "currentPoints", gp.currentPoints },
+            { "spiritPoints", gp.spiritPoints },
+            { "baseStat", gp.baseStat },
+            { "ExperienceToNextLevel", gp.ExperienceToNextLevel },
+            { "AttackDamage", gp.AttackDamage },
+            { "Level", gp.Level },
+            { "CurrentHealth", gp.CurrentHealth },
+            { "MaxHealth", gp.MaxHealth },
+            { "Experience", gp.Experience },
+            { "Luck", gp.Luck },
+            { "Intelligence", gp.Intelligence },
+            { "Vitality", gp.Vitality },
+            { "Dexterity", gp.Dexterity },
+            { "Strength", gp.Strength },
+            { "isPossesing", gp.isPossesing },
+            { "PosX", GlobalPosition.x }, // Vector2 is not supported by JSON
+            { "PosY", GlobalPosition.y },
+            { "enemyFought", gp.enemyFought },
+            { "hplabel", gp.hplabel.Text },
+			{ "facingLeft", playerSpriteNode.FlipH }
+        };
+    }
 }
