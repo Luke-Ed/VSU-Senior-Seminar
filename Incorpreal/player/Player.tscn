@@ -6,7 +6,7 @@
 [ext_resource path="res://assets/PlayerSpriteTest.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 33.7293 )
+extents = Vector2( 13.6365, 15.7956 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4

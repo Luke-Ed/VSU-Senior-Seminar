@@ -155,6 +155,7 @@ public class Bat : KinematicBody2D
         {
             timer.Start();
         }
+        
         else
         {
             this.Position = _startingPos;

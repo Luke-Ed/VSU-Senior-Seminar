@@ -31,6 +31,7 @@ window/size/width=640
 window/size/height=360
 window/size/test_width=1280
 window/size/test_height=720
+window/dpi/allow_hidpi=true
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
@@ -159,6 +160,10 @@ createPotion={
 2d_physics/layer_7="Bullet"
 2d_physics/layer_8="Target"
 
+[physics]
+
+2d/thread_model=2
+
 [rendering]
 
 2d/options/use_nvidia_rect_flicker_workaround=true
@@ -166,7 +171,6 @@ quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 2d/snapping/use_gpu_pixel_snap=true
 threads/thread_model=2
-quality/subsurface_scattering/quality=0
 quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
 quality/2d/use_nvidia_rect_flicker_workaround=true

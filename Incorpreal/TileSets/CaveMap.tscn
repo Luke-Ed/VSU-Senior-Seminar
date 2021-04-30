@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://TileSets/Cave_Clutter.tres" type="TileSet" id=1]
 [ext_resource path="res://TileSets/SlatesTilemap.tres" type="TileSet" id=2]
@@ -10,6 +10,31 @@
 [ext_resource path="res://TileSets/Large_Clutter.tres" type="TileSet" id=8]
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Inventory.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Path2D.cs" type="Script" id=12]
+[ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Enemies/Snake.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Enemies/Skeleton.tscn" type="PackedScene" id=15]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 77.56, 1186.78, 0, 0, 0, 0, 265.105, 1186.12, 0, 0, 0, 0, 263.77, 1038.62, 0, 0, 0, 0, 406.597, 1038.62, 0, 0, 0, 0, 405.793, 1039.53, 0, 0, 0, 0, 263.664, 1039.53, 0, 0, 0, 0, 265.252, 1185.25, 0, 0, 0, 0, 78.7322, 1186.84 )
+}
+
+[sub_resource type="Curve2D" id=2]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 688, 150, 0, 0, 0, 0, 1088.22, 150.566, 0, 0, 0, 0, 1088.58, 286.969, 0, 0, 0, 0, 1089.84, 537.063, 0, 0, 0, 0, 790.612, 537.693, 0, 0, 0, 0, 1089.21, 537.063, 0, 0, 0, 0, 1088.25, 150.328, 0, 0, 0, 0, 687.776, 149.798 )
+}
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -563.643, 233.335, 0, 0, 0, 0, -635.562, 280.532, 0, 0, 0, 0, -544.165, 321.735, 0, 0, 0, 0, -640.057, 347.956, 0, 0, 0, 0, -543.416, 321.735, 0, 0, 0, 0, -635.562, 279.783, 0, 0, 0, 0, -563.643, 234.084 )
+}
+
+[sub_resource type="Curve2D" id=4]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 1249.13, 965.091, 0, 0, 0, 0, 1280.63, 964.74, 0, 0, 0, 0, 1351.58, 965.758, 0, 0, 0, 0, 1352.25, 1045.18, 0, 0, 0, 0, 1250.13, 1044.18, 0, 0, 0, 0, 1249.13, 964.757 )
+}
 
 [node name="Node2D" type="Node2D"]
 
@@ -87,3 +112,62 @@ __meta__ = {
 position = Vector2( 1232, 0 )
 
 [node name="InventoryMenu" parent="." instance=ExtResource( 10 )]
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Bat" type="Path2D" parent="Enemies"]
+position = Vector2( 994.501, -536.537 )
+curve = SubResource( 1 )
+script = ExtResource( 12 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Enemies/Bat"]
+position = Vector2( 77.56, 1186.78 )
+rotation = -0.0035754
+rotate = false
+
+[node name="Bat" parent="Enemies/Bat/PathFollow2D" instance=ExtResource( 11 )]
+position = Vector2( -0.000190735, 0.0527344 )
+
+[node name="Bear" parent="Enemies" instance=ExtResource( 13 )]
+position = Vector2( 2709.57, 1062.12 )
+
+[node name="Bat2" type="Path2D" parent="Enemies"]
+position = Vector2( -814.907, 244.697 )
+curve = SubResource( 2 )
+script = ExtResource( 12 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Enemies/Bat2"]
+position = Vector2( 688, 150 )
+rotation = 0.00141269
+rotate = false
+
+[node name="Bat2" parent="Enemies/Bat2/PathFollow2D" instance=ExtResource( 11 )]
+position = Vector2( 33.8837, -0.249908 )
+
+[node name="Snake" type="Path2D" parent="Enemies"]
+position = Vector2( 480.414, -181.839 )
+curve = SubResource( 3 )
+script = ExtResource( 12 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Enemies/Snake"]
+position = Vector2( -563.643, 233.335 )
+rotation = 2.56085
+rotate = false
+
+[node name="Snake" parent="Enemies/Snake/PathFollow2D" instance=ExtResource( 14 )]
+position = Vector2( 2.79639, 1.83499 )
+rotation = 3.73151
+
+[node name="Skeleton" type="Path2D" parent="Enemies"]
+position = Vector2( 676.192, -659.265 )
+curve = SubResource( 4 )
+script = ExtResource( 12 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Enemies/Skeleton"]
+position = Vector2( 1249.13, 965.091 )
+rotation = 0.00648796
+rotate = false
+
+[node name="Skeleton" parent="Enemies/Skeleton/PathFollow2D" instance=ExtResource( 15 )]
+position = Vector2( -0.561035, 0.0316162 )
+scale = Vector2( 0.504674, 0.473651 )
