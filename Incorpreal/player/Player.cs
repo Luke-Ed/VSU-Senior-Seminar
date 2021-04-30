@@ -16,6 +16,10 @@ public class Player : KinematicBody2D {
     public Boolean stuck;
     public GlobalPlayer gp;
     public String PossesseeName;
+    public AnimatedSprite playerAnimatedNode;
+
+    protected Vector2 lastDirection;
+    protected String animationToPlay;
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
@@ -62,12 +66,16 @@ public class Player : KinematicBody2D {
         }
             animate = GetNode<AnimationPlayer>("AnimationPlayer") as AnimationPlayer;
             playerSpriteNode = (Sprite)GetNode("Sprite/player");
+            playerSpriteNode.Visible = false;
+            playerAnimatedNode = (AnimatedSprite)GetNode("Sprite/AnimPlayer");
+            playerAnimatedNode.Visible = true;
             hitbox = (Area2D)GetNode("findEmptyPosArea2D");
             possessionArea = (Area2D)GetNode("Area2D");
             stuck = false;
             Label hpLabel = (Label)GetNode("Camera2D/HealthLabel");
             gp.hplabel = hpLabel;
             gp.updateHealthLabel(gp.hplabel);
+            lastDirection = new Vector2(0,1); //Keep track of player's last facing direction
     }
 
     public Boolean attackEnemy()
@@ -132,7 +140,63 @@ public class Player : KinematicBody2D {
                     teleport();
                 }
             }
+
+            AnimatesPlayer(motion);
         }        
+    }
+
+    //Function to control Player's animated sprite
+    public void AnimatesPlayer(Vector2 direction) 
+    {
+        if(direction != Vector2.Zero)
+        {
+            //Update last direction
+            lastDirection = direction;
+
+            //Determine which walking animation to play
+            animationToPlay = GetAnimationDirection(lastDirection) + "_Walk";
+
+            playerAnimatedNode.Frames.SetAnimationSpeed(animationToPlay, 2 + 4 * direction.Length());
+
+            playerAnimatedNode.Play(animationToPlay);
+        }
+
+        else
+        {
+            //Determine which idle animation to play
+            animationToPlay = GetAnimationDirection(lastDirection) + "_Idle";
+            playerAnimatedNode.Play(animationToPlay);
+        }
+    }
+
+    public String GetAnimationDirection(Vector2 direction)
+    {
+        var normDirection = direction.Normalized();
+        
+        if(normDirection.y >= 0.707)
+        {
+            return "Down";
+        }
+
+        else if(normDirection.y <= -0.707)
+        {
+            return "Up";
+        }
+
+        else if(normDirection.x <= -0.707)
+        {
+            return "Left";
+        }
+
+        else if(normDirection.x >= 0.707)
+        {
+            return "Right";
+        }
+
+        else
+        {
+            return "Down";
+        }
     }
 	
     //Possession listener
@@ -201,8 +265,8 @@ public class Player : KinematicBody2D {
 	      default: {
 	        break;
 	      }
-	  }
-}
+	    }
+    }
 
     public void Possess() {
         //1. Check if anyone within range
@@ -238,19 +302,23 @@ public class Player : KinematicBody2D {
         if (enemyFound && this.possessee == null) {
             possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
             this.resPath = possessee.Filename; //Grab victim resource path for later
-            Sprite victimSprite = (Sprite) possessee.GetNode("Sprite"); //Grab victim sprite
+            Sprite victimSprite = (Sprite)possessee.GetNode("Sprite"); //Grab victim sprite
             this.SetCollisionMaskBit(2, true); //Make GhostWalls impenetrable while possessing
             if (resPath.Contains("Bat")) {
                 this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
                 this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
             }
             //Possession animation here (optional)
+            playerAnimatedNode.Visible = false;
+            playerSpriteNode.Visible = true;
             playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
             PossesseeName = victimSprite.GetParent().Name;
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
             gp.isPossesing = true;
         } else if (possessee != null) { //Else if already possessing, undo it
             playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/PlayerSpriteSingleTest.png"); //Return player sprite to normal
+            playerSpriteNode.Visible = false;
+            playerAnimatedNode.Visible = true;
             this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
             if (resPath.Contains("Bat")) { //Return from Bat mode
                 this.SetCollisionLayerBit(0, true);

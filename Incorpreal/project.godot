@@ -15,7 +15,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Incorpreal"
-run/main_scene="res://Game_Engan.tscn"
+run/main_scene="res://TileSets/Forest_Map_EnganTest.tscn"
 config/icon="res://icon.png"
 
 [autoload]
@@ -160,17 +160,12 @@ createPotion={
 2d_physics/layer_7="Bullet"
 2d_physics/layer_8="Target"
 
-[physics]
-
-2d/thread_model=2
-
 [rendering]
 
 2d/options/use_nvidia_rect_flicker_workaround=true
 quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 2d/snapping/use_gpu_pixel_snap=true
-threads/thread_model=2
 quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
 quality/2d/use_nvidia_rect_flicker_workaround=true

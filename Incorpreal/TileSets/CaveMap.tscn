@@ -108,11 +108,6 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Player" parent="." instance=ExtResource( 9 )]
-position = Vector2( 1232, 0 )
-
-[node name="InventoryMenu" parent="." instance=ExtResource( 10 )]
-
 [node name="Enemies" type="Node" parent="."]
 
 [node name="Bat" type="Path2D" parent="Enemies"]
@@ -171,3 +166,8 @@ rotate = false
 [node name="Skeleton" parent="Enemies/Skeleton/PathFollow2D" instance=ExtResource( 15 )]
 position = Vector2( -0.561035, 0.0316162 )
 scale = Vector2( 0.504674, 0.473651 )
+
+[node name="InventoryMenu" parent="." instance=ExtResource( 10 )]
+
+[node name="Player" parent="." instance=ExtResource( 9 )]
+position = Vector2( 1232, 0 )
