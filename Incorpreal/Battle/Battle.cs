@@ -208,28 +208,28 @@ namespace Incorpreal.Battle {
       }
     }
 
-    private void _on_Reset_mouse_entered() {
+    public void _on_Reset_mouse_entered() {
       _resetLabel.AddColorOverride("font_color", Colors.DarkRed);
       _resetHovered = true;
     }
 
-    private void _on_Reset_mouse_exited() {
+    public void _on_Reset_mouse_exited() {
       _resetLabel.AddColorOverride("font_color", Colors.White);
       _resetHovered = false;
     }
 
-    private void _on_Quit_gui_input(InputEvent @event) {
+    public void _on_Quit_gui_input(InputEvent @event) {
       if (_quitHovered && @event is InputEventMouseButton && @event.IsPressed()) {
         GetTree().Quit();
       }
     }
 
-    private void _on_Quit_mouse_entered() {
+    public void _on_Quit_mouse_entered() {
       _quitLabel.AddColorOverride("font_color", Colors.DarkRed);
       _quitHovered = true;
     }
 
-    private void _on_Quit_mouse_exited() {
+    public void _on_Quit_mouse_exited() {
       _quitLabel.AddColorOverride("font_color", Colors.White);
       _quitHovered = false;
     }
