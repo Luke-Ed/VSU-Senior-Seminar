@@ -5,7 +5,6 @@
 [ext_resource path="res://player/Player.cs" type="Script" id=7]
 [ext_resource path="res://Map.tscn" type="PackedScene" id=8]
 
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 31.4453, 30.5435 )
 
