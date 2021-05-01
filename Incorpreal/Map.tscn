@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Map.cs" type="Script" id=1]
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://bat/Bat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/ghostwall.png" type="Texture" id=4]
 [ext_resource path="res://assets/wall.png" type="Texture" id=5]
 [ext_resource path="res://assets/lowwall.png" type="Texture" id=6]
