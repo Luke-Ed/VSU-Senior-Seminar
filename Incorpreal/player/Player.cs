@@ -83,7 +83,7 @@ public class Player : KinematicBody2D {
     hitbox = (Area2D)GetNode("findEmptyPosArea2D");
     possessionArea = (Area2D)GetNode("Area2D");
     stuck = false;
-    Label hpLabel = (Label)GetNode("Camera2D").GetNode("CanvasLayer").GetNode("HealthLabel");
+    Label hpLabel = GetNode<Label>("Camera2D/HealthLabel");
     _globalPlayer.hplabel = hpLabel;
     _globalPlayer.updateHealthLabel(_globalPlayer.hplabel);
   }
