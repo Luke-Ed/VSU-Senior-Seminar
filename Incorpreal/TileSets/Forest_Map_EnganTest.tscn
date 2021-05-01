@@ -101,7 +101,6 @@ position = Vector2( -0.000190735, 0.0527344 )
 
 [node name="Bear" parent="Enemies" instance=ExtResource( 7 )]
 position = Vector2( 555.372, 132.024 )
-script = ExtResource( 9 )
 
 [node name="Bat2" type="Path2D" parent="Enemies"]
 curve = SubResource( 2 )
@@ -147,8 +146,13 @@ scale = Vector2( 0.504674, 0.473651 )
 position = Vector2( -254, 1130 )
 
 [editable path="Enemies/Bat/PathFollow2D/Bat"]
+
 [editable path="Enemies/Bear"]
+
 [editable path="Enemies/Bat2/PathFollow2D/Bat2"]
+
 [editable path="Enemies/Snake/PathFollow2D/Snake"]
+
 [editable path="Enemies/Skeleton/PathFollow2D/Skeleton"]
+
 [editable path="Player"]
