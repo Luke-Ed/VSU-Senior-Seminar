@@ -17,7 +17,6 @@ public class Player : KinematicBody2D {
     public GlobalPlayer gp;
     public String PossesseeName;
     public AnimatedSprite playerAnimatedNode;
-
     protected Vector2 lastDirection;
     protected String animationToPlay;
 

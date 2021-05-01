@@ -100,6 +100,9 @@ public class Bat : KinematicBody2D
                 case ("Wolf"):
                     //Need something for wolf
                     break;
+                case ("Necromancer"):
+                    //Need something for big bad
+                    break;
                 default:
                     break;
             }
