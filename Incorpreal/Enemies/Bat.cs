@@ -26,7 +26,7 @@ namespace Incorpreal.Enemies {
         MoveAndCollide(direction * MoveSpeed * delta);
       }
       catch {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
       }
     }
 
