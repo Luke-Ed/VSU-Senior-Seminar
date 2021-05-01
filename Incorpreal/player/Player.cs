@@ -56,6 +56,7 @@ public class Player : KinematicBody2D {
     CurrentHealth = MaxHealth;
     Level = 1;
     ExperienceToNextLevel = 10;
+    StatusEffect = String.Empty;
   }
 
     public override void _Ready() {

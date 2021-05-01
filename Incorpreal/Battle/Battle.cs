@@ -95,7 +95,7 @@ namespace Incorpreal.Battle {
           // If the player's health is low, display the death screen, and after informing them the fight is over.
           _battleSequenceRtl.Text += "You have lost the fight";
           _playerActed = false;
-          GetNode<ColorRect>("DeathScreen").Visible = true;
+          GetNode("DeathScreen").GetNode<Control>("Control").Visible = true;
           _fightOver = true;
         }
 
@@ -106,7 +106,7 @@ namespace Incorpreal.Battle {
           if (_globalPlayer.PlayerCharacter.Experience >= _globalPlayer.PlayerCharacter.ExperienceToNextLevel) {
             GetTree().ChangeScene("res://LevelUp.tscn");
             // Remove player status effect on level up.
-            _globalPlayer.PlayerCharacter.StatusEffect = null;
+            _globalPlayer.PlayerCharacter.StatusEffect = String.Empty;
           }
 
           _fightOver = true;
