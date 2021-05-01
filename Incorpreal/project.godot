@@ -16,7 +16,9 @@ _global_script_class_icons={
 [application]
 
 config/name="Incorpreal"
+
 run/main_scene="res://Game_Engan.tscn"
+
 config/icon="res://icon.png"
 
 [autoload]
@@ -25,6 +27,7 @@ GlobalPlayer="*res://GlobalPlayer.cs"
 GlobalData="*res://GlobalData.tscn"
 TurnQueue="*res://TurnQueue.cs"
 Tq="*res://TQ.tscn"
+SaveLoadGame="*res://SaveLoadGame.cs"
 
 [display]
 

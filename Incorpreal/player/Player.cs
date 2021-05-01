@@ -14,8 +14,9 @@ public class Player : KinematicBody2D {
   public Area2D possessionArea;
   public Boolean stuck;
   private GlobalPlayer _globalPlayer;
-  private string _possessedEnemyId;
+  public string PossessedEnemyId;
   public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
+
 
   //For all the methods pertaining to stats, nothing is set in stone
   //numbers are expected to change as at a later date.
@@ -64,7 +65,7 @@ public class Player : KinematicBody2D {
     AudioStream footstep = (AudioStream)GD.Load(Path);
     footsteps.Stream = footstep;
     footsteps.VolumeDb = (0);
-
+    
     // Load the GlobalPlayer
     _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
     //Eventually a main menu will already have a character made for the player
@@ -102,7 +103,7 @@ public class Player : KinematicBody2D {
       //Player will use WASD to move their character
       motion.x = Input.GetActionStrength("move_right") - Input.GetActionStrength("move_left");
       motion.y = Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
-
+      
       MoveAndCollide(motion.Normalized() * moveSpeed * delta);
 
       if (!motion.x.Equals(0) || !motion.y.Equals(0)){
@@ -204,82 +205,85 @@ public class Player : KinematicBody2D {
       }
     }
   }
+  
 
-  private void Possess() {
-    // 1. Check if anyone within range
-    Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
-    float closestDistance = 1000;
-    int closestEnemyIndex = 0;
-    Boolean enemyFound = false;
+    public void Possess() {
+      //1. Check if anyone within range
+      Godot.Collections.Array nearby = possessionArea.GetOverlappingBodies(); //Check who is nearby
+      float closestDistance = 1000;
+      int closestEnemyIndex = 0;
+      Boolean enemyFound = false;
 
-    // 2. Find closest enemy
-    for (int x = 0; x < nearby.Count; x++) { 
-      // Iterate them
-      try {
-        PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; 
-        // Grab one
-        if (currentEnemy.GetGroups().Contains("Enemies")) { 
-          // Skip bodies not belonging to the Enemies group
-          float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); 
-          // Calculate distance
-          if (currentDistance < closestDistance) { 
-            // Check if closer than current closest
-            closestEnemyIndex = x;
-            closestDistance = currentDistance;
-            enemyFound = true;
+      //2. Find closest enemy
+      for (int x = 0; x < nearby.Count; x++) { //Iterate them
+        try {
+          PhysicsBody2D currentEnemy = (PhysicsBody2D) nearby[x]; //Grab one
+          if (currentEnemy.GetGroups().Contains("Enemies")) { //Skip bodies not belonging to the Enemies group
+            float currentDistance = currentEnemy.GlobalPosition.DistanceTo(this.GlobalPosition); //Calculate distance
+            if (currentDistance < closestDistance) { //Check if closer than current closest
+              closestEnemyIndex = x;
+              closestDistance = currentDistance;
+              enemyFound = true;
+            }
           }
         }
-      }
-      catch {
+        catch {
 
+        }
+      }
+
+      //3. If suitable enemy found & player not already possessing someone, possess that enemy
+      if (enemyFound && _possessedEnemy == null) {
+        _possessedEnemy = (KinematicBody2D) nearby[closestEnemyIndex];
+        //Grab victim
+        resPath = _possessedEnemy.Filename;
+        //Grab victim resource path for later
+        Sprite victimSprite = (Sprite) _possessedEnemy.GetNode("Sprite");
+        //Grab victim sprite
+        SetCollisionMaskBit(2, true);
+        //Make GhostWalls impenetrable while possessing
+        if (resPath.Contains("Bat")) {
+          SetCollisionLayerBit(0, false);
+          //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
+          SetCollisionMaskBit(3, false); //Turn off LowWall collisions
+        }
+
+        //Possession animation here (optional)
+        playerSpriteNode.Texture = victimSprite.Texture;
+        //Copy victim's texture
+        PossessedEnemyId = victimSprite.GetParent().Name;
+        victimSprite.GetParent().QueueFree(); //Make enemy disappear
+        _globalPlayer.isPossesing = true;
+      }
+      else if (_possessedEnemy != null) {
+        //Else if already possessing, undo it
+        playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png");
+        //Return player sprite to normal
+        SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
+        if (resPath.Contains("Bat")) { //Return from Bat mode
+          SetCollisionLayerBit(0, true);
+          SetCollisionMaskBit(3, true);
+        }
+
+        Vector2 newLocation = GlobalPosition;
+        newLocation.x += 80;
+        map.SpawnEnemy(resPath, newLocation, GetTree().CurrentScene, PossessedEnemyId);
+        //Bring original enemy back
+        _possessedEnemy = null;
+        _globalPlayer.isPossesing = false;
       }
     }
-    //3. If suitable enemy found & player not already possessing someone, possess that enemy
-    if (enemyFound && _possessedEnemy == null) {
-      _possessedEnemy = (KinematicBody2D) nearby[closestEnemyIndex]; 
-      //Grab victim
-      resPath = _possessedEnemy.Filename; 
-      //Grab victim resource path for later
-      Sprite victimSprite = (Sprite) _possessedEnemy.GetNode("Sprite"); 
-      //Grab victim sprite
-      SetCollisionMaskBit(2, true); 
-      //Make GhostWalls impenetrable while possessing
-      if (resPath.Contains("Bat")) {
-        SetCollisionLayerBit(0, false); 
-        //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
-        SetCollisionMaskBit(3, false); //Turn off LowWall collisions
-      }
-      //Possession animation here (optional)
-      playerSpriteNode.Texture = victimSprite.Texture; 
-      //Copy victim's texture
-      _possessedEnemyId = victimSprite.GetParent().Name;
-      victimSprite.GetParent().QueueFree(); //Make enemy disappear
-      _globalPlayer.isPossesing = true;
-    } 
-    else if (_possessedEnemy != null) { 
-      //Else if already possessing, undo it
-      playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png");
-      //Return player sprite to normal
-      SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
-      if (resPath.Contains("Bat")) { //Return from Bat mode
-        SetCollisionLayerBit(0, true);
-        SetCollisionMaskBit(3, true);
-      }
-      Vector2 newLocation = GlobalPosition;
-      newLocation.x += 80;
-      map.SpawnEnemy(resPath, newLocation, GetTree().CurrentScene, _possessedEnemyId); 
-      //Bring original enemy back
-      _possessedEnemy = null;
-      _globalPlayer.isPossesing = false;
-    }
-  } 
+        
 
-    //This method returns a Boolean denoting if player movement is possible in any direction
+        //This method returns a Boolean denoting if player movement is possible in any direction
   public Boolean MovementPossible() {
     Boolean movementPossible = true;
-    if (TestMove(Transform, new Vector2(1,0)) && TestMove(Transform, new Vector2(-1,0)) && TestMove(Transform, new Vector2(0,-1)) && TestMove(Transform, new Vector2(0,1))) {     //Test all 4 directions
-      movementPossible = false;
+    if (TestMove(Transform, new Vector2(1, 0)) && TestMove(Transform, new Vector2(-1, 0)) &&
+        TestMove(Transform, new Vector2(0, -1)) &&
+        TestMove(Transform, new Vector2(0, 1))) { //Test all 4 directions
+      movementPossible = false; 
     }
+
     return movementPossible;
   }
 
@@ -293,53 +297,57 @@ public class Player : KinematicBody2D {
   }
 
 
-    public void _on_Camera_body_entered(Node body) {
-      if (body.IsInGroup("Enemies")) {
-        body.Set("_onCamera", true);
-      }
+  public void _on_Camera_body_entered(Node body) {
+    if (body.IsInGroup("Enemies")) {
+      body.Set("_onCamera", true);
     }
+  }
 
-    public void _on_Camera_body_exited(Node body) {
-      if (body.IsInGroup("Enemies")) {
-        body.Set("_onCamera", false);
-      }
+  public void _on_Camera_body_exited(Node body) {
+    if (body.IsInGroup("Enemies")) {
+      body.Set("_onCamera", false);
     }
+  }
 
 
-    //Still under construction
+  //Still under construction
   public Godot.Collections.Dictionary<string, object> Save() {
     string spriteFileName = playerSpriteNode.Texture.ResourcePath;
     return new Godot.Collections.Dictionary<string, object>() {
-      { "moveSpeed", moveSpeed},
-      { "_possessedEnemy", _possessedEnemy},
-      { "resPath", resPath},
-      { "map", map},
-      { "playerSpriteNode", playerSpriteNode},
-      { "stuck", stuck},
-      { "_globalPlayer", _globalPlayer},
-      { "_possessedEnemyId", _possessedEnemyId},
-      { "ExperienceToNextLevel", ExperienceToNextLevel},
-      { "AttackDamage", AttackDamage},
-      { "Level", Level},
-      { "CurrentHealth", CurrentHealth},
-      { "MaxHealth", MaxHealth},
-      { "Experience", Experience},
-      { "Luck", Luck },
-      { "Intelligence", Intelligence },
-      { "Vitality", Vitality },
-      { "Dexterity", Dexterity },
-      { "Strength", Strength },  
-      { "playerSpriteNode.Texture.ResourcePath", spriteFileName },
-      { "CurrentSpiritPoints", CurrentSpiritPoints}, // This needs to be fixed to.
-       { "MaxSpiritPoints", MaxSpiritPoints }, 
-      { "Filename", Filename },
-      { "Parent", GetParent().GetPath() },
-      { "isPossesing", _globalPlayer.isPossesing },
-      { "PosX", _globalPlayer.PlayerLocation.x }, // Vector2 is not supported by JSON
-      { "PosY", _globalPlayer.PlayerLocation.y },
-      { "enemiesFought", _globalPlayer.EnemiesFought },
-      { "hplabel", _globalPlayer.hplabel.Text },
-      { "currentLevel", GetTree().CurrentScene.Name }
+      {"currentLevel", GetTree().CurrentScene.Name},
+      {"moveSpeed", moveSpeed},
+      {"_possessedEnemy", _possessedEnemy},
+      {"resPath", resPath},
+      {"map", map},
+      {"playerSpriteNode", playerSpriteNode},
+      {"stuck", stuck},
+      {"_globalPlayer", _globalPlayer},
+      {"_possessedEnemyId", PossessedEnemyId},
+      {"ExperienceToNextLevel", ExperienceToNextLevel},
+      {"AttackDamage", AttackDamage},
+      {"Level", Level},
+      {"CurrentHealth", CurrentHealth},
+      {"MaxHealth", MaxHealth},
+      {"Experience", Experience},
+      {"Luck", Luck},
+      {"Intelligence", Intelligence},
+      {"Vitality", Vitality},
+      {"Dexterity", Dexterity},
+      {"Strength", Strength},
+      {"playerSpriteNode.Texture.ResourcePath", spriteFileName},
+      {"CurrentSpiritPoints", CurrentSpiritPoints}, // This needs to be fixed to.
+      {"MaxSpiritPoints", MaxSpiritPoints},
+      {"Filename", Filename},
+      {"Parent", GetParent().GetPath()},
+      {"isPossesing", _globalPlayer.isPossesing},
+      {"PosX", _globalPlayer.PlayerLocation.x}, // Vector2 is not supported by JSON
+      {"PosY", _globalPlayer.PlayerLocation.y},
+      {"enemiesFought", _globalPlayer.EnemiesFought},
+      {"hplabel", _globalPlayer.hplabel.Text},
+      {"BaseStat", _globalPlayer.BaseStat},
+      {"facingLeft", playerSpriteNode.FlipH}
     };
   }
 }
+    
+  

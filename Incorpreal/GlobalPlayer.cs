@@ -22,7 +22,7 @@ namespace Incorpreal {
     public Item EquippedArmor { get; set; }
     public Boolean GoodHit { get; set; }
     public Boolean PerfectHit { get; set; }
-    public int BaseStat { get; private set; }
+    public int BaseStat { get; set; }
     
     public void updateHealthLabel(Label l) {
       String text = "Your Health: " + PlayerCharacter.CurrentHealth + "/" + PlayerCharacter.MaxHealth;

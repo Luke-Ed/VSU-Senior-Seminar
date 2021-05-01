@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class TitleScreen : Control
 {
@@ -17,7 +18,7 @@ public class TitleScreen : Control
         StartLabel = (Label)GetNode("StartLabel"); //Grab pause label
         QuitLabel = (Label)GetNode("QuitLabel"); //Grab quit label
         LoadLabel = (Label)GetNode("LoadLabel"); //Grab load label
-        saveLoadGame = new SaveLoadGame();
+        saveLoadGame = (SaveLoadGame)GetNode("/root/SaveLoadGame"); //Connect to SaveLoadGame singleton
     }
 
     public void _on_StartLabel_mouse_entered() {
@@ -62,9 +63,20 @@ public class TitleScreen : Control
         }
     }
 
-    public void _on_LoadLabel_gui_input(InputEvent @event) {
+    async void _on_LoadLabel_gui_input(InputEvent @event) {
         if (LoadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
-            //saveLoadGame.Call("Load"); not added yet
+            var saveFile = new File();
+            if (!saveFile.FileExists("user://savegame.save")) { //If no save file
+                GD.Print("Cannot find a savefile!");
+                return; //Stop loading
+            } else {
+                //Open save file
+                saveFile.Open("user://savegame.save", File.ModeFlags.Read);
+                //Read save file
+                Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
+                GetTree().Paused = false; //Must unpause first or QueueFree() won't work
+                await Task.Run(saveLoadGame.Unload(saveFile, nodeData));
+            }
         }
     }
 }
