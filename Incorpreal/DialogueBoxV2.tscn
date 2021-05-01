@@ -94,5 +94,4 @@ autoplay = "Idle"
 anims/Idle = SubResource( 1 )
 
 [node name="Tween" type="Tween" parent="DialogBox"]
-
 [connection signal="tween_completed" from="DialogBox/Tween" to="." method="onTweenCompleted"]
