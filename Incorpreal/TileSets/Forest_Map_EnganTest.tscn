@@ -100,9 +100,6 @@ rotate = false
 [node name="Bat" parent="Enemies/Bat/PathFollow2D" instance=ExtResource( 5 )]
 position = Vector2( -0.000190735, 0.0527344 )
 
-[node name="Sprite" parent="Enemies/Bat/PathFollow2D/Bat" index="1"]
-visible = false
-
 [node name="Bear" parent="Enemies" instance=ExtResource( 7 )]
 position = Vector2( 555.372, 132.024 )
 
