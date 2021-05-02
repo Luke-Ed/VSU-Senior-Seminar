@@ -139,7 +139,7 @@ public class Bat : KinematicBody2D
         if (body.Name == "Player")
         {
             player = null;
-            if (!_battleStarting) //Checking if when the body is leaving if it is due ot the battle starting it will not start the timer.
+            if (!_battleStarting && !gp.isPossesing) //Checking if when the body is leaving if it is due ot the battle starting it will not start the timer. Had to add "!gp.isPossessing" or it would call timer.start() after the enemy was gone, causing a "Timer not added to tree" error
             {
                 timer.Start();
             }

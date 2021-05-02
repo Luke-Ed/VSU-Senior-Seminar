@@ -111,7 +111,6 @@ public class Pause : Control
                 timer.Connect("timeout", this, "_on_timer_timeout");
                 AddChild(timer, false);
                 timer.Start();
-                timer.QueueFree(); //Prevent memory leak
             }
         }
     }

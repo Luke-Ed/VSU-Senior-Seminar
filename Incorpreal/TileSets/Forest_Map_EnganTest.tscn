@@ -184,7 +184,7 @@ scale = Vector2( 0.504674, 0.473651 )
 [node name="InventoryMenu" parent="." instance=ExtResource( 11 )]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -254, 1130 )
+position = Vector2( 201.508, 186.47 )
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
 pause_mode = 2

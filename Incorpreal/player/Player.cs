@@ -16,6 +16,7 @@ public class Player : KinematicBody2D {
     public Boolean stuck;
     public GlobalPlayer gp;
     public String PossesseeName;
+    public Timer safetyTimer;
 
     //For all the methods pertaining to stats, nothing is set in stone
     //numbers are expected to change as at a later date.
@@ -41,6 +42,9 @@ public class Player : KinematicBody2D {
     public override void _Ready()
     {
         this.AddChild(footsteps);
+        safetyTimer = new Timer();
+        this.AddChild(safetyTimer, false); //Safety timer prevents player from being instantly attacked when exiting possession for the default timer duration
+        safetyTimer.Connect("timeout", this, "_on_possession_timer_timeout");
         const string Path = "res://sounds/footsteps.wav";
         AudioStream footstep = (AudioStream)GD.Load(Path);
         footsteps.Stream = footstep;
@@ -236,6 +240,7 @@ public class Player : KinematicBody2D {
             
         //3. If suitable enemy found & player not already possessing someone, possess that enemy
         if (enemyFound && this.possessee == null) {
+            safetyTimer.Stop(); //Stops signal from being sent at undesireable time when repeatedly possessing
             possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
             this.resPath = possessee.Filename; //Grab victim resource path for later
             Sprite victimSprite = (Sprite) possessee.GetNode("Sprite"); //Grab victim sprite
@@ -244,7 +249,6 @@ public class Player : KinematicBody2D {
                 this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
                 this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
             }
-            //Possession animation here (optional)
             playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
             PossesseeName = victimSprite.GetParent().Name;
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
@@ -259,10 +263,16 @@ public class Player : KinematicBody2D {
             Vector2 newLocation = this.GlobalPosition;
             newLocation.x += 80;
             this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
+            safetyTimer.Start();
             possessee = null;
-            gp.isPossesing = false;
         }
     } 
+
+    public void _on_possession_timer_timeout() {
+        if (possessee == null) { //Prevents issue if quickly reentering possession after exiting
+            gp.isPossesing = false;
+        }
+    }
 
     //This method returns a Boolean denoting if player movement is possible in any direction
     public Boolean movementPossible() {
