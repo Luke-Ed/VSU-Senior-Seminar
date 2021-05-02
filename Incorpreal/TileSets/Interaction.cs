@@ -8,6 +8,7 @@ public class Interaction : CanvasLayer
     //The dialogue box scene for use in code
     PackedScene dialogueBoxes = GD.Load<PackedScene>("res://DialogueBoxV2.tscn");
 
+    //Global player to handle player position
     GlobalPlayer gp;
 
     //CanvasLayer to hold dialogue box
@@ -18,6 +19,7 @@ public class Interaction : CanvasLayer
     //Enum states = {Idle, Looting, Reading, Puzzle, Secret}
     protected String actionState = "off";
 
+    //The Vector2 coordinate of the cave's entrance for spawn
     private Vector2 _cavePos = new Vector2(1232,0);
 
     //The loot areas to be disabled after the chest opens
@@ -55,7 +57,7 @@ public class Interaction : CanvasLayer
             //Respond based on the actionState
             switch(actionState) {
                 case "off":
-                    GD.Print("I got nothing to do here. \n");
+                    //GD.Print("I got nothing to do here. \n");
                     break;
 
                 case "on": 
@@ -87,7 +89,7 @@ public class Interaction : CanvasLayer
                     break;
                 
                 default:
-                    GD.Print("... \n");
+                    //GD.Print("... \n");
                     break;
             }
         }

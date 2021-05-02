@@ -5,7 +5,7 @@ using System;
 
 public class Interactables : TileMap
 {
-    //Load the Area2D scene that represents lootable areas
+    //Load the Area2D scenes that represent interactable areas
     PackedScene loot_area = GD.Load<PackedScene>("res://TileSets/LootArea1.tscn");
     PackedScene sign_area = GD.Load<PackedScene>("res://TileSets/SignArea1.tscn");
     PackedScene grave_area = GD.Load<PackedScene>("res://TileSets/GraveArea1.tscn");
@@ -97,21 +97,5 @@ public class Interactables : TileMap
                 AddChild(forestExitInstance);
             }
         }
-
-        // //Get all nodes under the "LootAreas" Group
-        // //GetTree gets the SceneTree object that the node is in
-        // //GetNodesInGroup retrieves all nodes from a SceneTree that have the supplied group tag
-        // Godot.Collections.Array signalEmitters = GetTree().GetNodesInGroup("LootAreas");
-
-        // //Connect the appropriate signals to each "LootArea"
-        // //Signals are "body_entered" and "body_exited"
-        // foreach (Area2D area in signalEmitters)
-        // {
-        //     area.Connect("body_entered", outConsole, "OnLootAreaEntered");
-        //     area.Connect("body_exited", outConsole, "OnLootAreaExited");
-        //     //Connect(String signal, Node signal_handler, String method_name)
-
-        //     outConsole.AddOpenedLootAreas(area);
-        // }
     }
 }
