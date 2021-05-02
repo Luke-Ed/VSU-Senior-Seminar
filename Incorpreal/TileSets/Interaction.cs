@@ -8,8 +8,7 @@ namespace Incorpreal.TileSets {
     //The dialogue box scene for use in code
     PackedScene dialogueBoxes = GD.Load<PackedScene>("res://DialogueBoxV2.tscn");
 
-    //Test for switching scenes
-    PackedScene caveMapTest = GD.Load<PackedScene>("res://TileSets/CaveMap.tscn");
+    GlobalPlayer gp;
 
     //CanvasLayer to hold dialogue box
     DialogBox diagBox;
@@ -18,6 +17,8 @@ namespace Incorpreal.TileSets {
     //Will likely be replaced by an Enum as code grows more complex
     //Enum states = {Idle, Looting, Reading, Puzzle, Secret}
     protected String actionState = "off";
+
+    private Vector2 _cavePos = new Vector2(1232,0);
 
     //The loot areas to be disabled after the chest opens
     private Godot.Collections.Array<Area2D> _lootAreas = new Godot.Collections.Array<Area2D>();
@@ -46,7 +47,7 @@ namespace Incorpreal.TileSets {
     //Called when the node enters the scene tree for the first time.
     public override void _Ready() {
         _interactiveTilemap = (TileMap)GetNode("../Interactables");
-        //diagBox = dialogueBoxes.Instance() as DialogBox;
+        gp = (GlobalPlayer)GetNode("/root/GlobalData");
     }
 
     public override void _Process(float delta) {
@@ -139,7 +140,8 @@ namespace Incorpreal.TileSets {
     }
 
     public void OnTransitionAreaEntered(Area2D area) {
-        GetTree().ChangeSceneTo(caveMapTest);
+        gp.PlayerLocation = _cavePos;
+        GetTree().ChangeScene("res://TileSets/CaveMap.tscn");
     }
 
     public void OnTransitionAreaExited(Area area) {

@@ -16,6 +16,9 @@ public class Player : KinematicBody2D {
   private GlobalPlayer _globalPlayer;
   public string PossessedEnemyId;
   public AudioStreamPlayer2D footsteps = new AudioStreamPlayer2D();
+  public AnimatedSprite playerAnimatedNode;
+  protected Vector2 lastDirection;
+  protected String animationToPlay;
 
 
   //For all the methods pertaining to stats, nothing is set in stone
@@ -143,6 +146,54 @@ public class Player : KinematicBody2D {
         }
       }
     }        
+  }
+
+  //Function to control Player's animated sprite
+  public void AnimatesPlayer(Vector2 direction) 
+  {
+      if(direction != Vector2.Zero)
+      {
+          //Update last direction
+          lastDirection = direction;
+
+          //Determine which walking animation to play
+          animationToPlay = GetAnimationDirection(lastDirection) + "_Walk";
+
+          playerAnimatedNode.Frames.SetAnimationSpeed(animationToPlay, 2 + 4 * direction.Length());
+
+          playerAnimatedNode.Play(animationToPlay);
+      }
+
+      else
+      {
+          //Determine which idle animation to play
+          animationToPlay = GetAnimationDirection(lastDirection) + "_Idle";
+          playerAnimatedNode.Play(animationToPlay);
+      }
+  }
+
+  public String GetAnimationDirection(Vector2 direction){
+    var normDirection = direction.Normalized();
+    
+    if(normDirection.y >= 0.707){
+      return "Down";
+    }
+
+    else if(normDirection.y <= -0.707){
+      return "Up";
+    }
+
+    else if(normDirection.x <= -0.707){
+      return "Left";
+    }
+
+    else if(normDirection.x >= 0.707){
+      return "Right";
+    }
+
+    else{
+      return "Down";
+    }
   }
   
     //Possession listener

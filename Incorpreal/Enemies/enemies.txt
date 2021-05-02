@@ -16,3 +16,6 @@ Snake
 Wolf
 8
 20
+Necromancer
+5
+100
