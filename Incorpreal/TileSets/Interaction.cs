@@ -139,7 +139,6 @@ public class Interaction : CanvasLayer
     }
 
     public void OnTransitionAreaEntered(Area2D area) {
-        //GetNode<KinematicBody2D>("../Player").Position = _cavePos;
         gp.playerLocation = _cavePos;
         GetTree().ChangeScene("res://TileSets/CaveMap.tscn");
     }
