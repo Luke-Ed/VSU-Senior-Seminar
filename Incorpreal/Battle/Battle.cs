@@ -101,6 +101,7 @@ namespace Incorpreal.Battle {
 
         if (_turnQueue.EnemyCurrentHp <= 0) {
           // If the enemy's helth is low, inform the player that they won.
+          _playerActed = false;
           _battleSequenceRtl.Text += "You have won the fight";
           _globalPlayer.PlayerCharacter.Experience += 10;
           if (_globalPlayer.PlayerCharacter.Experience >= _globalPlayer.PlayerCharacter.ExperienceToNextLevel) {
@@ -108,12 +109,12 @@ namespace Incorpreal.Battle {
             // Remove player status effect on level up.
             _globalPlayer.PlayerCharacter.StatusEffect = String.Empty;
           }
-
-          _fightOver = true;
+          else
+          {
+            _fightOver = true;
+            GetTree().ChangeScene(_globalPlayer.lastScene);
+          }
         }
-      }
-      else {
-        GetTree().ChangeScene(_globalPlayer.lastScene);
       }
     }
 
