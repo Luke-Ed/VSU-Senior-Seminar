@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://TileSets/SlatesTilemap.tres" type="TileSet" id=2]
@@ -8,8 +8,13 @@
 [ext_resource path="res://Path2D.cs" type="Script" id=6]
 [ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Enemies/Snake.tscn" type="PackedScene" id=8]
+[ext_resource path="res://TileSets/SkelSprite2.cs" type="Script" id=9]
 [ext_resource path="res://Enemies/Skeleton.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Inventory.tscn" type="PackedScene" id=11]
+[ext_resource path="res://bat/bat_Sprite.cs" type="Script" id=12]
+[ext_resource path="res://TileSets/SnakSprite2.cs" type="Script" id=13]
+[ext_resource path="res://TileSets/BearSprite.cs" type="Script" id=14]
+[ext_resource path="res://Game.cs" type="Script" id=15]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -32,6 +37,7 @@ _data = {
 }
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource( 15 )
 
 [node name="Interaction_Console" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
@@ -100,8 +106,14 @@ rotate = false
 [node name="Bat" parent="Enemies/Bat/PathFollow2D" instance=ExtResource( 5 )]
 position = Vector2( -0.000190735, 0.0527344 )
 
+[node name="Sprite" parent="Enemies/Bat/PathFollow2D/Bat" index="1"]
+script = ExtResource( 12 )
+
 [node name="Bear" parent="Enemies" instance=ExtResource( 7 )]
 position = Vector2( 555.372, 132.024 )
+
+[node name="Sprite" parent="Enemies/Bear" index="0"]
+script = ExtResource( 14 )
 
 [node name="Bat2" type="Path2D" parent="Enemies"]
 curve = SubResource( 2 )
@@ -114,6 +126,9 @@ rotate = false
 
 [node name="Bat2" parent="Enemies/Bat2/PathFollow2D" instance=ExtResource( 5 )]
 position = Vector2( 33.8837, -0.249908 )
+
+[node name="Sprite" parent="Enemies/Bat2/PathFollow2D/Bat2" index="1"]
+script = ExtResource( 12 )
 
 [node name="Snake" type="Path2D" parent="Enemies"]
 curve = SubResource( 3 )
@@ -128,6 +143,9 @@ rotate = false
 position = Vector2( 2.79639, 1.83499 )
 rotation = 3.73151
 
+[node name="Sprite" parent="Enemies/Snake/PathFollow2D/Snake" index="1"]
+script = ExtResource( 13 )
+
 [node name="Skeleton" type="Path2D" parent="Enemies"]
 curve = SubResource( 4 )
 script = ExtResource( 6 )
@@ -141,14 +159,22 @@ rotate = false
 position = Vector2( -0.561035, 0.0316162 )
 scale = Vector2( 0.504674, 0.473651 )
 
+[node name="Sprite" parent="Enemies/Skeleton/PathFollow2D/Skeleton" index="0"]
+script = ExtResource( 9 )
+
 [node name="InventoryMenu" parent="." instance=ExtResource( 11 )]
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( -254, 1130 )
 
 [editable path="Enemies/Bat/PathFollow2D/Bat"]
+
 [editable path="Enemies/Bear"]
+
 [editable path="Enemies/Bat2/PathFollow2D/Bat2"]
+
 [editable path="Enemies/Snake/PathFollow2D/Snake"]
+
 [editable path="Enemies/Skeleton/PathFollow2D/Skeleton"]
+
 [editable path="Player"]
