@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/wall.png" type="Texture" id=1]
 [ext_resource path="res://assets/ghostwall.png" type="Texture" id=2]
@@ -7,9 +7,11 @@
 [ext_resource path="res://assets/lowwall.png" type="Texture" id=5]
 [ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Game.cs" type="Script" id=7]
+[ext_resource path="res://bat/bat_Sprite.cs" type="Script" id=8]
 [ext_resource path="res://Path2D.cs" type="Script" id=9]
 [ext_resource path="res://Inventory.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Map.cs" type="Script" id=11]
+[ext_resource path="res://TileSets/BearSprite.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 31.919, 32.0566 )
@@ -42,6 +44,9 @@ position = Vector2( -1.12244, 1.12247 )
 
 [node name="Bear" parent="Map" instance=ExtResource( 4 )]
 position = Vector2( 80.6349, 177.649 )
+
+[node name="Sprite" parent="Map/Bear" index="0"]
+script = ExtResource( 12 )
 
 [node name="Low Wall" type="StaticBody2D" parent="Map"]
 position = Vector2( 34, 36 )
@@ -102,6 +107,7 @@ position = Vector2( 2.8284, 0.656891 )
 
 [node name="Sprite" parent="Map/Path2D/PathFollow2D/Bat" index="1"]
 position = Vector2( 0.585762, 3.41428 )
+script = ExtResource( 8 )
 
 [node name="Area2D" parent="Map/Path2D/PathFollow2D/Bat" index="2"]
 position = Vector2( -2.82846, 1.41418 )
