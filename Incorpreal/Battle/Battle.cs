@@ -20,8 +20,11 @@ public class Battle : Node
     public Godot.Timer timer;
     public HitTheTarget_Engan HitTheTarget;
     private TimingGame _timingGame;
-    public AudioStreamPlayer music = new AudioStreamPlayer();
-    AudioStream theme = (AudioStream)GD.Load("res://sounds/Battle.wav");
+    private ColorRect _deathScreen;
+    private Boolean _resetHovered, _quitHovered;
+    private Label _resetLabel, _quitLabel;
+
+
     public Battle()
     {
 
@@ -29,10 +32,6 @@ public class Battle : Node
 
     public override void _Ready()
     {
-        this.AddChild(music);
-        music.VolumeDb = (-20);
-        music.Stream = theme;
-        music.Play();
         s = (Simon)GetNode("SimonGame");
         HitTheTarget = (HitTheTarget_Engan)GetNode("HitTheTarget_Engan");
         battlePage = GetNode<ColorRect>("BattlePage");
@@ -57,6 +56,9 @@ public class Battle : Node
         gp.updateHealthLabel(playerHP);
         updateEnemyHealth();
         _timingGame = (TimingGame)GetNode("TimingGame_Engan");
+        _deathScreen = GetNode("DeathScreen").GetNode("Control").GetNode<ColorRect>("DeathScreen");
+        _resetLabel = (Label)_deathScreen.GetNode("Reset");
+        _quitLabel = (Label)_deathScreen.GetNode("Quit");
     }
 
     public void updateEnemyHealth()
@@ -119,7 +121,8 @@ public class Battle : Node
                 {
                     rtl.Text += "You have lost the fight";
                     playerActed = false;
-                    GetNode<ColorRect>("DeathScreen").Visible = true;
+                    Control _controlNode = (Control)GetNode("DeathScreen").GetNode("Control");
+                    _controlNode.Visible = true;
                     gp.status = null;
                 }
                 else
@@ -211,17 +214,52 @@ public class Battle : Node
         playerActed = true;
     }
 
-    public void _on_Resetbtn_pressed()
+    private void _on_Reset_gui_input(InputEvent @event)
     {
-        gp.playerCharacter = null;
-        gp.playerLocation = new Vector2(324, 179);
-        gp.enemyFought.Clear();
-        gp.createPlayer();
-        GetTree().ChangeScene(gp.lastScene);
+        if (_resetHovered && @event is InputEventMouseButton && @event.IsPressed())
+        {
+            gp.playerCharacter = null;
+            gp.enemyFought.Clear();
+            gp._inventory.Clear();
+            gp._equipedArmor = null;
+            gp._equipedWeapon = null;
+            GetTree().ChangeScene(gp.lastScene);
+        }
     }
 
-    public void _on_Quitbtn_pressed()
+    private void _on_Reset_mouse_entered()
     {
-        GetTree().Quit();
+        _resetLabel.AddColorOverride("font_color", Colors.DarkRed);
+        _resetHovered = true;
     }
+
+    private void _on_Reset_mouse_exited()
+    {
+        _resetLabel.AddColorOverride("font_color", Colors.White);
+        _resetHovered = false;
+    }
+
+    private void _on_Quit_gui_input(InputEvent @event)
+    {
+        if (_quitHovered && @event is InputEventMouseButton && @event.IsPressed())
+        {
+            GetTree().Quit();
+        }
+    }
+
+    private void _on_Quit_mouse_entered()
+    {
+        _quitLabel.AddColorOverride("font_color", Colors.DarkRed);
+        _quitHovered = true;
+    }
+
+    private void _on_Quit_mouse_exited()
+    {
+        _quitLabel.AddColorOverride("font_color", Colors.White);
+        _quitHovered = false;
+    }
+
+
+
+
 }

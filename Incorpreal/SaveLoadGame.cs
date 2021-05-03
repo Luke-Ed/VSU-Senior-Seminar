@@ -14,7 +14,7 @@ public class SaveLoadGame : Node
 
     }
 
-    public void Save(Godot.Collections.Array saveables)
+    public Boolean Save(Godot.Collections.Array saveables)
     {
         var saveFile = new File();
         saveFile.Open("user://savegame.save", File.ModeFlags.Write); //Open file in write mode
@@ -34,54 +34,34 @@ public class SaveLoadGame : Node
             var saveData = saveable.Call("Save");
             saveFile.StoreLine(JSON.Print(saveData));
         }
+
         saveFile.Close();
+        return true;
     }
 
-    public void Load()
-    { //Not nearly finished
-        var saveFile = new File();
+    public void Load(File saveFile, Godot.Collections.Array saveNodes) 
+    {
+        //Get rid of current persistant nodes before loading
+        foreach (Node saveNode in saveNodes) { //Iterate them
 
-        if (!saveFile.FileExists("user://savegame.save"))
-        { //If none found
-            GD.Print("Cannot find a save file in %s", OS.GetUserDataDir());
-            return; //Stop loading
+            saveNode.QueueFree(); //Remove them
         }
-        else
-        {
-            saveFile.Open("user://savegame.save", File.ModeFlags.Read);
-
-            //Get rid of current persistant nodes before loading
-            var saveNodes = GetTree().GetNodesInGroup("persist");
-            foreach (Node saveNode in saveNodes)
-            {
-                saveNode.QueueFree();
-            }
-
-            while (saveFile.GetPosition() < saveFile.GetLen())
-            { //While there is still file left to read
-                var nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
-
-                var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
-                var newObject = (Node)newObjectScene.Instance();
-                GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
-                newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
-
-                /*   foreach(KeyValuePair<string, string> entry in nodeData) {
-                       string key = entry.Key.ToString();
-                       if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
-                           continue;
-                       }
-                       newObject.Set(key, entry.Value);
-                   }
-               }*/
-                saveFile.Close();
-            }
-
+        while (saveFile.GetPosition() < saveFile.GetLen()) { //While there is still file left to read
+            var nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
+            GD.Print(nodeData);
+            //var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
+            //var newObject = (Node)newObjectScene.Instance();
+            //GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
+            //newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
+            
+            //foreach(KeyValuePair<string, object> entry in nodeData) {
+                //string key = entry.Key.ToString();
+                //if (key == "Filename" || key == "Parent" || key == "PosX" || key == "PosY") {
+                  //  continue;
+                //}
+              //  newObject.Set(key, entry.Value);
+            //}
         }
-        //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-        //  public override void _Process(float delta)
-        //  {
-        //      
-        //  }
+        saveFile.Close();
     }
 }

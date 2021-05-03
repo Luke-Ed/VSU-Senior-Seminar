@@ -51,19 +51,19 @@ public class TitleScreen : Control
     }
 
     public void _on_QuitLabel_gui_input(InputEvent @event) {
-        if (QuitEntered && @event is InputEventMouseButton) {
+        if (QuitEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             GetTree().Quit();
         }
     }
 
     public void _on_StartLabel_gui_input(InputEvent @event) {
-        if (StartEntered && @event is InputEventMouseButton) {
-            GetTree().ChangeScene("res://TileSets/Forest_Map_EnganTest.tscn");
+        if (StartEntered && @event is InputEventMouseButton && @event.IsPressed()) {
+            GetTree().ChangeScene("res://Level 1.tscn");
         }
     }
 
     public void _on_LoadLabel_gui_input(InputEvent @event) {
-        if (LoadEntered && @event is InputEventMouseButton) {
+        if (LoadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
             //saveLoadGame.Call("Load"); not added yet
         }
     }
