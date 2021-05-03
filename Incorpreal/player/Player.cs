@@ -234,12 +234,11 @@ public class Player : KinematicBody2D {
             }
             catch
             {
-
             }
         }  
             
         //3. If suitable enemy found & player not already possessing someone, possess that enemy
-        if (enemyFound && this.possessee == null) {
+        if (enemyFound && PossesseeName == null) {
             gp.enemyPossessed = ((Node)nearby[closestEnemyIndex]).Name;
             safetyTimer.Stop(); //Stops signal from being sent at undesireable time when repeatedly possessing
             possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
@@ -254,7 +253,7 @@ public class Player : KinematicBody2D {
             PossesseeName = victimSprite.GetParent().Name;
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
             gp.isPossesing = true;
-        } else if (possessee != null) { //Else if already possessing, undo it
+        } else if (PossesseeName != null) { //Else if already possessing, undo it
             playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/PlayerSpriteSingleTest.png"); //Return player sprite to normal
             this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
             if (resPath.Contains("Bat")) { //Return from Bat mode
@@ -266,6 +265,7 @@ public class Player : KinematicBody2D {
             this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
             safetyTimer.Start();
             possessee = null;
+            PossesseeName = null;
         }
     } 
 

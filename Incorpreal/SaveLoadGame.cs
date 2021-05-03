@@ -73,7 +73,6 @@ public class SaveLoadGame : Node
             player.PossesseeName = (string)nodeData_["PossesseeName"];
             gp.isPossesing = true;
             gp.enemyPossessed = (string)nodeData_["enemyPossessed"];
-            GD.Print(gp.isPossesing + gp.enemyPossessed);
             if (gp.isPossesing && gp.enemyPossessed != null && GetTree().CurrentScene.HasNode("/root/Node2D/Enemies/" + gp.enemyPossessed)) { //Remove the possessed enemy
                 GetNode("/root/Node2D/Enemies/" + (string)nodeData_["enemyPossessed"]).QueueFree();
             }
