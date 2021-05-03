@@ -82,6 +82,7 @@ text = "RESTART LEVEL"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="gui_input" from="Pause/QuitLabel" to="Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="Pause/QuitLabel" to="Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="Pause/QuitLabel" to="Pause" method="_on_QuitLabel_mouse_exited"]

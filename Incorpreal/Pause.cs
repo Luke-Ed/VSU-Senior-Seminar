@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class Pause : Control
 {
@@ -43,8 +44,7 @@ public class Pause : Control
         LoadDialog = (Control)GetNode("LoadDialog"); //Grab load dialog
         ExitButton = (Button)GetNode("LoadDialog/ExitButton"); //Grab load dialog exit button
         LoadGameVBox = (VBoxContainer)GetNode("LoadDialog/LoadGameVBox"); //Grab VBox for selecting load files
-        saveLoadGame = new SaveLoadGame();
-        AddChild(saveLoadGame);
+        saveLoadGame = (SaveLoadGame)GetNode("/root/SaveLoadGame");
     }
 
     public void _on_QuitLabel_mouse_entered() {
@@ -111,6 +111,7 @@ public class Pause : Control
                 timer.Connect("timeout", this, "_on_timer_timeout");
                 AddChild(timer, false);
                 timer.Start();
+                timer.QueueFree(); //Prevent memory leak
             }
         }
     }
@@ -123,35 +124,21 @@ public class Pause : Control
         LoadDialog.Visible = false;
     }
 
-    public void _on_LoadLabel_gui_input(InputEvent @event) {
+    async void _on_LoadLabel_gui_input(InputEvent @event) {
         if (loadEntered && @event is InputEventMouseButton && @event.IsPressed()) {
-
-            LoadDialog.Visible = true;
-            PopulateLoadDialog();
-            //saveLoadGame.Call("Load", selectedFile); not made yet
-            //LoadDialog.Visible = false;
+            LoadDialog.Visible = true;            
+            var saveFile = new File();
+            if (!saveFile.FileExists("user://savegame.save")) { //If no save file
+                GD.Print("Cannot find a savefile!");
+                return; //Stop loading
+            } else {
+                //Open save file
+                saveFile.Open("user://savegame.save", File.ModeFlags.Read);
+                //Read save file
+                Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
+                GetTree().Paused = false; //Must unpause first or QueueFree() won't work
+                await Task.Run(saveLoadGame.Unload(saveFile, nodeData));
+            }
         }
-    }
-
-    public void PopulateLoadDialog() {
-        var saveFile = new File();
-
-        if (!saveFile.FileExists("user://savegame.save")) {
-            GD.Print("Cannot find a savefile!");
-            return; //Stop loading
-        } else {
-            saveFile.Open("user://savegame.save", File.ModeFlags.Read);
-            var saveNodes = GetTree().GetNodesInGroup("persist");
-            saveLoadGame.Load(saveFile, saveNodes);
-        }
-        /*May use later for selecting which save file to load
-        DirectoryInfo dir = new DirectoryInfo(@"user://"); //Access user:// directory
-        FileInfo[] Files = dir.GetFiles(".save"); //Get list of files ending in .save
-        foreach(FileInfo saveFile in Files) { //Iterate them
-            var newOption = (PackedScene)ResourceLoader.Load("res://assets/LoadSelection.tscn");
-            Label optionLabel = (Label)newOption.Instance();
-            LoadGameVBox.AddSpacer(false);
-            LoadGameVBox.AddChild(optionLabel);
-        }*/
     }
 }

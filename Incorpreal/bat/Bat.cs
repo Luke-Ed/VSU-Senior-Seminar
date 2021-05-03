@@ -100,6 +100,9 @@ public class Bat : KinematicBody2D
                 case ("Wolf"):
                     //Need something for wolf
                     break;
+                case ("Necromancer"):
+                    //Need something for big bad
+                    break;
                 default:
                     break;
             }
@@ -121,7 +124,7 @@ public class Bat : KinematicBody2D
         }
     }
 
-    //If player enters the range sets player to the player body and adds the enemy to the group following which
+    //If player enters the range, sets player to the player body and adds the enemy to the group following which
     //makes it stop following the given path and start following the player using _PhysicsProcess method.
     public void _on_Area2D_body_entered(Node body)
     {
@@ -155,6 +158,7 @@ public class Bat : KinematicBody2D
         {
             timer.Start();
         }
+        
         else
         {
             this.Position = _startingPos;
