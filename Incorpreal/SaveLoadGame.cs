@@ -65,13 +65,18 @@ public class SaveLoadGame : Node
             }
         }
 
-
         //Check if the player is possessing someone or not
         if (nodeData_["resPath"] != null) {
             player.resPath = (string)nodeData_["resPath"];
-            player.playerSpriteNode.Texture.ResourcePath = (string)nodeData_["playerSpriteNode.Texture.ResourcePath"];
+            Texture newTexture = (Texture)ResourceLoader.Load((string)nodeData_["playerSpriteNode.Texture.ResourcePath"]);
+            player.playerSpriteNode.Texture = newTexture;
             player.PossesseeName = (string)nodeData_["PossesseeName"];
             gp.isPossesing = true;
+            gp.enemyPossessed = (string)nodeData_["enemyPossessed"];
+            GD.Print(gp.isPossesing + gp.enemyPossessed);
+            if (gp.isPossesing && gp.enemyPossessed != null && GetTree().CurrentScene.HasNode("/root/Node2D/Enemies/" + gp.enemyPossessed)) { //Remove the possessed enemy
+                GetNode("/root/Node2D/Enemies/" + (string)nodeData_["enemyPossessed"]).QueueFree();
+            }
         } else {
             gp.isPossesing = false;
         }
@@ -108,6 +113,13 @@ public class SaveLoadGame : Node
         gp.playerLocation = newPosition;
         player.Position = newPosition;
         player.playerSpriteNode.FlipH = (Boolean)nodeData_["facingLeft"];
+        string[] enemiesFought = ((string)nodeData_["enemyFought"]).Split(",");
+        foreach (string enemy in enemiesFought) { //Remove all enemies already defeated in combat
+            if (GetTree().CurrentScene.HasNode("/root/Node2D/Enemies/" + enemy)) {
+                gp.enemyFought.Add(enemy);
+                GetNode("/root/Node2D/Enemies/" + enemy).QueueFree(); //Level's root node must be named "Node2D" for these to work. Also enemies  must have different names (bat, bat2, etc)
+            }
+        }
         //Label healthLabel = (Label)GetNode("Player/Camera2D/CanvasLayer/HealthLabel");
         //healthLabel.Text = (string)nodeData["hplabel"];
         this.nodeData_ = null;

@@ -240,6 +240,7 @@ public class Player : KinematicBody2D {
             
         //3. If suitable enemy found & player not already possessing someone, possess that enemy
         if (enemyFound && this.possessee == null) {
+            gp.enemyPossessed = ((Node)nearby[closestEnemyIndex]).Name;
             safetyTimer.Stop(); //Stops signal from being sent at undesireable time when repeatedly possessing
             possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
             this.resPath = possessee.Filename; //Grab victim resource path for later
@@ -310,6 +311,10 @@ public class Player : KinematicBody2D {
   
     public Godot.Collections.Dictionary<string, object> Save() {
         string spriteFileName = playerSpriteNode.Texture.ResourcePath;
+        string enemiesFought = "";
+        foreach (string enemyFought in gp.enemyFought) {
+            enemiesFought += enemyFought + ",";
+        }
         return new Godot.Collections.Dictionary<string, object>() {
             { "currentLevel", GetTree().CurrentScene.Filename },
             { "playerPath", ((string)this.GetPath()).Substring(6) },
@@ -335,9 +340,10 @@ public class Player : KinematicBody2D {
             { "isPossesing", gp.isPossesing },
             { "PosX", GlobalPosition.x }, // Vector2 is not supported by JSON
             { "PosY", GlobalPosition.y },
-            { "enemyFought", gp.enemyFought },
+            { "enemyFought", enemiesFought },
             { "hplabel", gp.hplabel.Text },
-			{ "facingLeft", playerSpriteNode.FlipH }
+			{ "facingLeft", playerSpriteNode.FlipH },
+            { "enemyPossessed", gp.enemyPossessed }
         };
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class GlobalPlayer : Node
 {
     public Vector2 playerLocation;
+    public string enemyPossessed;
     public NodePath enemyPath;
     public Player playerCharacter;
     public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
