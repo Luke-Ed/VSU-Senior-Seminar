@@ -45,16 +45,26 @@ public class SaveLoadGame : Node
         string level = (string) nodeData["currentLevel"];
 
         //Load the level
-        GetTree().ChangeScene("res://levels/" + level + ".tscn");
+        GetTree().ChangeScene(level);
 
         saveFile.Close();
-        System.Action loadAction = new System.Action(Load); //Return Load() as the next action to be performed once old nodes are freed
+        System.Action loadAction = new System.Action(Delay); //Return Load() as the next action to be performed once old nodes are freed
         return loadAction;
+    }
+
+    public void Delay() {
+        GD.Print("");
     }
 
     public void Load() {
         //Grab the player node
-        Player player = (Player)GetTree().Root.GetNode("Level 1/Player");
+        Player player = null;
+        foreach (Node node in GetTree().CurrentScene.GetChildren()) {
+            if (node.Name == "Player") {
+                player = (Player)node;
+            }
+        }
+
 
         //Check if the player is possessing someone or not
         if (nodeData_["resPath"] != null) {
@@ -100,11 +110,6 @@ public class SaveLoadGame : Node
         player.playerSpriteNode.FlipH = (Boolean)nodeData_["facingLeft"];
         //Label healthLabel = (Label)GetNode("Player/Camera2D/CanvasLayer/HealthLabel");
         //healthLabel.Text = (string)nodeData["hplabel"];
-
-        //var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
-        //var newObject = (Node)newObjectScene.Instance();
-        //GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
-        //newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
         this.nodeData_ = null;
     }
 }

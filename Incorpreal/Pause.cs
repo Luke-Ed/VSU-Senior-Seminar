@@ -131,12 +131,12 @@ public class Pause : Control
                 GD.Print("Cannot find a savefile!");
                 return; //Stop loading
             } else {
-                //Open save file
-                saveFile.Open("user://savegame.save", File.ModeFlags.Read);
+                saveFile.Open("user://savegame.save", File.ModeFlags.Read); //Open save file
                 //Read save file
-                Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
+                Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result);
                 GetTree().Paused = false; //Must unpause first or QueueFree() won't work
                 await Task.Run(saveLoadGame.Unload(saveFile, nodeData));
+                saveLoadGame.Load();
             }
         }
     }

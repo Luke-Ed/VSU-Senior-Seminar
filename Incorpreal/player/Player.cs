@@ -311,7 +311,8 @@ public class Player : KinematicBody2D {
     public Godot.Collections.Dictionary<string, object> Save() {
         string spriteFileName = playerSpriteNode.Texture.ResourcePath;
         return new Godot.Collections.Dictionary<string, object>() {
-            { "currentLevel", GetTree().CurrentScene.Name },
+            { "currentLevel", GetTree().CurrentScene.Filename },
+            { "playerPath", ((string)this.GetPath()).Substring(6) },
             { "moveSpeed", moveSpeed },
             { "playerSpriteNode.Texture.ResourcePath", spriteFileName },
             { "resPath", resPath },
