@@ -114,7 +114,6 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
-
 [connection signal="gui_input" from="StartLabel" to="." method="_on_StartLabel_gui_input"]
 [connection signal="mouse_entered" from="StartLabel" to="." method="_on_StartLabel_mouse_entered"]
 [connection signal="mouse_exited" from="StartLabel" to="." method="_on_StartLabel_mouse_exited"]
