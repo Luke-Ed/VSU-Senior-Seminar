@@ -41,6 +41,7 @@ public class Player : KinematicBody2D {
 
     public override void _Ready()
     {
+        this.Filename = "Player";
         this.AddChild(footsteps);
         safetyTimer = new Timer();
         this.AddChild(safetyTimer, false); //Safety timer prevents player from being instantly attacked when exiting possession for the default timer duration
