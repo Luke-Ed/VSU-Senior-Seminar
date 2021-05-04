@@ -45,6 +45,23 @@ public class SaveLoadGame : Node
         string level = (string) nodeData["currentLevel"];
 
         //Load the level
+        gp.currentPoints = (int)((float)nodeData_["currentPoints"]);
+        gp.spiritPoints = (int)((float)nodeData_["spiritPoints"]);
+        gp.baseStat = (int)((float)nodeData_["baseStat"]);
+        gp.ExperienceToNextLevel = (int)((float)nodeData_["ExperienceToNextLevel"]);
+        gp.AttackDamage = (int)((float)nodeData_["AttackDamage"]);
+        gp.Level = (int)((float)nodeData_["Level"]);
+        gp.CurrentHealth = (int)((float)nodeData_["CurrentHealth"]);
+        gp.MaxHealth = (int)((float)nodeData_["MaxHealth"]);
+        gp.Experience = (int)((float)nodeData_["Experience"]);
+        gp.Luck = (int)((float)nodeData_["Luck"]);
+        gp.Intelligence = (int)((float)nodeData_["Intelligence"]);
+        gp.Vitality = (int)((float)nodeData_["Vitality"]);
+        gp.Dexterity = (int)((float)nodeData_["Dexterity"]);
+        gp.Strength = (int)((float)nodeData_["Strength"]);
+        Vector2 newPosition = new Vector2((float)nodeData_["PosX"], (float)nodeData_["PosY"]);
+        gp.playerLocation = newPosition;
+        gp.enemyFought.Clear();
         GetTree().ChangeScene(level);
 
         saveFile.Close();
@@ -83,33 +100,18 @@ public class SaveLoadGame : Node
         //Reload all the necessary values
         player.moveSpeed = (int)((float)nodeData_["moveSpeed"]);
         player.stuck = (Boolean)nodeData_["stuck"];
-        gp.currentPoints = (int)((float)nodeData_["currentPoints"]);
-        gp.spiritPoints = (int)((float)nodeData_["spiritPoints"]);
-        gp.baseStat = (int)((float)nodeData_["baseStat"]);
-        gp.ExperienceToNextLevel = (int)((float)nodeData_["ExperienceToNextLevel"]);
         player.ExperienceToNextLevel = gp.ExperienceToNextLevel;
-        gp.AttackDamage = (int)((float)nodeData_["AttackDamage"]);
         player.AttackDamage = gp.AttackDamage;
-        gp.Level = (int)((float)nodeData_["Level"]);
         player.Level = gp.Level;
-        gp.CurrentHealth = (int)((float)nodeData_["CurrentHealth"]);
         player.CurrentHealth = gp.CurrentHealth;
-        gp.MaxHealth = (int)((float)nodeData_["MaxHealth"]);
         player.MaxHealth = gp.MaxHealth;
-        gp.Experience = (int)((float)nodeData_["Experience"]);
         player.Experience = gp.Experience;
-        gp.Luck = (int)((float)nodeData_["Luck"]);
         player.Luck = gp.Luck;
-        gp.Intelligence = (int)((float)nodeData_["Intelligence"]);
         player.Intelligence = gp.Intelligence;
-        gp.Vitality = (int)((float)nodeData_["Vitality"]);
         player.Vitality = gp.Vitality;
-        gp.Dexterity = (int)((float)nodeData_["Dexterity"]);
         player.Dexterity = gp.Dexterity;
-        gp.Strength = (int)((float)nodeData_["Strength"]);
         player.Strength = gp.Strength;
         Vector2 newPosition = new Vector2((float)nodeData_["PosX"], (float)nodeData_["PosY"]);
-        gp.playerLocation = newPosition;
         player.Position = newPosition;
         player.playerSpriteNode.FlipH = (Boolean)nodeData_["facingLeft"];
         string[] enemiesFought = ((string)nodeData_["enemyFought"]).Split(",");

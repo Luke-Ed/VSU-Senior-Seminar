@@ -187,7 +187,7 @@ scale = Vector2( 0.504674, 0.473651 )
 [node name="Player" parent="." groups=[
 "persist",
 ] instance=ExtResource( 1 )]
-position = Vector2( 201.508, 186.47 )
+position = Vector2( 1092, 431.47 )
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
 pause_mode = 2
