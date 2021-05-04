@@ -44,7 +44,34 @@ public class SaveLoadGame : Node
         //Check which level its in
         string level = (string) nodeData["currentLevel"];
 
-        //Load the level
+        //Clear old global values
+        gp.enemyFought.Clear();
+        gp._inventory.Clear();
+        gp._equipedArmor = null;
+        gp._equipedArmor = null;
+
+        //Load global values
+        string equippedArmor = (string)nodeData_["equipedArmor"];
+        string[] equippedArmorData = equippedArmor.Split(",");
+        Item equippedArmorItem = new Item();
+        equippedArmorItem.giveProperties(equippedArmorData[0], equippedArmorData[1], equippedArmorData[2], Int16.Parse(equippedArmorData[3]));
+        equippedArmorItem._spritePath = equippedArmorData[4];
+        gp._equipedArmor = equippedArmorItem;
+        string equippedWeapon = (string)nodeData_["equipedWeapon"];
+        string[] equippedWeaponData = equippedWeapon.Split(",");
+        Item equippedWeaponItem = new Item();
+        equippedWeaponItem.giveProperties(equippedWeaponData[0], equippedWeaponData[1], equippedWeaponData[2], Int16.Parse(equippedWeaponData[3]));
+        equippedWeaponItem._spritePath = equippedWeaponData[4];
+        gp._equipedWeapon = equippedWeaponItem;
+        string inventory = (string)nodeData_["inventory"];
+        string[] inventoryItems = inventory.Split("|");
+        foreach(string item in inventoryItems) {
+            string[] itemData = item.Split(",");
+            Item newItem = new Item();
+            newItem.giveProperties(itemData[0], itemData[1], itemData[2], Int16.Parse(itemData[3]));
+            newItem._spritePath = itemData[4];
+            gp._inventory.Add(newItem);
+        }
         gp.currentPoints = (int)((float)nodeData_["currentPoints"]);
         gp.spiritPoints = (int)((float)nodeData_["spiritPoints"]);
         gp.baseStat = (int)((float)nodeData_["baseStat"]);
@@ -61,7 +88,8 @@ public class SaveLoadGame : Node
         gp.Strength = (int)((float)nodeData_["Strength"]);
         Vector2 newPosition = new Vector2((float)nodeData_["PosX"], (float)nodeData_["PosY"]);
         gp.playerLocation = newPosition;
-        gp.enemyFought.Clear();
+
+        //Load the level
         GetTree().ChangeScene(level);
 
         saveFile.Close();

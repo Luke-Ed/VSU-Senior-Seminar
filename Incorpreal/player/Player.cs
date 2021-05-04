@@ -227,7 +227,7 @@ public class Player : KinematicBody2D {
             }
             else
             {
-                item.giveProperties("Bow", "Weapon", "Dexterity", 10);
+                item.giveProperties("Bow", "Armor", "Dexterity", 10);
                 item.changePicture("res://assets/Bow.png");
             }
             //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
@@ -380,8 +380,20 @@ public class Player : KinematicBody2D {
     public Godot.Collections.Dictionary<string, object> Save() {
         string spriteFileName = playerSpriteNode.Texture.ResourcePath;
         string enemiesFought = "";
-        foreach (string enemyFought in gp.enemyFought) {
+        string inventory = "";
+        string equipedWeapon = "";
+        string equipedArmor = "";
+        if (gp._equipedWeapon != null) {
+            equipedWeapon = gp._equipedWeapon._name + "," + gp._equipedWeapon._type + "," + gp._equipedWeapon._stat + "," + gp._equipedWeapon._bonus + "," + gp._equipedWeapon._spritePath.ToString();
+        }
+        if (gp._equipedArmor != null) {
+            equipedArmor = gp._equipedArmor._name + "," + gp._equipedArmor._type + "," + gp._equipedArmor._stat + "," + gp._equipedArmor._bonus + "," + gp._equipedArmor._spritePath.ToString();
+        }
+        foreach (string enemyFought in gp.enemyFought) { //Extract enemyFought into string form (JSON doesn't play well with List<T> objects)
             enemiesFought += enemyFought + ",";
+        }
+        foreach (Item item in gp._inventory) {
+            inventory += item._name + "," + item._type + "," + item._stat + "," + item._bonus + "," + item._spritePath.ToString() + "|";
         }
         return new Godot.Collections.Dictionary<string, object>() {
             { "currentLevel", GetTree().CurrentScene.Filename },
@@ -411,7 +423,10 @@ public class Player : KinematicBody2D {
             { "enemyFought", enemiesFought },
             { "hplabel", gp.hplabel.Text },
 			{ "facingLeft", playerSpriteNode.FlipH },
-            { "enemyPossessed", gp.enemyPossessed }
+            { "enemyPossessed", gp.enemyPossessed },
+            { "inventory", inventory },
+            { "equipedWeapon", equipedWeapon },
+            { "equipedArmor", equipedArmor }
         };
     }
 }
