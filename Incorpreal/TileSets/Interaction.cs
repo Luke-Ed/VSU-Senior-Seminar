@@ -57,7 +57,7 @@ public class Interaction : CanvasLayer
             //Respond based on the actionState
             switch(actionState) {
                 case "off":
-                    //GD.Print("I got nothing to do here. \n");
+                    GD.Print("I got nothing to do here. \n");
                     break;
 
                 case "on": 
@@ -89,7 +89,7 @@ public class Interaction : CanvasLayer
                     break;
                 
                 default:
-                    //GD.Print("... \n");
+                    GD.Print("... \n");
                     break;
             }
         }
