@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class Interaction : CanvasLayer
 {
@@ -147,5 +148,13 @@ public class Interaction : CanvasLayer
 
     public void OnTransitionAreaExited(Area area) {
         actionState = "off";
+    }
+
+    public async void OnEndAreaEntered(Area area) {
+        diagBox = dialogueBoxes.Instance() as DialogBox;
+        diagBox.DialogPath = "res://Dialogues/End.txt";
+        GetTree().Root.GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
+        await Task.Delay(10000);
+        GetTree().Quit();
     }
 }

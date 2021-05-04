@@ -10,6 +10,7 @@ public class Interactables : TileMap
     PackedScene sign_area = GD.Load<PackedScene>("res://TileSets/SignArea1.tscn");
     PackedScene grave_area = GD.Load<PackedScene>("res://TileSets/GraveArea1.tscn");
     PackedScene exit_area = GD.Load<PackedScene>("res://TileSets/TransitionArea1.tscn");
+    PackedScene end_area = GD.Load<PackedScene>("res://TileSets/GameEndArea.tscn");
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -32,12 +33,15 @@ public class Interactables : TileMap
         //Vector2 to represent the ForestExit
         Vector2 forestLevelEnd = new Vector2(0, 0);
 
+        //Vector2 to represent the game's end
+        Vector2 gameEndSpot = new Vector2(3, 3);
+
         //Return an array of all cells (array of objects) with the given tile id
         Godot.Collections.Array chestsOnMap = GetUsedCellsById(22);
         Godot.Collections.Array signsOnMap = GetUsedCellsById(21);
         Godot.Collections.Array gravesOnMap = GetUsedCellsById(23);
         Godot.Collections.Array forestExits = GetUsedCellsById(37);
-        //Godot.Collections.Array caveExits = GetUsedCellsById();
+        Godot.Collections.Array gameExits = GetUsedCellsById(4);
 
         //Loop through the above array to check if the chest is using the 'Closed' chest textures
         foreach (Vector2 currentTile in chestsOnMap)
@@ -95,6 +99,18 @@ public class Interactables : TileMap
                 forestExitInstance.Connect("body_entered", outConsole, "OnTransitionAreaEntered");
                 forestExitInstance.Connect("body_exited", outConsole, "OnTransitionAreaExited");
                 AddChild(forestExitInstance);
+            }
+        }
+
+        foreach (Vector2 currentTile in gameExits)
+        {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(gameEndSpot))
+            {
+                Area2D endAreaInstance = (Area2D)end_area.Instance();
+                endAreaInstance.Position = MapToWorld(currentTile);
+                endAreaInstance.Connect("body_entered", outConsole, "OnEndAreaEntered");
+                endAreaInstance.Connect("body_exited", outConsole, "OnLootAreaExited");
+                AddChild(endAreaInstance);
             }
         }
     }
