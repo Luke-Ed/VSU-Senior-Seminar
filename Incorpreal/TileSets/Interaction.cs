@@ -143,6 +143,7 @@ public class Interaction : CanvasLayer
 
     public void OnTransitionAreaEntered(Area2D area) {
         gp.playerLocation = _cavePos;
+        gp.enemyFought.Clear();
         GetTree().ChangeScene("res://TileSets/CaveMap.tscn");
     }
 
