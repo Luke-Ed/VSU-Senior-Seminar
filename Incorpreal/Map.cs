@@ -18,7 +18,7 @@ public class Map : Node2D
         currentScene - The scene which SpawnEnemy() was called from. Can be accessed like this: GetTree().CurrentScene
     */
     public void SpawnEnemy(string resPath, Vector2 position, Node currentScene, String oldName) {
-        PackedScene enemyScene = (PackedScene) ResourceLoader.Load(resPath); //Load resource
+        PackedScene enemyScene = (PackedScene)ResourceLoader.Load(resPath); //Load resource
         KinematicBody2D enemy = (KinematicBody2D)enemyScene.Instance(); //Instantiate
         currentScene.AddChild(enemy); //Add to scene
         enemy.Name = oldName;
