@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://TileSets/Cave_Clutter.tres" type="TileSet" id=1]
 [ext_resource path="res://TileSets/SlatesTilemap.tres" type="TileSet" id=2]
@@ -15,9 +15,8 @@
 [ext_resource path="res://Enemies/Bear.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Enemies/Snake.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Enemies/Skeleton.tscn" type="PackedScene" id=15]
-[ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=16]
+[ext_resource path="res://Enemies/Necromancer.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Pause.cs" type="Script" id=17]
-[ext_resource path="res://assets/pauseghost.png" type="Texture" id=18]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -43,19 +42,16 @@ _data = {
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=6]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/mrsmonster.ttf"
@@ -145,7 +141,7 @@ cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( -11, 36, 2, -7, 36, 2, -2, 36, 2, -65533, 36, 2, -65528, 36, 2, -65523, 36, 1, -65521, 36, 0, -65517, 36, 2, -65512, 36, 2, -65507, 36, 2, -65502, 36, 0, -65494, 36, 1, -65489, 36, 2, -65485, 36, 2, -65483, 36, 0, -65480, 36, 1, -65475, 36, 2, -65470, 36, 2, -65465, 36, 2, -65460, 36, 2, -65455, 36, 2, -65450, 36, 2, -65445, 36, 2, -65438, 36, 2, 655356, 36, 2, 589825, 36, 2, 589830, 36, 2, 589835, 36, 2, 1572882, 36, 2, 1572900, 36, 2, 1572918, 36, 2, 1572923, 36, 2, 1572939, 36, 2, 1572943, 36, 2, 1572948, 36, 2, 1572958, 36, 2, 1572962, 36, 2, 1638493, 22, 1 )
+tile_data = PoolIntArray( -11, 36, 2, -7, 36, 2, -2, 36, 2, -65533, 36, 2, -65528, 36, 2, -65523, 36, 1, -65521, 36, 0, -65517, 36, 2, -65512, 36, 2, -65507, 36, 2, -65502, 36, 0, -65494, 36, 1, -65489, 36, 2, -65485, 36, 2, -65483, 36, 0, -65480, 36, 1, -65475, 36, 2, -65470, 36, 2, -65465, 36, 2, -65460, 36, 2, -65455, 36, 2, -65450, 36, 2, -65445, 36, 2, -65438, 36, 2, 655356, 36, 2, 589825, 36, 2, 589830, 36, 2, 589835, 36, 2, 1572882, 36, 2, 1572900, 36, 2, 1572918, 36, 2, 1572923, 36, 2, 1572939, 36, 2, 1572943, 36, 2, 1572948, 36, 2, 1572958, 36, 2, 1572962, 36, 2, 1638493, 22, 1, 2555993, 4, 196611 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true
@@ -167,7 +163,7 @@ rotate = false
 position = Vector2( -0.000190735, 0.0527344 )
 
 [node name="Bear" parent="Enemies" instance=ExtResource( 13 )]
-position = Vector2( 2709.57, 1062.12 )
+position = Vector2( 2299.48, 640.878 )
 
 [node name="Bat2" type="Path2D" parent="Enemies"]
 position = Vector2( -814.907, 244.697 )
@@ -209,6 +205,9 @@ rotate = false
 [node name="Skeleton" parent="Enemies/Skeleton/PathFollow2D" instance=ExtResource( 15 )]
 position = Vector2( -0.561035, 0.0316162 )
 scale = Vector2( 0.504674, 0.473651 )
+
+[node name="Necromancer" parent="Enemies" instance=ExtResource( 16 )]
+position = Vector2( 2880, 1100 )
 
 [node name="InventoryMenu" parent="." instance=ExtResource( 10 )]
 
@@ -270,7 +269,6 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="PauseMenu/Pause"]
 position = Vector2( 138.553, 245.084 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 18 )
 
 [node name="RestartLabel" type="Label" parent="PauseMenu/Pause"]
 margin_left = 166.251
@@ -373,6 +371,7 @@ margin_bottom = 287.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]

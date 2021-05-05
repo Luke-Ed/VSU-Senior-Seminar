@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public class Interaction : CanvasLayer
 {
@@ -8,6 +9,7 @@ public class Interaction : CanvasLayer
     //The dialogue box scene for use in code
     PackedScene dialogueBoxes = GD.Load<PackedScene>("res://DialogueBoxV2.tscn");
 
+    //Global player to handle player position
     GlobalPlayer gp;
 
     //CanvasLayer to hold dialogue box
@@ -16,8 +18,9 @@ public class Interaction : CanvasLayer
     //Our "state" for player interaction with map objects,
     //Will likely be replaced by an Enum as code grows more complex
     //Enum states = {Idle, Looting, Reading, Puzzle, Secret}
-    protected String actionState = "off";
+    private String actionState = "off";
 
+    //The Vector2 coordinate of the cave's entrance for spawn
     private Vector2 _cavePos = new Vector2(1232,0);
 
     //The loot areas to be disabled after the chest opens
@@ -48,6 +51,7 @@ public class Interaction : CanvasLayer
     public override void _Ready() {
         _interactiveTilemap = (TileMap)GetNode("../Interactables");
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        actionState = "off";
     }
 
     public override void _Process(float delta) {
@@ -60,6 +64,36 @@ public class Interaction : CanvasLayer
 
                 case "on": 
                     //Add some function or load a scene/panel for gold, etc.
+
+                    //Creating a scene of the item node.
+                    Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+                    PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+                    Item item = (Item)ItemScene.Instance();
+                    if(gp._numOpenedChests == 0) 
+                    {
+                        item.giveProperties("Sword", "Weapon", "Strength", 10);
+                        item.changePicture("res://assets/Sword-32px.png");
+                        gp._numOpenedChests += 1;
+                    }
+
+                    else if(gp._numOpenedChests == 1)
+                    {
+                        item.giveProperties("Armor", "Armor", "Vitality", 10);
+                        item.changePicture("res://assets/Armor-32px.png");
+                        gp._numOpenedChests += 1;
+                    }
+
+                    else 
+                    {
+                        item.giveProperties("Health Potion", "Consumable", "Health", 10);
+                        item.changePicture("res://assets/HealthPotion32px.png");
+                    }
+
+                    //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
+                    gp._inventory.Add(item);
+                    //Putting the item into an inventory slot.
+                    inventory.Call("fillSlot", item);
+
                     diagBox = dialogueBoxes.Instance() as DialogBox;
                     diagBox.DialogPath = "res://Dialogues/Chest.txt";
                     GetTree().Root.GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
@@ -126,24 +160,25 @@ public class Interaction : CanvasLayer
         actionState = "sign";
     }
 
-    public void OnSignAreaExited(Area2D area) {
-        actionState = "off";
-    }
-
     public void OnGraveAreaEntered(Area2D area) {
         actionState = "grave";
     }
 
-    public void OnGraveAreaExited(Area2D area) {
-        actionState = "off";
-    }
-
     public void OnTransitionAreaEntered(Area2D area) {
         gp.playerLocation = _cavePos;
+        gp.enemyFought.Clear();
         GetTree().ChangeScene("res://TileSets/CaveMap.tscn");
     }
 
     public void OnTransitionAreaExited(Area area) {
         actionState = "off";
+    }
+
+    public async void OnEndAreaEntered(Area area) {
+        diagBox = dialogueBoxes.Instance() as DialogBox;
+        diagBox.DialogPath = "res://Dialogues/End.txt";
+        GetTree().Root.GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);
+        await Task.Delay(10000);
+        GetTree().Quit();
     }
 }

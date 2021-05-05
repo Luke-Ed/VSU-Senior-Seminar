@@ -5,11 +5,12 @@ using System;
 
 public class Interactables : TileMap
 {
-    //Load the Area2D scene that represents lootable areas
+    //Load the Area2D scenes that represent interactable areas
     PackedScene loot_area = GD.Load<PackedScene>("res://TileSets/LootArea1.tscn");
     PackedScene sign_area = GD.Load<PackedScene>("res://TileSets/SignArea1.tscn");
     PackedScene grave_area = GD.Load<PackedScene>("res://TileSets/GraveArea1.tscn");
     PackedScene exit_area = GD.Load<PackedScene>("res://TileSets/TransitionArea1.tscn");
+    PackedScene end_area = GD.Load<PackedScene>("res://TileSets/GameEndArea.tscn");
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -32,12 +33,15 @@ public class Interactables : TileMap
         //Vector2 to represent the ForestExit
         Vector2 forestLevelEnd = new Vector2(0, 0);
 
+        //Vector2 to represent the game's end
+        Vector2 gameEndSpot = new Vector2(3, 3);
+
         //Return an array of all cells (array of objects) with the given tile id
         Godot.Collections.Array chestsOnMap = GetUsedCellsById(22);
         Godot.Collections.Array signsOnMap = GetUsedCellsById(21);
         Godot.Collections.Array gravesOnMap = GetUsedCellsById(23);
         Godot.Collections.Array forestExits = GetUsedCellsById(37);
-        //Godot.Collections.Array caveExits = GetUsedCellsById();
+        Godot.Collections.Array gameExits = GetUsedCellsById(4);
 
         //Loop through the above array to check if the chest is using the 'Closed' chest textures
         foreach (Vector2 currentTile in chestsOnMap)
@@ -69,7 +73,7 @@ public class Interactables : TileMap
                 Area2D signAreaInstance = (Area2D)sign_area.Instance();
                 signAreaInstance.Position = MapToWorld(currentTile);
                 signAreaInstance.Connect("body_entered", outConsole, "OnSignAreaEntered");
-                signAreaInstance.Connect("body_exited", outConsole, "OnSignAreaExited");
+                signAreaInstance.Connect("body_exited", outConsole, "OnLootAreaExited");
                 AddChild(signAreaInstance);
             }
         }
@@ -81,7 +85,7 @@ public class Interactables : TileMap
                 Area2D graveAreaInstance = (Area2D)grave_area.Instance();
                 graveAreaInstance.Position = MapToWorld(currentTile);
                 graveAreaInstance.Connect("body_entered", outConsole, "OnGraveAreaEntered");
-                graveAreaInstance.Connect("body_exited", outConsole, "OnGraveAreaExited");
+                graveAreaInstance.Connect("body_exited", outConsole, "OnLootAreaExited");
                 AddChild(graveAreaInstance);
             }
         }
@@ -98,20 +102,16 @@ public class Interactables : TileMap
             }
         }
 
-        // //Get all nodes under the "LootAreas" Group
-        // //GetTree gets the SceneTree object that the node is in
-        // //GetNodesInGroup retrieves all nodes from a SceneTree that have the supplied group tag
-        // Godot.Collections.Array signalEmitters = GetTree().GetNodesInGroup("LootAreas");
-
-        // //Connect the appropriate signals to each "LootArea"
-        // //Signals are "body_entered" and "body_exited"
-        // foreach (Area2D area in signalEmitters)
-        // {
-        //     area.Connect("body_entered", outConsole, "OnLootAreaEntered");
-        //     area.Connect("body_exited", outConsole, "OnLootAreaExited");
-        //     //Connect(String signal, Node signal_handler, String method_name)
-
-        //     outConsole.AddOpenedLootAreas(area);
-        // }
+        foreach (Vector2 currentTile in gameExits)
+        {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(gameEndSpot))
+            {
+                Area2D endAreaInstance = (Area2D)end_area.Instance();
+                endAreaInstance.Position = MapToWorld(currentTile);
+                endAreaInstance.Connect("body_entered", outConsole, "OnEndAreaEntered");
+                endAreaInstance.Connect("body_exited", outConsole, "OnLootAreaExited");
+                AddChild(endAreaInstance);
+            }
+        }
     }
 }

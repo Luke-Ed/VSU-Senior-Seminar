@@ -86,7 +86,7 @@ cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( 131089, 37, 0, 131090, 21, 65539, 655349, 21, 65539, 589842, 21, 131073, 983064, 21, 131073, 1441783, 21, 131073, 1376259, 22, 0, 1900589, 22, 0, 2031625, 21, 131073, 2031656, 23, 0, 2359285, 23, 0, 2359290, 23, 0 )
+tile_data = PoolIntArray( 131089, 37, 0, 131090, 21, 65539, 655349, 21, 65539, 589842, 21, 131073, 983064, 21, 131073, 1441783, 21, 131073, 1376259, 22, 0, 1900589, 22, 0, 2031625, 21, 131073, 2031656, 23, 0 )
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true
@@ -280,6 +280,7 @@ margin_bottom = 287.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]

@@ -47,6 +47,7 @@ public class DialogBox : CanvasLayer
         _textBox = (RichTextLabel)GetNode("DialogBox/TextBox");
         _textAnimator = (Tween)GetNode("DialogBox/Tween");
         _nextIndicator = (Sprite)GetNode("DialogBox/Next-Indicator");
+        GetTree().Paused = true;
         LoadDialogue();
     }
 
@@ -63,6 +64,7 @@ public class DialogBox : CanvasLayer
         }
 
         else {
+            GetTree().Paused = false;
             QueueFree();
         }
 
