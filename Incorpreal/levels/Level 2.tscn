@@ -6,43 +6,43 @@
 [ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://assets/pauseghost.png" type="Texture" id=5]
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=1]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=2]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=3]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFontData" id=13]
+[sub_resource type="DynamicFontData" id=4]
 font_path = "res://assets/mrsmonster.ttf"
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=5]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 13 )
+font_data = SubResource( 4 )
 
-[sub_resource type="DynamicFontData" id=15]
+[sub_resource type="DynamicFontData" id=6]
 font_path = "res://assets/mrsmonster.ttf"
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=7]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 15 )
+font_data = SubResource( 6 )
 
-[sub_resource type="Theme" id=17]
+[sub_resource type="Theme" id=8]
 
 [node name="Level 2" type="Node"]
 script = ExtResource( 2 )
@@ -80,7 +80,7 @@ margin_left = 231.896
 margin_top = 38.033
 margin_right = 400.896
 margin_bottom = 94.033
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 0.670588 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "PAUSED"
@@ -94,7 +94,7 @@ margin_top = 276.132
 margin_right = 367.387
 margin_bottom = 332.132
 mouse_filter = 0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "QUIT"
@@ -113,7 +113,7 @@ margin_top = 226.397
 margin_right = 479.251
 margin_bottom = 282.397
 mouse_filter = 0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "RESTART LEVEL"
@@ -127,7 +127,7 @@ margin_top = 127.307
 margin_right = 369.548
 margin_bottom = 183.307
 mouse_filter = 0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "SAVE"
@@ -138,7 +138,7 @@ margin_top = 176.0
 margin_right = 374.0
 margin_bottom = 232.0
 mouse_filter = 0
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "LOAD"
@@ -173,7 +173,7 @@ margin_left = -170.0
 margin_top = -137.5
 margin_right = 170.0
 margin_bottom = 153.5
-theme = SubResource( 17 )
+theme = SubResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
