@@ -16,6 +16,7 @@ public class Player : KinematicBody2D {
     public Boolean stuck;
     public GlobalPlayer gp;
     public String PossesseeName;
+    public Timer safetyTimer;
     public AnimatedSprite playerAnimatedNode;
     protected Vector2 lastDirection;
     protected String animationToPlay;
@@ -43,7 +44,11 @@ public class Player : KinematicBody2D {
 
     public override void _Ready()
     {
+        this.Filename = "Player";
         this.AddChild(footsteps);
+        safetyTimer = new Timer();
+        this.AddChild(safetyTimer, false); //Safety timer prevents player from being instantly attacked when exiting possession for the default timer duration
+        safetyTimer.Connect("timeout", this, "_on_possession_timer_timeout");
         const string Path = "res://sounds/footsteps.wav";
         AudioStream footstep = (AudioStream)GD.Load(Path);
         footsteps.Stream = footstep;
@@ -222,7 +227,7 @@ public class Player : KinematicBody2D {
             }
             else
             {
-                item.giveProperties("Bow", "Weapon", "Dexterity", 10);
+                item.giveProperties("Bow", "Armor", "Dexterity", 10);
                 item.changePicture("res://assets/Bow.png");
             }
             //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
@@ -293,12 +298,13 @@ public class Player : KinematicBody2D {
             }
             catch
             {
-
             }
         }  
             
         //3. If suitable enemy found & player not already possessing someone, possess that enemy
-        if (enemyFound && this.possessee == null) {
+        if (enemyFound && PossesseeName == null) {
+            gp.enemyPossessed = ((Node)nearby[closestEnemyIndex]).Name;
+            safetyTimer.Stop(); //Stops signal from being sent at undesireable time when repeatedly possessing
             possessee = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
             this.resPath = possessee.Filename; //Grab victim resource path for later
             Sprite victimSprite = (Sprite)possessee.GetNode("Sprite"); //Grab victim sprite
@@ -307,14 +313,13 @@ public class Player : KinematicBody2D {
                 this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
                 this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
             }
-            //Possession animation here (optional)
             playerAnimatedNode.Visible = false;
             playerSpriteNode.Visible = true;
             playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
             PossesseeName = victimSprite.GetParent().Name;
             victimSprite.GetParent().QueueFree(); //Make enemy disappear
             gp.isPossesing = true;
-        } else if (possessee != null) { //Else if already possessing, undo it
+        } else if (PossesseeName != null) { //Else if already possessing, undo it
             playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/PlayerSpriteSingleTest.png"); //Return player sprite to normal
             playerSpriteNode.Visible = false;
             playerAnimatedNode.Visible = true;
@@ -326,10 +331,17 @@ public class Player : KinematicBody2D {
             Vector2 newLocation = this.GlobalPosition;
             newLocation.x += 80;
             this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossesseeName); //Bring original enemy back
+            safetyTimer.Start();
             possessee = null;
-            gp.isPossesing = false;
+            PossesseeName = null;
         }
     } 
+
+    public void _on_possession_timer_timeout() {
+        if (possessee == null) { //Prevents issue if quickly reentering possession after exiting
+            gp.isPossesing = false;
+        }
+    }
 
     //This method returns a Boolean denoting if player movement is possible in any direction
     public Boolean movementPossible() {
@@ -367,8 +379,25 @@ public class Player : KinematicBody2D {
   
     public Godot.Collections.Dictionary<string, object> Save() {
         string spriteFileName = playerSpriteNode.Texture.ResourcePath;
+        string enemiesFought = "";
+        string inventory = "";
+        string equipedWeapon = "";
+        string equipedArmor = "";
+        if (gp._equipedWeapon != null) {
+            equipedWeapon = gp._equipedWeapon._name + "," + gp._equipedWeapon._type + "," + gp._equipedWeapon._stat + "," + gp._equipedWeapon._bonus + "," + gp._equipedWeapon._spritePath.ToString();
+        }
+        if (gp._equipedArmor != null) {
+            equipedArmor = gp._equipedArmor._name + "," + gp._equipedArmor._type + "," + gp._equipedArmor._stat + "," + gp._equipedArmor._bonus + "," + gp._equipedArmor._spritePath.ToString();
+        }
+        foreach (string enemyFought in gp.enemyFought) { //Extract enemyFought into string form (JSON doesn't play well with List<T> objects)
+            enemiesFought += enemyFought + ",";
+        }
+        foreach (Item item in gp._inventory) {
+            inventory += item._name + "," + item._type + "," + item._stat + "," + item._bonus + "," + item._spritePath.ToString() + "|";
+        }
         return new Godot.Collections.Dictionary<string, object>() {
-            { "currentLevel", GetTree().CurrentScene.Name },
+            { "currentLevel", GetTree().CurrentScene.Filename },
+            { "playerPath", ((string)this.GetPath()).Substring(6) },
             { "moveSpeed", moveSpeed },
             { "playerSpriteNode.Texture.ResourcePath", spriteFileName },
             { "resPath", resPath },
@@ -391,9 +420,13 @@ public class Player : KinematicBody2D {
             { "isPossesing", gp.isPossesing },
             { "PosX", GlobalPosition.x }, // Vector2 is not supported by JSON
             { "PosY", GlobalPosition.y },
-            { "enemyFought", gp.enemyFought },
+            { "enemyFought", enemiesFought },
             { "hplabel", gp.hplabel.Text },
-			{ "facingLeft", playerSpriteNode.FlipH }
+			{ "facingLeft", playerSpriteNode.FlipH },
+            { "enemyPossessed", gp.enemyPossessed },
+            { "inventory", inventory },
+            { "equipedWeapon", equipedWeapon },
+            { "equipedArmor", equipedArmor }
         };
     }
 }

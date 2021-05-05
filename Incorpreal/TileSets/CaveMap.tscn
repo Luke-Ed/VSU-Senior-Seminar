@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://TileSets/Cave_Clutter.tres" type="TileSet" id=1]
 [ext_resource path="res://TileSets/SlatesTilemap.tres" type="TileSet" id=2]
@@ -16,6 +16,9 @@
 [ext_resource path="res://Enemies/Snake.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Enemies/Skeleton.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Enemies/Necromancer.tscn" type="PackedScene" id=16]
+[ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=17]
+[ext_resource path="res://Pause.cs" type="Script" id=18]
+[ext_resource path="res://assets/pauseghost.png" type="Texture" id=19]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -36,6 +39,44 @@ _data = {
 _data = {
 "points": PoolVector2Array( 0, 0, 0, 0, 1249.13, 965.091, 0, 0, 0, 0, 1280.63, 964.74, 0, 0, 0, 0, 1351.58, 965.758, 0, 0, 0, 0, 1352.25, 1045.18, 0, 0, 0, 0, 1250.13, 1044.18, 0, 0, 0, 0, 1249.13, 964.757 )
 }
+
+[sub_resource type="DynamicFont" id=5]
+size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 16 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 16 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 16 )
+
+[sub_resource type="DynamicFontData" id=8]
+font_path = "res://assets/mrsmonster.ttf"
+
+[sub_resource type="DynamicFont" id=9]
+size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 8 )
+
+[sub_resource type="DynamicFontData" id=10]
+font_path = "res://assets/mrsmonster.ttf"
+
+[sub_resource type="DynamicFont" id=11]
+size = 51
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 10 )
+
+[sub_resource type="Theme" id=12]
 
 [node name="Node2D" type="Node2D"]
 
@@ -175,5 +216,177 @@ position = Vector2( 2880, 1100 )
 
 [node name="InventoryMenu" parent="." instance=ExtResource( 10 )]
 
-[node name="Player" parent="." instance=ExtResource( 9 )]
+[node name="Player" parent="." groups=[
+"persist",
+] instance=ExtResource( 9 )]
 position = Vector2( 1232, 0 )
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+pause_mode = 2
+layer = 128
+
+[node name="Pause" type="Control" parent="PauseMenu"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseBackground" type="ColorRect" parent="PauseMenu/Pause"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.315002
+margin_right = -0.315002
+color = Color( 0.231373, 0.121569, 0.109804, 0.780392 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseLabel" type="Label" parent="PauseMenu/Pause"]
+margin_left = 231.896
+margin_top = 38.033
+margin_right = 400.896
+margin_bottom = 94.033
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 0.670588 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "PAUSED"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="QuitLabel" type="Label" parent="PauseMenu/Pause"]
+margin_left = 265.387
+margin_top = 276.132
+margin_right = 367.387
+margin_bottom = 332.132
+mouse_filter = 0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "QUIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sprite" type="Sprite" parent="PauseMenu/Pause"]
+position = Vector2( 138.553, 245.084 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 18 )
+
+[node name="RestartLabel" type="Label" parent="PauseMenu/Pause"]
+margin_left = 166.251
+margin_top = 226.397
+margin_right = 479.251
+margin_bottom = 282.397
+mouse_filter = 0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "RESTART LEVEL"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveLabel" type="Label" parent="PauseMenu/Pause"]
+margin_left = 263.548
+margin_top = 127.307
+margin_right = 369.548
+margin_bottom = 183.307
+mouse_filter = 0
+custom_fonts/font = SubResource( 9 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "SAVE"
+
+[node name="LoadLabel" type="Label" parent="PauseMenu/Pause"]
+margin_left = 260.0
+margin_top = 176.0
+margin_right = 374.0
+margin_bottom = 232.0
+mouse_filter = 0
+custom_fonts/font = SubResource( 11 )
+custom_colors/font_color = Color( 1, 1, 1, 0.592157 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "LOAD"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SaveConfirmLabel" type="Label" parent="PauseMenu/Pause"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -39.5
+margin_top = -69.0
+margin_right = 39.5
+margin_bottom = -55.0
+text = "Game Saved"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoadDialog" type="Control" parent="PauseMenu/Pause"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -137.5
+margin_right = 170.0
+margin_bottom = 153.5
+theme = SubResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu/Pause/LoadDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -170.0
+margin_top = -145.0
+margin_right = 170.0
+margin_bottom = 145.0
+color = Color( 0.137255, 0.137255, 0.137255, 0.972549 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" type="Button" parent="PauseMenu/Pause/LoadDialog"]
+margin_left = 339.0
+margin_top = 22.0
+margin_right = 358.0
+margin_bottom = 42.0
+rect_rotation = -179.953
+text = "x"
+
+[node name="LoadGameVBox" type="VBoxContainer" parent="PauseMenu/Pause/LoadDialog"]
+margin_left = 5.0
+margin_top = 26.0
+margin_right = 335.0
+margin_bottom = 287.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
+[connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]
+[connection signal="gui_input" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_gui_input"]
+[connection signal="mouse_entered" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/Pause/RestartLabel" to="PauseMenu/Pause" method="_on_RestartLabel_mouse_exited"]
+[connection signal="gui_input" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_gui_input"]
+[connection signal="mouse_entered" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/Pause/SaveLabel" to="PauseMenu/Pause" method="_on_SaveLabel_mouse_exited"]
+[connection signal="gui_input" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_gui_input"]
+[connection signal="mouse_entered" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_mouse_entered"]
+[connection signal="mouse_exited" from="PauseMenu/Pause/LoadLabel" to="PauseMenu/Pause" method="_on_LoadLabel_mouse_exited"]
+[connection signal="pressed" from="PauseMenu/Pause/LoadDialog/ExitButton" to="PauseMenu/Pause" method="_on_ExitButton_pressed"]

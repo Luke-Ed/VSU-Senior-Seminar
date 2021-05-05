@@ -17,11 +17,12 @@ public class Pause : Control
     public Boolean restartEntered = false;
     public Boolean saveEntered = false;
     public Boolean loadEntered = false;
+    public Control inventory;
     public SaveLoadGame saveLoadGame;
 
     //Pause listener
     public override void _Input(InputEvent @event) {
-        if (Input.IsActionJustPressed("pause")) {
+        if (Input.IsActionJustPressed("pause") && inventory.Visible == false) {
             PauseGame();
         }
     }
@@ -35,6 +36,7 @@ public class Pause : Control
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        inventory = (Control)GetNode("../../InventoryMenu/Inventory");
         PauseLabel = (Label)GetNode("PauseLabel"); //Grab pause label
         QuitLabel = (Label)GetNode("QuitLabel"); //Grab quit label
         RestartLabel = (Label)GetNode("RestartLabel"); //Grab restart label
@@ -111,7 +113,6 @@ public class Pause : Control
                 timer.Connect("timeout", this, "_on_timer_timeout");
                 AddChild(timer, false);
                 timer.Start();
-                timer.QueueFree(); //Prevent memory leak
             }
         }
     }
@@ -132,12 +133,12 @@ public class Pause : Control
                 GD.Print("Cannot find a savefile!");
                 return; //Stop loading
             } else {
-                //Open save file
-                saveFile.Open("user://savegame.save", File.ModeFlags.Read);
+                saveFile.Open("user://savegame.save", File.ModeFlags.Read); //Open save file
                 //Read save file
-                Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result); //Read next line from file
+                Godot.Collections.Dictionary<string, object> nodeData = new Godot.Collections.Dictionary<string, object>((Godot.Collections.Dictionary)JSON.Parse(saveFile.GetLine()).Result);
                 GetTree().Paused = false; //Must unpause first or QueueFree() won't work
                 await Task.Run(saveLoadGame.Unload(saveFile, nodeData));
+                saveLoadGame.Load();
             }
         }
     }
