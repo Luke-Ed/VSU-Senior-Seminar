@@ -64,6 +64,36 @@ public class Interaction : CanvasLayer
 
                 case "on": 
                     //Add some function or load a scene/panel for gold, etc.
+
+                    //Creating a scene of the item node.
+                    Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+                    PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+                    Item item = (Item)ItemScene.Instance();
+                    if(gp._numOpenedChests == 0) 
+                    {
+                        item.giveProperties("Sword", "Weapon", "Strength", 10);
+                        item.changePicture("res://assets/Sword-32px.png");
+                        gp._numOpenedChests += 1;
+                    }
+
+                    else if(gp._numOpenedChests == 1)
+                    {
+                        item.giveProperties("Armor", "Armor", "Vitality", 10);
+                        item.changePicture("res://assets/Armor-32px.png");
+                        gp._numOpenedChests += 1;
+                    }
+
+                    else 
+                    {
+                        item.giveProperties("Health Potion", "Consumable", "Health", 10);
+                        item.changePicture("res://assets/HealthPotion32px.png");
+                    }
+
+                    //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
+                    gp._inventory.Add(item);
+                    //Putting the item into an inventory slot.
+                    inventory.Call("fillSlot", item);
+
                     diagBox = dialogueBoxes.Instance() as DialogBox;
                     diagBox.DialogPath = "res://Dialogues/Chest.txt";
                     GetTree().Root.GetNode("Node2D/Player/Camera2D/").AddChild(diagBox);

@@ -209,46 +209,46 @@ public class Player : KinematicBody2D {
         if (Input.IsActionJustPressed("possession")) { //If R is pressed
             Possess();
         }
-        //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes and example.
-        else if (Input.IsActionJustPressed("createItem") && Visible)
-        {
-            //Creating a scene of the item node.
-            Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
-            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
-            Item item = (Item)ItemScene.Instance();
-            //Wanted two different items just so I could test to make sure things were being changed so randomly deciding bewteen the two.
-            Random random = new Random();
-            int roll = random.Next(10);
-            if (roll % 2 == 1)
-            {
-                item.giveProperties("Sword", "Weapon", "Strength", 10);
-                //item currently holds base gem picture can be changed like the following with a sword asset that I found online.
-                item.changePicture("res://assets/sword.png");
-            }
-            else
-            {
-                item.giveProperties("Bow", "Armor", "Dexterity", 10);
-                item.changePicture("res://assets/Bow.png");
-            }
-            //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
-            gp._inventory.Add(item);
-            //Putting the item into an inventory slot.
-            inventory.Call("fillSlot", item);
-        }
+        // //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes and example.
+        // else if (Input.IsActionJustPressed("createItem") && Visible)
+        // {
+        //     //Creating a scene of the item node.
+        //     Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+        //     PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+        //     Item item = (Item)ItemScene.Instance();
+        //     //Wanted two different items just so I could test to make sure things were being changed so randomly deciding bewteen the two.
+        //     Random random = new Random();
+        //     int roll = random.Next(10);
+        //     if (roll % 2 == 1)
+        //     {
+        //         item.giveProperties("Sword", "Weapon", "Strength", 10);
+        //         //item currently holds base gem picture can be changed like the following with a sword asset that I found online.
+        //         item.changePicture("res://assets/sword.png");
+        //     }
+        //     else
+        //     {
+        //         item.giveProperties("Bow", "Armor", "Dexterity", 10);
+        //         item.changePicture("res://assets/Bow.png");
+        //     }
+        //     //Putting the item into list in the global player to allow the ability to keep track of them throughout scene changes.
+        //     gp._inventory.Add(item);
+        //     //Putting the item into an inventory slot.
+        //     inventory.Call("fillSlot", item);
+        // }
         //Pressing N will reduce your health by 5 and put a health potion in player's inventory that when used will increase player's current health by 10.
         //again this is for demonstration/testing purposes only.
-        else if (Input.IsActionJustPressed("createPotion") && Visible)
-        {
-            gp.CurrentHealth -= 5;
-            gp.updateHealthLabel(gp.hplabel);
-            Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
-            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
-            Item item = (Item)ItemScene.Instance();
-            item.giveProperties("Health Potion", "Consumable", "Health", 10);
-            item.changePicture("res://assets/HealthPotion.png");
-            gp._inventory.Add(item);
-            inventory.Call("fillSlot", item);
-        }
+        // else if (Input.IsActionJustPressed("createPotion") && Visible)
+        // {
+        //     gp.CurrentHealth -= 5;
+        //     gp.updateHealthLabel(gp.hplabel);
+        //     Node inventory = GetParent().GetNode("InventoryMenu").GetNode("Inventory");
+        //     PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+        //     Item item = (Item)ItemScene.Instance();
+        //     item.giveProperties("Health Potion", "Consumable", "Health", 10);
+        //     item.changePicture("res://assets/HealthPotion.png");
+        //     gp._inventory.Add(item);
+        //     inventory.Call("fillSlot", item);
+        // }
     }
 	
     public void ChangeState(string newState)

@@ -24,6 +24,7 @@ public class GlobalPlayer : Node
     public Item _equipedArmor { get; set; }
     public Boolean _goodHit { get; set; }
     public Boolean _perfectHit { get; set; }
+    public int _numOpenedChests {get; set; }
 
     public void updateHealthLabel(Label l)
     {

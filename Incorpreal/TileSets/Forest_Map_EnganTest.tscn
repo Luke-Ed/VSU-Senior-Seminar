@@ -112,7 +112,7 @@ tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 131089, 37, 0, 655349, 21, 65539, 983064, 21, 131073, 1376259, 22, 0, 1900589, 22, 1, 2031625, 21, 131073, 2031656, 23, 0, 2293749, 23, 0, 2293754, 23, 0 )
+tile_data = PoolIntArray( 131089, 37, 0, 655349, 21, 65539, 983064, 21, 131073, 1441783, 22, 0, 1376259, 22, 0, 1900589, 22, 1, 2031625, 21, 131073, 2031656, 23, 0, 2293749, 23, 0, 2293754, 23, 0 )
 script = ExtResource( 3 )
 
 [node name="Low_Wall_Example" type="TileMap" parent="."]
