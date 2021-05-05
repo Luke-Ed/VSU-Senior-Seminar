@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://TileSets/Cave_Clutter.tres" type="TileSet" id=1]
 [ext_resource path="res://TileSets/SlatesTilemap.tres" type="TileSet" id=2]
@@ -17,6 +17,7 @@
 [ext_resource path="res://Enemies/Skeleton.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Enemies/Necromancer.tscn" type="PackedScene" id=16]
 [ext_resource path="res://Pause.cs" type="Script" id=17]
+[ext_resource path="res://Game2.cs" type="Script" id=18]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -74,6 +75,7 @@ font_data = SubResource( 10 )
 [sub_resource type="Theme" id=12]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource( 18 )
 
 [node name="Interaction_Console" type="CanvasLayer" parent="."]
 script = ExtResource( 4 )
@@ -371,7 +373,6 @@ margin_bottom = 287.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]
