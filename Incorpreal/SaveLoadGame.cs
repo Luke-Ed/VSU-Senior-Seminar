@@ -52,25 +52,31 @@ public class SaveLoadGame : Node
 
         //Load global values
         string equippedArmor = (string)nodeData_["equipedArmor"];
-        string[] equippedArmorData = equippedArmor.Split(",");
-        Item equippedArmorItem = new Item();
-        equippedArmorItem.giveProperties(equippedArmorData[0], equippedArmorData[1], equippedArmorData[2], Int16.Parse(equippedArmorData[3]));
-        equippedArmorItem._spritePath = equippedArmorData[4];
-        gp._equipedArmor = equippedArmorItem;
+        if (equippedArmor != "") {
+            string[] equippedArmorData = equippedArmor.Split(",");
+            Item equippedArmorItem = new Item();
+            equippedArmorItem.giveProperties(equippedArmorData[0], equippedArmorData[1], equippedArmorData[2], Int16.Parse(equippedArmorData[3]));
+            equippedArmorItem._spritePath = equippedArmorData[4];
+            gp._equipedArmor = equippedArmorItem;
+        }
         string equippedWeapon = (string)nodeData_["equipedWeapon"];
-        string[] equippedWeaponData = equippedWeapon.Split(",");
-        Item equippedWeaponItem = new Item();
-        equippedWeaponItem.giveProperties(equippedWeaponData[0], equippedWeaponData[1], equippedWeaponData[2], Int16.Parse(equippedWeaponData[3]));
-        equippedWeaponItem._spritePath = equippedWeaponData[4];
-        gp._equipedWeapon = equippedWeaponItem;
+        if (equippedWeapon != "") {
+            string[] equippedWeaponData = equippedWeapon.Split(",");
+            Item equippedWeaponItem = new Item();
+            equippedWeaponItem.giveProperties(equippedWeaponData[0], equippedWeaponData[1], equippedWeaponData[2], Int16.Parse(equippedWeaponData[3]));
+            equippedWeaponItem._spritePath = equippedWeaponData[4];
+            gp._equipedWeapon = equippedWeaponItem;
+        }
         string inventory = (string)nodeData_["inventory"];
-        string[] inventoryItems = inventory.Split("|");
-        foreach(string item in inventoryItems) {
-            string[] itemData = item.Split(",");
-            Item newItem = new Item();
-            newItem.giveProperties(itemData[0], itemData[1], itemData[2], Int16.Parse(itemData[3]));
-            newItem._spritePath = itemData[4];
-            gp._inventory.Add(newItem);
+        if (inventory != "") {
+            string[] inventoryItems = inventory.Split("|");
+            foreach(string item in inventoryItems) {
+                string[] itemData = item.Split(",");
+                Item newItem = new Item();
+                newItem.giveProperties(itemData[0], itemData[1], itemData[2], Int16.Parse(itemData[3]));
+                newItem._spritePath = itemData[4];
+                gp._inventory.Add(newItem);
+            }
         }
         gp.currentPoints = (int)((float)nodeData_["currentPoints"]);
         gp.spiritPoints = (int)((float)nodeData_["spiritPoints"]);
