@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/Clank Sound.wav-40e5fcb9a68b33b903e5df29fe306037.sample"
+path="res://.import/Clank.wav-a08f76279aa857fd216679d58b5e084e.sample"
 
 [deps]
 
-source_file="res://sounds/Clank Sound.wav"
-dest_files=[ "res://.import/Clank Sound.wav-40e5fcb9a68b33b903e5df29fe306037.sample" ]
+source_file="res://sounds/Clank.wav"
+dest_files=[ "res://.import/Clank.wav-a08f76279aa857fd216679d58b5e084e.sample" ]
 
 [params]
 

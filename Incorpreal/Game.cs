@@ -9,7 +9,7 @@ public class Game : Node
 	}
 
 	public AudioStreamPlayer audioStreamPlayer = new AudioStreamPlayer();
-	const string Path = "res://sounds/test.wav";
+	const string Path = "res://sounds/level1.wav";
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
