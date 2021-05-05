@@ -187,7 +187,7 @@ scale = Vector2( 0.504674, 0.473651 )
 [node name="Player" parent="." groups=[
 "persist",
 ] instance=ExtResource( 1 )]
-position = Vector2( 1092, 431.47 )
+position = Vector2( -256, 1122 )
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
 pause_mode = 2
@@ -345,6 +345,7 @@ margin_bottom = 287.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]
@@ -360,13 +361,8 @@ __meta__ = {
 [connection signal="pressed" from="PauseMenu/Pause/LoadDialog/ExitButton" to="PauseMenu/Pause" method="_on_ExitButton_pressed"]
 
 [editable path="Enemies/Bat/PathFollow2D/Bat"]
-
 [editable path="Enemies/Bear"]
-
 [editable path="Enemies/Bat2/PathFollow2D/Bat2"]
-
 [editable path="Enemies/Snake/PathFollow2D/Snake"]
-
 [editable path="Enemies/Skeleton/PathFollow2D/Skeleton"]
-
 [editable path="Player"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://TileSets/Cave_Clutter.tres" type="TileSet" id=1]
 [ext_resource path="res://TileSets/SlatesTilemap.tres" type="TileSet" id=2]
@@ -16,9 +16,7 @@
 [ext_resource path="res://Enemies/Snake.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Enemies/Skeleton.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Enemies/Necromancer.tscn" type="PackedScene" id=16]
-[ext_resource path="res://assets/mrsmonster.ttf" type="DynamicFontData" id=17]
-[ext_resource path="res://Pause.cs" type="Script" id=18]
-[ext_resource path="res://assets/pauseghost.png" type="Texture" id=19]
+[ext_resource path="res://Pause.cs" type="Script" id=17]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -44,19 +42,16 @@ _data = {
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=6]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 51
 outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
-font_data = ExtResource( 16 )
 
 [sub_resource type="DynamicFontData" id=8]
 font_path = "res://assets/mrsmonster.ttf"
@@ -274,7 +269,6 @@ __meta__ = {
 [node name="Sprite" type="Sprite" parent="PauseMenu/Pause"]
 position = Vector2( 138.553, 245.084 )
 scale = Vector2( 0.5, 0.5 )
-texture = ExtResource( 18 )
 
 [node name="RestartLabel" type="Label" parent="PauseMenu/Pause"]
 margin_left = 166.251
@@ -377,6 +371,7 @@ margin_bottom = 287.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]
