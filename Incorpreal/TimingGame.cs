@@ -17,6 +17,13 @@ public class TimingGame : Node2D
     private PathFollow2D _rythmFollowPath;
     private Label _instructionLabel;
     private Tween _fadeTween;
+    public AudioStreamPlayer audioStreamPlayer = new AudioStreamPlayer();
+    const string Path = "res://sounds/HammerClank.wav";
+    const string Path2 = "res://sounds/Clank.wav";
+    const string Path3 = "res://sounds/weakhit.wav";
+    AudioStream Weak = (AudioStream)GD.Load(Path3);
+    AudioStream Great = (AudioStream)GD.Load(Path);
+    AudioStream Good = (AudioStream)GD.Load(Path2);
 
     public override void _Ready()
     {
@@ -30,7 +37,7 @@ public class TimingGame : Node2D
         _instructionLabel = _gamePage.GetNode<Label>("Instruction");
         _fadeTween = _instructionLabel.GetNode<Tween>("Tween");
         _fadeTween.InterpolateProperty(_instructionLabel, "modulate", Color.Color8(255, 255, 255, 255), Color.Color8(255, 255, 255, 0), 3, Tween.TransitionType.Linear, Tween.EaseType.Out);
-
+        this.AddChild(audioStreamPlayer);
     }
 
     public void startMinigame()
@@ -71,18 +78,22 @@ public class TimingGame : Node2D
             Boolean _didHit = _globalPlayer.AttackEnemy();
             if (_didHit)
             {
+                audioStreamPlayer.Stream = Weak;
                 _battleText.Text += "You hit the " + _turnQueue.enemyName + "\n";
                 if (_globalPlayer._goodHit)
                 {
                     if (_globalPlayer._perfectHit)
                     {
                         _battleText.Text += "You timed your hit perfectly. \n";
+                        audioStreamPlayer.Stream = Great;
                     }
                     else
                     {
                         _battleText.Text += "You timed your hit well. \n";
+                        audioStreamPlayer.Stream = Good;
                     }
                 }
+                audioStreamPlayer.Play();
             }
             else
             {

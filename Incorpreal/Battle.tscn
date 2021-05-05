@@ -16,11 +16,11 @@ outline_size = 1
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 50
 font_data = ExtResource( 5 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 73
 font_data = ExtResource( 5 )
 
@@ -131,7 +131,7 @@ margin_top = 256.0
 margin_right = 191.0
 margin_bottom = 316.0
 mouse_filter = 0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 text = "Reset"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -142,7 +142,7 @@ margin_left = 14.3367
 margin_top = -22.7653
 margin_right = 631.337
 margin_bottom = 142.235
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 0.00392157, 0.00392157, 1 )
 text = "YOU HAVE DIED"
 align = 1
@@ -178,6 +178,13 @@ position = Vector2( 304.23, 174.814 )
 
 [node name="Player" parent="HitTheTarget_Engan/HitTheTarget" index="1"]
 position = Vector2( 303.041, 174.814 )
+
+[node name="Controls" parent="HitTheTarget_Engan/HitTheTarget" index="4"]
+text = "Move Up: W
+Move Down: S
+Move Left: A
+Move Right: D
+Shoot : Left Click"
 
 [node name="TimingGame_Engan" parent="." instance=ExtResource( 4 )]
 

@@ -7,9 +7,15 @@ public class MiniGamePlayer : KinematicBody2D
     Timer timer;
     Boolean onCooldown = false;
     ColorRect targetPage;
+    public AudioStreamPlayer audioStreamPlayer = new AudioStreamPlayer();
+    const string Path = "res://sounds/arrow_sound.wav";
 
     public override void _Ready()
     {
+        this.AddChild(audioStreamPlayer);
+        AudioStream Background = (AudioStream)GD.Load(Path);
+        audioStreamPlayer.Stream = Background;
+        audioStreamPlayer.VolumeDb=(-10);
         HitTargetNode = GetParent();
         timer = HitTargetNode.GetNode<Timer>("ShotCooldown");
         timer.WaitTime = 1;
@@ -32,6 +38,7 @@ public class MiniGamePlayer : KinematicBody2D
         {
             if (!onCooldown && targetPage.Visible == true)
             {
+                audioStreamPlayer.Play();
                 PackedScene projectile = (PackedScene)ResourceLoader.Load("res://Bullet.tscn");
                 KinematicBody2D bullet = (KinematicBody2D)projectile.Instance();
                 Vector2 bulletPosition = this.Position;
