@@ -7,9 +7,11 @@ public class Inventory : Control
     private RichTextLabel _statText;
     private GridContainer _invMenu;
     private GlobalPlayer _globalPlayer;
+    public Control pauseMenu;
 
     public override void _Ready()
     {
+        pauseMenu = (Control)GetNode("../../PauseMenu/Pause");
         _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
         _statText = (RichTextLabel)GetNode("TextureRect").GetNode("StatText");
         _invMenu = (GridContainer)GetNode("TextureRect").GetNode("GridContainer");
@@ -54,7 +56,7 @@ public class Inventory : Control
 
     public override void _Input(InputEvent @event)
     {
-        if (Input.IsActionJustPressed("inventory"))
+        if (Input.IsActionJustPressed("inventory") && pauseMenu.Visible == false)
         {
             openInventory();
         }

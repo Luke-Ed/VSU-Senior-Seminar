@@ -44,24 +44,89 @@ public class SaveLoadGame : Node
         //Check which level its in
         string level = (string) nodeData["currentLevel"];
 
+        //Clear old global values
+        gp.enemyFought.Clear();
+        gp._inventory.Clear();
+        gp._equipedArmor = null;
+        gp._equipedArmor = null;
+
+        //Load global values
+        string equippedArmor = (string)nodeData_["equipedArmor"];
+        if (equippedArmor != "") {
+            string[] equippedArmorData = equippedArmor.Split(",");
+            Item equippedArmorItem = new Item();
+            equippedArmorItem.giveProperties(equippedArmorData[0], equippedArmorData[1], equippedArmorData[2], Int16.Parse(equippedArmorData[3]));
+            equippedArmorItem._spritePath = equippedArmorData[4];
+            gp._equipedArmor = equippedArmorItem;
+        }
+        string equippedWeapon = (string)nodeData_["equipedWeapon"];
+        if (equippedWeapon != "") {
+            string[] equippedWeaponData = equippedWeapon.Split(",");
+            Item equippedWeaponItem = new Item();
+            equippedWeaponItem.giveProperties(equippedWeaponData[0], equippedWeaponData[1], equippedWeaponData[2], Int16.Parse(equippedWeaponData[3]));
+            equippedWeaponItem._spritePath = equippedWeaponData[4];
+            gp._equipedWeapon = equippedWeaponItem;
+        }
+        string inventory = (string)nodeData_["inventory"];
+        if (inventory != "") {
+            string[] inventoryItems = inventory.Split("|");
+            foreach(string item in inventoryItems) {
+                string[] itemData = item.Split(",");
+                Item newItem = new Item();
+                newItem.giveProperties(itemData[0], itemData[1], itemData[2], Int16.Parse(itemData[3]));
+                newItem._spritePath = itemData[4];
+                gp._inventory.Add(newItem);
+            }
+        }
+        gp.currentPoints = (int)((float)nodeData_["currentPoints"]);
+        gp.spiritPoints = (int)((float)nodeData_["spiritPoints"]);
+        gp.baseStat = (int)((float)nodeData_["baseStat"]);
+        gp.ExperienceToNextLevel = (int)((float)nodeData_["ExperienceToNextLevel"]);
+        gp.AttackDamage = (int)((float)nodeData_["AttackDamage"]);
+        gp.Level = (int)((float)nodeData_["Level"]);
+        gp.CurrentHealth = (int)((float)nodeData_["CurrentHealth"]);
+        gp.MaxHealth = (int)((float)nodeData_["MaxHealth"]);
+        gp.Experience = (int)((float)nodeData_["Experience"]);
+        gp.Luck = (int)((float)nodeData_["Luck"]);
+        gp.Intelligence = (int)((float)nodeData_["Intelligence"]);
+        gp.Vitality = (int)((float)nodeData_["Vitality"]);
+        gp.Dexterity = (int)((float)nodeData_["Dexterity"]);
+        gp.Strength = (int)((float)nodeData_["Strength"]);
+        Vector2 newPosition = new Vector2((float)nodeData_["PosX"], (float)nodeData_["PosY"]);
+        gp.playerLocation = newPosition;
+
         //Load the level
-        GetTree().ChangeScene("res://levels/" + level + ".tscn");
+        GetTree().ChangeScene(level);
 
         saveFile.Close();
-        System.Action loadAction = new System.Action(Load); //Return Load() as the next action to be performed once old nodes are freed
+        System.Action loadAction = new System.Action(Delay); //Return Load() as the next action to be performed once old nodes are freed
         return loadAction;
+    }
+
+    public void Delay() {
+        GD.Print("");
     }
 
     public void Load() {
         //Grab the player node
-        Player player = (Player)GetTree().Root.GetNode("Level 1/Player");
+        Player player = null;
+        foreach (Node node in GetTree().CurrentScene.GetChildren()) {
+            if (node.Name == "Player") {
+                player = (Player)node;
+            }
+        }
 
         //Check if the player is possessing someone or not
         if (nodeData_["resPath"] != null) {
             player.resPath = (string)nodeData_["resPath"];
-            player.playerSpriteNode.Texture.ResourcePath = (string)nodeData_["playerSpriteNode.Texture.ResourcePath"];
+            Texture newTexture = (Texture)ResourceLoader.Load((string)nodeData_["playerSpriteNode.Texture.ResourcePath"]);
+            player.playerSpriteNode.Texture = newTexture;
             player.PossesseeName = (string)nodeData_["PossesseeName"];
             gp.isPossesing = true;
+            gp.enemyPossessed = (string)nodeData_["enemyPossessed"];
+            if (gp.isPossesing && gp.enemyPossessed != null && GetTree().CurrentScene.HasNode("/root/Node2D/Enemies/" + gp.enemyPossessed)) { //Remove the possessed enemy
+                GetNode("/root/Node2D/Enemies/" + (string)nodeData_["enemyPossessed"]).QueueFree();
+            }
         } else {
             gp.isPossesing = false;
         }
@@ -69,42 +134,29 @@ public class SaveLoadGame : Node
         //Reload all the necessary values
         player.moveSpeed = (int)((float)nodeData_["moveSpeed"]);
         player.stuck = (Boolean)nodeData_["stuck"];
-        gp.currentPoints = (int)((float)nodeData_["currentPoints"]);
-        gp.spiritPoints = (int)((float)nodeData_["spiritPoints"]);
-        gp.baseStat = (int)((float)nodeData_["baseStat"]);
-        gp.ExperienceToNextLevel = (int)((float)nodeData_["ExperienceToNextLevel"]);
         player.ExperienceToNextLevel = gp.ExperienceToNextLevel;
-        gp.AttackDamage = (int)((float)nodeData_["AttackDamage"]);
         player.AttackDamage = gp.AttackDamage;
-        gp.Level = (int)((float)nodeData_["Level"]);
         player.Level = gp.Level;
-        gp.CurrentHealth = (int)((float)nodeData_["CurrentHealth"]);
         player.CurrentHealth = gp.CurrentHealth;
-        gp.MaxHealth = (int)((float)nodeData_["MaxHealth"]);
         player.MaxHealth = gp.MaxHealth;
-        gp.Experience = (int)((float)nodeData_["Experience"]);
         player.Experience = gp.Experience;
-        gp.Luck = (int)((float)nodeData_["Luck"]);
         player.Luck = gp.Luck;
-        gp.Intelligence = (int)((float)nodeData_["Intelligence"]);
         player.Intelligence = gp.Intelligence;
-        gp.Vitality = (int)((float)nodeData_["Vitality"]);
         player.Vitality = gp.Vitality;
-        gp.Dexterity = (int)((float)nodeData_["Dexterity"]);
         player.Dexterity = gp.Dexterity;
-        gp.Strength = (int)((float)nodeData_["Strength"]);
         player.Strength = gp.Strength;
         Vector2 newPosition = new Vector2((float)nodeData_["PosX"], (float)nodeData_["PosY"]);
-        gp.playerLocation = newPosition;
         player.Position = newPosition;
         player.playerSpriteNode.FlipH = (Boolean)nodeData_["facingLeft"];
+        string[] enemiesFought = ((string)nodeData_["enemyFought"]).Split(",");
+        foreach (string enemy in enemiesFought) { //Remove all enemies already defeated in combat
+            if (GetTree().CurrentScene.HasNode("/root/Node2D/Enemies/" + enemy)) {
+                gp.enemyFought.Add(enemy);
+                GetNode("/root/Node2D/Enemies/" + enemy).QueueFree(); //Level's root node must be named "Node2D" for these to work. Also enemies  must have different names (bat, bat2, etc)
+            }
+        }
         //Label healthLabel = (Label)GetNode("Player/Camera2D/CanvasLayer/HealthLabel");
         //healthLabel.Text = (string)nodeData["hplabel"];
-
-        //var newObjectScene = (PackedScene)ResourceLoader.Load(nodeData["Filename"].ToString());
-        //var newObject = (Node)newObjectScene.Instance();
-        //GetNode(nodeData["Parent"].ToString()).AddChild(newObject);
-        //newObject.Set("Position", new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]));
         this.nodeData_ = null;
     }
 }

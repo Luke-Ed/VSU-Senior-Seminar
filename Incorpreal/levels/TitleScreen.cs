@@ -59,7 +59,7 @@ public class TitleScreen : Control
 
     public void _on_StartLabel_gui_input(InputEvent @event) {
         if (StartEntered && @event is InputEventMouseButton && @event.IsPressed()) {
-            GetTree().ChangeScene("res://TileSets/Forest_Map_EnganTest.tscn");
+            GetTree().ChangeScene("res://TileSets/Forest_Map.tscn");
         }
     }
 
