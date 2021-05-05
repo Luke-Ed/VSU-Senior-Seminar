@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/miss sound.wav-112a682b42af403f7e715bf422dc0f52.sample"
+path="res://.import/weakhit.wav-a449e2d3febe58e6d168e257e6121175.sample"
 
 [deps]
 
-source_file="res://sounds/miss sound.wav"
-dest_files=[ "res://.import/miss sound.wav-112a682b42af403f7e715bf422dc0f52.sample" ]
+source_file="res://sounds/weakhit.wav"
+dest_files=[ "res://.import/weakhit.wav-a449e2d3febe58e6d168e257e6121175.sample" ]
 
 [params]
 

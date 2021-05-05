@@ -4,7 +4,7 @@
 resource_name = "Reverb"
 
 [resource]
-bus/0/volume_db = 2.647
+bus/0/volume_db = -5.04224
 bus/1/name = "Reverberation"
 bus/1/solo = false
 bus/1/mute = false

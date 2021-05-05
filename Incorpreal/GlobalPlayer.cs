@@ -23,7 +23,8 @@ namespace Incorpreal {
     public Boolean GoodHit { get; set; }
     public Boolean PerfectHit { get; set; }
     public int BaseStat { get; set; }
-    
+    public int NumOpenedChests {get; set; }
+    public String EnemyPossessed { get; set; }
     public void updateHealthLabel(Label l) {
       String text = "Your Health: " + PlayerCharacter.CurrentHealth + "/" + PlayerCharacter.MaxHealth;
       text += "\n Spirit Points: " + PlayerCharacter.CurrentSpiritPoints + "/" + PlayerCharacter.MaxSpiritPoints;

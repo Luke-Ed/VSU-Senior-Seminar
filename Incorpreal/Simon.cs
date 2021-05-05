@@ -15,7 +15,8 @@ public class Simon : Node
     private Label _codeLabel;
     private Label _instructionLabel;
     private Tween _fadeTween;
-
+    public AudioStreamPlayer audioStreamPlayer = new AudioStreamPlayer();
+    const string Path = "res://sounds/Boop.wav";
 
 
     public Simon()
@@ -40,6 +41,9 @@ public class Simon : Node
             buttons.Add(tempButton);
             tempButton.Disabled = true;
         }
+        this.AddChild(audioStreamPlayer);
+        AudioStream Background = (AudioStream)GD.Load(Path);
+        audioStreamPlayer.Stream = Background;
     }
 
     public void startMinigame()
@@ -128,7 +132,8 @@ public class Simon : Node
     public void _on_Button1_pressed()
     {
         userAnswer.Add(1);
-        if(userAnswer.Count == 4)
+        audioStreamPlayer.Play();
+        if (userAnswer.Count == 4)
         {
             checkAnswer();
         }
@@ -137,6 +142,7 @@ public class Simon : Node
     public void _on_Button2_pressed()
     {
         userAnswer.Add(2);
+        audioStreamPlayer.Play();
         if (userAnswer.Count == 4)
         {
             checkAnswer();
@@ -146,6 +152,7 @@ public class Simon : Node
     public void _on_Button3_pressed()
     {
         userAnswer.Add(3);
+        audioStreamPlayer.Play();
         if (userAnswer.Count == 4)
         {
             checkAnswer();
@@ -155,6 +162,7 @@ public class Simon : Node
     public void _on_Button4_pressed()
     {
         userAnswer.Add(4);
+        audioStreamPlayer.Play();
         if (userAnswer.Count == 4)
         {
             checkAnswer();

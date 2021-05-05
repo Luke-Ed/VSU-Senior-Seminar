@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/arrow sound.wav-7cca70fd96d4e360e992375d439dcfbe.sample"
+path="res://.import/arrow_sound.wav-c2ea6802d0857eac329eba51bf6be39c.sample"
 
 [deps]
 
-source_file="res://sounds/arrow sound.wav"
-dest_files=[ "res://.import/arrow sound.wav-7cca70fd96d4e360e992375d439dcfbe.sample" ]
+source_file="res://sounds/arrow_sound.wav"
+dest_files=[ "res://.import/arrow_sound.wav-c2ea6802d0857eac329eba51bf6be39c.sample" ]
 
 [params]
 

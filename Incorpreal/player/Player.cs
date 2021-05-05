@@ -4,8 +4,8 @@ using Incorpreal;
 
 public class Player : KinematicBody2D {
   [Export]
-  public int moveSpeed = 125;
-  private PhysicsBody2D _possessedEnemy;	
+  public int moveSpeed = 100;
+  private PhysicsBody2D _possessedEnemy = null;	
   public string resPath;
   public Map map = new Map();
   public Area2D hitbox;
@@ -19,6 +19,7 @@ public class Player : KinematicBody2D {
   public AnimatedSprite playerAnimatedNode;
   protected Vector2 lastDirection;
   protected String animationToPlay;
+  public Timer safetyTimer;
 
 
   //For all the methods pertaining to stats, nothing is set in stone
@@ -64,11 +65,15 @@ public class Player : KinematicBody2D {
 
     public override void _Ready() {
     // Add Footsteps sound.
-    this.AddChild(footsteps);
+    AddChild(footsteps);
     const string Path = "res://sounds/footsteps.wav";
     AudioStream footstep = (AudioStream)GD.Load(Path);
     footsteps.Stream = footstep;
     footsteps.VolumeDb = (0);
+    
+    //Safety timer prevents player from being instantly attacked when exiting possession for the default timer duration
+    AddChild(safetyTimer, false);
+    safetyTimer.Connect("timeout", this, "_on_possession_timer_timeout");
     
     // Load the GlobalPlayer
     _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
@@ -202,6 +207,7 @@ public class Player : KinematicBody2D {
       //If R is pressed
       Possess();
     }
+    /*
     //Pressing M will add this test weapon to your inventory and it should show. This will be removed just giving me the ability to add in random items for testing purposes and example.
     else if (Input.IsActionJustPressed("createItem") && Visible) {
       //Creating a scene of the item node.
@@ -238,6 +244,7 @@ public class Player : KinematicBody2D {
         _globalPlayer.Inventory.Add(item);
         inventory.Call("fillSlot", item);
     }
+    */
   }
   
   
@@ -285,45 +292,39 @@ public class Player : KinematicBody2D {
       }
 
       //3. If suitable enemy found & player not already possessing someone, possess that enemy
-      if (enemyFound && _possessedEnemy == null) {
-        _possessedEnemy = (KinematicBody2D) nearby[closestEnemyIndex];
-        //Grab victim
-        resPath = _possessedEnemy.Filename;
-        //Grab victim resource path for later
-        Sprite victimSprite = (Sprite) _possessedEnemy.GetNode("Sprite");
-        //Grab victim sprite
-        SetCollisionMaskBit(2, true);
-        //Make GhostWalls impenetrable while possessing
-        if (resPath.Contains("Bat")) {
-          SetCollisionLayerBit(0, false);
-          //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
-          SetCollisionMaskBit(3, false); //Turn off LowWall collisions
+        if (enemyFound && PossessedEnemyId == null) {
+            //_globalPlayer.enemyPossessed = ((Node)nearby[closestEnemyIndex]).Name;
+            safetyTimer.Stop(); //Stops signal from being sent at undesireable time when repeatedly possessing
+            _possessedEnemy = (KinematicBody2D) nearby[closestEnemyIndex]; //Grab victim
+            this.resPath = _possessedEnemy.Filename; //Grab victim resource path for later
+            Sprite victimSprite = (Sprite)_possessedEnemy.GetNode("Sprite"); //Grab victim sprite
+            this.SetCollisionMaskBit(2, true); //Make GhostWalls impenetrable while possessing
+            if (resPath.Contains("Bat")) {
+                this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
+                this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
+            }
+            playerAnimatedNode.Visible = false;
+            playerSpriteNode.Visible = true;
+            playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
+            PossessedEnemyId = victimSprite.GetParent().Name;
+            victimSprite.GetParent().QueueFree(); //Make enemy disappear
+            _globalPlayer.isPossesing = true;
+        } else if (PossessedEnemyId != null) { //Else if already possessing, undo it
+            playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/PlayerSpriteSingleTest.png"); //Return player sprite to normal
+            playerSpriteNode.Visible = false;
+            playerAnimatedNode.Visible = true;
+            this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
+            if (resPath.Contains("Bat")) { //Return from Bat mode
+                this.SetCollisionLayerBit(0, true);
+                this.SetCollisionMaskBit(3, true);
+            }
+            Vector2 newLocation = this.GlobalPosition;
+            newLocation.x += 80;
+            this.map.SpawnEnemy(this.resPath, newLocation, GetTree().CurrentScene, PossessedEnemyId); //Bring original enemy back
+            safetyTimer.Start();
+            _possessedEnemy = null;
+            PossessedEnemyId = null;
         }
-
-        //Possession animation here (optional)
-        playerSpriteNode.Texture = victimSprite.Texture;
-        //Copy victim's texture
-        PossessedEnemyId = victimSprite.GetParent().Name;
-        victimSprite.GetParent().QueueFree(); //Make enemy disappear
-        _globalPlayer.isPossesing = true;
-      }
-      else if (_possessedEnemy != null) {
-        //Else if already possessing, undo it
-        playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/player.png");
-        //Return player sprite to normal
-        SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
-        if (resPath.Contains("Bat")) { //Return from Bat mode
-          SetCollisionLayerBit(0, true);
-          SetCollisionMaskBit(3, true);
-        }
-
-        Vector2 newLocation = GlobalPosition;
-        newLocation.x += 80;
-        map.SpawnEnemy(resPath, newLocation, GetTree().CurrentScene, PossessedEnemyId);
-        //Bring original enemy back
-        _possessedEnemy = null;
-        _globalPlayer.isPossesing = false;
-      }
     }
         
 
@@ -347,7 +348,16 @@ public class Player : KinematicBody2D {
       stuck = false;
     }
   }
+  
 
+  public void _on_possession_timer_timeout() {
+    if (PossessedEnemyId == null) { 
+      //Prevents issue if quickly reentering possession after exiting
+      _globalPlayer.isPossesing = false;
+    }
+  }
+  
+  
 
   public void _on_Camera_body_entered(Node body) {
     if (body.IsInGroup("Enemies")) {
@@ -361,20 +371,49 @@ public class Player : KinematicBody2D {
     }
   }
 
-
-  //Still under construction
   public Godot.Collections.Dictionary<string, object> Save() {
     string spriteFileName = playerSpriteNode.Texture.ResourcePath;
+    string enemiesFought = "";
+    string inventory = "";
+    string equipedWeapon = "";
+    string equipedArmor = "";
+    if (_globalPlayer.EquippedWeapon != null) {
+      equipedWeapon = _globalPlayer.EquippedWeapon.Name + "," +
+                      _globalPlayer.EquippedWeapon.Type + "," + 
+                      _globalPlayer.EquippedWeapon.Stat + "," +
+                      _globalPlayer.EquippedWeapon.Bonus + "," + 
+                      _globalPlayer.EquippedWeapon.SpritePath.ToString();
+    }
+
+    if (_globalPlayer.EquippedArmor != null) {
+      equipedArmor = _globalPlayer.EquippedArmor.Name + "," +
+                     _globalPlayer.EquippedArmor.Type + "," + 
+                     _globalPlayer.EquippedArmor.Stat + "," +
+                     _globalPlayer.EquippedArmor.Bonus + "," + 
+                     _globalPlayer.EquippedArmor.SpritePath.ToString();
+    }
+
+    foreach (string enemyFought in _globalPlayer.EnemiesFought) {
+      //Extract enemyFought into string form (JSON doesn't play well with List<T> objects)
+      enemiesFought += enemyFought + ",";
+    }
+
+    foreach (Item item in _globalPlayer.Inventory) {
+      inventory += item.Name + "," + item.Type + "," + item.Stat + "," + item.Bonus + "," +
+                   item.SpritePath.ToString() + "|";
+    }
+
     return new Godot.Collections.Dictionary<string, object>() {
-      {"currentLevel", GetTree().CurrentScene.Name},
+      {"currentLevel", GetTree().CurrentScene.Filename},
+      {"playerPath", ((string) this.GetPath()).Substring(6)},
       {"moveSpeed", moveSpeed},
-      {"_possessedEnemy", _possessedEnemy},
+      {"playerSpriteNode.Texture.ResourcePath", spriteFileName},
       {"resPath", resPath},
-      {"map", map},
-      {"playerSpriteNode", playerSpriteNode},
       {"stuck", stuck},
-      {"_globalPlayer", _globalPlayer},
-      {"_possessedEnemyId", PossessedEnemyId},
+      {"PossessedEnemyId", PossessedEnemyId},
+      {"CurrentSpiritPoints", CurrentSpiritPoints},
+      {"MaxSpiritPoints", MaxSpiritPoints},
+      {"baseStat", _globalPlayer.BaseStat},
       {"ExperienceToNextLevel", ExperienceToNextLevel},
       {"AttackDamage", AttackDamage},
       {"Level", Level},
@@ -386,20 +425,17 @@ public class Player : KinematicBody2D {
       {"Vitality", Vitality},
       {"Dexterity", Dexterity},
       {"Strength", Strength},
-      {"playerSpriteNode.Texture.ResourcePath", spriteFileName},
-      {"CurrentSpiritPoints", CurrentSpiritPoints}, // This needs to be fixed to.
-      {"MaxSpiritPoints", MaxSpiritPoints},
-      {"Filename", Filename},
-      {"Parent", GetParent().GetPath()},
       {"isPossesing", _globalPlayer.isPossesing},
-      {"PosX", _globalPlayer.PlayerLocation.x}, // Vector2 is not supported by JSON
-      {"PosY", _globalPlayer.PlayerLocation.y},
-      {"enemiesFought", _globalPlayer.EnemiesFought},
+      {"PosX", GlobalPosition.x}, // Vector2 is not supported by JSON
+      {"PosY", GlobalPosition.y},
+      {"enemyFought", enemiesFought},
       {"hplabel", _globalPlayer.hplabel.Text},
-      {"BaseStat", _globalPlayer.BaseStat},
-      {"facingLeft", playerSpriteNode.FlipH}
+      {"facingLeft", playerSpriteNode.FlipH},
+      //{"enemyPossessed", _globalPlayer.},
+      {"inventory", inventory},
+      {"equipedWeapon", equipedWeapon},
+      {"equipedArmor", equipedArmor}
     };
   }
 }
-    
-  
+

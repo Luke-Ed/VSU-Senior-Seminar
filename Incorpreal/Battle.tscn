@@ -179,6 +179,13 @@ position = Vector2( 304.23, 174.814 )
 [node name="Player" parent="HitTheTarget_Engan/HitTheTarget" index="1"]
 position = Vector2( 303.041, 174.814 )
 
+[node name="Controls" parent="HitTheTarget_Engan/HitTheTarget" index="4"]
+text = "Move Up: W
+Move Down: S
+Move Left: A
+Move Right: D
+Shoot : Left Click"
+
 [node name="TimingGame_Engan" parent="." instance=ExtResource( 4 )]
 
 [node name="GamePage" parent="TimingGame_Engan" index="0"]

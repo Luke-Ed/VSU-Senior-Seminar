@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/bone pop.wav-f5bbf5d00d3e19accb1bb51973f8d24a.sample"
+path="res://.import/BattleEx.wav-2056d656c8787e18d694beeda4c0efeb.sample"
 
 [deps]
 
-source_file="res://sounds/bone pop.wav"
-dest_files=[ "res://.import/bone pop.wav-f5bbf5d00d3e19accb1bb51973f8d24a.sample" ]
+source_file="res://sounds/BattleEx.wav"
+dest_files=[ "res://.import/BattleEx.wav-2056d656c8787e18d694beeda4c0efeb.sample" ]
 
 [params]
 

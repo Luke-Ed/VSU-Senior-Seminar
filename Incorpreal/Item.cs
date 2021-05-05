@@ -10,7 +10,6 @@ namespace Incorpreal {
     private GlobalPlayer _globalPlayer;
     public NodePath SpritePath { get; set; }
     private TextureRect _itemPicture;
-    
 
     // Needed to make this method due to the fact that you cannot just create an item with stats in the same method as the constructor due to having to pack the scene first in order to make it an
     // interactable object within the inventory screne.

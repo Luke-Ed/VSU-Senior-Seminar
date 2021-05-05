@@ -6,8 +6,10 @@ namespace Incorpreal {
     private RichTextLabel _statText;
     private GridContainer _invMenu;
     private GlobalPlayer _globalPlayer;
+    private Control _pauseMenu;
 
     public override void _Ready() {
+      _pauseMenu = (Control)GetNode("../../PauseMenu/Pause");
       _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
       _statText = (RichTextLabel)GetNode("TextureRect").GetNode("StatText");
       _invMenu = (GridContainer)GetNode("TextureRect").GetNode("GridContainer");
@@ -47,7 +49,7 @@ namespace Incorpreal {
     }
 
     public override void _Input(InputEvent @event) {
-      if (Input.IsActionJustPressed("inventory")) {
+      if (Input.IsActionJustPressed("inventory") && !_pauseMenu.Visible) {
         openInventory();
       }
     }

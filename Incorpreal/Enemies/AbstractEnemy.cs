@@ -58,7 +58,7 @@ namespace Incorpreal.Enemies {
     public void _on_Area2D_body_exited(Node body) {
       if (body.Name == "Player") {
         Player = null;
-        if (!_battleStarting) {
+        if (!_battleStarting && !GlobalPlayer.isPossesing) {
           Timer.Start();
         }
       }

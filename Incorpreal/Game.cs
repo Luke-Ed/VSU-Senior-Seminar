@@ -6,7 +6,7 @@ public class Game : Node {
   }
     
 	public AudioStreamPlayer audioStreamPlayer = new AudioStreamPlayer();
-	const string Path = "res://sounds/test.wav";
+	const string Path = "res://sounds/level1.wav";
 	
 	public override void _Ready() {
 	  AddChild(audioStreamPlayer);
