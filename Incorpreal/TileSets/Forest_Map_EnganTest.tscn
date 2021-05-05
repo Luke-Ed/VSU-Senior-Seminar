@@ -202,6 +202,9 @@ scale = Vector2( 0.504674, 0.473651 )
 [node name="Sprite" parent="Enemies/Skeleton/PathFollow2D/Skeleton" index="0"]
 script = ExtResource( 14 )
 
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( -258, 1133 )
+
 [node name="InventoryMenu" parent="." instance=ExtResource( 11 )]
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
