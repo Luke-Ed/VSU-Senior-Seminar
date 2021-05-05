@@ -18,7 +18,7 @@ public class Interaction : CanvasLayer
     //Our "state" for player interaction with map objects,
     //Will likely be replaced by an Enum as code grows more complex
     //Enum states = {Idle, Looting, Reading, Puzzle, Secret}
-    protected String actionState = "off";
+    private String actionState = "off";
 
     //The Vector2 coordinate of the cave's entrance for spawn
     private Vector2 _cavePos = new Vector2(1232,0);
@@ -51,6 +51,7 @@ public class Interaction : CanvasLayer
     public override void _Ready() {
         _interactiveTilemap = (TileMap)GetNode("../Interactables");
         gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        actionState = "off";
     }
 
     public override void _Process(float delta) {
@@ -129,16 +130,8 @@ public class Interaction : CanvasLayer
         actionState = "sign";
     }
 
-    public void OnSignAreaExited(Area2D area) {
-        actionState = "off";
-    }
-
     public void OnGraveAreaEntered(Area2D area) {
         actionState = "grave";
-    }
-
-    public void OnGraveAreaExited(Area2D area) {
-        actionState = "off";
     }
 
     public void OnTransitionAreaEntered(Area2D area) {

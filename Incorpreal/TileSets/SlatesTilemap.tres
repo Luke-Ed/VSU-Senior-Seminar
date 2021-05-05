@@ -206,8 +206,8 @@ points = PoolVector2Array( 8.52661, 15.2985, 22.4807, 15.2985, 22.093, 22.4694, 
 [sub_resource type="ConvexPolygonShape2D" id=68]
 points = PoolVector2Array( 6.61041, 14.5233, 24.053, 14.3295, 24.053, 23.0508, 6.41663, 23.2446 )
 
-[sub_resource type="ConvexPolygonShape2D" id=69]
-points = PoolVector2Array( 12.7081, 9.44032, 21.9513, 9.44032, 22.3533, 25.5154, 17.5306, 26.3192, 12.3063, 25.5154 )
+[sub_resource type="ConvexPolygonShape2D" id=191]
+points = PoolVector2Array( 11.9998, 17.4542, 11.9998, 10.025, 15.2299, 8.89443, 19.2675, 9.05593, 22.3361, 9.70195, 22.3361, 25.8525, 20.2365, 26.4985, 17.0063, 26.1755, 14.4222, 26.1755, 11.8383, 25.045 )
 
 [sub_resource type="ConvexPolygonShape2D" id=70]
 points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
@@ -1577,14 +1577,14 @@ resource_name = "SlatesTileMap"
 23/navigation_offset = Vector2( 0, 0 )
 23/shape_offset = Vector2( 0, 0 )
 23/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
-23/shape = SubResource( 69 )
+23/shape = SubResource( 191 )
 23/shape_one_way = false
 23/shape_one_way_margin = 1.0
 23/shapes = [ {
 "autotile_coord": Vector2( 0, 0 ),
 "one_way": false,
 "one_way_margin": 1.0,
-"shape": SubResource( 69 ),
+"shape": SubResource( 191 ),
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 23/z_index = 0

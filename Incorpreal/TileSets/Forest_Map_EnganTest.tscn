@@ -105,9 +105,8 @@ tile_data = PoolIntArray( -65571, 9, 65538, -65570, 9, 65538, -65569, 9, 65538, 
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
 cell_custom_transform = Transform2D( 32, 0, 0, 32, 0, 0 )
-cell_y_sort = true
 format = 1
-tile_data = PoolIntArray( 131089, 37, 0, 131101, 10, 327680, 131102, 21, 65539, 655349, 21, 65539, 983064, 21, 131073, 1376259, 22, 0, 1900589, 22, 1, 2031625, 21, 131073, 2031656, 23, 0, 2293749, 23, 0, 2293754, 23, 0 )
+tile_data = PoolIntArray( 131089, 37, 0, 655349, 21, 65539, 983064, 21, 131073, 1376259, 22, 0, 1900589, 22, 1, 2031625, 21, 131073, 2031656, 23, 0, 2293749, 23, 0, 2293754, 23, 0 )
 script = ExtResource( 3 )
 
 [node name="Low_Wall_Example" type="TileMap" parent="."]
@@ -182,12 +181,10 @@ rotate = false
 position = Vector2( -0.561035, 0.0316162 )
 scale = Vector2( 0.504674, 0.473651 )
 
-[node name="InventoryMenu" parent="." instance=ExtResource( 11 )]
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( -258, 1133 )
 
-[node name="Player" parent="." groups=[
-"persist",
-] instance=ExtResource( 1 )]
-position = Vector2( -256, 1122 )
+[node name="InventoryMenu" parent="." instance=ExtResource( 11 )]
 
 [node name="PauseMenu" type="CanvasLayer" parent="."]
 pause_mode = 2
@@ -365,4 +362,3 @@ __meta__ = {
 [editable path="Enemies/Bat2/PathFollow2D/Bat2"]
 [editable path="Enemies/Snake/PathFollow2D/Snake"]
 [editable path="Enemies/Skeleton/PathFollow2D/Skeleton"]
-[editable path="Player"]

@@ -73,7 +73,7 @@ public class Interactables : TileMap
                 Area2D signAreaInstance = (Area2D)sign_area.Instance();
                 signAreaInstance.Position = MapToWorld(currentTile);
                 signAreaInstance.Connect("body_entered", outConsole, "OnSignAreaEntered");
-                signAreaInstance.Connect("body_exited", outConsole, "OnSignAreaExited");
+                signAreaInstance.Connect("body_exited", outConsole, "OnLootAreaExited");
                 AddChild(signAreaInstance);
             }
         }
@@ -85,7 +85,7 @@ public class Interactables : TileMap
                 Area2D graveAreaInstance = (Area2D)grave_area.Instance();
                 graveAreaInstance.Position = MapToWorld(currentTile);
                 graveAreaInstance.Connect("body_entered", outConsole, "OnGraveAreaEntered");
-                graveAreaInstance.Connect("body_exited", outConsole, "OnGraveAreaExited");
+                graveAreaInstance.Connect("body_exited", outConsole, "OnLootAreaExited");
                 AddChild(graveAreaInstance);
             }
         }
