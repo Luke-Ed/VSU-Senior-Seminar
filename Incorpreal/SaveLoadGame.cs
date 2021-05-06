@@ -48,7 +48,7 @@ namespace Incorpreal {
       _globalPlayer.EquippedArmor = null;
 
       //Load global values
-      string equippedArmor = (string)nodeData["equipedArmor"];
+      string equippedArmor = (string)NodeData["equipedArmor"];
       if (equippedArmor != "") {
         string[] equippedArmorData = equippedArmor.Split(",");
         Item equippedArmorItem = new Item();
@@ -56,7 +56,7 @@ namespace Incorpreal {
         equippedArmorItem.SpritePath = equippedArmorData[4];
         _globalPlayer.EquippedArmor = equippedArmorItem;
       }
-      string equippedWeapon = (string)nodeData["equipedWeapon"];
+      string equippedWeapon = (string)NodeData["equipedWeapon"];
       if (equippedWeapon != "") {
         string[] equippedWeaponData = equippedWeapon.Split(",");
         Item equippedWeaponItem = new Item();
@@ -64,7 +64,7 @@ namespace Incorpreal {
         equippedWeaponItem.SpritePath = equippedWeaponData[4];
         _globalPlayer.EquippedWeapon = equippedWeaponItem;
       }
-      string inventory = (string)nodeData["inventory"];
+      string inventory = (string)NodeData["inventory"];
       if (inventory != "") {
         string[] inventoryItems = inventory.Split("|");
         foreach(string item in inventoryItems) {
@@ -75,8 +75,8 @@ namespace Incorpreal {
           _globalPlayer.Inventory.Add(newItem);
         }
       }
-      _globalPlayer.BaseStat = (int)((float)nodeData["BaseStat"]);
-      Vector2 newPosition = new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]);
+      _globalPlayer.BaseStat = (int)((float)NodeData["BaseStat"]);
+      Vector2 newPosition = new Vector2((float)NodeData["PosX"], (float)NodeData["PosY"]);
       _globalPlayer.PlayerLocation = newPosition;
 
       //Load the level

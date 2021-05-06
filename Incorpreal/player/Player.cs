@@ -411,7 +411,6 @@ public class Player : KinematicBody2D {
       inventory += item.Name + "," + item.Type + "," + item.Stat + "," + item.Bonus + "," +
                    item.SpritePath.ToString() + "|";
     }
-
     return new Godot.Collections.Dictionary<string, object>() {
       {"currentLevel", GetTree().CurrentScene.Filename},
       {"playerPath", ((string) this.GetPath()).Substring(6)},
