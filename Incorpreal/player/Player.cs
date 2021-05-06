@@ -72,6 +72,7 @@ public class Player : KinematicBody2D {
     footsteps.VolumeDb = (0);
     
     //Safety timer prevents player from being instantly attacked when exiting possession for the default timer duration
+    safetyTimer = new Timer();
     AddChild(safetyTimer, false);
     safetyTimer.Connect("timeout", this, "_on_possession_timer_timeout");
     
@@ -413,7 +414,7 @@ public class Player : KinematicBody2D {
       {"PossessedEnemyId", PossessedEnemyId},
       {"CurrentSpiritPoints", CurrentSpiritPoints},
       {"MaxSpiritPoints", MaxSpiritPoints},
-      {"baseStat", _globalPlayer.BaseStat},
+      {"BaseStat", _globalPlayer.BaseStat},
       {"ExperienceToNextLevel", ExperienceToNextLevel},
       {"AttackDamage", AttackDamage},
       {"Level", Level},
@@ -431,7 +432,7 @@ public class Player : KinematicBody2D {
       {"enemyFought", enemiesFought},
       {"hplabel", _globalPlayer.hplabel.Text},
       {"facingLeft", playerSpriteNode.FlipH},
-      //{"enemyPossessed", _globalPlayer.},
+      {"EnemyPossessed", _globalPlayer.EnemyPossessed},
       {"inventory", inventory},
       {"equipedWeapon", equipedWeapon},
       {"equipedArmor", equipedArmor}
