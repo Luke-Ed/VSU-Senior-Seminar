@@ -75,7 +75,7 @@ namespace Incorpreal {
           _globalPlayer.Inventory.Add(newItem);
         }
       }
-      _globalPlayer.BaseStat = (int)((float)nodeData["baseStat"]);
+      _globalPlayer.BaseStat = (int)((float)nodeData["BaseStat"]);
       Vector2 newPosition = new Vector2((float)nodeData["PosX"], (float)nodeData["PosY"]);
       _globalPlayer.PlayerLocation = newPosition;
 
