@@ -142,6 +142,7 @@ namespace Incorpreal {
       PlayerCharacter.MaxSpiritPoints = BaseStat + PlayerCharacter.Intelligence;
       PlayerCharacter.CurrentSpiritPoints = PlayerCharacter.MaxSpiritPoints;
       PlayerCharacter.ExperienceToNextLevel += PlayerCharacter.Level * 10;
+      PlayerCharacter.StatusEffect = String.Empty;
     }
 
     //public void updateHealth(){
