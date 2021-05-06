@@ -363,7 +363,6 @@ margin_bottom = 287.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
 [connection signal="gui_input" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_gui_input"]
 [connection signal="mouse_entered" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_entered"]
 [connection signal="mouse_exited" from="PauseMenu/Pause/QuitLabel" to="PauseMenu/Pause" method="_on_QuitLabel_mouse_exited"]
@@ -379,7 +378,11 @@ __meta__ = {
 [connection signal="pressed" from="PauseMenu/Pause/LoadDialog/ExitButton" to="PauseMenu/Pause" method="_on_ExitButton_pressed"]
 
 [editable path="Enemies/Bat/PathFollow2D/Bat"]
+
 [editable path="Enemies/Bear"]
+
 [editable path="Enemies/Bat2/PathFollow2D/Bat2"]
+
 [editable path="Enemies/Snake/PathFollow2D/Snake"]
+
 [editable path="Enemies/Skeleton/PathFollow2D/Skeleton"]

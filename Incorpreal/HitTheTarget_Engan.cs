@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using Incorpreal;
 
 public class HitTheTarget_Engan : Node
 {
@@ -18,14 +19,12 @@ public class HitTheTarget_Engan : Node
     private Tween _fadeTween;
 
 
-    public override void _Ready()
-    {
+    public override void _Ready() {
         targetPage = GetNode<ColorRect>("HitTheTarget");
         battlePage = GetParent().GetNode<ColorRect>("BattlePage");
         player = targetPage.GetNode<KinematicBody2D>("Player");
-        Node2D targetsNode = targetPage.GetNode<Node2D>("Targets");
-        for (int i = 0; i < 4; i++)
-        {
+        //Node2D targetsNode = targetPage.GetNode<Node2D>("Targets");
+        for (int i = 0; i < 4; i++) {
             String s = "Target" + (i + 1);
             targets.Add(targetPage.GetNode<Node2D>("Targets").GetNode<StaticBody2D>(s));
         }
@@ -40,8 +39,7 @@ public class HitTheTarget_Engan : Node
         _fadeTween.InterpolateProperty(_instructionLabel, "modulate", Color.Color8(255, 255, 255, 255), Color.Color8(255, 255, 255, 0), 3, Tween.TransitionType.Linear, Tween.EaseType.Out);
     }
 
-    public void minigameStart()
-    {
+    public void minigameStart() {
         _fadeTween.Start();
         targetPage.Visible = true;
         battlePage.Visible = false;
@@ -55,8 +53,7 @@ public class HitTheTarget_Engan : Node
         timer.Start();
     }
 
-    public void onTimeout()
-    {
+    public void onTimeout() {
         minigamePlaying = false;
         rbl.Text += "You casted normally\n";
         targetPage.Visible = false;
@@ -64,15 +61,13 @@ public class HitTheTarget_Engan : Node
     }
 
     public void _on_Target_visibility_changed(){
-        if (minigamePlaying)
-        {
+        if (minigamePlaying) {
             numberOfTargets--;
-            if (numberOfTargets == 0)
-            {
-                GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+            if (numberOfTargets == 0) {
+                GlobalPlayer globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
                 rbl.Text += "You cast the spell perfectly and absorb some of the energy back!\n";
-                gp.currentPoints += 2;
-                gp.perfectSpell = true;
+                globalPlayer.PlayerCharacter.CurrentSpiritPoints += 2;
+                globalPlayer.perfectSpell = true;
                 targetPage.Visible = false;
                 battlePage.Visible = true;
                 minigamePlaying = false;

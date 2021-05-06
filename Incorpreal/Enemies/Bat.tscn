@@ -1,148 +1,119 @@
 [gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://assets/pipo-enemy001-96px.png" type="Texture" id=1]
-[ext_resource path="res://bat/Bat.cs" type="Script" id=2]
-[ext_resource path="res://assets/Bat_Sprite_Sheet.png" type="Texture" id=3]
+[ext_resource path="res://Enemies/Bat.cs" type="Script" id=2]
+[ext_resource path="res://bat/bat_Sprite.cs" type="Script" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 18.3538
 
 [sub_resource type="AtlasTexture" id=2]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 24, 16, 24 )
+region = Rect2( 0, 48, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 24, 16, 24 )
+region = Rect2( 16, 48, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 24, 16, 24 )
+region = Rect2( 32, 48, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 24, 16, 24 )
+region = Rect2( 48, 48, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 24, 16, 24 )
+region = Rect2( 64, 48, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 3 )
-region = Rect2( 48, 24, 16, 24 )
+region = Rect2( 0, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 3 )
-region = Rect2( 64, 24, 16, 24 )
+region = Rect2( 0, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 3 )
 region = Rect2( 0, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 3 )
 region = Rect2( 0, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 3 )
 region = Rect2( 16, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 3 )
 region = Rect2( 32, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 3 )
 region = Rect2( 48, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 3 )
 region = Rect2( 64, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 3 )
 region = Rect2( 0, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 24, 16, 24 )
-
-[sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 3 )
 region = Rect2( 16, 24, 16, 24 )
 
-[sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 3 )
+[sub_resource type="AtlasTexture" id=17]
 region = Rect2( 32, 24, 16, 24 )
 
-[sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 3 )
+[sub_resource type="AtlasTexture" id=18]
 region = Rect2( 48, 24, 16, 24 )
 
-[sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 3 )
+[sub_resource type="AtlasTexture" id=19]
 region = Rect2( 64, 24, 16, 24 )
 
+[sub_resource type="AtlasTexture" id=20]
+region = Rect2( 0, 24, 16, 24 )
+
 [sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 3 )
 region = Rect2( 0, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 3 )
 region = Rect2( 16, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 3 )
 region = Rect2( 32, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 3 )
 region = Rect2( 48, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 3 )
 region = Rect2( 64, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=26]
-atlas = ExtResource( 3 )
-region = Rect2( 0, 48, 16, 24 )
+region = Rect2( 0, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 3 )
-region = Rect2( 16, 48, 16, 24 )
+region = Rect2( 16, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=28]
-atlas = ExtResource( 3 )
-region = Rect2( 32, 48, 16, 24 )
+region = Rect2( 32, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=29]
-atlas = ExtResource( 3 )
-region = Rect2( 48, 48, 16, 24 )
+region = Rect2( 48, 24, 16, 24 )
 
 [sub_resource type="AtlasTexture" id=30]
-atlas = ExtResource( 3 )
-region = Rect2( 64, 48, 16, 24 )
+region = Rect2( 64, 24, 16, 24 )
 
 [sub_resource type="SpriteFrames" id=31]
 animations = [ {
-"frames": [ SubResource( 2 ) ],
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "Die",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 7 ) ],
 "loop": true,
 "name": "Left_Idle",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 3 ) ],
+"frames": [ SubResource( 8 ) ],
 "loop": true,
-"name": "Right_Idle",
+"name": "Up_Idle",
 "speed": 1.0
-}, {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
-"loop": true,
-"name": "Down_Walk",
-"speed": 10.0
 }, {
 "frames": [ SubResource( 9 ) ],
 "loop": true,
-"name": "Up_Idle",
+"name": "Down_Idle",
 "speed": 1.0
 }, {
 "frames": [ SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ) ],
@@ -150,15 +121,15 @@ animations = [ {
 "name": "Up_Walk",
 "speed": 10.0
 }, {
-"frames": [ SubResource( 15 ) ],
+"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ) ],
 "loop": true,
-"name": "Down_Idle",
-"speed": 1.0
-}, {
-"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ) ],
-"loop": true,
-"name": "Right_Walk",
+"name": "Down_Walk",
 "speed": 10.0
+}, {
+"frames": [ SubResource( 20 ) ],
+"loop": true,
+"name": "Right_Idle",
+"speed": 1.0
 }, {
 "frames": [ SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
 "loop": true,
@@ -167,8 +138,8 @@ animations = [ {
 }, {
 "frames": [ SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ) ],
 "loop": true,
-"name": "Die",
-"speed": 5.0
+"name": "Right_Walk",
+"speed": 10.0
 } ]
 
 [sub_resource type="CircleShape2D" id=32]
@@ -184,8 +155,11 @@ position = Vector2( 0, -5 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 2, 2 )
 texture = ExtResource( 1 )
+
+[node name="bat_Sprite" type="Sprite" parent="Sprite"]
+position = Vector2( 0.591766, -2.04419 )
+script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 visible = false
@@ -198,6 +172,5 @@ animation = "Down_Idle"
 shape = SubResource( 32 )
 
 [node name="Timer" type="Timer" parent="."]
-
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]

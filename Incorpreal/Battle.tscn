@@ -63,15 +63,15 @@ __meta__ = {
 
 [node name="RichTextLabel" type="RichTextLabel" parent="BattlePage"]
 margin_left = 12.6452
-margin_top = 76.1684
+margin_top = 75.3275
 margin_right = 598.646
-margin_bottom = 267.169
+margin_bottom = 266.328
 scroll_following = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Attackbtn" type="Button" parent="BattlePage"]
+[node name="AttackBtn" type="Button" parent="BattlePage"]
 visible = false
 margin_left = 115.025
 margin_top = 286.903
@@ -82,7 +82,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Spellbtn" type="Button" parent="BattlePage"]
+[node name="SpellBtn" type="Button" parent="BattlePage"]
 visible = false
 margin_left = 267.316
 margin_top = 286.847
@@ -93,7 +93,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Defendbtn" type="Button" parent="BattlePage"]
+[node name="DefendBtn" type="Button" parent="BattlePage"]
 visible = false
 margin_left = 441.587
 margin_top = 286.903
@@ -190,9 +190,9 @@ Shoot : Left Click"
 
 [node name="GamePage" parent="TimingGame_Engan" index="0"]
 visible = false
-[connection signal="pressed" from="BattlePage/Attackbtn" to="." method="_on_Attackbtn_pressed"]
-[connection signal="pressed" from="BattlePage/Spellbtn" to="." method="_on_Spellbtn_pressed"]
-[connection signal="pressed" from="BattlePage/Defendbtn" to="." method="_on_Defendbtn_pressed"]
+[connection signal="pressed" from="BattlePage/AttackBtn" to="." method="_on_AttackBtn_Pressed"]
+[connection signal="pressed" from="BattlePage/SpellBtn" to="." method="_on_SpellBtn_Pressed"]
+[connection signal="pressed" from="BattlePage/DefendBtn" to="." method="_on_DefendBtn_Pressed"]
 [connection signal="gui_input" from="DeathScreen/Control/DeathScreen/Reset" to="." method="_on_Reset_gui_input"]
 [connection signal="mouse_entered" from="DeathScreen/Control/DeathScreen/Reset" to="." method="_on_Reset_mouse_entered"]
 [connection signal="mouse_exited" from="DeathScreen/Control/DeathScreen/Reset" to="." method="_on_Reset_mouse_exited"]

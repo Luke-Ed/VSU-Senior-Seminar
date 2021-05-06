@@ -1,9 +1,9 @@
 using Godot;
 using System;
 using System.Threading.Tasks;
+using Incorpreal;
 
-public class Pause : Control
-{
+public class Pause : Control {
     public Label PauseLabel;
     public Label QuitLabel;
     public Label RestartLabel;
@@ -102,20 +102,24 @@ public class Pause : Control
         }
     }
 
-    public void _on_SaveLabel_gui_input(InputEvent @event) {
-        if (saveEntered && @event is InputEventMouseButton && @event.IsPressed()) {
-            GetTree().Paused = false; //Must unpause or GetTree() will return null
-            Godot.Collections.Array saveables = GetTree().GetNodesInGroup("persist"); //Snapshot of game state
-            GetTree().Paused = true; //Repause
-            if ((Boolean)saveLoadGame.Call("Save", saveables)) { //Call Save method in SaveLoadGame, passing snapshot as argument
-                SaveConfirmedLabel.Visible = true;
-                Timer timer = new Timer();
-                timer.Connect("timeout", this, "_on_timer_timeout");
-                AddChild(timer, false);
-                timer.Start();
-            }
-        }
+  public void _on_SaveLabel_gui_input(InputEvent @event) {
+    if (saveEntered && @event is InputEventMouseButton && @event.IsPressed()) {
+      GetTree().Paused = false; 
+      //Must unpause or GetTree() will return null
+      Godot.Collections.Array saveables = GetTree().GetNodesInGroup("persist"); 
+      //Snapshot of game state
+      GetTree().Paused = true; 
+      //Repause
+      if ((Boolean)saveLoadGame.Call("Save", saveables)) { 
+        //Call Save method in SaveLoadGame, passing snapshot as argument
+        SaveConfirmedLabel.Visible = true;
+        Timer timer = new Timer();
+        timer.Connect("timeout", this, "_on_timer_timeout");
+        AddChild(timer, false);
+        timer.Start();
+      }
     }
+  }
 
     public void _on_timer_timeout() {
         SaveConfirmedLabel.Visible = false;

@@ -244,6 +244,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CodeReveal" type="Label" parent="HideButtons"]
+margin_left = 271.42
+margin_top = 129.505
+margin_right = 379.42
+margin_bottom = 194.505
+custom_fonts/font = SubResource( 26 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Instruction" type="Label" parent="HideButtons"]
+margin_left = 36.0
+margin_right = 671.0
+margin_bottom = 65.0
+custom_fonts/font = SubResource( 27 )
+text = "REMEMBER THE ORDER"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="HideButtons/Instruction"]
+
 [node name="Timer" type="Timer" parent="."]
 [connection signal="pressed" from="HideButtons/Button1" to="." method="_on_Button1_pressed"]
 [connection signal="pressed" from="HideButtons/Button2" to="." method="_on_Button2_pressed"]

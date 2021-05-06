@@ -1,104 +1,93 @@
-using Godot;
 using System;
+using Godot;
 
-public class LevelUp : Node
-{
-    public int stat;
-    public Label lblStr;
-    public Label lblDex;
-    public Label lblVit;
-    public Label lblInt;
-    public Label lblLuck;
-    public RichTextLabel statInfo;
+namespace Incorpreal {
+  public class LevelUp : Node {
+    private int _stat;
+    private Label _lblStr;
+    private Label _lblDex;
+    private Label _lblVit;
+    private Label _lblInt;
+    private Label _lblLuck;
+    private RichTextLabel _statInfo;
 
-    public override void _Ready()
-    {
-        lblStr = (Label)GetNode("Strength");
-        lblDex = (Label)GetNode("Dexterity");
-        lblVit = (Label)GetNode("Vitality");
-        lblInt = (Label)GetNode("Intelligence");
-        lblLuck = (Label)GetNode("Luck");
-        statInfo = (RichTextLabel)GetNode("Info");
-        statInfo.Text = "Hover over a stat for more information";
+    public override void _Ready() {
+      _lblStr = (Label)GetNode("Strength");
+      _lblDex = (Label)GetNode("Dexterity");
+      _lblVit = (Label)GetNode("Vitality");
+      _lblInt = (Label)GetNode("Intelligence");
+      _lblLuck = (Label)GetNode("Luck");
+      _statInfo = (RichTextLabel)GetNode("Info");
+      _statInfo.Text = "Hover over a stat for more information";
     }
 
-    public void _on_Str_mouse_entered()
-    {
-        lblStr.AddColorOverride("font_color", Colors.Red);
-        statInfo.Text = "Increase Melee Damage.";
-        stat = 1;
+    public void _on_Str_mouse_entered(){
+      _lblStr.AddColorOverride("font_color", Colors.Red);
+      _statInfo.Text = "Increase Melee Damage.";
+      _stat = 1;
     }
 
-    public void _on_Dex_mouse_entered()
-    {
-        lblDex.AddColorOverride("font_color", Colors.Red);
-        statInfo.Text = "Increase Range Damage.";
-        stat = 2;
+    public void _on_Dex_mouse_entered() {
+      _lblDex.AddColorOverride("font_color", Colors.Red);
+      _statInfo.Text = "Increase Range Damage.";
+      _stat = 2;
     }
 
-    public void _on_Vit_mouse_entered()
-    {
-        lblVit.AddColorOverride("font_color", Colors.Red);
-        statInfo.Text = "Increase Health.";
-        stat = 3;
+    public void _on_Vit_mouse_entered() {
+      _lblVit.AddColorOverride("font_color", Colors.Red);
+      _statInfo.Text = "Increase Health.";
+      _stat = 3;
     }
 
-    public void _on_Int_mouse_entered()
-    {
-        lblInt.AddColorOverride("font_color", Colors.Red);
-        statInfo.Text = "Increase Chance To Hit/Dodge and Increase Spell Damage.";
-        stat = 4;
+    public void _on_Int_mouse_entered() {
+      _lblInt.AddColorOverride("font_color", Colors.Red);
+      _statInfo.Text = "Increase Chance To Hit/Dodge and Increase Spell Damage.";
+      _stat = 4;
     }
 
-    public void _on_Luck_mouse_entered()
-    {
-        lblLuck.AddColorOverride("font_color", Colors.Red);
-        statInfo.Text = "Increase Critical Hit Chance.";
-        stat = 5;
+    public void _on_Luck_mouse_entered() {
+      _lblLuck.AddColorOverride("font_color", Colors.Red);
+      _statInfo.Text = "Increase Critical Hit Chance.";
+      _stat = 5;
     }
 
-    public void _on_Str_mouse_exited()
-    {
-        lblStr.AddColorOverride("font_color", Colors.White);
-        statInfo.Text = "Hover over a stat for more information";
-        stat = 0;
+    public void _on_Str_mouse_exited() {
+      _lblStr.AddColorOverride("font_color", Colors.White);
+      _statInfo.Text = "Hover over a stat for more information";
+      _stat = 0;
     }
 
     public void _on_Dex_mouse_exited()
     {
-        lblDex.AddColorOverride("font_color", Colors.White);
-        statInfo.Text = "Hover over a stat for more information";
-        stat = 0;
+      _lblDex.AddColorOverride("font_color", Colors.White);
+      _statInfo.Text = "Hover over a stat for more information";
+      _stat = 0;
     }
 
-    public void _on_Vit_mouse_exited()
-    {
-        lblVit.AddColorOverride("font_color", Colors.White);
-        statInfo.Text = "Hover over a stat for more information";
-        stat = 0;
+    public void _on_Vit_mouse_exited() {
+      _lblVit.AddColorOverride("font_color", Colors.White);
+      _statInfo.Text = "Hover over a stat for more information";
+      _stat = 0;
     }
 
-    public void _on_Int_mouse_exited()
-    {
-        lblInt.AddColorOverride("font_color", Colors.White);
-        statInfo.Text = "Hover over a stat for more information";
-        stat = 0;
+    public void _on_Int_mouse_exited() {
+      _lblInt.AddColorOverride("font_color", Colors.White);
+      _statInfo.Text = "Hover over a stat for more information";
+      _stat = 0;
     }
 
-    public void _on_Luck_mouse_exited()
-    {
-        lblLuck.AddColorOverride("font_color", Colors.White);
-        statInfo.Text = "Hover over a stat for more information";
-        stat = 0;
+    public void _on_Luck_mouse_exited() {
+      _lblLuck.AddColorOverride("font_color", Colors.White);
+      _statInfo.Text = "Hover over a stat for more information";
+      _stat = 0;
     }
 
-    public void _on_Select_gui_input(InputEvent @event)
-    {
-        if (stat != 0 && @event is InputEventMouseButton)
-        {
-            GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
-            gp.LevelUp(stat);
-            GetTree().ChangeScene(gp.lastScene);
-        }   
+    public void _on_Select_gui_input(InputEvent @event) {
+      if (_stat != 0 && @event is InputEventMouseButton) {
+        GlobalPlayer gp = (GlobalPlayer)GetNode("/root/GlobalData");
+        gp.LevelUp(_stat);
+        GetTree().ChangeScene(gp.lastScene);
+      }   
     }
+  }
 }

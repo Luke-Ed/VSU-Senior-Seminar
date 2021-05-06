@@ -1,11 +1,10 @@
 using Godot;
-using System;
 
 //Code inspired by GameDevelopmentCenter on YouTube
 
-public class Interactables : TileMap
-{
-    //Load the Area2D scenes that represent interactable areas
+namespace Incorpreal.TileSets {
+  public class Interactables : TileMap {
+    //Load the Area2D scene that represents lootable areas
     PackedScene loot_area = GD.Load<PackedScene>("res://TileSets/LootArea1.tscn");
     PackedScene sign_area = GD.Load<PackedScene>("res://TileSets/SignArea1.tscn");
     PackedScene grave_area = GD.Load<PackedScene>("res://TileSets/GraveArea1.tscn");
@@ -13,8 +12,7 @@ public class Interactables : TileMap
     PackedScene end_area = GD.Load<PackedScene>("res://TileSets/GameEndArea.tscn");
 
     // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
+    public override void _Ready() {
         //Establish Signal Connection with CanvasLayer elements
         //This allows us to print to console or give other responses to Signals and Responses
         Interaction outConsole = GetTree().Root.GetNode("Node2D/Interaction_Console") as Interaction; //This miracle line of code says "load node A as a script"
@@ -44,8 +42,7 @@ public class Interactables : TileMap
         Godot.Collections.Array gameExits = GetUsedCellsById(4);
 
         //Loop through the above array to check if the chest is using the 'Closed' chest textures
-        foreach (Vector2 currentTile in chestsOnMap)
-        {
+        foreach (Vector2 currentTile in chestsOnMap) {
             if (GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(chestSilver) || GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(chestGold)) {
                 Area2D lootAreaInstance = (Area2D)loot_area.Instance();
                 lootAreaInstance.Position = MapToWorld(currentTile);
@@ -66,10 +63,8 @@ public class Interactables : TileMap
         }
 
         //Loop through the above array to check if the sign is using the 'Ground' or 'Wall' texture
-        foreach (Vector2 currentTile in signsOnMap) 
-        {
-            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(groundSign) || GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(wallSign))
-            {
+        foreach (Vector2 currentTile in signsOnMap) {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(groundSign) || GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(wallSign)) {
                 Area2D signAreaInstance = (Area2D)sign_area.Instance();
                 signAreaInstance.Position = MapToWorld(currentTile);
                 signAreaInstance.Connect("body_entered", outConsole, "OnSignAreaEntered");
@@ -78,10 +73,8 @@ public class Interactables : TileMap
             }
         }
 
-        foreach (Vector2 currentTile in gravesOnMap) 
-        {
-            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(grave))
-            {
+        foreach (Vector2 currentTile in gravesOnMap) {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(grave)) {
                 Area2D graveAreaInstance = (Area2D)grave_area.Instance();
                 graveAreaInstance.Position = MapToWorld(currentTile);
                 graveAreaInstance.Connect("body_entered", outConsole, "OnGraveAreaEntered");
@@ -90,10 +83,8 @@ public class Interactables : TileMap
             }
         }
 
-        foreach (Vector2 currentTile in forestExits)
-        {
-            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(forestLevelEnd))
-            {
+        foreach (Vector2 currentTile in forestExits) {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(forestLevelEnd)) {
                 Area2D forestExitInstance = (Area2D)exit_area.Instance();
                 forestExitInstance.Position = MapToWorld(currentTile);
                 forestExitInstance.Connect("body_entered", outConsole, "OnTransitionAreaEntered");
@@ -102,10 +93,8 @@ public class Interactables : TileMap
             }
         }
 
-        foreach (Vector2 currentTile in gameExits)
-        {
-            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(gameEndSpot))
-            {
+        foreach (Vector2 currentTile in gameExits) {
+            if(GetCellAutotileCoord((int)currentTile[0], (int)currentTile[1]).Equals(gameEndSpot)) {
                 Area2D endAreaInstance = (Area2D)end_area.Instance();
                 endAreaInstance.Position = MapToWorld(currentTile);
                 endAreaInstance.Connect("body_entered", outConsole, "OnEndAreaEntered");
@@ -114,4 +103,5 @@ public class Interactables : TileMap
             }
         }
     }
+  }
 }

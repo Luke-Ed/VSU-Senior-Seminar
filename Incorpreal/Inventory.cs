@@ -1,143 +1,121 @@
-using Godot;
-using System;
 using System.Collections.Generic;
+using Godot;
 
-public class Inventory : Control
-{
+namespace Incorpreal {
+  public class Inventory : Control {
     private RichTextLabel _statText;
     private GridContainer _invMenu;
     private GlobalPlayer _globalPlayer;
-    public Control pauseMenu;
+    private Control _pauseMenu;
 
-    public override void _Ready()
-    {
-        pauseMenu = (Control)GetNode("../../PauseMenu/Pause");
-        _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
-        _statText = (RichTextLabel)GetNode("TextureRect").GetNode("StatText");
-        _invMenu = (GridContainer)GetNode("TextureRect").GetNode("GridContainer");
-        //Is ran everytime it is loaded in order to refill the inventory and equiped items based on what is in the global player.
-        //Had to do a work around by assinging the new item created as the ones held in globalplayer due to items being duplicated because of the items being created in the inventory menu are not
-        //the same ones within the globalplayer, so could not add and remove them.
-        if (_globalPlayer._equipedArmor != null)
-        {
-            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
-            Item tempItem = (Item)ItemScene.Instance();
-            tempItem.changePicture(_globalPlayer._equipedArmor._spritePath);
-            tempItem.giveProperties(_globalPlayer._equipedArmor._name, _globalPlayer._equipedArmor._type, _globalPlayer._equipedArmor._stat, _globalPlayer._equipedArmor._bonus);
-            _globalPlayer._equipedArmor = tempItem;
-            FindNode("EquipedArmor").AddChild(_globalPlayer._equipedArmor);
-            FindNode("EquipedArmor").Set("item", _globalPlayer._equipedArmor);
+    public override void _Ready() {
+      _pauseMenu = (Control)GetNode("../../PauseMenu/Pause");
+      _globalPlayer = (GlobalPlayer)GetNode("/root/GlobalData");
+      _statText = (RichTextLabel)GetNode("TextureRect").GetNode("StatText");
+      _invMenu = (GridContainer)GetNode("TextureRect").GetNode("GridContainer");
+      //Is ran everytime it is loaded in order to refill the inventory and equiped items based on what is in the global player.
+      //Had to do a work around by assinging the new item created as the ones held in globalplayer due to items being duplicated because of the items being created in the inventory menu are not
+      //the same ones within the globalplayer, so could not add and remove them.
+      if (_globalPlayer.EquippedArmor != null) {
+        PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+        Item tempItem = (Item)ItemScene.Instance();
+        tempItem.changePicture(_globalPlayer.EquippedArmor.SpritePath);
+        tempItem.GiveProperties(_globalPlayer.EquippedArmor.ItemName, _globalPlayer.EquippedArmor.Type, _globalPlayer.EquippedArmor.Stat, _globalPlayer.EquippedArmor.Bonus);
+        _globalPlayer.EquippedArmor = tempItem;
+        FindNode("EquipedArmor").AddChild(_globalPlayer.EquippedArmor);
+        FindNode("EquipedArmor").Set("item", _globalPlayer.EquippedArmor);
+      }
+      if (_globalPlayer.EquippedWeapon != null) {
+        PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+        Item tempItem = (Item)ItemScene.Instance();
+        tempItem.changePicture(_globalPlayer.EquippedWeapon.SpritePath);
+        tempItem.GiveProperties(_globalPlayer.EquippedWeapon.ItemName, _globalPlayer.EquippedWeapon.Type, _globalPlayer.EquippedWeapon.Stat, _globalPlayer.EquippedWeapon.Bonus);
+        _globalPlayer.EquippedWeapon = tempItem;
+        FindNode("EquipedWeapon").AddChild(tempItem);
+        FindNode("EquipedWeapon").Set("item", tempItem);
+      }
+      if (_globalPlayer.Inventory.Count > 0) {
+        List<Item> newItems = new List<Item>();
+        foreach (Item item in _globalPlayer.Inventory) {
+          PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
+          Item tempItem = (Item)ItemScene.Instance();
+          tempItem.changePicture(item.SpritePath);
+          tempItem.GiveProperties(item.ItemName, item.Type, item.Stat, item.Bonus);
+          fillSlot(tempItem);
+          newItems.Add(tempItem);
         }
-        if (_globalPlayer._equipedWeapon != null)
-        {
-            PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
-            Item tempItem = (Item)ItemScene.Instance();
-            tempItem.changePicture(_globalPlayer._equipedWeapon._spritePath);
-            tempItem.giveProperties(_globalPlayer._equipedWeapon._name, _globalPlayer._equipedWeapon._type, _globalPlayer._equipedWeapon._stat, _globalPlayer._equipedWeapon._bonus);
-            _globalPlayer._equipedWeapon = tempItem;
-            FindNode("EquipedWeapon").AddChild(tempItem);
-            FindNode("EquipedWeapon").Set("item", tempItem);
-        }
-        if (_globalPlayer._inventory.Count > 0)
-        {
-            List<Item> newItems = new List<Item>();
-            foreach (Item item in _globalPlayer._inventory)
-            {
-                PackedScene ItemScene = (PackedScene)ResourceLoader.Load("res://Item.tscn");
-                Item tempItem = (Item)ItemScene.Instance();
-                tempItem.changePicture(item._spritePath);
-                tempItem.giveProperties(item._name, item._type, item._stat, item._bonus);
-                fillSlot(tempItem);
-                newItems.Add(tempItem);
-            }
-            _globalPlayer._inventory = newItems;
-        }
+        _globalPlayer.Inventory = newItems;
+      }
     }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (Input.IsActionJustPressed("inventory") && pauseMenu.Visible == false)
-        {
-            openInventory();
-        }
+    public override void _Input(InputEvent @event) {
+      if (Input.IsActionJustPressed("inventory") && !_pauseMenu.Visible) {
+        openInventory();
+      }
     }
 
-    public void fillSlot(Item item)
-    {
-        //Goes through each node in the inventory menu, finds an empty one and fills it with the given item.
-        foreach (Node slot in _invMenu.GetChildren())
-        {
-            if (slot.Get("item") == null)
-            {
-                slot.Set("item", item);
-                slot.AddChild(item);
-                break;
-            }
+    public void fillSlot(Item item) {
+      //Goes through each node in the inventory menu, finds an empty one and fills it with the given item.
+      foreach (Node slot in _invMenu.GetChildren()) {
+        if (slot.Get("item") == null) {
+          slot.Set("item", item);
+          slot.AddChild(item);
+          break;
         }
+      }
     }
 
 
     //Similar to the pause menu pressing I will bring up the inventory and pause the surrounding game. Pressing I again will undo it.
-    private void openInventory()
-    {
-        sortInventory();
-        this.Visible = !this.Visible;
-        GetTree().Paused = !GetTree().Paused;
+    private void openInventory() {
+      sortInventory();
+      Visible = !Visible;
+      GetTree().Paused = !GetTree().Paused;
     }
 
     //Whenever inventory is opened it is sorted so that all your weapons are first then your armors and lastly your consumables.
-    private void sortInventory()
-    {
-        List<Item> weapons = new List<Item>();
-        List<Item> armors = new List<Item>();
-        List<Item> consumables = new List<Item>();
-        foreach (Node slot in _invMenu.GetChildren())
-        {
-            if(slot.Get("item") != null)
-            {
-                slot.RemoveChild((Item)slot.Get("item"));
-                slot.Set("item", null);
-            }
+    private void sortInventory() {
+      List<Item> weapons = new List<Item>();
+      List<Item> armors = new List<Item>();
+      List<Item> consumables = new List<Item>();
+      foreach (Node slot in _invMenu.GetChildren()) {
+        if(slot.Get("item") != null) {
+          slot.RemoveChild((Item)slot.Get("item"));
+          slot.Set("item", null);
         }
-        foreach (Item item in _globalPlayer._inventory)
-        {
-            if (item._type.Equals("Weapon"))
-            {
-                weapons.Add(item);
-            }
-            else if (item._type.Equals("Armor"))
-            {
-                armors.Add(item);
-            }
-            else
-            {
-                consumables.Add(item);
-            }
+      }
+      foreach (Item item in _globalPlayer.Inventory) {
+        if (item.Type.Equals("Weapon")) {
+          weapons.Add(item);
         }
-        foreach (Item item in weapons)
-        {
-            fillSlot(item);
+        else if (item.Type.Equals("Armor")) {
+          armors.Add(item);
         }
-        foreach (Item item in armors)
-        {
-            fillSlot(item);
+        else {
+          consumables.Add(item);
         }
-        foreach (Item item in consumables)
-        {
-            fillSlot(item);
-        }
+      }
+      foreach (Item item in weapons) {
+        fillSlot(item);
+      }
+      foreach (Item item in armors) {
+        fillSlot(item);
+      }
+      foreach (Item item in consumables) {
+        fillSlot(item);
+      }
     }
 
 
-    private void _on_Slot_mouse_exited()
-    {
-        //While you are not hovering any item will display the player's stats.
-        _statText.Text =  "Your Stats: \n";
-        _statText.Text += "Level: " + _globalPlayer.Level;
-        _statText.Text += "\nStrength: " + _globalPlayer.Strength;
-        _statText.Text += "\nDexterity: " + _globalPlayer.Dexterity;
-        _statText.Text += "\nVitality: " + _globalPlayer.Vitality;
-        _statText.Text += "\nIntelligence: " + _globalPlayer.Intelligence;
-        _statText.Text += "\nLuck: " + _globalPlayer.Luck;
+    private void _on_Slot_mouse_exited() {
+      //While you are not hovering any item will display the player's stats.
+      _statText.Text =  "Your Stats: \n";
+      _statText.Text += "Level: " + _globalPlayer.PlayerCharacter.Level;
+      _statText.Text += "\nStrength: " + _globalPlayer.PlayerCharacter.Strength;
+      _statText.Text += "\nDexterity: " + _globalPlayer.PlayerCharacter.Dexterity;
+      _statText.Text += "\nVitality: " + _globalPlayer.PlayerCharacter.Vitality;
+      _statText.Text += "\nIntelligence: " + _globalPlayer.PlayerCharacter.Intelligence;
+      _statText.Text += "\nLuck: " + _globalPlayer.PlayerCharacter.Luck;
     }
+  }
 }

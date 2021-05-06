@@ -1,179 +1,152 @@
-using Godot;
 using System;
 using System.Collections.Generic;
+using Godot;
 
-public class GlobalPlayer : Node
-{
-    public Vector2 playerLocation;
-    public string enemyPossessed;
+namespace Incorpreal {
+  public class GlobalPlayer : Node {
+    public Vector2 PlayerLocation;
     public NodePath enemyPath;
-    public Player playerCharacter;
-    public int Strength, Dexterity, Vitality, Intelligence, Luck, Experience, MaxHealth, CurrentHealth, Level, AttackDamage, ExperienceToNextLevel, baseStat, spiritPoints, currentPoints;
+    public Player PlayerCharacter;
+    
     public Node PC;
     public Node Enemy;
-    public List<String> enemyFought;
+    public List<String> EnemiesFought;
     public Label hplabel;
     public string lastScene;
     public Boolean isDefending = false;
     public Boolean didBlock = false;
     public Boolean perfectSpell = false;
     public Boolean isPossesing = false;
-    public String status;
-    public List<Item> _inventory { get; set; }
-    public Item _equipedWeapon { get; set; }
-    public Item _equipedArmor { get; set; }
-    public Boolean _goodHit { get; set; }
-    public Boolean _perfectHit { get; set; }
-    public int _numOpenedChests {get; set; }
-
-    public void updateHealthLabel(Label l)
-    {
-        String text = "Your Health: " + CurrentHealth + "/" + MaxHealth;
-        text += "\n Spirit Points: " + currentPoints + "/" + spiritPoints;
-        if (l != null)
-        {
-            l.Text = text;
-        }
+    public List<Item> Inventory { get; set; }
+    public Item EquippedWeapon { get; set; }
+    public Item EquippedArmor { get; set; }
+    public Boolean GoodHit { get; set; }
+    public Boolean PerfectHit { get; set; }
+    public int BaseStat { get; set; }
+    public int NumOpenedChests {get; set; }
+    public String EnemyPossessed { get; set; }
+    public void updateHealthLabel(Label l) {
+      String text = "Your Health: " + PlayerCharacter.CurrentHealth + "/" + PlayerCharacter.MaxHealth;
+      text += "\n Spirit Points: " + PlayerCharacter.CurrentSpiritPoints + "/" + PlayerCharacter.MaxSpiritPoints;
+      if (l != null) {
+        l.Text = text;
+      }
     }
 
-    public void createPlayer()
-    {
-        Player temp = new Player();
-        this.playerCharacter = temp;
-        Strength = playerCharacter.Strength;
-        Dexterity = playerCharacter.Dexterity;
-        Vitality = playerCharacter.Vitality;
-        Intelligence = playerCharacter.Intelligence;
-        Luck = playerCharacter.Luck;
-        AttackDamage = playerCharacter.AttackDamage;
-        Experience = playerCharacter.Experience;
-        MaxHealth = playerCharacter.MaxHealth;
-        CurrentHealth = MaxHealth;
-        Level = playerCharacter.Level;
-        ExperienceToNextLevel = playerCharacter.ExperienceToNextLevel;
-        enemyFought = new List<String>();
-        spiritPoints = 5 + Intelligence;
-        currentPoints = spiritPoints;
-        baseStat = 5;
-        _inventory = new List<Item>();
+
+    public void createPlayer() {
+      Player temp = new Player();
+      PlayerCharacter = temp;
+      PlayerCharacter.CurrentHealth = PlayerCharacter.MaxHealth;
+      EnemiesFought = new List<String>();
+      PlayerCharacter.MaxSpiritPoints = 5 + PlayerCharacter.Intelligence;
+      PlayerCharacter.CurrentSpiritPoints = PlayerCharacter.MaxSpiritPoints;
+      BaseStat = 5;
+      Inventory = new List<Item>();
     }
 
-    public Boolean takeDamage(int damage)
-    {
-        Random random = new Random();
-        int roll = random.Next(101);
-        if (roll >= 100 - Intelligence)
-        {
-            return false;
+    public Boolean takeDamage(int damage) {
+      Random random = new Random();
+      int roll = random.Next(101);
+      if (roll >= (100 - PlayerCharacter.Intelligence)) {
+        return false;
+      }
+      else {
+        if ((PlayerCharacter.CurrentHealth - damage) <= 0) {
+          PlayerCharacter.CurrentHealth = 0;
+          return true;
         }
-        else
-        {
-            if ((CurrentHealth - damage) <= 0)
-            {
-                CurrentHealth = 0;
-                return true;
-            }
-            CurrentHealth -= damage;
-            return true;
-        }
+        PlayerCharacter.CurrentHealth -= damage;
+        return true;
+      }
     }
 
     //Returns the amount of damage done if you are able to hit
-    public Boolean AttackEnemy()
-    {
-        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
-        Random random = new Random();
-        int roll = random.Next(101);
-        //Checking to make sure the ghost can hit the enemy based on intelligence
-        if (roll >= 20 - Intelligence)
-        {
-            //Checking for critical hit based on luck
-            if (roll >= 100 - Luck)
-            {
-                if (_goodHit)
-                {
-                    if (_perfectHit)
-                    {
-                        tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 2 * 1.5));
-                        return true;
-                    }
-                    tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 2 * 1.25));
-                    return true;
-                }
-                tq.enemyCurrentHP -= AttackDamage * 2;
-                return true;
+    public Boolean AttackEnemy(){
+      TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
+      Random random = new Random();
+      int roll = random.Next(101);
+      //Checking to make sure the ghost can hit the enemy based on intelligence
+      if (roll >= 20 - PlayerCharacter.Intelligence) {
+        //Checking for critical hit based on luck
+        if (roll >= 100 - PlayerCharacter.Luck){
+          if (GoodHit){
+            if (PerfectHit){
+              tq.EnemyCurrentHp -= Convert.ToInt32(Math.Floor(PlayerCharacter.AttackDamage * 2 * 1.5));
+              return true;
             }
-            if (_goodHit)
-            {
-                if (_perfectHit)
-                {
-                    tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 1.5));
-                    return true;
-                }
-                tq.enemyCurrentHP -= Convert.ToInt32(Math.Floor(AttackDamage * 1.25));
-                return true;
-            }
-            tq.enemyCurrentHP -= AttackDamage;
+            tq.EnemyCurrentHp -= Convert.ToInt32(Math.Floor(PlayerCharacter.AttackDamage * 2 * 1.25));
             return true;
+          }
+          tq.EnemyCurrentHp -= PlayerCharacter.AttackDamage * 2;
+          return true;
         }
-        else
-        {
-            tq.enemyCurrentHP -= 0;
-            return false;
+        // If not Critical Hit:
+        if (GoodHit){
+          if (PerfectHit){
+            tq.EnemyCurrentHp -= Convert.ToInt32(Math.Floor(PlayerCharacter.AttackDamage * 1.5));
+            return true;
+          }
+          tq.EnemyCurrentHp -= Convert.ToInt32(Math.Floor(PlayerCharacter.AttackDamage * 1.25));
+          return true;
         }
+        tq.EnemyCurrentHp -= PlayerCharacter.AttackDamage;
+        return true;
+      }
+      else {
+        tq.EnemyCurrentHp -= 0;
+        return false;
+      }
     }
 
-    public void castSpell ()
-    {
-        TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
-        currentPoints -= 5;
-        updateHealthLabel(hplabel);
-        tq.enemyCurrentHP -= Intelligence + 5;
+    public void castSpell () {
+      TurnQueue tq = (TurnQueue)GetNode("/root/Tq");
+      PlayerCharacter.CurrentSpiritPoints -= 5;
+      updateHealthLabel(hplabel);
+      tq.EnemyCurrentHp -= PlayerCharacter.Intelligence + 5;
     }
 
     //When character levels up choose a stat to increase;
-    public void LevelUp(int Stat)
-    {
-        Level++;
-        baseStat += 5;
-        if (Stat == 1)
-        {
-            Strength++;
-        }
-        else if (Stat == 2)
-        {
-            Dexterity++;
-        }
-        else if (Stat == 3)
-        {
-            Vitality++;
-        }
-        else if (Stat == 4)
-        {
-            Intelligence++;
-        }
-        else if (Stat == 5)
-        {
-            Luck++;
-        }
-        if (_equipedWeapon == null || _equipedWeapon._stat == "Strength")
-        {
-            AttackDamage += baseStat + Strength;
-        }
-        else
-        {
-            AttackDamage += baseStat + Dexterity;
-        }
-        MaxHealth = baseStat + Vitality;
-        CurrentHealth = MaxHealth;
-        spiritPoints = baseStat + Intelligence;
-        currentPoints = spiritPoints;
-        ExperienceToNextLevel += Level * 10;
+    public void LevelUp(int stat) {
+      PlayerCharacter.Level++;
+      BaseStat += 5;
+
+      switch (stat) {
+        case 1:
+          PlayerCharacter.Strength++;
+          break;
+        case 2:
+          PlayerCharacter.Dexterity++;
+          break;
+        case 3:
+          PlayerCharacter.Vitality++;
+          break;
+        case 4:
+          PlayerCharacter.Intelligence++;
+          break;
+        case 5:
+          PlayerCharacter.Luck++;
+          break;
+      }
+
+
+      if (EquippedWeapon == null || EquippedWeapon.Stat == "Strength"){
+        PlayerCharacter.AttackDamage += BaseStat + PlayerCharacter.Strength;
+      }
+      else {
+        PlayerCharacter.AttackDamage += BaseStat + PlayerCharacter.Dexterity;
+      }
+
+      PlayerCharacter.MaxHealth = BaseStat + PlayerCharacter.Vitality;
+      PlayerCharacter.CurrentHealth = PlayerCharacter.MaxHealth;
+      PlayerCharacter.MaxSpiritPoints = BaseStat + PlayerCharacter.Intelligence;
+      PlayerCharacter.CurrentSpiritPoints = PlayerCharacter.MaxSpiritPoints;
+      PlayerCharacter.ExperienceToNextLevel += PlayerCharacter.Level * 10;
+      PlayerCharacter.StatusEffect = String.Empty;
     }
 
-    public void updateHealth()
-    {
-        MaxHealth = baseStat + Vitality;
-    }
-
+    //public void updateHealth(){
+    //  MaxHealth = baseStat + Vitality;
+    //}
+  }
 }
