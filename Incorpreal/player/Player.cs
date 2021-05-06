@@ -91,6 +91,9 @@ public class Player : KinematicBody2D {
     }
     animate = GetNode<AnimationPlayer>("AnimationPlayer");
     playerSpriteNode = (Sprite)GetNode("Sprite/player");
+    playerSpriteNode.Visible = false;
+    playerAnimatedNode = (AnimatedSprite)GetNode("Sprite/AnimPlayer");
+    playerAnimatedNode.Visible = true;
     hitbox = (Area2D)GetNode("findEmptyPosArea2D");
     possessionArea = (Area2D)GetNode("Area2D");
     stuck = false;
@@ -151,31 +154,29 @@ public class Player : KinematicBody2D {
           Teleport();
         }
       }
+      AnimatesPlayer(motion);
     }        
   }
 
   //Function to control Player's animated sprite
-  public void AnimatesPlayer(Vector2 direction) 
-  {
-      if(direction != Vector2.Zero)
-      {
-          //Update last direction
-          lastDirection = direction;
+  public void AnimatesPlayer(Vector2 direction) {
+    if(direction != Vector2.Zero) {
+        //Update last direction
+        lastDirection = direction;
 
-          //Determine which walking animation to play
-          animationToPlay = GetAnimationDirection(lastDirection) + "_Walk";
+        //Determine which walking animation to play
+        animationToPlay = GetAnimationDirection(lastDirection) + "_Walk";
 
-          playerAnimatedNode.Frames.SetAnimationSpeed(animationToPlay, 2 + 4 * direction.Length());
+        playerAnimatedNode.Frames.SetAnimationSpeed(animationToPlay, 2 + 4 * direction.Length());
 
-          playerAnimatedNode.Play(animationToPlay);
-      }
+        playerAnimatedNode.Play(animationToPlay);
+    }
 
-      else
-      {
-          //Determine which idle animation to play
-          animationToPlay = GetAnimationDirection(lastDirection) + "_Idle";
-          playerAnimatedNode.Play(animationToPlay);
-      }
+    else {
+      //Determine which idle animation to play
+      animationToPlay = GetAnimationDirection(lastDirection) + "_Idle";
+      playerAnimatedNode.Play(animationToPlay);
+    }
   }
 
   public String GetAnimationDirection(Vector2 direction){
@@ -304,7 +305,11 @@ public class Player : KinematicBody2D {
                 this.SetCollisionLayerBit(0, false); //If possessing a bat, gain ability to fly over LowWalls. This was the only way it worked...
                 this.SetCollisionMaskBit(3, false); //Turn off LowWall collisions
             }
-            playerAnimatedNode.Visible = false;
+
+            if (playerAnimatedNode != null) {
+              playerAnimatedNode.Visible = false;
+              
+            }
             playerSpriteNode.Visible = true;
             playerSpriteNode.Texture = victimSprite.Texture; //Copy victim's texture
             PossessedEnemyId = victimSprite.GetParent().Name;
@@ -312,8 +317,11 @@ public class Player : KinematicBody2D {
             _globalPlayer.isPossesing = true;
         } else if (PossessedEnemyId != null) { //Else if already possessing, undo it
             playerSpriteNode.Texture = (Texture) ResourceLoader.Load("res://assets/PlayerSpriteSingleTest.png"); //Return player sprite to normal
-            playerSpriteNode.Visible = false;
-            playerAnimatedNode.Visible = true;
+            
+            if (playerAnimatedNode != null) {
+              playerSpriteNode.Visible = false;
+              playerAnimatedNode.Visible = true;
+            }
             this.SetCollisionMaskBit(2, false); //Make GhostWalls penetrable again
             if (resPath.Contains("Bat")) { //Return from Bat mode
                 this.SetCollisionLayerBit(0, true);
