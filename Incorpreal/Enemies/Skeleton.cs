@@ -1,8 +1,10 @@
-﻿namespace Incorpreal.Enemies {
+﻿using System;
+
+namespace Incorpreal.Enemies {
   public class Skeleton : AbstractEnemy {
 
     public Skeleton() : 
-      base(25, 20, 10, "Skeleton", "Slowing") {
+      base(25, 5, 10, "Skeleton", String.Empty) {
     }
 
     protected override void ApplyStatusEffect() {
