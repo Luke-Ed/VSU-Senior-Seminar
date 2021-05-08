@@ -10,7 +10,6 @@ config_version=4
 
 _global_script_classes=[  ]
 _global_script_class_icons={
-
 }
 
 [application]
@@ -26,6 +25,10 @@ GlobalData="*res://GlobalData.tscn"
 TurnQueue="*res://TurnQueue.cs"
 Tq="*res://TQ.tscn"
 SaveLoadGame="*res://SaveLoadGame.cs"
+
+[debug]
+
+settings/fps/force_fps=60
 
 [display]
 
@@ -151,13 +154,13 @@ createPotion={
 
 [rendering]
 
-quality/2d/use_nvidia_rect_flicker_workaround=true
+2d/options/use_nvidia_rect_flicker_workaround=true
 quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
-quality/2d/use_pixel_snap=true
+2d/snapping/use_gpu_pixel_snap=true
 threads/thread_model=2
 quality/subsurface_scattering/quality=0
 quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
-2d/options/use_nvidia_rect_flicker_workaround=true
-2d/snapping/use_gpu_pixel_snap=true
+quality/2d/use_nvidia_rect_flicker_workaround=true
+quality/2d/use_pixel_snap=true
